@@ -1,0 +1,8 @@
+.DS_Store
+*.log
+node_modules/
+GeoAtlas.exe
+ГеоАтлас.app/
+ГеоАтлас_Тренажер.zip
+data.js
+ИНСТРУКЦИЯ.txt
