@@ -86,6 +86,7 @@ body {
   position: relative;
   width: 100vw;
   height: 100vh;
+  height: var(--tg-viewport-stable-height, 100dvh);
 }
 
 #app-root {
@@ -828,33 +829,57 @@ body {
 }
 
 /* ========================================================
+   ЕДИНЫЙ ВЕРХНИЙ СТЕК HUD НА КАРТЕ (HEADER + ATLAS / TASK HUD)
+   Исключает любые вертикальные наложения при переносе строк!
+   ======================================================== */
+.map-top-hud-stack {
+  position: absolute;
+  top: calc(var(--sat) + var(--tg-top-inset, 8px));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: min(1360px, calc(100vw - 16px));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.map-top-hud-stack > * {
+  pointer-events: auto;
+}
+
+/* ========================================================
    ВЕРХНЯЯ НАВИГАЦИОННАЯ ПАНЕЛЬ ТРЕНАЖЁРА (HEADER ISLAND)
    ======================================================== */
 .app-header-island {
-  position: absolute;
-  top: calc(var(--sat) + 12px);
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
   z-index: 1000;
   background: var(--bg-glass-header);
   backdrop-filter: blur(26px);
   -webkit-backdrop-filter: blur(26px);
   border: 1px solid var(--border-glass);
   border-radius: 18px;
-  padding: 7px 14px;
+  padding: 7px 12px;
   box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6), 0 0 22px rgba(56, 189, 248, 0.1);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  width: min(1220px, calc(100vw - 24px));
+  flex-wrap: wrap;
+  row-gap: 6px;
+  column-gap: 8px;
+  width: 100%;
+  max-width: 100%;
 }
 
 .header-left-col {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   min-width: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
 }
 
 .btn-back-hub {
@@ -882,17 +907,19 @@ body {
   background: rgba(56, 189, 248, 0.12);
   border: 1px solid rgba(56, 189, 248, 0.35);
   color: #bae6fd;
-  padding: 6px 11px;
+  padding: 6px 10px;
   border-radius: 10px;
   font-size: 11.5px;
   font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   transition: all 0.15s ease;
   white-space: nowrap;
-  max-width: 220px;
+  min-width: 0;
+  flex: 0 1 190px;
+  max-width: 190px;
 }
 .batch-select-btn:hover {
   background: rgba(56, 189, 248, 0.22);
@@ -918,6 +945,7 @@ body {
   border-radius: 10px;
   padding: 2px;
   gap: 2px;
+  flex-shrink: 0;
 }
 
 .h-pmode-btn {
@@ -1109,12 +1137,9 @@ body {
    ИНТЕРАКТИВНЫЙ АТЛАС (РЕЖИМ СВОБОДНОГО ИЗУЧЕНИЯ НА КАРТЕ)
    ======================================================== */
 .atlas-explore-bar {
-  position: absolute;
-  top: calc(var(--sat) + 68px);
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
   z-index: 940;
-  width: min(980px, calc(100vw - 24px));
+  width: min(980px, 100%);
   background: var(--bg-glass-hud);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
@@ -1232,6 +1257,8 @@ body {
   bottom: calc(var(--sab) + 22px);
   z-index: 960;
   width: min(390px, calc(100vw - 84px));
+  max-height: min(60dvh, 420px);
+  overflow-y: auto;
   background: var(--bg-glass-card);
   backdrop-filter: blur(26px);
   -webkit-backdrop-filter: blur(26px);
@@ -1307,12 +1334,9 @@ body {
    ЦЕНТРАЛЬНЫЙ ОСТРОВ ЗАДАНИЯ НА КАРТЕ (COMPACT TOP HUD)
    ======================================================== */
 .task-hud-card {
-  position: absolute;
-  top: calc(var(--sat) + 66px);
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
   z-index: 950;
-  width: min(760px, calc(100vw - 24px));
+  width: min(760px, 100%);
   background: var(--bg-glass-hud);
   backdrop-filter: blur(26px);
   -webkit-backdrop-filter: blur(26px);
@@ -2951,19 +2975,58 @@ body {
 
 /* Микро-анимация тряски при ошибке */
 @keyframes shakeError {
-  0%, 100% { transform: translateX(-50%); }
-  20% { transform: translateX(calc(-50% - 6px)); }
-  40% { transform: translateX(calc(-50% + 6px)); }
-  60% { transform: translateX(calc(-50% - 4px)); }
-  80% { transform: translateX(calc(-50% + 4px)); }
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
 }
 .task-hud-card.shake {
   animation: shakeError 0.34s ease;
 }
 
 /* ========================================================
-   АДАПТИВНОСТЬ (ПЛАНШЕТЫ И МОБИЛЬНЫЕ УСТРОЙСТВА — БЕЗ СМЕЩЕНИЙ!)
+   АДАПТИВНОСТЬ (16:9, 16:10, ПЛАНШЕТЫ И МОБИЛЬНЫЕ — БЕЗ НАЛОЖЕНИЙ)
    ======================================================== */
+@media (max-width: 1340px) {
+  .app-header-island {
+    padding: 6px 10px;
+    column-gap: 6px;
+  }
+  .batch-select-btn {
+    flex: 0 1 155px;
+    max-width: 155px;
+    padding: 5px 8px;
+  }
+  .h-pmode-btn {
+    padding: 4px 6px;
+    font-size: 10.5px;
+  }
+  .anki-stat-pill {
+    padding: 3px 5px;
+    font-size: 10.5px;
+  }
+  .seg-btn {
+    padding: 4px 6px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 1220px) {
+  .header-left-col {
+    flex: 1 1 auto;
+  }
+  .header-right-col {
+    flex: 0 0 auto;
+  }
+  .header-center-col {
+    order: 3;
+    flex: 1 0 100%;
+    justify-content: center;
+    padding-top: 2px;
+  }
+}
+
 @media (max-width: 1020px) {
   .header-center-col {
     display: none;
@@ -2979,11 +3042,27 @@ body {
   }
 }
 
+@media (max-width: 780px) {
+  .header-left-col {
+    flex: 1 0 100%;
+    justify-content: space-between;
+  }
+  .header-right-col {
+    flex: 1 0 100%;
+    justify-content: space-between;
+  }
+}
+
 @media (max-width: 680px) {
   .hide-xs,
   .hide-sm,
   .kbd-pill {
     display: none !important;
+  }
+
+  .map-top-hud-stack {
+    width: calc(100vw - 12px);
+    gap: 6px;
   }
 
   .hub-screen-overlay {
@@ -3003,16 +3082,17 @@ body {
     grid-template-columns: 1fr;
   }
 
-  /* ИСПРАВЛЕНО: сохраняем left: 50%; transform: translateX(-50%) чтобы ничего не уезжало за край экрана! */
   .app-header-island {
-    top: calc(var(--sat) + 6px);
-    left: 50%;
-    transform: translateX(-50%);
-    width: calc(100vw - 12px);
+    width: 100%;
     padding: 6px 8px;
     gap: 5px;
     border-radius: 14px;
     flex-wrap: wrap;
+  }
+
+  .header-left-col {
+    flex-wrap: wrap;
+    overflow: visible;
   }
 
   .header-pmode-pills {
@@ -3026,7 +3106,8 @@ body {
   }
 
   .batch-select-btn {
-    max-width: 140px;
+    flex: 1 1 120px;
+    max-width: none;
     padding: 5px 8px;
   }
 
@@ -3040,23 +3121,21 @@ body {
   }
 
   .task-hud-card {
-    top: calc(var(--sat) + 88px);
-    left: 50%;
-    transform: translateX(-50%);
-    width: calc(100vw - 12px);
+    width: 100%;
     padding: 10px 12px;
     border-radius: 15px;
+    gap: 6px;
   }
 
   .atlas-explore-bar {
-    top: calc(var(--sat) + 88px);
-    width: calc(100vw - 12px);
+    width: 100%;
     padding: 8px 10px;
   }
 
   .atlas-inspector-card {
     left: 6px;
-    width: calc(100vw - 62px);
+    width: calc(100vw - 72px);
+    max-height: min(48dvh, 340px);
     bottom: calc(var(--sab) + 12px);
     padding: 12px 14px;
   }
@@ -3077,6 +3156,53 @@ body {
   .modal-card {
     padding: 16px 14px;
     border-radius: 18px;
+  }
+}
+
+@media (max-width: 420px) {
+  .btn-back-hub .back-text {
+    display: none;
+  }
+  .h-pmode-btn {
+    font-size: 10px;
+    padding: 4px 3px;
+  }
+  .map-view-controls {
+    right: 8px;
+    bottom: calc(var(--sab) + 12px);
+  }
+}
+
+/* Короткие по высоте экраны: ноутбуки 16:9 (1280x720, 1366x768) и мобильный landscape */
+@media (max-height: 760px) {
+  .map-top-hud-stack {
+    gap: 6px;
+  }
+  .task-hud-card {
+    padding: 9px 14px;
+    gap: 5px;
+  }
+  .task-prompt-heading {
+    font-size: 15.5px;
+  }
+  .task-feedback-banner {
+    padding: 6px 10px;
+  }
+  .anki3d-overlay {
+    align-items: center;
+    padding: 10px 12px;
+  }
+  .anki3d-modal-sheet {
+    padding: 12px 14px;
+  }
+  .anki3d-face {
+    padding: 12px 14px;
+  }
+  .subtask-modal-card,
+  .briefing-card,
+  .modal-card {
+    max-height: calc(100dvh - 20px);
+    overflow-y: auto;
   }
 }
 
@@ -3519,6 +3645,7 @@ body {
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  overflow-y: auto;
   padding: 14px 12px calc(var(--sab) + 14px);
 }
 
@@ -3538,6 +3665,8 @@ body {
 .anki3d-modal-sheet {
   width: 100%;
   max-width: 560px;
+  max-height: calc(100dvh - 24px);
+  overflow-y: auto;
   background: rgba(10, 19, 37, 0.97);
   border: 1.5px solid rgba(56, 189, 248, 0.35);
   border-radius: 24px;

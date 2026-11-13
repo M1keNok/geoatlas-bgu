@@ -1,8 +1,8 @@
 /**
- * ГеоАтлас — Интерактивный тренажёр физической географии и номенклатуры (v8.0)
+ * Номенклатура ОЗ — Интерактивный тренажёр физической географии и номенклатуры (БГУ)
  * Разделы и режимы:
  *   1. «Характеристики материков и Земли» (билетный опрос Anki SRS: площади, мысы, вершины+высоты, впадины+глубины, Шубаев, Океания, пустыни)
- *   2. «Номенклатура объектов на карте» (267 объектов: Умный микс, Найти на карте, Узнать по точке, Интерактивный Атлас)
+ *   2. «Номенклатура объектов на карте» (1 039 объектов в 4 модулях БГУ: Умный микс, Найти на карте, Узнать по точке, Интерактивный Атлас)
  *   3. «Блиц 60 секунд» (скоростной игровой режим с комбо-множителем и рекордами)
  *   4. «Конспект-справочник» (таблица материков, Земля, Океания, Бермудский треугольник, глоссарий пустынь)
  */
@@ -73,6 +73,13 @@
 
     init() {
       this.wa = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
+      this.syncViewportMetrics();
+      window.addEventListener('resize', () => {
+        this.syncViewportMetrics();
+        if (window.UnifiedMapEngine?.map) {
+          window.UnifiedMapEngine.map.invalidateSize({ pan: false });
+        }
+      }, { passive: true });
       if (!this.wa) return;
       try {
         this.wa.ready();
@@ -87,8 +94,15 @@
           this.wa.setBackgroundColor('#060b16');
         }
         this.applyThemeParams();
+        this.syncViewportMetrics();
         if (typeof this.wa.onEvent === 'function') {
           this.wa.onEvent('themeChanged', () => this.applyThemeParams());
+          this.wa.onEvent('viewportChanged', () => {
+            this.syncViewportMetrics();
+            setTimeout(() => window.UnifiedMapEngine?.map?.invalidateSize({ pan: false }), 60);
+          });
+          this.wa.onEvent('safeAreaChanged', () => this.syncViewportMetrics());
+          this.wa.onEvent('contentSafeAreaChanged', () => this.syncViewportMetrics());
         }
         if (this.wa.BackButton && typeof this.wa.BackButton.onClick === 'function') {
           this.wa.BackButton.onClick(() => {
@@ -96,6 +110,18 @@
           });
         }
       } catch (e) {}
+    },
+
+    syncViewportMetrics() {
+      const root = document.documentElement;
+      const stableH = this.wa?.viewportStableHeight || window.innerHeight;
+      if (stableH && Number.isFinite(stableH)) {
+        root.style.setProperty('--tg-viewport-stable-height', `${Math.round(stableH)}px`);
+      }
+      const csaTop = this.wa?.contentSafeAreaInset?.top;
+      const saTop = this.wa?.safeAreaInset?.top;
+      const topInset = Math.max(0, Number(csaTop || 0), Number(saTop || 0));
+      root.style.setProperty('--tg-top-inset', `${topInset > 0 ? topInset + 4 : 8}px`);
     },
 
     applyThemeParams() {
@@ -6045,7 +6071,7 @@
 
     exportProgressJSON() {
       const payload = {
-        app: 'GeoAtlasBSU',
+        app: 'NomenclatureOZ',
         version: '9.0',
         exportedAt: new Date().toISOString(),
         nomenclatureStates: NomenclatureEngine.srsStates,
@@ -6069,7 +6095,7 @@
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `geoatlas_bgu_progress_${new Date().toISOString().slice(0, 10)}.json`;
+        a.download = `nomenclature_oz_progress_${new Date().toISOString().slice(0, 10)}.json`;
         document.body.appendChild(a);
         a.click();
         a.remove();

@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>ГеоАтлас — Интерактивный тренажёр физической географии и номенклатуры</title>
+  <title>Номенклатура ОЗ — Интерактивный тренажёр физической географии</title>
 
   <!-- PWA & Mobile Web App Meta Tags -->
   <meta name="theme-color" content="#060b16" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="ГеоАтлас" />
+  <meta name="apple-mobile-web-app-title" content="Номенклатура ОЗ" />
   <link rel="icon" type="image/png" sizes="192x192" href="vendor/icon-192.png" />
 
   <!-- Telegram Mini Apps Native SDK -->
@@ -51,8 +51,8 @@
             <div class="hub-logo-box">🧭</div>
             <div>
               <div class="hub-title-row">
-                <h1 class="hub-title">ГеоАтлас БГУ</h1>
-                <span class="tma-pill-badge">Общее землеведение</span>
+                <h1 class="hub-title">Номенклатура ОЗ</h1>
+                <span class="tma-pill-badge">Общее землеведение • БГУ</span>
               </div>
               <p class="hub-subtitle">Семестровый тренажёр номенклатуры • 4 раздела • 1 039 объектов</p>
             </div>
@@ -150,9 +150,13 @@
     </div>
 
     <!-- ========================================================
-         ВЕРХНЯЯ НАВИГАЦИОННАЯ ПАНЕЛЬ ТРЕНАЖЁРА (HEADER ISLAND)
+         ЕДИНЫЙ ВЕРХНИЙ СТЕК HUD НА КАРТЕ (БЕЗ НАЛОЖЕНИЙ)
          ======================================================== -->
-    <header class="app-header-island" id="statusIsland" style="display: none;">
+    <div class="map-top-hud-stack" id="mapTopHudStack">
+      <!-- ========================================================
+           ВЕРХНЯЯ НАВИГАЦИОННАЯ ПАНЕЛЬ ТРЕНАЖЁРА (HEADER ISLAND)
+           ======================================================== -->
+      <header class="app-header-island" id="statusIsland" style="display: none;">
       <div class="header-left-col">
         <button class="btn-back-hub" id="backToHubBtn" title="Вернуться в главное меню (Esc)">
           <span class="back-arrow">←</span>
@@ -273,25 +277,6 @@
       </div>
     </div>
 
-    <!-- Всплывающая карточка выбранного объекта в режиме Атласа -->
-    <div class="atlas-inspector-card" id="atlasInspectorCard" style="display: none;">
-      <div class="inspector-header">
-        <div class="inspector-badges">
-          <span class="task-category-tag" id="inspectorCategoryTag">Остров</span>
-          <span class="anki-status-badge status-new" id="inspectorAnkiBadge">⚪ Новое</span>
-        </div>
-        <button class="drawer-close-btn small" id="closeInspectorBtn" title="Закрыть карточку">✕</button>
-      </div>
-      <h3 class="inspector-title" id="inspectorTitle">Название объекта</h3>
-      <div class="inspector-region" id="inspectorRegion">🌍 Регион</div>
-      <p class="inspector-desc" id="inspectorDesc">Описание объекта</p>
-      <div class="inspector-meta-grid" id="inspectorMetaGrid"></div>
-      <div class="inspector-actions">
-        <button class="btn-skip-mastered small" id="inspectorToggleMasteredBtn">✓ Отметить выученным</button>
-        <button class="btn-primary-action small" id="inspectorQuizThisBtn">🎯 Проверить на карте</button>
-      </div>
-    </div>
-
     <!-- ========================================================
          ЦЕНТРАЛЬНЫЙ ОСТРОВ ЗАДАНИЯ НА КАРТЕ (COMPACT TOP HUD)
          ======================================================== -->
@@ -366,6 +351,26 @@
             <kbd class="kbd-pill">Enter / Space</kbd>
           </button>
         </div>
+      </div>
+    </div>
+    </div><!-- /#mapTopHudStack -->
+
+    <!-- Всплывающая карточка выбранного объекта в режиме Атласа -->
+    <div class="atlas-inspector-card" id="atlasInspectorCard" style="display: none;">
+      <div class="inspector-header">
+        <div class="inspector-badges">
+          <span class="task-category-tag" id="inspectorCategoryTag">Остров</span>
+          <span class="anki-status-badge status-new" id="inspectorAnkiBadge">⚪ Новое</span>
+        </div>
+        <button class="drawer-close-btn small" id="closeInspectorBtn" title="Закрыть карточку">✕</button>
+      </div>
+      <h3 class="inspector-title" id="inspectorTitle">Название объекта</h3>
+      <div class="inspector-region" id="inspectorRegion">🌍 Регион</div>
+      <p class="inspector-desc" id="inspectorDesc">Описание объекта</p>
+      <div class="inspector-meta-grid" id="inspectorMetaGrid"></div>
+      <div class="inspector-actions">
+        <button class="btn-skip-mastered small" id="inspectorToggleMasteredBtn">✓ Отметить выученным</button>
+        <button class="btn-primary-action small" id="inspectorQuizThisBtn">🎯 Проверить на карте</button>
       </div>
     </div>
 
