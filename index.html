@@ -15,14 +15,13 @@
   <!-- Telegram Mini Apps Native SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-  <!-- 100% Офлайн-библиотеки -->
+  <!-- 100% Локальные библиотеки -->
   <link rel="stylesheet" href="vendor/leaflet.css" onerror="this.remove()" />
   <script src="vendor/leaflet.js"></script>
   <script src="desktop_boost.js"></script>
   <script src="vendor/confetti.js"></script>
-  <script src="vendor/world_vector.js"></script>
 
-  <!-- Стили: daisyUI Semantic System + Kokonut UI Glow & Glass + Motion Springs -->
+  <!-- Стили -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body class="map-experience-body">
@@ -40,110 +39,42 @@
     </div>
 
     <!-- ========================================================
-         ГЛАВНЫЙ СТАРТОВЫЙ ЭКРАН (TMA BENTO HUB — 4 МОДУЛЯ БГУ)
+         ГЛАВНЫЙ СТАРТОВЫЙ ЭКРАН (4 РАЗДЕЛА НОМЕНКЛАТУРЫ)
          ======================================================== -->
     <div class="hub-screen-overlay" id="hubScreen">
       <div class="hub-container">
 
-        <!-- Верхняя шапка TMA Хаба -->
-        <header class="hub-header kokonut-glow-card">
+        <!-- Верхняя шапка Хаба -->
+        <header class="hub-header">
           <div class="hub-brand">
             <div class="hub-logo-box">🧭</div>
             <div>
               <div class="hub-title-row">
                 <h1 class="hub-title">Номенклатура ОЗ</h1>
-                <span class="tma-pill-badge">Общее землеведение • БГУ</span>
+                <span class="tma-pill-badge">Общее землеведение</span>
               </div>
-              <p class="hub-subtitle">Семестровый тренажёр номенклатуры • 4 раздела • 1 039 объектов</p>
+              <p class="hub-subtitle">Интерактивный тренажёр по карте • 4 раздела</p>
             </div>
           </div>
 
           <div class="hub-header-actions">
-            <div class="hub-stat-pill streak-pill" title="Текущая ударная серия точных попаданий подряд">
+            <div class="hub-stat-pill streak-pill" title="Текущая серия точных попаданий подряд">
               <span>🔥</span>
               <span id="hubStreakSummary">Серия: 0</span>
             </div>
-            <button class="header-icon-btn accent-soft" id="hubOpenTheoryBtn" title="Интерактивная шпаргалка с поиском и показом на карте">
-              <span>📚</span>
-              <span>Шпаргалка</span>
-            </button>
-            <button class="header-icon-btn" id="hubOpenAllObjectsBtn" title="Быстрый поиск по всем 1 039 объектам">
-              <span>🔍</span>
-              <span class="hide-xs">Поиск</span>
-            </button>
-            <button class="header-icon-btn" id="hubBackupBtn" title="Облако Telegram, экспорт и сброс прогресса">
-              <span>⚙️</span>
-            </button>
             <button class="header-icon-btn" id="hubSoundBtn" title="Включить / выключить звук">
               <span id="hubSoundIcon">🔔</span>
             </button>
           </div>
         </header>
 
-        <!-- Глобальный Hero-блок семестрового прогресса и Экзамена за весь семестр -->
-        <section class="hub-semester-hero kokonut-glow-card">
-          <div class="semester-hero-top">
-            <div>
-              <div class="semester-hero-kicker">
-                <span class="cloud-sync-dot" id="cloudSyncIndicator"></span>
-                <span id="cloudSyncText">Telegram CloudStorage • Anki SM-2</span>
-              </div>
-              <h2 class="semester-hero-title">Готовность к семестровому зачёту</h2>
-            </div>
-            <div class="semester-hero-score">
-              <strong id="hubTotalMasteredSummary">0 / 1 039 (0%)</strong>
-            </div>
-          </div>
-
-          <div class="progress-bar-track semester-track">
-            <div class="progress-bar-fill fill-emerald" id="hubTotalProgressBar" style="width: 0%;"></div>
-          </div>
-
-          <div class="semester-anki-pills">
-            <div class="sem-anki-pill">
-              <span class="stat-dot dot-new"></span>
-              <span>Новые: <strong id="hubAnkiNew">0</strong></span>
-            </div>
-            <div class="sem-anki-pill">
-              <span class="stat-dot dot-learn"></span>
-              <span>Учатся: <strong id="hubAnkiLearn">0</strong></span>
-            </div>
-            <div class="sem-anki-pill">
-              <span class="stat-dot dot-review"></span>
-              <span>Закреп.: <strong id="hubAnkiReview">0</strong></span>
-            </div>
-            <div class="sem-anki-pill">
-              <span class="stat-dot dot-mastered"></span>
-              <span>Выучено: <strong id="hubAnkiMastered">0</strong></span>
-            </div>
-          </div>
-
-          <div class="semester-hero-actions">
-            <button class="hub-btn-primary semester-exam-cta kokonut-shine-btn" id="hubSemesterExamBtn">
-              <span>🎓</span>
-              <span>Экзамен за весь семестр (все 4 модуля)</span>
-            </button>
-
-            <div class="semester-quick-row">
-              <button class="quick-mode-btn atlas-btn" id="hubExploreAtlasBtn">
-                <span>🗺️</span>
-                <span>Интерактивный Атлас</span>
-              </button>
-              <button class="quick-mode-btn blitz-btn" id="hubStartBlitzBtn">
-                <span>⚡</span>
-                <span id="hubBlitzBtnLabel">Блиц 60 сек</span>
-              </button>
-              <button class="quick-mode-btn cheat-btn" id="hubQuickCheatBtn">
-                <span>🎯</span>
-                <span>Шпаргалка на карте</span>
-              </button>
-            </div>
-          </div>
-        </section>
-
-        <!-- Вертикальный тач-френдли Bento Grid: 4 модуля программы БГУ -->
+        <!-- 4 больших раздела курса -->
         <div class="hub-bento-modules-grid" id="hubModulesBentoGrid">
-          <!-- Генерируется динамически в MapApp.renderHub() для всех 4 модулей -->
+          <!-- Генерируется динамически в MapApp.renderHub() для всех 4 разделов -->
+        </div>
+
+        <div class="hub-footer-reset-row">
+          <button type="button" class="hub-reset-link-btn" id="hubResetAllBtn">Сбросить весь прогресс</button>
         </div>
 
       </div>
@@ -163,35 +94,37 @@
           <span class="back-text">Меню</span>
         </button>
 
-        <button class="batch-select-btn" id="openBatchSelectBtn" title="Сменить регион, тему или материк">
+        <button class="batch-select-btn" id="openBatchSelectBtn" title="Сменить раздел или тему">
           <span class="batch-icon" id="headerModeIcon">🧭</span>
-          <span class="batch-title" id="islandBatchTitle">Вся номенклатура</span>
+          <span class="batch-title" id="islandBatchTitle">Раздел</span>
           <span class="batch-arrow">▾</span>
         </button>
 
-        <!-- Быстрый переключатель подрежима для Номенклатуры -->
-        <div class="header-pmode-pills" id="headerPmodeSwitch" title="Режим тренировки объектов">
-          <button class="h-pmode-btn active" data-pmode="smart" title="Умный микс (мягкое знакомство + карта)">🧠 Микс</button>
-          <button class="h-pmode-btn" data-pmode="locate" title="Найти на карте кликом">📍 Карта</button>
-          <button class="h-pmode-btn" data-pmode="quiz" title="Узнать подсвеченный объект из 4 вариантов">🔎 Тест</button>
-          <button class="h-pmode-btn" data-pmode="atlas" title="Свободное изучение всех объектов на карте">📖 Атлас</button>
+        <button class="header-diff-pill" id="headerDifficultyBtn" title="Изменить целевую оценку (уровень сложности)">
+          <span id="headerDifficultyLabel">🎯 7–8 б.</span>
+        </button>
+
+        <!-- Переключатель: Обучение / Атлас -->
+        <div class="header-pmode-pills" id="headerPmodeSwitch" title="Режим работы с темой">
+          <button class="h-pmode-btn active" data-pmode="locate" title="Классическое обучение по карте">🎯 Обучение</button>
+          <button class="h-pmode-btn" data-pmode="atlas" title="Просмотр всех объектов темы на карте с поиском">📖 Атлас</button>
         </div>
       </div>
 
-      <!-- Центральная колонка: Anki-трекер ИЛИ таймер Блица -->
+      <!-- Центральная колонка: трекер прогресса по теме -->
       <div class="header-center-col">
-        <div class="anki-deck-counters" id="ankiDeckCounters" title="Интервальное повторение Anki">
-          <div class="anki-stat-pill stat-new" title="Новые объекты в выбранной теме">
+        <div class="anki-deck-counters" id="ankiDeckCounters" title="Прогресс по текущей теме">
+          <div class="anki-stat-pill stat-new" title="Ещё не изучено">
             <span class="stat-dot dot-new"></span>
             <span class="stat-label">Новые</span>
             <strong id="ankiNewCount">0</strong>
           </div>
-          <div class="anki-stat-pill stat-learn" title="Учатся сейчас (возврат через 2–4 вопроса)">
+          <div class="anki-stat-pill stat-learn" title="На повторении">
             <span class="stat-dot dot-learn"></span>
             <span class="stat-label">Повтор</span>
             <strong id="ankiLearnCount">0</strong>
           </div>
-          <div class="anki-stat-pill stat-review" title="Закрепление (возврат через 12–28 вопросов)">
+          <div class="anki-stat-pill stat-review" title="Закрепляется">
             <span class="stat-dot dot-review"></span>
             <span class="stat-label">Закреп.</span>
             <strong id="ankiReviewCount">0</strong>
@@ -202,35 +135,22 @@
             <strong id="ankiMasteredCount">0</strong>
           </div>
         </div>
-
-        <!-- Индикатор Блиц-режима (показывается только в Блице) -->
-        <div class="blitz-hud-bar" id="blitzHudBar" style="display: none;">
-          <span class="blitz-timer-pill" id="blitzTimerText">⏱️ 60с</span>
-          <span class="blitz-score-pill" id="blitzScoreText">Очки: 0</span>
-          <span class="blitz-combo-pill" id="blitzComboText">🔥 x1</span>
-        </div>
       </div>
 
       <!-- Правая группа: слои карты, серия, список, звук -->
       <div class="header-right-col">
-        <div class="streak-mini-pill" id="headerStreakPill" title="Серия верных ответов с первой попытки">
+        <div class="streak-mini-pill" id="headerStreakPill" title="Серия верных ответов">
           <span>🔥</span>
           <strong id="headerStreakNum">0</strong>
         </div>
 
-        <!-- Сегментированный переключатель слоёв карты (без спойлеров на зачёте!) -->
+        <!-- Переключатель слоёв карты: Спутник и Рельеф -->
         <div class="map-segmented-control" id="mapModeSegmented">
-          <button class="seg-btn active" data-mode="clean_atlas" title="Немая контурно-физическая карта без подписей (идеально для проверки знаний)">Контур</button>
-          <button class="seg-btn" data-mode="esri_phys" title="Физический рельеф суши и океана без подписей">Рельеф</button>
-          <button class="seg-btn" data-mode="esri_sat" title="Спутниковые снимки Земли без подписей">Спутник</button>
-          <button class="seg-btn" data-mode="vector_offline" title="100% Автономная векторная карта с тропиками и полярными кругами">Офлайн</button>
+          <button class="seg-btn active" data-mode="esri_sat" title="Спутниковые снимки Земли">🛰️ Спутник</button>
+          <button class="seg-btn" data-mode="esri_phys" title="Физический рельеф">⛰️ Рельеф</button>
         </div>
 
-        <button class="header-icon-btn" id="openTheoryHeaderBtn" title="Шпаргалка-конспект (Справочник)">
-          <span>📚</span>
-        </button>
-
-        <button class="header-icon-btn" id="openRoadmapBtn" title="Список объектов и поиск">
+        <button class="header-icon-btn" id="openRoadmapBtn" title="Список объектов темы">
           <span class="btn-icon">📋</span>
           <span class="btn-text-desktop">Список</span>
         </button>
@@ -246,21 +166,26 @@
     </header>
 
     <!-- ========================================================
-         ПАНЕЛЬ ИНТЕРАКТИВНОГО АТЛАСА (РЕЖИМ СВОБОДНОГО ИЗУЧЕНИЯ)
+         ПАНЕЛЬ ИНТЕРАКТИВНОГО АТЛАСА (ПОИСК + ВСЕ ОБЪЕКТЫ ТЕМЫ)
          ======================================================== -->
     <div class="atlas-explore-bar" id="atlasExploreBar" style="display: none;">
       <div class="atlas-bar-top">
         <div class="atlas-title-group">
-          <span class="atlas-badge">📖 РЕЖИМ ИЗУЧЕНИЯ</span>
-          <span class="atlas-sub" id="atlasCountLabel">Показаны все 267 объектов — нажимайте на маркеры для изучения</span>
+          <span class="atlas-badge">📖 АТЛАС</span>
+          <span class="atlas-sub" id="atlasCountLabel">Показаны объекты темы — нажимайте на маркеры для изучения</span>
         </div>
         <div class="atlas-actions-group">
+          <div class="atlas-inline-search">
+            <span class="atlas-search-ico">🔍</span>
+            <input type="text" id="atlasSearchInput" class="atlas-search-input" placeholder="Поиск по названию..." autocomplete="off" />
+            <button type="button" id="atlasSearchClearBtn" class="atlas-search-clear" style="display: none;" title="Очистить">✕</button>
+          </div>
           <label class="atlas-toggle-labels" title="Показать географические подписи на базовой карте">
             <input type="checkbox" id="atlasShowMapLabelsToggle" />
-            <span>Подписи карты</span>
+            <span>Подписи</span>
           </label>
           <button class="btn-primary-action small" id="atlasStartPracticeBtn">
-            <span>▶ Тренировать эту тему</span>
+            <span>▶ Учить тему</span>
           </button>
         </div>
       </div>
@@ -375,16 +300,17 @@
     </div>
 
     <!-- ========================================================
-         2-STEP ANKI LOOP: ШАГ 2 — 3D FLIP-CARD С ТЕОРИЕЙ БГУ И 4 КНОПКАМИ SM-2
+         КАРТОЧКА ХАРАКТЕРИСТИК ОБЪЕКТА (ПОСЛЕ НАХОЖДЕНИЯ НА КАРТЕ)
          ======================================================== -->
     <div class="anki3d-overlay" id="anki3dOverlay" style="display: none;">
-      <div class="anki3d-modal-sheet kokonut-glow-card">
+      <div class="anki3d-modal-sheet">
         <div class="anki3d-top-bar">
           <div class="anki3d-badges">
             <span class="anki3d-mod-pill" id="anki3dModulePill">Раздел 1</span>
             <span class="anki3d-hit-pill" id="anki3dHitStatusPill">🎯 Точно на карте</span>
+            <span class="anki3d-important-pill" id="anki3dImportantBadge" style="display: none;">⭐ Важно знать</span>
           </div>
-          <button type="button" class="anki3d-peek-btn" id="anki3dPeekMapBtn" title="Удерживайте или нажмите, чтобы рассмотреть объект на карте">
+          <button type="button" class="anki3d-peek-btn" id="anki3dPeekMapBtn" title="Посмотреть объект на карте">
             <span>🗺️</span>
             <span>Карта</span>
           </button>
@@ -394,10 +320,10 @@
         <div class="anki3d-scene" id="anki3dScene">
           <div class="anki3d-card-inner" id="anki3dCardInner">
 
-            <!-- ЛИЦЕВАЯ СТОРОНА (ШАГ 2: ЭКЗАМЕНАЦИОННЫЙ ВОПРОС) -->
+            <!-- ЛИЦЕВАЯ СТОРОНА (ВОПРОС ПО ХАРАКТЕРИСТИКАМ) -->
             <div class="anki3d-face anki3d-front" id="anki3dFrontFace">
               <div class="anki3d-face-kicker">
-                <span class="anki3d-step-tag">❓ Шаг 2 из 2 • Теория билета БГУ</span>
+                <span class="anki3d-step-tag">🧠 Характеристики объекта</span>
                 <span class="anki3d-flip-hint">Нажмите для переворота ↻</span>
               </div>
 
@@ -408,46 +334,42 @@
 
               <button type="button" class="anki3d-flip-cta kokonut-shine-btn" id="anki3dFlipBtn">
                 <span>🔄</span>
-                <span>Перевернуть карточку (Эталон БГУ)</span>
+                <span>Перевернуть карточку</span>
               </button>
             </div>
 
-            <!-- ОБОРОТНАЯ СТОРОНА (ЭТАЛОННЫЙ ОТВЕТ + 4 КНОПКИ SM-2) -->
+            <!-- ОБОРОТНАЯ СТОРОНА (ХАРАКТЕРИСТИКИ + САМООЦЕНКА) -->
             <div class="anki3d-face anki3d-back" id="anki3dBackFace">
               <div class="anki3d-face-kicker">
-                <span class="anki3d-step-tag success">✅ Эталонный ответ БГУ</span>
+                <span class="anki3d-step-tag success">✅ Характеристики</span>
                 <button type="button" class="anki3d-back-to-q" id="anki3dFlipBackBtn">↻ К вопросу</button>
               </div>
 
               <h2 class="anki3d-object-title" id="anki3dBackTitle">Название объекта</h2>
-              <div class="anki3d-main-answer" id="anki3dBackMainAnswer">Эталонная характеристика</div>
+              <div class="anki3d-main-answer" id="anki3dBackMainAnswer">Характеристика</div>
 
               <div class="anki3d-metrics-grid" id="anki3dBackMetricsGrid"></div>
 
               <p class="anki3d-back-note" id="anki3dBackNote"></p>
 
-              <!-- 4 КНОПКИ ANKI SM-2 -->
-              <div class="sm2-grade-caption">Оцените знание объекта (интервальное повторение Anki SM-2):</div>
+              <!-- САМООЦЕНКА -->
+              <div class="sm2-grade-caption">Насколько уверенно знаете этот объект?</div>
               <div class="sm2-buttons-grid" id="anki3dSm2Buttons">
                 <button type="button" class="sm2-btn sm2-again" data-grade="1">
                   <span class="sm2-key">1</span>
-                  <span class="sm2-label">Не выучено</span>
-                  <span class="sm2-interval">Снова • 2 шага</span>
+                  <span class="sm2-label">Не помню</span>
                 </button>
                 <button type="button" class="sm2-btn sm2-hard" data-grade="2">
                   <span class="sm2-key">2</span>
-                  <span class="sm2-label">Трудно</span>
-                  <span class="sm2-interval">5 шагов</span>
+                  <span class="sm2-label">Сложно</span>
                 </button>
                 <button type="button" class="sm2-btn sm2-good" data-grade="3">
                   <span class="sm2-key">3</span>
                   <span class="sm2-label">Хорошо</span>
-                  <span class="sm2-interval">15 шагов</span>
                 </button>
                 <button type="button" class="sm2-btn sm2-easy" data-grade="4">
                   <span class="sm2-key">4</span>
-                  <span class="sm2-label">Выучено</span>
-                  <span class="sm2-interval">Освоено ✓</span>
+                  <span class="sm2-label">Знаю</span>
                 </button>
               </div>
             </div>
@@ -549,7 +471,7 @@
 
                 <div class="cape-flashcard-anki" id="capeCardAnkiNotice">
                   <span class="cape-anki-icon" id="capeCardAnkiIcon">🔄</span>
-                  <span class="cape-anki-text" id="capeCardAnkiText">Прогресс мысов синхронизируется между обоими разделами.</span>
+                  <span class="cape-anki-text" id="capeCardAnkiText">Прогресс мысов сохраняется автоматически.</span>
                 </div>
               </div>
 
@@ -579,7 +501,7 @@
             </button>
           </div>
           <div class="metric-quick-chips" id="subtaskMetricQuickChips"></div>
-          <div class="metric-hint-sub" id="subtaskMetricHint">Введите точное значение из билета и нажмите Enter (или выберите вариант подсказки)</div>
+          <div class="metric-hint-sub" id="subtaskMetricHint">Введите точное значение и нажмите Enter (или выберите вариант ниже)</div>
         </div>
 
         <!-- Результат и эталонная справка -->
@@ -610,19 +532,19 @@
     <div class="briefing-overlay" id="briefingOverlay" style="display: none;">
       <div class="briefing-card" id="briefingCard">
         <div class="briefing-badge-row">
-          <span class="briefing-tag" id="briefingTag">Экзаменационный вопрос</span>
+          <span class="briefing-tag" id="briefingTag">Теоретический вопрос</span>
           <span class="briefing-continent" id="briefingContinentTitle">🌍 Евразия</span>
         </div>
 
         <h2 class="briefing-heading" id="briefingHeading">Общая площадь материка</h2>
         <p class="briefing-desc" id="briefingDesc">
-          Выберите точный эталонный ответ из программы курса физической географии:
+          Выберите точный ответ:
         </p>
 
         <div class="briefing-chips-grid" id="briefingChipsGrid"></div>
 
         <div class="briefing-answer-box" id="briefingAnswerBox" style="display: none;">
-          <div class="briefing-answer-label">📚 Справка к устному опросу:</div>
+          <div class="briefing-answer-label">📚 Пояснение:</div>
           <div class="briefing-answer-text" id="briefingAnswerText"></div>
         </div>
 
@@ -692,25 +614,24 @@
     </aside>
 
     <!-- ========================================================
-         МОДАЛЬНОЕ ОКНО ВЫБОРА КОЛОДЫ / МОДУЛЯ / ТЕМЫ
+         МОДАЛЬНОЕ ОКНО ВЫБОРА РАЗДЕЛА И ТЕМЫ
          ======================================================== -->
     <div class="modal-overlay" id="batchSelectModal">
       <div class="modal-card modal-wide">
         <div class="modal-header-row">
           <div>
             <h3 id="batchModalHeading">📦 Выберите раздел и тему обучения</h3>
-            <p class="modal-sub-caption" id="batchModalSub">Прогресс синхронизируется с Telegram CloudStorage после каждого ответа</p>
+            <p class="modal-sub-caption" id="batchModalSub">Прогресс сохраняется автоматически после каждого ответа</p>
           </div>
           <button class="drawer-close-btn" id="closeBatchSelectModalBtn">✕</button>
         </div>
 
-        <!-- Вкладки группировки колод по 4 модулям БГУ + Семестр -->
+        <!-- Вкладки группировки по 4 разделам -->
         <div class="deck-group-tabs" id="deckGroupTabs">
           <button class="deck-group-tab active" data-group="module1">🌍 1. Материки и Острова</button>
           <button class="deck-group-tab" data-group="module2">⛰️ 2. Горы и Равнины</button>
           <button class="deck-group-tab" data-group="module3">🌊 3. Океан и Течения</button>
           <button class="deck-group-tab" data-group="module4">💧 4. Реки и Озёра</button>
-          <button class="deck-group-tab" data-group="semester">🎓 Весь семестр</button>
         </div>
 
         <div class="batch-list-container" id="batchListContainer"></div>
@@ -718,100 +639,80 @@
     </div>
 
     <!-- ========================================================
-         МОДАЛЬНОЕ ОКНО ИНТЕРАКТИВНОЙ ШПАРГАЛКИ (ПОИСК + 🎯 НА КАРТЕ)
+         МОДАЛЬНОЕ ОКНО ВЫБОРА СЛОЖНОСТИ («НА КАКУЮ ОЦЕНКУ ГОТОВИМСЯ?»)
          ======================================================== -->
-    <div class="modal-overlay" id="theoryModal">
-      <div class="modal-card modal-xl">
+    <div class="modal-overlay" id="difficultyModal">
+      <div class="modal-card difficulty-modal-card">
         <div class="modal-header-row">
           <div>
-            <h3>📚 Интерактивная шпаргалка БГУ (1 039 объектов)</h3>
-            <p class="modal-sub-caption">Мгновенный поиск по всем 4 модулям • Нажмите «🎯 На карте» для подлёта камеры и подсветки</p>
+            <h3 id="diffModalTitle">🎯 На какую оценку готовимся?</h3>
+            <p class="modal-sub-caption" id="diffModalSub">Уровень сложности определяет состав объектов и глубину характеристик (можно переключить в любой момент)</p>
           </div>
-          <button class="drawer-close-btn" id="closeTheoryModalBtn">✕</button>
+          <button class="drawer-close-btn" id="closeDifficultyModalBtn">✕</button>
         </div>
 
-        <!-- Поисковая строка шпаргалки (Kokonut UI Spotlight Input) -->
-        <div class="theory-search-bar-wrap">
-          <span class="search-icon">🔍</span>
-          <input
-            type="text"
-            id="theorySearchInput"
-            class="drawer-search-input"
-            placeholder="Поиск по 1 039 объектам (напр., Гольфстрим, Альпы, Байкал, Амазонка, Марианский)..."
-            autocomplete="off"
-          />
-          <button class="drawer-search-clear" id="theorySearchClearBtn" style="display: none;" title="Очистить">✕</button>
-        </div>
-
-        <div class="deck-group-tabs" id="theoryTabs">
-          <button class="deck-group-tab active" data-ttab="all_search">🔎 Все объекты (1039)</button>
-          <button class="deck-group-tab" data-ttab="module1">🌍 1. Материки и Острова</button>
-          <button class="deck-group-tab" data-ttab="module2">⛰️ 2. Горы, Вулканы, Равнины</button>
-          <button class="deck-group-tab" data-ttab="module3">🌊 3. Океан, Желоба, Течения</button>
-          <button class="deck-group-tab" data-ttab="module4">💧 4. Реки, Водопады, Озёра</button>
-          <button class="deck-group-tab" data-ttab="continents">📐 Таблицы материков и пустынь</button>
-        </div>
-
-        <div class="theory-content-scroll" id="theoryContentBody"></div>
-      </div>
-    </div>
-
-    <!-- ========================================================
-         МОДАЛЬНОЕ ОКНО УПРАВЛЕНИЯ ПРОГРЕССОМ (ЭКСПОРТ / ИМПОРТ / СБРОС)
-         ======================================================== -->
-    <div class="modal-overlay" id="backupModal">
-      <div class="modal-card">
-        <div class="modal-header-row">
-          <div>
-            <h3>⚙️ Управление прогрессом</h3>
-            <p class="modal-sub-caption">Прогресс сохраняется автоматически после каждого ответа</p>
-          </div>
-          <button class="drawer-close-btn" id="closeBackupModalBtn">✕</button>
-        </div>
-
-        <div class="backup-stats-box" id="backupStatsSummary"></div>
-
-        <div class="backup-actions-stack">
-          <button class="hub-btn-secondary full-w" id="exportProgressBtn">
-            <span>📤</span>
-            <span>Скопировать / скачать резервную копию прогресса (JSON)</span>
+        <div class="difficulty-options-list" id="difficultyOptionsList">
+          <button type="button" class="diff-option-card" data-tier="tier1">
+            <div class="diff-opt-head">
+              <span class="diff-grade-badge tier-1">5–6 баллов</span>
+              <span class="diff-opt-tag">Базовый уровень</span>
+            </div>
+            <div class="diff-opt-title">Основные объекты и ключевые ориентиры</div>
+            <p class="diff-opt-desc">Только самые важные географические объекты и базовые характеристики главных вершин, течений и островов.</p>
           </button>
 
-          <label class="hub-btn-secondary full-w file-upload-label">
-            <span>📥</span>
-            <span>Восстановить прогресс из JSON-файла</span>
-            <input type="file" id="importProgressFileInput" accept=".json,application/json" style="display: none;" />
-          </label>
-
-          <hr class="modal-divider" />
-
-          <button class="btn-danger-outline full-w" id="resetCurrentDeckBtn">
-            <span>🧹</span>
-            <span>Сбросить прогресс только текущей выбранной колоды</span>
+          <button type="button" class="diff-option-card" data-tier="tier2">
+            <div class="diff-opt-head">
+              <span class="diff-grade-badge tier-2">7–8 баллов</span>
+              <span class="diff-opt-tag">Уверенный уровень</span>
+            </div>
+            <div class="diff-opt-title">Расширенная номенклатура и характеристики</div>
+            <p class="diff-opt-desc">Объекты средней и высокой важности. Спрашиваются складчатость гор, происхождение островов, течения, вулканы, озёра и водопады.</p>
           </button>
 
-          <button class="btn-danger-outline full-w" id="resetAllProgressBtn">
-            <span>⚠️</span>
-            <span>Полный сброс всего обучения с нуля</span>
+          <button type="button" class="diff-option-card" data-tier="tier3">
+            <div class="diff-opt-head">
+              <span class="diff-grade-badge tier-3">9–10 баллов</span>
+              <span class="diff-opt-tag">Максимум</span>
+            </div>
+            <div class="diff-opt-title">Вся номенклатура и характеристики почти всего</div>
+            <p class="diff-opt-desc">Все объекты раздела, включая редкие. Карточка с характеристиками открывается практически для каждого объекта (высоты второстепенных хребтов — справочно).</p>
           </button>
         </div>
       </div>
     </div>
 
     <!-- ========================================================
-         ОКНО РЕЗУЛЬТАТОВ ЗАЧЁТА / ЗАВЕРШЕНИЯ ТЕМЫ / БЛИЦА
+         ПРЕДЛОЖЕНИЕ ПОВЫСИТЬ СЛОЖНОСТЬ (АДАПТИВНЫЙ ПОДЪЁМ)
+         ======================================================== -->
+    <div class="modal-overlay" id="upgradeNudgeModal">
+      <div class="modal-card celebration">
+        <div class="celebration-trophy">🚀</div>
+        <h2 id="upgradeNudgeTitle">Отлично получается!</h2>
+        <p class="celebration-desc" id="upgradeNudgeDesc">
+          Ты уверенно отвечаешь на текущем уровне. Готов перейти на следующий уровень сложности?
+        </p>
+        <div class="results-actions-row">
+          <button class="btn-primary-action" id="upgradeNudgeAcceptBtn">Перейти выше →</button>
+          <button class="btn-ghost-tool" id="upgradeNudgeStayBtn">Пока остаться здесь</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================
+         ОКНО ЗАВЕРШЕНИЯ ТЕМЫ
          ======================================================== -->
     <div class="modal-overlay" id="resultsModal">
       <div class="modal-card celebration">
         <div class="celebration-trophy" id="resultsTrophy">🏆</div>
         <h2 id="resultsTitle">Тема успешно освоена!</h2>
-        <div class="results-score-badge" id="resultsScoreBadge">Готовность к опросу: 100%</div>
+        <div class="results-score-badge" id="resultsScoreBadge">Освоено: 100%</div>
         <p class="celebration-desc" id="resultsDesc">
-          Все контрольные точки и характеристики выучены и закреплены!
+          Все объекты и характеристики в выбранной теме выучены!
         </p>
         <div class="results-actions-row">
-          <button class="btn-primary-action kokonut-shine-btn" id="resultsNextBtn">Следующая тема →</button>
-          <button class="btn-ghost-tool" id="resultsRepeatBtn">Продолжить закрепление ⟲</button>
+          <button class="btn-primary-action" id="resultsNextBtn">Следующая тема →</button>
+          <button class="btn-ghost-tool" id="resultsRepeatBtn">Повторить ещё ⟲</button>
           <button class="btn-ghost-tool" id="resultsBackHubBtn">← В главное меню</button>
         </div>
       </div>
@@ -819,7 +720,7 @@
 
   </div>
 
-  <!-- Модульная база пространственных данных номенклатуры БГУ (Семестровый курс) -->
+  <!-- Модульная база пространственных данных -->
   <script src="data/data_module1.js"></script>
   <script src="data/data_module2.js"></script>
   <script src="data/data_module3.js"></script>

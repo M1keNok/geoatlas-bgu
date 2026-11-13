@@ -17,21 +17,7 @@
     reduced: window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
 
     initGlowCards() {
-      document.addEventListener('pointermove', (e) => {
-        const card = e.target.closest && e.target.closest('.kokonut-glow-card');
-        if (!card) return;
-        const rect = card.getBoundingClientRect();
-        card.style.setProperty('--glow-x', `${e.clientX - rect.left}px`);
-        card.style.setProperty('--glow-y', `${e.clientY - rect.top}px`);
-        card.style.setProperty('--glow-opacity', '1');
-      }, { passive: true });
-
-      document.addEventListener('pointerout', (e) => {
-        const card = e.target.closest && e.target.closest('.kokonut-glow-card');
-        if (card && !card.contains(e.relatedTarget)) {
-          card.style.setProperty('--glow-opacity', '0');
-        }
-      }, { passive: true });
+      // Отключено для высокого FPS на десктопе и мобильных (без pointermove reflow)
     },
 
     pop(el) {
@@ -781,11 +767,12 @@
   };
 
   // ==========================================================================
-  // 3. КАРТОГРАФИЧЕСКИЙ ДВИЖОК (БЕЗ СПОЙЛЕРОВ НА ЗАЧЁТЕ + ИНТЕРАКТИВНЫЙ АТЛАС)
+  // 3. КАРТОГРАФИЧЕСКИЙ ДВИЖОК (СПУТНИК / РЕЛЬЕФ + CANVAS ДЛЯ 60 FPS)
   // ==========================================================================
   const UnifiedMapEngine = {
     map: null,
-    currentMode: 'clean_atlas',
+    canvasRenderer: null,
+    currentMode: 'esri_sat',
     onlineTileLayer: null,
     labelsOverlayLayer: null,
     offlineLayers: [],
@@ -795,18 +782,13 @@
     tileErrorStreak: 0,
 
     TILE_SOURCES: {
-      clean_atlas: {
-        // Немая физико-контурная карта БЕЗ ПОДПИСЕЙ (никаких спойлеров названий!)
-        url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png',
-        options: { subdomains: 'abcd', maxZoom: 19, attribution: '' }
+      esri_sat: {
+        url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+        options: { maxZoom: 18, attribution: '' }
       },
       esri_phys: {
         url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}',
         options: { maxNativeZoom: 8, maxZoom: 13, attribution: '' }
-      },
-      esri_sat: {
-        url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-        options: { maxZoom: 18, attribution: '' }
       }
     },
 
@@ -828,19 +810,23 @@
       const container = document.getElementById('map');
       if (!container || typeof L === 'undefined') return;
 
+      this.canvasRenderer = L.canvas ? L.canvas({ padding: 0.4 }) : undefined;
+
       this.map = L.map('map', {
         center: [26, 20],
         zoom: 2.75,
         minZoom: 2,
         maxZoom: 18,
-        zoomSnap: 0.25,
+        zoomSnap: 0.5,
         zoomDelta: 0.5,
-        wheelPxPerZoomLevel: 95,
+        wheelPxPerZoomLevel: 90,
         worldCopyJump: true,
         zoomControl: false,
         attributionControl: false,
+        preferCanvas: true,
+        renderer: this.canvasRenderer,
         zoomAnimation: true,
-        fadeAnimation: true,
+        fadeAnimation: false,
         markerZoomAnimation: true
       });
 
@@ -848,9 +834,8 @@
       this.specialEntitiesLayer = L.layerGroup().addTo(this.map);
       this.atlasMarkersLayer = L.layerGroup().addTo(this.map);
 
-      let savedMode = localStorage.getItem('geoatlas_map_mode') || 'clean_atlas';
-      // Миграция старого спойлерного ключа esri_topo -> clean_atlas
-      if (savedMode === 'esri_topo') savedMode = 'clean_atlas';
+      let savedMode = localStorage.getItem('geoatlas_map_mode') || 'esri_sat';
+      if (!this.TILE_SOURCES[savedMode]) savedMode = 'esri_sat';
       this.setMapMode(savedMode);
 
       this.map.on('click', (e) => {
@@ -868,8 +853,8 @@
 
     setMapMode(mode) {
       if (!this.map) return;
-      if (!this.TILE_SOURCES[mode] && mode !== 'vector_offline') {
-        mode = 'clean_atlas';
+      if (!this.TILE_SOURCES[mode]) {
+        mode = 'esri_sat';
       }
       this.currentMode = mode;
       localStorage.setItem('geoatlas_map_mode', mode);
@@ -888,33 +873,20 @@
       });
       this.offlineLayers = [];
 
-      if (mode === 'vector_offline') {
-        this.setAtlasLabelsVisible(false);
-        this.mountOfflineVectorLayers();
-      } else {
-        const source = this.TILE_SOURCES[mode] || this.TILE_SOURCES.clean_atlas;
+      const source = this.TILE_SOURCES[mode] || this.TILE_SOURCES.esri_sat;
+      this.tileErrorStreak = 0;
+      this.onlineTileLayer = L.tileLayer(source.url, {
+        ...source.options,
+        keepBuffer: 4,
+        updateWhenIdle: true
+      });
+
+      this.onlineTileLayer.on('tileload', () => {
         this.tileErrorStreak = 0;
-        this.onlineTileLayer = L.tileLayer(source.url, {
-          ...source.options,
-          keepBuffer: 6
-        });
+      });
 
-        this.onlineTileLayer.on('tileload', () => {
-          this.tileErrorStreak = 0;
-        });
-
-        this.onlineTileLayer.on('tileerror', () => {
-          this.tileErrorStreak++;
-          if (this.tileErrorStreak >= 8 && this.currentMode !== 'vector_offline' && window.OFFLINE_WORLD_LAND) {
-            this.tileErrorStreak = 0;
-            this.setMapMode('vector_offline');
-            MapApp.showToast('📡 Нет сети — включена 100% автономная векторная карта');
-          }
-        });
-
-        this.onlineTileLayer.addTo(this.map);
-        this.drawParallels(false);
-      }
+      this.onlineTileLayer.addTo(this.map);
+      this.drawParallels(false);
     },
 
     setAtlasLabelsVisible(visible) {
@@ -923,65 +895,12 @@
         this.map.removeLayer(this.labelsOverlayLayer);
         this.labelsOverlayLayer = null;
       }
-      if (visible && this.currentMode !== 'vector_offline') {
+      if (visible) {
         this.labelsOverlayLayer = L.tileLayer(
           'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}{r}.png',
           { subdomains: 'abcd', maxZoom: 19, pane: 'overlayPane' }
         ).addTo(this.map);
       }
-    },
-
-    mountOfflineVectorLayers() {
-      const BathymetryGridLayer = L.GridLayer.extend({
-        createTile: function () {
-          const tile = document.createElement('canvas');
-          const size = this.getTileSize();
-          tile.width = size.x;
-          tile.height = size.y;
-          const ctx = tile.getContext('2d');
-          ctx.fillStyle = '#081526';
-          ctx.fillRect(0, 0, tile.width, tile.height);
-          ctx.strokeStyle = 'rgba(56, 189, 248, 0.06)';
-          ctx.lineWidth = 1;
-          ctx.strokeRect(0, 0, tile.width, tile.height);
-          return tile;
-        }
-      });
-      const bathy = new BathymetryGridLayer();
-      bathy.addTo(this.map);
-      this.offlineLayers.push(bathy);
-
-      if (window.OFFLINE_WORLD_LAND) {
-        const land = L.geoJSON(window.OFFLINE_WORLD_LAND, {
-          renderer: L.canvas({ padding: 0.5 }),
-          interactive: false,
-          style: {
-            fillColor: '#1e352b',
-            fillOpacity: 0.98,
-            color: '#38bdf8',
-            weight: 1.15,
-            opacity: 0.88
-          }
-        }).addTo(this.map);
-        this.offlineLayers.push(land);
-      }
-
-      if (window.OFFLINE_WORLD_LAKES) {
-        const lakes = L.geoJSON(window.OFFLINE_WORLD_LAKES, {
-          renderer: L.canvas({ padding: 0.5 }),
-          interactive: false,
-          style: {
-            fillColor: '#081526',
-            fillOpacity: 1,
-            color: '#2563eb',
-            weight: 0.9,
-            opacity: 0.85
-          }
-        }).addTo(this.map);
-        this.offlineLayers.push(lakes);
-      }
-
-      this.drawParallels(true);
     },
 
     drawParallels(withLabels = false) {
@@ -1099,13 +1018,14 @@
       if (!item || !Array.isArray(item.coords) || item.coords.length < 2 || !targetLayer) return null;
       const coords = this.unwrapPolylineCoords(item.coords);
       const style = this.getPolylineVisualStyle(item);
-      const { interactive = false, onClick = null } = opts;
+      const { interactive = false, onClick = null, skipArrows = false } = opts;
 
-      // Свечение подложки
+      // Подложка линии на Canvas
       L.polyline(coords, {
+        renderer: this.canvasRenderer,
         color: style.glowColor,
-        weight: 10,
-        opacity: 0.9,
+        weight: skipArrows ? 7 : 10,
+        opacity: skipArrows ? 0.65 : 0.9,
         lineCap: 'round',
         lineJoin: 'round',
         interactive: false
@@ -1113,8 +1033,9 @@
 
       // Основная линия русла реки / морского течения / желоба
       const poly = L.polyline(coords, {
+        renderer: this.canvasRenderer,
         color: style.color,
-        weight: 4,
+        weight: skipArrows ? 3 : 4,
         opacity: 0.98,
         dashArray: style.dashArray,
         lineCap: 'round',
@@ -1129,8 +1050,8 @@
         });
       }
 
-      // Отрисовка стрелок направления течения (для рек и океанических течений)
-      if (style.hasArrows) {
+      // Отрисовка стрелок направления течения (только для выделенного объекта, не в массовом Атласе)
+      if (style.hasArrows && !skipArrows) {
         for (let i = 0; i < coords.length - 1; i++) {
           const [lat1, lng1] = coords[i];
           const [lat2, lng2] = coords[i + 1];
@@ -1450,7 +1371,190 @@
   };
 
   // ==========================================================================
-  // 5. ЕДИНЫЙ ДВИЖОК НОМЕНКЛАТУРЫ БГУ (ВСЕ 4 МОДУЛЯ: 1 039 ОБЪЕКТОВ + ANKI SM-2)
+  // 4.9. УРОВНИ СЛОЖНОСТИ ПО ОТМЕТКЕ (5-6 / 7-8 / 9-10) И ВАЖНЫЕ ОРИЕНТИРЫ
+  // ==========================================================================
+  const DifficultyEngine = {
+    tier: 'tier2', // 'tier1' (5-6), 'tier2' (7-8), 'tier3' (9-10)
+    dismissedUpgradeFrom: new Set(),
+
+    TIER_META: {
+      tier1: { num: 1, label: '5–6 б.', fullLabel: '5–6 баллов', shortDesc: 'Базовые объекты и главные ориентиры' },
+      tier2: { num: 2, label: '7–8 б.', fullLabel: '7–8 баллов', shortDesc: 'Уверенный уровень и характеристики' },
+      tier3: { num: 3, label: '9–10 б.', fullLabel: '9–10 баллов', shortDesc: 'Вся номенклатура и детали' }
+    },
+
+    // Главные знаменитые объекты и высоты/метрики, которые важно знать в первую очередь
+    IMPORTANT_KEYS: [
+      // Горы, вулканы, депрессии и равнины (Модуль 2)
+      'альп', 'анды', 'гимала', 'кавказ', 'урал', 'алта', 'тянь-шан', 'памир', 'аппалач',
+      'скалист', 'кордильер', 'скандинавск', 'карпат', 'пирене', 'тибет', 'большой водораздел',
+      'драконов', 'атлас', 'восточный саян', 'верхоянск', 'джугджур', 'черского',
+      'ключевск', 'фудзи', 'везувий', 'этна', 'килиманджаро', 'кракатау', 'котопахи',
+      'орисаба', 'попокатепетль', 'гекла', 'килауэа', 'мауна-лоа', 'эйяфьядлайёкюдль', 'элбрус', 'эльбрус',
+      'мёртвое море', 'гхор', 'долина смерти', 'турфанск', 'афар', 'ассаль', 'каттара', 'карагие', 'лагуна-дель-карбон',
+      'амазонск', 'западно-сибирск', 'прикаспийск', 'индо-гангск', 'месопотамск', 'великая китайск',
+      'восточно-европейск', 'среднерусск', 'валдайск', 'бразильск', 'декан', 'среднесибирск', 'гвианск',
+      'гоби', 'восточно-африканск', 'тибести', 'колорадо', 'путорана', 'устюрт',
+      // Острова, полуострова, пустыни, мысы (Модуль 1)
+      'гренланд', 'мадагаскар', 'калимантан', 'новая гвинея', 'суматра', 'великобритан', 'исланд',
+      'шри-ланка', 'куба', 'сахалин', 'камчатк', 'аравийск', 'индостан', 'индокитай', 'скандинавск',
+      'пиренейск', 'апеннинск', 'балканск', 'лабрадор', 'аляск', 'калифорн', 'флорид', 'юкатан', 'сомали',
+      'корейск', 'малакк', 'таймыр', 'чукотск', 'коляск', 'кольск', 'крымск',
+      'сахара', 'гоби', 'атакама', 'намиб', 'калахари', 'виктория', 'каракум', 'кызылкум', 'руб-эль-хали',
+      'гавайск', 'японск', 'филиппин', 'большой барьерн', 'мальдив',
+      // Океан, моря, проливы, заливы, желоба, течения (Модуль 3)
+      'тихий океан', 'атлантический океан', 'индийский океан', 'северный ледовитый', 'южный океан',
+      'средиземн', 'чёрное море', 'красное море', 'балтийск', 'баренцев', 'белое море', 'охотск', 'берингов',
+      'японск', 'карибск', 'северное море', 'норвежск', 'аравийск', 'южно-китайск', 'тасманов', 'уэдделл',
+      'гибралтар', 'берингов пролив', 'магелланов', 'дрейка', 'босфор', 'ла-манш', 'малаккск', 'ормуз', 'баб-эль-мандеб',
+      'мексиканск', 'персидск', 'бенгальск', 'гудзонов', 'бискайск', 'гвинейск', 'аляска', 'большой австралийск',
+      'марианск', 'пуэрто-рико', 'зондск', 'яванск', 'филиппинск', 'тонга', 'кермадек', 'курило-камчатск', 'перуанск', 'атакамск',
+      'гольфстрим', 'куросио', 'лабрадорск', 'канарск', 'бенгельск', 'перуанск', 'калифорнийск', 'северо-атлантическ',
+      'западных ветров', 'бразильск', 'аляскинск', 'восточно-австралийск', 'антильск',
+      // Реки, озёра, водопады (Модуль 4)
+      'амазонк', 'нил', 'миссисип', 'янцз', 'хуанхэ', 'волга', 'днепр', 'дунай', 'рейн', 'обь', 'енисей', 'лена',
+      'амур', 'конго', 'нигер', 'замбези', 'инду', 'инд ', 'ганг', 'меконг', 'тигр', 'евфрат', 'парана', 'ориноко',
+      'муррей', 'маккензи', 'юкон', 'святого лаврентия', 'колорадо', 'дон', 'урал', 'печора',
+      'байкал', 'виктория', 'верхнее', 'каспийск', 'аральск', 'танганьика', 'титикака', 'ладожск', 'онежск',
+      'балхаш', 'иссык-куль', 'чад', 'ньяса', 'большое медвежье', 'мичиган', 'гурон', 'эйр', 'нарочь',
+      'анхель', 'виктория', 'ниагарск', 'игуасу', 'тугела'
+    ],
+
+    init() {
+      const saved = localStorage.getItem('geoatlas_target_grade');
+      if (saved && this.TIER_META[saved]) {
+        this.tier = saved;
+      } else {
+        this.tier = 'tier2';
+      }
+    },
+
+    setTier(tierKey) {
+      if (!this.TIER_META[tierKey]) return;
+      this.tier = tierKey;
+      localStorage.setItem('geoatlas_target_grade', tierKey);
+      this.syncUI();
+    },
+
+    getTierNum() {
+      return (this.TIER_META[this.tier] || this.TIER_META.tier2).num;
+    },
+
+    getNextTier() {
+      if (this.tier === 'tier1') return 'tier2';
+      if (this.tier === 'tier2') return 'tier3';
+      return null;
+    },
+
+    syncUI() {
+      const meta = this.TIER_META[this.tier] || this.TIER_META.tier2;
+      const lbl = document.getElementById('headerDifficultyLabel');
+      if (lbl) lbl.textContent = `🎯 ${meta.label}`;
+      document.querySelectorAll('#difficultyOptionsList .diff-option-card').forEach((card) => {
+        card.classList.toggle('active', card.getAttribute('data-tier') === this.tier);
+      });
+    },
+
+    matchesImportantKey(str) {
+      const low = (str || '').toLowerCase();
+      return this.IMPORTANT_KEYS.some((kw) => low.includes(kw));
+    },
+
+    classifyObject(obj) {
+      const oceanIds = new Set([
+        'm3_sea_pacific_ocean',
+        'm3_sea_atlantic_ocean',
+        'm3_sea_indian_ocean',
+        'm3_sea_arctic_ocean',
+        'm3_sea_southern_ocean'
+      ]);
+      const isOceanEntity = oceanIds.has(obj.id);
+      const rawTitle = `${obj.name || ''} ${obj.displayTitle || ''}`.toLowerCase();
+      const isKeyMatch = this.matchesImportantKey(rawTitle);
+
+      // Знаменитые высоты гор — только для известных мировых систем / вершин
+      const isFamousMountain = obj.category === 'mountains' && isKeyMatch &&
+        !rawTitle.includes('западный саян') &&
+        !rawTitle.includes('кузнецкий алатау') &&
+        !rawTitle.includes('тиманский') &&
+        !rawTitle.includes('енисейский') &&
+        !rawTitle.includes('бырранга');
+
+      let isImportant = Boolean(isOceanEntity || isKeyMatch);
+      if (obj.isCape && (obj.continent === 'Евразия' || obj.continent === 'Африка' || obj.continent === 'Америка')) {
+        isImportant = isImportant || true;
+      }
+
+      let tier = 3;
+      if (isOceanEntity || isKeyMatch) {
+        tier = 1;
+      } else if (obj.moduleId === 'module1') {
+        if (obj.difficulty === 'Лёгкий') tier = 1;
+        else if (obj.difficulty === 'Средний') tier = 2;
+        else tier = 3;
+      } else {
+        // Детерминированное распределение по уровням для модулей 2, 3, 4:
+        // важные категории вроде крупных гор/вулканов/депрессий/водопадов чаще в tier 2
+        let hash = 0;
+        const idStr = String(obj.id || obj.name || '');
+        for (let i = 0; i < idStr.length; i++) {
+          hash = (hash * 31 + idStr.charCodeAt(i)) >>> 0;
+        }
+        const highPriorityCats = ['volcanoes', 'depressions', 'waterfalls', 'currents', 'trenches'];
+        if (obj.category === 'mountains' || highPriorityCats.includes(obj.category)) {
+          tier = hash % 3 === 0 ? 3 : 2;
+        } else {
+          tier = hash % 2 === 0 ? 2 : 3;
+        }
+      }
+
+      obj.isOceanEntity = isOceanEntity;
+      obj.isImportant = isImportant;
+      obj.isFamousHeight = obj.category === 'mountains' ? isFamousMountain : isImportant;
+      obj.tier = tier;
+      return obj;
+    },
+
+    shouldShowCardStep(item) {
+      if (!item || !item.ankiCard) return false;
+      if (item.isOceanEntity) return true;
+
+      const tierKey = this.tier;
+      const specCats = new Set([
+        'mountains', 'volcanoes', 'depressions',
+        'continental_island', 'volcanic_island', 'coral_island',
+        'trenches', 'currents', 'waterfalls', 'lakes'
+      ]);
+
+      if (tierKey === 'tier1') {
+        // 5-6 баллов: карточка только у самых важных базовых объектов с характеристиками
+        return Boolean(item.isImportant && specCats.has(item.category));
+      }
+
+      if (tierKey === 'tier2') {
+        // 7-8 баллов: все горы (складчатость!), острова (генезис), вулканы, депрессии, течения, желоба, водопады, озёра + важные равнины/реки/моря
+        if (specCats.has(item.category)) return true;
+        return Boolean(item.isImportant && ['lowlands', 'uplands', 'plateaus', 'rivers', 'seas'].includes(item.category));
+      }
+
+      // 9-10 баллов: характеристики почти для каждого объекта (кроме мелких мысов без доп. данных)
+      if (item.isCape && !item.isImportant) return false;
+      return true;
+    },
+
+    shouldSuggestUpgrade(deckId) {
+      const next = this.getNextTier();
+      if (!next || this.dismissedUpgradeFrom.has(this.tier)) return false;
+      const st = NomenclatureEngine.getDeckStats(deckId);
+      if (st.total >= 5 && st.masteredPct >= 65) return true;
+      if (this.tier === 'tier1' && Gamification.streak >= 8) return true;
+      if (this.tier === 'tier2' && Gamification.streak >= 12) return true;
+      return false;
+    }
+  };
+
+  // ==========================================================================
+  // 5. ЕДИНЫЙ ДВИЖОК НОМЕНКЛАТУРЫ (ВСЕ 4 РАЗДЕЛА: 1 039 ОБЪЕКТОВ)
   // ==========================================================================
   const NomenclatureEngine = {
     objects: [],
@@ -1459,18 +1563,20 @@
     decks: [],
     decksMap: new Map(),
     activeDeckId: 'm1_all',
-    practiceMode: 'locate', // 'locate' (2-Step Anki Loop) | 'smart' | 'quiz' | 'atlas'
+    practiceMode: 'locate', // 'locate' | 'atlas'
     stepCounter: 0,
     srsStates: {},
     lastSeenId: null,
     ACTIVE_POOL_SIZE: 6,
 
     init(geoData) {
+      DifficultyEngine.init();
       this.compileDecks(geoData);
       this.loadState();
       if (!this.activeDeckId || !this.decksMap.has(this.activeDeckId)) {
         this.activeDeckId = 'm1_all';
       }
+      DifficultyEngine.syncUI();
     },
 
     classifyWorldRegion(it) {
@@ -1631,6 +1737,8 @@
             ankiCard
           };
 
+          DifficultyEngine.classifyObject(obj);
+
           this.objects.push(obj);
           this.objectsMap.set(obj.id, obj);
           if (obj.legacyUid) {
@@ -1648,7 +1756,7 @@
         // ================= РАЗДЕЛ 1 (267 объектов) =================
         { id: 'm1_all', group: 'module1', moduleId: 'module1', title: 'Весь Раздел 1: Материки, острова, пустыни (267)', shortTitle: 'Раздел 1 (Все 267)', icon: '🌍', desc: 'Все мысы, полуострова, острова и пустыни Раздела 1', items: m1Items },
         { id: 'm1_capes', group: 'module1', moduleId: 'module1', title: 'Крайние мысы материков (21)', shortTitle: 'Крайние мысы', icon: '🧭', desc: 'Все 21 крайний мыс 6 континентов Земли', items: m1Items.filter((x) => x.submoduleId === 'm1_capes') },
-        { id: 'm1_peninsulas', group: 'module1', moduleId: 'module1', title: 'Полуострова мира (60)', shortTitle: 'Полуострова', icon: '🏖️', desc: 'Все 60 полуостровов планеты по программе БГУ', items: m1Items.filter((x) => x.submoduleId === 'm1_peninsulas') },
+        { id: 'm1_peninsulas', group: 'module1', moduleId: 'module1', title: 'Полуострова мира (60)', shortTitle: 'Полуострова', icon: '🏖️', desc: 'Все 60 полуостровов планеты', items: m1Items.filter((x) => x.submoduleId === 'm1_peninsulas') },
         { id: 'm1_islands', group: 'module1', moduleId: 'module1', title: 'Все острова и архипелаги (148)', shortTitle: 'Все острова', icon: '🏝️', desc: 'Материковые, вулканические и коралловые острова Земли', items: m1Items.filter((x) => x.submoduleId === 'm1_islands') },
         { id: 'm1_islands_cont', group: 'module1', moduleId: 'module1', title: 'Материковые острова (82)', shortTitle: 'Материковые о-ва', icon: '🏔️', desc: '82 материковых острова и архипелага', items: m1Items.filter((x) => x.category === 'continental_island') },
         { id: 'm1_islands_volc', group: 'module1', moduleId: 'module1', title: 'Вулканические острова (50)', shortTitle: 'Вулканические о-ва', icon: '🌋', desc: '50 островных дуг и вулканических архипелагов', items: m1Items.filter((x) => x.category === 'volcanic_island') },
@@ -1689,9 +1797,9 @@
         { id: 'm4_waterfalls', group: 'module4', moduleId: 'module4', title: 'Водопады мира (20)', shortTitle: 'Водопады (20)', icon: '🌊', desc: 'Анхель (1054 м), Тугела (933 м), Виктория, Игуасу, Ниагарский, Стэнли и др.', items: m4Items.filter((x) => x.category === 'waterfalls') },
         { id: 'm4_lakes', group: 'module4', moduleId: 'module4', title: 'Озёра мира по материкам (71)', shortTitle: 'Озёра мира (71)', icon: '🪩', desc: '71 озеро с генетическим типом котловины, глубиной и солёностью', items: m4Items.filter((x) => x.category === 'lakes') },
 
-        // ================= СЕМЕСТРОВЫЙ ЭКЗАМЕН (1 039 объектов) =================
-        { id: 'semester_all', group: 'semester', moduleId: 'semester', title: '🎓 Экзамен за весь семестр (Все 4 модуля — 1 039 объектов)', shortTitle: 'Весь семестр (1039)', icon: '🎓', desc: 'Генеральная репетиция зачёта по Общему землеведению БГУ по всем 4 разделам', items: this.objects },
-        { id: 'all', group: 'semester', moduleId: 'semester', title: '🎓 Экзамен за весь семестр (Все 4 модуля — 1 039 объектов)', shortTitle: 'Весь семестр (1039)', icon: '🎓', desc: 'Полная база семестра: все 1 039 объектов', items: this.objects }
+        // ================= ВСЕ РАЗДЕЛЫ (1 039 объектов) =================
+        { id: 'semester_all', group: 'all', moduleId: 'all', title: 'Все 4 раздела (1 039 объектов)', shortTitle: 'Все разделы (1039)', icon: '🌍', desc: 'Объединённый набор по всем 4 разделам номенклатуры', items: this.objects },
+        { id: 'all', group: 'all', moduleId: 'all', title: 'Все 4 раздела (1 039 объектов)', shortTitle: 'Все разделы (1039)', icon: '🌍', desc: 'Полная база номенклатуры: все 1 039 объектов', items: this.objects }
       ];
 
       deckDefs.forEach((d) => {
@@ -1815,9 +1923,18 @@
       return this.decksMap.get(this.activeDeckId) || this.decks[0];
     },
 
-    getNextObject(deckId = this.activeDeckId, maintenanceMode = false) {
+    getFilteredDeckItems(deckId = this.activeDeckId, includeAllTiers = false) {
       const deck = this.decksMap.get(deckId) || this.decks[0];
-      const items = deck.objectIds.map((id) => this.objectsMap.get(id)).filter(Boolean);
+      const allItems = deck ? deck.objectIds.map((id) => this.objectsMap.get(id)).filter(Boolean) : [];
+      if (includeAllTiers || !allItems.length) return allItems;
+      const maxTier = DifficultyEngine.getTierNum();
+      if (maxTier >= 3) return allItems;
+      const filtered = allItems.filter((it) => (it.tier || 3) <= maxTier);
+      return filtered.length > 0 ? filtered : allItems;
+    },
+
+    getNextObject(deckId = this.activeDeckId, maintenanceMode = false) {
+      const items = this.getFilteredDeckItems(deckId, false);
       if (items.length === 0) return null;
 
       const unmastered = items.filter((it) => this.getState(it.id).status !== 'mastered');
@@ -1891,9 +2008,8 @@
       return null;
     },
 
-    getDeckStats(deckId = this.activeDeckId) {
-      const deck = this.decksMap.get(deckId) || this.decks[0];
-      const items = deck.objectIds.map((id) => this.objectsMap.get(id)).filter(Boolean);
+    getDeckStats(deckId = this.activeDeckId, includeAllTiers = false) {
+      const items = this.getFilteredDeckItems(deckId, includeAllTiers);
       let newCount = 0, learnCount = 0, reviewCount = 0, masteredCount = 0;
 
       items.forEach((it) => {
@@ -1957,7 +2073,7 @@
         }
 
         const pm = localStorage.getItem('geoatlas_practice_mode');
-        if (pm && ['locate', 'smart', 'quiz'].includes(pm)) {
+        if (pm === 'atlas' || pm === 'locate') {
           this.practiceMode = pm;
         } else {
           this.practiceMode = 'locate';
@@ -2748,10 +2864,10 @@
     activeDeckModalGroup: 'module1',
     activeDrawerFilter: 'all',
     drawerSearchQuery: '',
-    activeTheoryTab: 'all_search',
-    theorySearchQuery: '',
+    atlasSearchQuery: '',
     atlasCategoryFilter: 'all',
     atlasCanvasRenderer: null,
+    pendingStartDeckId: null,
     anki3dRevealTimer: null,
     toastTimer: null,
     celebratedMilestones: new Set(),
@@ -2764,21 +2880,11 @@
       isPeek: false
     },
 
-    // Состояние Блиц-режима 60 сек
-    blitzState: {
-      timerId: null,
-      secondsLeft: 60,
-      score: 0,
-      combo: 1,
-      hits: 0,
-      pool: []
-    },
-
     init() {
-      MotionFX.initGlowCards();
       TelegramBridge.init();
       AudioEngine.loadMuteState();
       Gamification.load();
+      DifficultyEngine.init();
       UnifiedMapEngine.init();
       if (typeof L !== 'undefined' && L.canvas) {
         this.atlasCanvasRenderer = L.canvas({ padding: 0.5 });
@@ -2787,6 +2893,7 @@
       NomenclatureEngine.init(window.GEOGRAPHY_DATA);
       ContinentExamEngine.init(window.GEOGRAPHY_DATA);
       CapeSyncBridge.reconcileOnStartup();
+      DifficultyEngine.syncUI();
 
       this.updateCloudSyncStatus(StorageAdapter.hasCloud() ? 'syncing' : 'local');
       StorageAdapter.syncFromCloud((didMerge) => {
@@ -2849,7 +2956,7 @@
         return;
       }
 
-      const openModals = ['theoryModal', 'batchSelectModal', 'backupModal', 'resultsModal'];
+      const openModals = ['batchSelectModal', 'difficultyModal', 'upgradeNudgeModal', 'resultsModal'];
       for (const mid of openModals) {
         const el = document.getElementById(mid);
         if (el && el.classList.contains('open')) {
@@ -2965,15 +3072,15 @@
         };
       });
 
-      // Переключатель подрежима прямо в шапке тренажёра
+      // Переключатель режима в шапке тренажёра (Обучение / Атлас)
       document.querySelectorAll('#headerPmodeSwitch .h-pmode-btn').forEach((btn) => {
         btn.onclick = () => {
           TelegramBridge.hapticSelect();
-          const pm = btn.getAttribute('data-pmode') || 'smart';
+          const pm = btn.getAttribute('data-pmode') || 'locate';
           if (pm === 'atlas') {
             this.openInteractiveAtlas(NomenclatureEngine.activeDeckId);
           } else {
-            NomenclatureEngine.practiceMode = pm;
+            NomenclatureEngine.practiceMode = 'locate';
             NomenclatureEngine.saveState();
             this.syncPracticeModeButtons();
             if (this.appMode === 'atlas') {
@@ -2985,23 +3092,73 @@
         };
       });
 
-      // Кнопки Hero в Хабе
-      document.getElementById('hubSemesterExamBtn')?.addEventListener('click', () => {
+      // Кнопка выбора уровня оценки (5-6 / 7-8 / 9-10)
+      const diffModal = document.getElementById('difficultyModal');
+      document.getElementById('headerDifficultyBtn')?.addEventListener('click', () => {
         TelegramBridge.hapticSelect();
-        this.startObjectsPractice('semester_all');
+        this.pendingStartDeckId = null;
+        DifficultyEngine.syncUI();
+        diffModal?.classList.add('open');
+        this.syncTelegramBackButton();
       });
-      document.getElementById('hubExploreAtlasBtn')?.addEventListener('click', () => {
-        TelegramBridge.hapticSelect();
-        this.openInteractiveAtlas(NomenclatureEngine.activeDeckId || 'semester_all');
+      document.getElementById('closeDifficultyModalBtn')?.addEventListener('click', () => {
+        this.pendingStartDeckId = null;
+        diffModal?.classList.remove('open');
+        this.syncTelegramBackButton();
       });
-      document.getElementById('hubStartBlitzBtn')?.addEventListener('click', () => {
-        TelegramBridge.hapticSelect();
-        this.startBlitzChallenge();
+      document.querySelectorAll('#difficultyOptionsList .diff-option-card').forEach((card) => {
+        card.onclick = () => {
+          TelegramBridge.hapticSelect();
+          const tierKey = card.getAttribute('data-tier') || 'tier2';
+          DifficultyEngine.setTier(tierKey);
+          diffModal?.classList.remove('open');
+          this.syncTelegramBackButton();
+          const pendingDeck = this.pendingStartDeckId;
+          this.pendingStartDeckId = null;
+          if (pendingDeck) {
+            this.startObjectsPractice(pendingDeck);
+          } else if (this.appMode === 'objects') {
+            this.updateDeckStatsUI();
+            this.runNextObject();
+          } else if (this.appMode === 'atlas') {
+            this.renderAtlasMarkers();
+          } else {
+            this.renderHub();
+          }
+        };
       });
-      document.getElementById('hubQuickCheatBtn')?.addEventListener('click', () => {
-        TelegramBridge.hapticSelect();
-        this.openTheoryModal('all_search', true);
+
+      // Модалка рекомендации перехода на следующий уровень
+      const upgradeModal = document.getElementById('upgradeNudgeModal');
+      document.getElementById('upgradeNudgeAcceptBtn')?.addEventListener('click', () => {
+        TelegramBridge.hapticHit();
+        const nextTier = DifficultyEngine.getNextTier();
+        if (nextTier) {
+          DifficultyEngine.setTier(nextTier);
+          this.showToast(`Уровень повышен: ${DifficultyEngine.TIER_META[nextTier].fullLabel}`);
+        }
+        upgradeModal?.classList.remove('open');
+        this.syncTelegramBackButton();
+        if (this.appMode === 'objects') {
+          this.updateDeckStatsUI();
+          this.runNextObject();
+        } else {
+          this.renderHub();
+        }
       });
+      const dismissUpgrade = () => {
+        DifficultyEngine.dismissedUpgradeFrom.add(DifficultyEngine.tier);
+        upgradeModal?.classList.remove('open');
+        this.syncTelegramBackButton();
+        if (this.appMode === 'objects') {
+          this.runNextObject();
+        }
+      };
+      document.getElementById('upgradeNudgeStayBtn')?.addEventListener('click', dismissUpgrade);
+      document.getElementById('closeUpgradeNudgeModalBtn')?.addEventListener('click', dismissUpgrade);
+
+      // Кнопка сброса прогресса внизу Хаба
+      document.getElementById('hubResetAllBtn')?.addEventListener('click', () => this.resetAllProgress());
 
       // Модалка выбора раздела / темы
       const batchModal = document.getElementById('batchSelectModal');
@@ -3067,66 +3224,36 @@
         };
       });
 
-      // Интерактивная Шпаргалка (Поиск по 1039 объектам + 🎯 На карте)
-      const theoryModal = document.getElementById('theoryModal');
-      document.getElementById('hubOpenTheoryBtn')?.addEventListener('click', () => this.openTheoryModal('all_search', false));
-      document.getElementById('openTheoryHeaderBtn')?.addEventListener('click', () => this.openTheoryModal('all_search', false));
-      document.getElementById('closeTheoryModalBtn')?.addEventListener('click', () => {
-        theoryModal?.classList.remove('open');
-        this.syncTelegramBackButton();
-      });
-
-      const theorySearchInput = document.getElementById('theorySearchInput');
-      const theorySearchClear = document.getElementById('theorySearchClearBtn');
-      if (theorySearchInput) {
-        theorySearchInput.oninput = () => {
-          this.theorySearchQuery = theorySearchInput.value.trim();
-          if (theorySearchClear) theorySearchClear.style.display = this.theorySearchQuery ? 'inline-block' : 'none';
-          this.renderTheoryModal(this.activeTheoryTab);
+      // Поиск и управление внутри Атласа
+      const atlasSearchInput = document.getElementById('atlasSearchInput');
+      const atlasSearchClear = document.getElementById('atlasSearchClearBtn');
+      if (atlasSearchInput) {
+        atlasSearchInput.oninput = () => {
+          this.atlasSearchQuery = atlasSearchInput.value.trim();
+          if (atlasSearchClear) atlasSearchClear.style.display = this.atlasSearchQuery ? 'inline-block' : 'none';
+          if (this.appMode === 'atlas') {
+            this.renderAtlasMarkers();
+          }
         };
       }
-      if (theorySearchClear && theorySearchInput) {
-        theorySearchClear.onclick = () => {
-          theorySearchInput.value = '';
-          this.theorySearchQuery = '';
-          theorySearchClear.style.display = 'none';
-          this.renderTheoryModal(this.activeTheoryTab);
-          theorySearchInput.focus();
+      if (atlasSearchClear && atlasSearchInput) {
+        atlasSearchClear.onclick = () => {
+          atlasSearchInput.value = '';
+          this.atlasSearchQuery = '';
+          atlasSearchClear.style.display = 'none';
+          if (this.appMode === 'atlas') {
+            this.renderAtlasMarkers();
+          }
+          atlasSearchInput.focus();
         };
       }
 
-      document.querySelectorAll('#theoryTabs .deck-group-tab').forEach((tab) => {
-        tab.onclick = () => {
-          TelegramBridge.hapticSelect();
-          const ttab = tab.getAttribute('data-ttab') || 'all_search';
-          this.renderTheoryModal(ttab);
-        };
-      });
-
-      // Бэкап / Сброс прогресса
-      const backupModal = document.getElementById('backupModal');
-      document.getElementById('hubBackupBtn')?.addEventListener('click', () => {
-        TelegramBridge.hapticSelect();
-        this.renderBackupModal();
-        backupModal?.classList.add('open');
-        this.syncTelegramBackButton();
-      });
-      document.getElementById('closeBackupModalBtn')?.addEventListener('click', () => {
-        backupModal?.classList.remove('open');
-        this.syncTelegramBackButton();
-      });
-      document.getElementById('exportProgressBtn')?.addEventListener('click', () => this.exportProgressJSON());
-      document.getElementById('importProgressFileInput')?.addEventListener('change', (e) => this.importProgressJSON(e));
-      document.getElementById('resetCurrentDeckBtn')?.addEventListener('click', () => this.resetSelectedDeckProgress());
-      document.getElementById('resetAllProgressBtn')?.addEventListener('click', () => this.resetAllProgress());
-
-      // Атлас
       document.getElementById('atlasShowMapLabelsToggle')?.addEventListener('change', (e) => {
         UnifiedMapEngine.setAtlasLabelsVisible(Boolean(e.target.checked));
       });
       document.getElementById('atlasStartPracticeBtn')?.addEventListener('click', () => {
         TelegramBridge.hapticSelect();
-        if (NomenclatureEngine.practiceMode === 'atlas') NomenclatureEngine.practiceMode = 'smart';
+        NomenclatureEngine.practiceMode = 'locate';
         this.startObjectsPractice(NomenclatureEngine.activeDeckId);
       });
       document.getElementById('closeInspectorBtn')?.addEventListener('click', () => {
@@ -3165,7 +3292,12 @@
       document.getElementById('hudHintRegionBtn')?.addEventListener('click', () => this.triggerRegionHint());
       document.getElementById('hudRevealBtn')?.addEventListener('click', () => this.revealAnswer());
       document.getElementById('hudNextBtn')?.addEventListener('click', () => {
-        if (this.appMode === 'objects' && this.isItemAnswered && this.activeItem) {
+        if (
+          this.appMode === 'objects' &&
+          this.isItemAnswered &&
+          this.activeItem &&
+          DifficultyEngine.shouldShowCardStep(this.activeItem)
+        ) {
           this.openAnki3dModal(this.activeItem, false, this.lastDistanceKm);
         } else {
           this.advanceAfterPause();
@@ -3190,9 +3322,7 @@
       document.getElementById('resultsRepeatBtn')?.addEventListener('click', () => {
         document.getElementById('resultsModal')?.classList.remove('open');
         this.syncTelegramBackButton();
-        if (this.appMode === 'blitz') {
-          this.startBlitzChallenge();
-        } else if (this.appMode === 'continents') {
+        if (this.appMode === 'continents') {
           this.maintenanceSession = true;
           this.runNextContinentQuestion();
         } else {
@@ -3215,15 +3345,33 @@
       window.addEventListener('keydown', (e) => this.handleGlobalKeydown(e));
     },
 
-    openTheoryModal(tab = 'all_search', focusSearch = false) {
-      this.activeTheoryTab = tab;
-      const modal = document.getElementById('theoryModal');
-      this.renderTheoryModal(tab);
-      modal?.classList.add('open');
-      this.syncTelegramBackButton();
-      if (focusSearch) {
-        setTimeout(() => document.getElementById('theorySearchInput')?.focus(), 80);
+    promptDifficultyAndStart(deckId) {
+      this.pendingStartDeckId = deckId;
+      DifficultyEngine.syncUI();
+      const diffModal = document.getElementById('difficultyModal');
+      if (diffModal) {
+        diffModal.classList.add('open');
+        this.syncTelegramBackButton();
+      } else {
+        this.startObjectsPractice(deckId);
       }
+    },
+
+    showUpgradeNudgeModal() {
+      const nextKey = DifficultyEngine.getNextTier();
+      if (!nextKey) return;
+      const curMeta = DifficultyEngine.TIER_META[DifficultyEngine.tier];
+      const nextMeta = DifficultyEngine.TIER_META[nextKey];
+      const txtEl = document.getElementById('upgradeNudgeText');
+      if (txtEl && curMeta && nextMeta) {
+        txtEl.textContent = `Ты отлично идёшь на уровне «${curMeta.fullLabel}»! Попробуй уровень «${nextMeta.fullLabel}», чтобы добавить новые объекты и углубить характеристики.`;
+      }
+      const btnEl = document.getElementById('upgradeNudgeAcceptBtn');
+      if (btnEl && nextMeta) {
+        btnEl.textContent = `Повысить до ${nextMeta.fullLabel}`;
+      }
+      document.getElementById('upgradeNudgeModal')?.classList.add('open');
+      this.syncTelegramBackButton();
     },
 
     handleGlobalKeydown(e) {
@@ -3241,7 +3389,7 @@
           this.toggleAnki3dPeek(false);
           return;
         }
-        const openModals = ['theoryModal', 'batchSelectModal', 'backupModal'];
+        const openModals = ['batchSelectModal', 'difficultyModal', 'upgradeNudgeModal'];
         for (const mid of openModals) {
           const el = document.getElementById(mid);
           if (el && el.classList.contains('open')) {
@@ -3297,7 +3445,7 @@
         return;
       }
 
-      // 2. Диалог подзадачи (Раздел 1 — билеты материков)
+      // 2. Диалог подзадачи (Раздел 1 — материки)
       const sub = document.getElementById('subtaskOverlay');
       if (sub && sub.style.display !== 'none') {
         const capeCard = document.getElementById('subtaskCapeFlashcard');
@@ -3412,7 +3560,7 @@
       }
 
       // 6. «Уже знаю» (K / Л)
-      if (!this.isItemAnswered && this.appMode !== 'blitz' && (keyLower === 'k' || keyLower === 'л')) {
+      if (!this.isItemAnswered && (keyLower === 'k' || keyLower === 'л')) {
         e.preventDefault();
         this.handleSkipMastered();
         return;
@@ -3486,10 +3634,9 @@
     },
 
     // ========================================================================
-    // ГЛАВНЫЙ ХАБ СЕМЕСТРА БГУ (4 МОДУЛЯ В BENTO GRID)
+    // ГЛАВНЫЙ ХАБ (4 РАЗДЕЛА)
     // ========================================================================
     openHub() {
-      this.stopBlitzTimer();
       AutoAdvanceController.cancel();
       if (this.anki3dRevealTimer) {
         clearTimeout(this.anki3dRevealTimer);
@@ -3526,7 +3673,6 @@
     },
 
     renderHub() {
-      const objStats = NomenclatureEngine.getTotalStats();
       const contStats = ContinentExamEngine.getTotalStats();
 
       const streakEl = document.getElementById('hubStreakSummary');
@@ -3535,29 +3681,6 @@
           ? `Серия: ${Gamification.streak} (рек. ${Gamification.bestStreak})`
           : `Серия: ${Gamification.streak}`;
       }
-
-      const blitzLbl = document.getElementById('hubBlitzBtnLabel');
-      if (blitzLbl) {
-        blitzLbl.textContent = Gamification.bestBlitzScore > 0
-          ? `Блиц 60с (Рек: ${Gamification.bestBlitzScore})`
-          : 'Блиц 60 сек';
-      }
-
-      const totalSummary = document.getElementById('hubTotalMasteredSummary');
-      if (totalSummary) {
-        totalSummary.textContent = `${objStats.masteredCount} / ${objStats.total} (${objStats.masteredPct}%)`;
-      }
-      const totalBar = document.getElementById('hubTotalProgressBar');
-      if (totalBar) totalBar.style.width = `${objStats.masteredPct}%`;
-
-      const setText = (id, val) => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = String(val);
-      };
-      setText('hubAnkiNew', objStats.newCount);
-      setText('hubAnkiLearn', objStats.learnCount);
-      setText('hubAnkiReview', objStats.reviewCount);
-      setText('hubAnkiMastered', objStats.masteredCount);
 
       const grid = document.getElementById('hubModulesBentoGrid');
       if (grid) {
@@ -3570,14 +3693,14 @@
             badgeLabel: 'Раздел 1',
             icon: '🌍',
             title: 'Материки, острова, пустыни',
-            desc: 'Крайние мысы (21), полуострова (60), острова по типам (148), пустыни (38) и 55 билетов материков.',
+            desc: 'Крайние мысы (21), полуострова (60), острова по происхождению (148), пустыни (38) и вопросы по материкам.',
             mainDeckId: 'm1_all',
             chips: [
               { deckId: 'm1_capes', label: '🧭 Мысы' },
               { deckId: 'm1_peninsulas', label: '🏖️ Полуострова' },
               { deckId: 'm1_islands', label: '🏝️ Острова' },
               { deckId: 'm1_deserts', label: '🏜️ Пустыни' },
-              { type: 'continents', label: '🎓 Билеты материков', customCount: `${contStats.masteredCount}/${contStats.total}` }
+              { type: 'continents', label: '🌍 По материкам', customCount: `${contStats.masteredCount}/${contStats.total}` }
             ]
           },
           {
@@ -3586,14 +3709,14 @@
             badgeLabel: 'Раздел 2',
             icon: '⛰️',
             title: 'Горы, вулканы и равнины',
-            desc: '6 эпох складчатости (117 горных систем), 52 вулкана 4 поясов, 16 депрессий, низменности и плоскогорья.',
+            desc: '6 эпох складчатости (117 горных систем), 52 вулкана, 16 депрессий суши, низменности, возвышенности и плоскогорья.',
             mainDeckId: 'm2_all',
             chips: [
               { deckId: 'm2_orogeny', label: '🏔️ Горы (6 эпох)' },
               { deckId: 'm2_volcanoes', label: '🌋 Вулканы' },
               { deckId: 'm2_depressions', label: '📉 Депрессии' },
               { deckId: 'm2_lowlands', label: '🌾 Низменности' },
-              { deckId: 'm2_plateaus', label: '🏜️ Плоскогорья и плато' }
+              { deckId: 'm2_plateaus', label: '🏜️ Плоскогорья' }
             ]
           },
           {
@@ -3618,7 +3741,7 @@
             badgeLabel: 'Раздел 4',
             icon: '💧',
             title: 'Реки, водопады и озёра',
-            desc: '162 речные системы по материкам со стрежневыми линиями стока, 20 водопадов и 71 озеро мира.',
+            desc: '162 речные системы со стрежневыми линиями стока, 20 водопадов и 71 озеро мира.',
             mainDeckId: 'm4_all',
             chips: [
               { deckId: 'm4_rivers', label: '🏞️ Все реки' },
@@ -3630,9 +3753,9 @@
         ];
 
         modulesSpec.forEach((mod) => {
-          const st = NomenclatureEngine.getDeckStats(mod.mainDeckId);
+          const st = NomenclatureEngine.getDeckStats(mod.mainDeckId, true);
           const card = document.createElement('article');
-          card.className = 'bento-module-card kokonut-glow-card';
+          card.className = 'bento-module-card';
 
           const chipsHtml = mod.chips
             .map((ch) => {
@@ -3664,12 +3787,15 @@
               </div>
               <div class="bento-subdecks-wrap">${chipsHtml}</div>
             </div>
-            <div class="bento-mod-footer">
+            <div class="bento-mod-footer-3">
               <button type="button" class="bento-btn-start" data-start-deck="${mod.mainDeckId}">
-                ▶ ${st.masteredPct === 100 ? 'Повторить' : 'Учить раздел'}
+                🎯 ${st.masteredPct === 100 ? 'Повторить' : 'Учить'}
+              </button>
+              <button type="button" class="bento-btn-atlas" data-atlas-deck="${mod.mainDeckId}">
+                📖 Атлас
               </button>
               <button type="button" class="bento-btn-topics" data-open-group="${mod.id}">
-                📦 Подразделы
+                📋 Темы
               </button>
             </div>
           `;
@@ -3681,14 +3807,19 @@
                 this.startContinentExam('all', true);
               } else {
                 const did = btn.getAttribute('data-deck');
-                if (did) this.startObjectsPractice(did);
+                if (did) this.promptDifficultyAndStart(did);
               }
             };
           });
 
           card.querySelector('.bento-btn-start')?.addEventListener('click', () => {
             TelegramBridge.hapticSelect();
-            this.startObjectsPractice(mod.mainDeckId);
+            this.promptDifficultyAndStart(mod.mainDeckId);
+          });
+
+          card.querySelector('.bento-btn-atlas')?.addEventListener('click', () => {
+            TelegramBridge.hapticSelect();
+            this.openInteractiveAtlas(mod.mainDeckId);
           });
 
           card.querySelector('.bento-btn-topics')?.addEventListener('click', () => {
@@ -3706,15 +3837,14 @@
         });
       }
 
-      MotionFX.initGlowCards();
+      DifficultyEngine.syncUI();
       this.syncPracticeModeButtons();
     },
 
     // ========================================================================
-    // ИНТЕРАКТИВНЫЙ АТЛАС (СВОБОДНОЕ ИЗУЧЕНИЕ 1 039 ОБЪЕКТОВ + ПОЛИЛИНИИ)
+    // ИНТЕРАКТИВНЫЙ АТЛАС (ВСЕ ОБЪЕКТЫ ТЕМЫ + ПОИСК ПО НАЗВАНИЮ)
     // ========================================================================
     openInteractiveAtlas(deckId) {
-      this.stopBlitzTimer();
       AutoAdvanceController.cancel();
       this.closeHub();
       this.appMode = 'atlas';
@@ -3724,13 +3854,17 @@
       }
 
       this.atlasCategoryFilter = 'all';
+      this.atlasSearchQuery = '';
+      const atlasInput = document.getElementById('atlasSearchInput');
+      if (atlasInput) atlasInput.value = '';
+      const atlasClear = document.getElementById('atlasSearchClearBtn');
+      if (atlasClear) atlasClear.style.display = 'none';
 
       document.getElementById('map')?.classList.add('atlas-cursor');
       document.getElementById('taskHudCard').style.display = 'none';
       document.getElementById('subtaskOverlay').style.display = 'none';
       document.getElementById('briefingOverlay').style.display = 'none';
       document.getElementById('anki3dOverlay').style.display = 'none';
-      document.getElementById('blitzHudBar').style.display = 'none';
       document.getElementById('ankiDeckCounters').style.display = 'flex';
       document.getElementById('headerPmodeSwitch').style.display = 'flex';
       document.getElementById('atlasExploreBar').style.display = 'flex';
@@ -3741,6 +3875,7 @@
       document.getElementById('islandBatchTitle').textContent = `Атлас: ${curDeck.shortTitle}`;
 
       this.buildAtlasFilterPills(curDeck);
+      DifficultyEngine.syncUI();
       this.syncPracticeModeButtons();
       this.updateDeckStatsUI();
       this.renderAtlasMarkers();
@@ -3834,8 +3969,20 @@
         );
       }
 
-      document.getElementById('atlasCountLabel').textContent =
-        `На карте объектов: ${items.length} — кликните по маркеру или линии для изучения`;
+      const q = (this.atlasSearchQuery || '').trim().toLowerCase();
+      if (q) {
+        items = items.filter((it) => {
+          const hay = `${it.title || ''} ${it.displayTitle || ''} ${it.continent || ''} ${it.worldRegion || ''} ${it.categoryRu || ''}`.toLowerCase();
+          return hay.includes(q);
+        });
+      }
+
+      const cntEl = document.getElementById('atlasCountLabel');
+      if (cntEl) {
+        cntEl.textContent = items.length === 0 && q
+          ? `По запросу «${this.atlasSearchQuery}» ничего не найдено`
+          : `На карте: ${items.length} — кликните по маркеру или линии для изучения`;
+      }
 
       const catColorMap = {
         'Мысы': '#c084fc',
@@ -3866,6 +4013,7 @@
         if (it.geometryType === 'polyline' && Array.isArray(it.coords) && it.coords.length >= 2) {
           UnifiedMapEngine.drawPolylineWithArrows(it, UnifiedMapEngine.atlasMarkersLayer, {
             interactive: true,
+            skipArrows: true,
             onClick: () => this.openAtlasInspector(it)
           });
 
@@ -3917,6 +4065,15 @@
           this.openAtlasInspector(it);
         });
       });
+
+      if (q && items.length === 1) {
+        const only = items[0];
+        if (only.geometryType === 'polyline' && Array.isArray(only.coords) && only.coords.length >= 2) {
+          UnifiedMapEngine.fitPolylineSmart(only.coords);
+        } else if (typeof only.lat === 'number' && typeof only.lng === 'number') {
+          UnifiedMapEngine.flyToSmart(only.lat, only.lng, 5);
+        }
+      }
     },
 
     openAtlasInspector(item) {
@@ -3942,7 +4099,7 @@
       document.getElementById('inspectorTitle').textContent = item.title;
       document.getElementById('inspectorRegion').textContent = `🌍 ${item.continent || item.worldRegion || 'Мир'} • ${item.worldRegion || ''}`;
       document.getElementById('inspectorDesc').textContent =
-        item.ankiCard?.backMainAnswer || item.desc || 'Входит в экзаменационный минимум БГУ.';
+        item.ankiCard?.backMainAnswer || item.desc || 'Входит в программу курса.';
 
       const s = NomenclatureEngine.getState(item.id);
       const badge = document.getElementById('inspectorAnkiBadge');
@@ -4012,7 +4169,7 @@
       card.style.display = 'flex';
       document.getElementById('inspectorCategoryTag').textContent = 'Историко-географическая область';
       document.getElementById('inspectorAnkiBadge').className = 'anki-status-badge status-new';
-      document.getElementById('inspectorAnkiBadge').textContent = '📘 Билет';
+      document.getElementById('inspectorAnkiBadge').textContent = '📘 Обзор';
       document.getElementById('inspectorTitle').textContent = info.name;
       document.getElementById('inspectorRegion').textContent = info.etymology || 'Тихий / Атлантический океан';
       document.getElementById('inspectorDesc').textContent = `${info.desc} Состав: ${info.main_islands || ''}`;
@@ -4020,10 +4177,9 @@
     },
 
     // ========================================================================
-    // БИЛЕТЫ МАТЕРИКОВ РАЗДЕЛА 1 (55 ВОПРОСОВ ПО 6 КОНТИНЕНТАМ И ОКЕАНИИ)
+    // ХАРАКТЕРИСТИКИ МАТЕРИКОВ И ОКЕАНИИ (РАЗДЕЛ 1)
     // ========================================================================
     startContinentExam(contId, isAll = false) {
-      this.stopBlitzTimer();
       AutoAdvanceController.cancel();
       UnifiedMapEngine.clearFeedback();
       UnifiedMapEngine.clearSpecialEntities();
@@ -4041,16 +4197,15 @@
       document.getElementById('atlasExploreBar').style.display = 'none';
       document.getElementById('atlasInspectorCard').style.display = 'none';
       document.getElementById('anki3dOverlay').style.display = 'none';
-      document.getElementById('blitzHudBar').style.display = 'none';
       document.getElementById('headerPmodeSwitch').style.display = 'none';
       document.getElementById('ankiDeckCounters').style.display = 'flex';
       document.getElementById('toggleHudCollapseBtn').style.display = 'flex';
       this.hideCompassBadge();
 
       const activeCont = ContinentExamEngine.getActiveContinent();
-      document.getElementById('headerModeIcon').textContent = activeCont.id === 'all' ? '🎓' : '🌍';
+      document.getElementById('headerModeIcon').textContent = activeCont.id === 'all' ? '🌍' : '🗺️';
       document.getElementById('islandBatchTitle').textContent =
-        activeCont.id === 'all' ? 'Зачёт: Билеты материков (55)' : `Билет: ${activeCont.name}`;
+        activeCont.id === 'all' ? 'Характеристики материков (55)' : `Материк: ${activeCont.name}`;
 
       this.updateContinentStatsUI();
       this.updateHeaderStreakUI();
@@ -4134,7 +4289,7 @@
       };
 
       document.getElementById('briefingTag').textContent =
-        `${item.categoryRu || 'Устный билет'} • ${stBadges[state.state] || '⚪ НОВОЕ'}`;
+        `${item.categoryRu || 'Материк'} • ${stBadges[state.state] || '⚪ НОВОЕ'}`;
       document.getElementById('briefingContinentTitle').textContent = `🌍 ${contName}`;
       document.getElementById('briefingHeading').textContent = item.prompt;
       document.getElementById('briefingDesc').textContent = 'Выберите точный эталонный ответ:';
@@ -4446,7 +4601,7 @@
         ContinentExamEngine.recordError(item.id);
         Gamification.onAnswer(false);
         banner.className = 'subtask-result-banner is-error';
-        header.textContent = `❌ Ваш ответ: ${entered} м. Запомните точную цифру билета:`;
+        header.textContent = `❌ Ваш ответ: ${entered} м. Запомните точное значение:`;
       }
 
       content.innerHTML = `<strong>${item.pointName}</strong> — <strong>${item.heightStr}</strong> (${item.continentName}).`;
@@ -4666,7 +4821,7 @@
 
       document.getElementById('resultsTrophy').textContent = '🏆';
       document.getElementById('resultsTitle').textContent =
-        activeCont.id === 'all' ? 'Билеты материков Раздела 1 сданы!' : `Тема «${activeCont.name}» полностью освоена!`;
+        activeCont.id === 'all' ? 'Характеристики материков (Раздел 1) пройдены!' : `Тема «${activeCont.name}» полностью освоена!`;
       document.getElementById('resultsScoreBadge').textContent = `Выучено: ${st.masteredCount} из ${st.total} (100%)`;
       document.getElementById('resultsDesc').textContent =
         'Все площади, крайние точки, вершины, впадины и теоретические характеристики уверенно закреплены в памяти.';
@@ -4680,10 +4835,9 @@
     },
 
     // ========================================================================
-    // 2-STEP ANKI LOOP: ШАГ 1 (КАРТА/ТЕСТ) -> ШАГ 2 (3D FLIP-CARD + 4 SM-2)
+    // ОБУЧЕНИЕ ПО КАРТЕ: ПОИСК ОБЪЕКТА -> КАРТОЧКА ХАРАКТЕРИСТИК (ПО УРОВНЮ)
     // ========================================================================
     startObjectsPractice(deckId = NomenclatureEngine.activeDeckId, forcedItem = null) {
-      this.stopBlitzTimer();
       AutoAdvanceController.cancel();
       if (this.anki3dRevealTimer) {
         clearTimeout(this.anki3dRevealTimer);
@@ -4713,7 +4867,6 @@
       document.getElementById('subtaskOverlay').style.display = 'none';
       document.getElementById('briefingOverlay').style.display = 'none';
       document.getElementById('anki3dOverlay').style.display = 'none';
-      document.getElementById('blitzHudBar').style.display = 'none';
       document.getElementById('ankiDeckCounters').style.display = 'flex';
       document.getElementById('headerPmodeSwitch').style.display = 'flex';
       document.getElementById('toggleHudCollapseBtn').style.display = 'flex';
@@ -4721,6 +4874,7 @@
       document.getElementById('headerModeIcon').textContent = curDeck.icon || '🗺️';
       document.getElementById('islandBatchTitle').textContent = curDeck.shortTitle;
 
+      DifficultyEngine.syncUI();
       this.syncPracticeModeButtons();
       this.updateDeckStatsUI();
 
@@ -4754,6 +4908,18 @@
       }
 
       this.activeItem = nextObj;
+
+      // Океаны в обучении не нужно угадывать кликом по карте — сразу открываем характеристики
+      if (nextObj.isOceanEntity) {
+        this.isItemAnswered = true;
+        this.activeTaskFormat = 'locate';
+        document.getElementById('taskHudCard').style.display = 'none';
+        UnifiedMapEngine.showTargetPulsingMarker(nextObj, null, { showLabel: true, autoFly: true });
+        this.openAnki3dModal(nextObj, true, 0);
+        this.syncTelegramBackButton();
+        return;
+      }
+
       this.prepareAndDisplayObjectTask(nextObj);
       this.syncTelegramBackButton();
     },
@@ -4764,18 +4930,7 @@
       this.attemptsLeft = 3;
       this.usedRegionHint = false;
       this.lastDistanceKm = null;
-
-      const s = NomenclatureEngine.getState(item.id);
-      const pm = NomenclatureEngine.practiceMode;
-
-      if (pm === 'quiz') {
-        this.activeTaskFormat = 'quiz';
-      } else if (pm === 'locate') {
-        this.activeTaskFormat = 'locate';
-      } else {
-        this.activeTaskFormat = s.status === 'new' && !item.isCape ? 'quiz' : 'locate';
-      }
-
+      this.activeTaskFormat = 'locate';
       this.displayMapTask(item);
     },
 
@@ -4791,7 +4946,7 @@
       const s = NomenclatureEngine.getState(item.id);
       const badge = document.getElementById('ankiCardStatusBadge');
       const statusMap = {
-        new: ['status-new', this.activeTaskFormat === 'quiz' && NomenclatureEngine.practiceMode === 'smart' ? '🧠 ЗНАКОМСТВО' : '⚪ НОВОЕ'],
+        new: ['status-new', '⚪ НОВОЕ'],
         learning: ['status-learn', '🔴 ПОВТОР'],
         review: ['status-review', '🟡 ЗАКРЕП.'],
         mastered: ['status-mastered', '🟢 ВЫУЧЕНО']
@@ -4812,110 +4967,36 @@
       const hintBtn = document.getElementById('hudHintRegionBtn');
       const revealBtn = document.getElementById('hudRevealBtn');
 
-      if (this.activeTaskFormat === 'quiz') {
-        attemptsBox.style.display = 'none';
-        if (hintBtn) hintBtn.style.display = 'none';
-        if (revealBtn) revealBtn.style.display = 'none';
-
-        document.getElementById('taskPromptHeading').textContent =
-          `Что за объект (${item.categoryRu.toLowerCase()}) выделен на карте?`;
-
-        this.setHudFeedback(
-          'neutral',
-          '🔎',
-          'Шаг 1 из 2: изучите объект на карте и выберите его название:'
-        );
-
-        UnifiedMapEngine.showTargetPulsingMarker(item, null, { showLabel: false, autoFly: true });
-
-        quizGrid.style.display = 'grid';
-        quizGrid.innerHTML = '';
-
-        const distractors = this.getDistractors(item, 3);
-        const options = [item, ...distractors];
-        for (let i = options.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [options[i], options[j]] = [options[j], options[i]];
-        }
-
-        let hadMistake = false;
-        options.forEach((optItem, idx) => {
-          const btn = document.createElement('button');
-          btn.type = 'button';
-          btn.className = 'hud-quiz-chip';
-          const optLabel = optItem.displayTitle || optItem.title;
-          btn.innerHTML = `<span class="quiz-num">${idx + 1}</span><span>${optLabel}</span>`;
-
-          btn.onclick = () => {
-            if (this.isItemAnswered) return;
-
-            if (optItem.id === item.id) {
-              this.isItemAnswered = true;
-              btn.classList.add('correct');
-              quizGrid.querySelectorAll('.hud-quiz-chip').forEach((b) => { b.disabled = true; });
-              if (skipBtn) skipBtn.style.display = 'none';
-
-              UnifiedMapEngine.clearFeedback();
-              UnifiedMapEngine.showTargetPulsingMarker(item, null, { showLabel: true, autoFly: false });
-
-              if (!hadMistake) {
-                TelegramBridge.hapticHit();
-                AudioEngine.playSuccess(Gamification.streak + 1);
-                this.setHudFeedback('success', '✅', `Верно: <strong>${item.displayTitle}</strong>! Переходим к теории билета БГУ...`);
-              } else {
-                TelegramBridge.hapticSelect();
-                AudioEngine.playWarmthCloser();
-                this.setHudFeedback('warning', '📌', `Это <strong>${item.displayTitle}</strong>. Повторите карточку теории...`);
-              }
-
-              this.anki3dRevealTimer = setTimeout(() => {
-                if (this.appMode === 'objects' && this.activeItem === item) {
-                  this.openAnki3dModal(item, !hadMistake, 0);
-                }
-              }, 380);
-            } else {
-              hadMistake = true;
-              btn.classList.add('wrong');
-              btn.disabled = true;
-              TelegramBridge.hapticMiss();
-              AudioEngine.playError();
-            }
-          };
-
-          quizGrid.appendChild(btn);
-        });
-      } else {
-        // Классический слепой поиск на немой карте (Шаг 1 из 2)
-        quizGrid.style.display = 'none';
-        attemptsBox.style.display = 'flex';
-        if (hintBtn) {
-          hintBtn.style.display = 'inline-flex';
-          hintBtn.disabled = false;
-        }
-        if (revealBtn) revealBtn.style.display = 'inline-flex';
-
-        document.getElementById('taskPromptHeading').textContent = item.prompt;
-        this.resetAttemptDotsUI();
-
-        const activeDeck = NomenclatureEngine.getActiveDeck();
-        const regionalRiverDecks = [
-          'm4_rivers_eurasia', 'm4_rivers_africa', 'm4_rivers_north_america',
-          'm4_rivers_south_america', 'm4_rivers_australia'
-        ];
-        if (regionalRiverDecks.includes(activeDeck.id) && UnifiedMapEngine.map.getZoom() < 2.8) {
-          UnifiedMapEngine.flyToContinent(item.continent);
-        }
-
-        const extraPromptHint = item.geometryType === 'polyline'
-          ? 'Шаг 1 из 2: кликните в любую часть линии объекта на карте (3 попытки).'
-          : item.isCape
-            ? 'Шаг 1 из 2: кликните на крайнюю точку материка, затем разберите теорию.'
-            : item.bounds
-              ? 'Шаг 1 из 2: кликните в область объекта на карте (3 попытки).'
-              : 'Шаг 1 из 2: укажите объект на немой карте (3 попытки).';
-
-        this.setHudFeedback('neutral', '🎯', extraPromptHint);
+      quizGrid.style.display = 'none';
+      attemptsBox.style.display = 'flex';
+      if (hintBtn) {
+        hintBtn.style.display = 'inline-flex';
+        hintBtn.disabled = false;
       }
+      if (revealBtn) revealBtn.style.display = 'inline-flex';
+
+      document.getElementById('taskPromptHeading').textContent = item.prompt;
+      this.resetAttemptDotsUI();
+
+      const activeDeck = NomenclatureEngine.getActiveDeck();
+      const regionalRiverDecks = [
+        'm4_rivers_eurasia', 'm4_rivers_africa', 'm4_rivers_north_america',
+        'm4_rivers_south_america', 'm4_rivers_australia'
+      ];
+      if (regionalRiverDecks.includes(activeDeck.id) && UnifiedMapEngine.map.getZoom() < 2.8) {
+        UnifiedMapEngine.flyToContinent(item.continent);
+      }
+
+      const needsCard = DifficultyEngine.shouldShowCardStep(item);
+      const extraPromptHint = item.geometryType === 'polyline'
+        ? (needsCard ? 'Кликните на линию объекта на карте, затем проверьте характеристики.' : 'Кликните в любую часть линии объекта на карте (3 попытки).')
+        : item.isCape
+          ? 'Укажите крайнюю точку материка на карте (3 попытки).'
+          : item.bounds
+            ? 'Укажите область объекта на карте (3 попытки).'
+            : 'Найдите объект на карте (3 попытки).';
+
+      this.setHudFeedback('neutral', '🎯', extraPromptHint);
     },
 
     openAnki3dModal(item, isHit = true, distKm = null) {
@@ -4946,13 +5027,21 @@
         module3: 'Раздел 3 • Океан',
         module4: 'Раздел 4 • Воды суши'
       };
-      document.getElementById('anki3dModulePill').textContent = modNames[item.moduleId] || 'Номенклатура БГУ';
+      document.getElementById('anki3dModulePill').textContent = modNames[item.moduleId] || 'Номенклатура';
+
+      const impBadge = document.getElementById('anki3dImportantBadge');
+      if (impBadge) {
+        impBadge.style.display = item.isImportant ? 'inline-flex' : 'none';
+      }
 
       const hitPill = document.getElementById('anki3dHitStatusPill');
       if (hitPill) {
-        if (isHit) {
+        if (item.isOceanEntity) {
           hitPill.classList.remove('miss');
-          hitPill.textContent = distKm === 0 ? '🔎 Верно узнано' : '🎯 Точно на карте';
+          hitPill.textContent = '🌊 Мировой океан';
+        } else if (isHit) {
+          hitPill.classList.remove('miss');
+          hitPill.textContent = distKm === 0 ? '🔎 Верно' : '🎯 Точно на карте';
         } else {
           hitPill.classList.add('miss');
           hitPill.textContent = distKm ? `📍 Промах ${distKm.toLocaleString('ru-RU')} км` : '📍 Показано на карте';
@@ -4969,7 +5058,7 @@
 
       document.getElementById('anki3dFrontTitle').textContent = title;
       document.getElementById('anki3dFrontQuestion').textContent =
-        cardData.frontQuestion || `Вспомните ключевые географические характеристики объекта «${title}»:`;
+        cardData.frontQuestion || `Вспомните основные характеристики объекта «${title}»:`;
 
       document.getElementById('anki3dBackTitle').textContent = title;
       document.getElementById('anki3dBackMainAnswer').textContent =
@@ -4984,19 +5073,38 @@
             { label: 'Регион', value: item.continent || item.worldRegion || 'Мир' }
           ];
 
-      metrics.slice(0, 6).forEach((m) => {
+      metrics.slice(0, 6).forEach((m, idx) => {
         if (!m || !m.value || m.value === '—') return;
         const box = document.createElement('div');
-        box.className = 'anki3d-metric-box';
-        box.innerHTML = `<span class="anki3d-metric-lbl">${m.label}</span><span class="anki3d-metric-val">${m.value}</span>`;
+        const lblLow = String(m.label || '').toLowerCase();
+        let boxCls = 'anki3d-metric-box';
+        let labelText = m.label;
+
+        if (item.category === 'mountains') {
+          if (lblLow.includes('складчат') || lblLow.includes('эпох')) {
+            boxCls += ' is-important';
+            labelText = `${m.label} ⭐`;
+          } else if (lblLow.includes('высот') || lblLow.includes('вершин')) {
+            if (item.isFamousHeight) {
+              boxCls += ' is-important';
+              labelText = `${m.label} ⭐ важно`;
+            } else {
+              boxCls += ' is-reference';
+              labelText = `${m.label} (справочно)`;
+            }
+          }
+        } else if (item.isImportant && idx === 0) {
+          boxCls += ' is-important';
+        }
+
+        box.className = boxCls;
+        box.innerHTML = `<span class="anki3d-metric-lbl">${labelText}</span><span class="anki3d-metric-val">${m.value}</span>`;
         metricsGrid.appendChild(box);
       });
 
       document.getElementById('anki3dBackNote').textContent =
         cardData.backNote || (item.desc && item.desc !== cardData.backMainAnswer ? item.desc : '');
 
-      // Если объект не найден с карты — для удобства сразу подсветим, какие кнопки логичны,
-      // но оставляем честный выбор всех 4 кнопок SM-2!
       overlay.style.display = 'flex';
       MotionFX.pop(overlay.querySelector('.anki3d-modal-sheet'));
       this.syncTelegramBackButton();
@@ -5052,6 +5160,10 @@
       document.getElementById('anki3dOverlay').style.display = 'none';
       this.updateDeckStatsUI();
       this.checkMilestones();
+      if (DifficultyEngine.shouldSuggestUpgrade(NomenclatureEngine.activeDeckId)) {
+        this.showUpgradeNudgeModal();
+        return;
+      }
       this.runNextObject();
     },
 
@@ -5140,11 +5252,6 @@
       if (!clickedLatLng) return;
       if (this.appMode === 'hub' || this.appMode === 'atlas') return;
 
-      if (this.appMode === 'blitz') {
-        this.handleBlitzMapClick(clickedLatLng);
-        return;
-      }
-
       if (!this.activeItem || this.isItemAnswered || this.activeTaskFormat === 'quiz') return;
 
       const item = this.activeItem;
@@ -5165,7 +5272,7 @@
         const isCleanFirstTry = attemptIndex === 1 && !this.usedRegionHint;
         TelegramBridge.hapticHit();
 
-        // Раздел билетов материков (55 вопросов) сохраняет специализированный 3-ступенчатый опрос
+        // Раздел характеристик материков сохраняет 3-ступенчатый опрос
         if (this.appMode === 'continents') {
           UnifiedMapEngine.showTargetPulsingMarker(item, null, { showLabel: false, autoFly: true });
           AudioEngine.playWarmthCloser();
@@ -5173,23 +5280,58 @@
           return;
         }
 
-        // Номенклатура (все 4 модуля, 1 039 объектов): Шаг 1 пройден -> Шаг 2 (3D Flip-Card + SM-2)
+        // Номенклатура: показываем цель и либо открываем карточку характеристик, либо засчитываем сразу
         UnifiedMapEngine.showTargetPulsingMarker(item, null, { showLabel: true, autoFly: false });
         AudioEngine.playSuccess(Gamification.streak + 1);
 
-        this.setHudFeedback(
-          'success',
-          '🎯',
-          isCleanFirstTry
-            ? `Точно с 1-й попытки: <strong>${item.displayTitle}</strong>! Переходим к карточке теории...`
-            : `Найдено (${attemptIndex}-я попытка): <strong>${item.displayTitle}</strong>. Проверьте теорию билета...`
-        );
+        if (DifficultyEngine.shouldShowCardStep(item)) {
+          this.setHudFeedback(
+            'success',
+            '🎯',
+            isCleanFirstTry
+              ? `Точно с 1-й попытки: <strong>${item.displayTitle}</strong>! Проверяем характеристики...`
+              : `Найдено (${attemptIndex}-я попытка): <strong>${item.displayTitle}</strong>. Проверяем характеристики...`
+          );
 
-        this.anki3dRevealTimer = setTimeout(() => {
-          if (this.appMode === 'objects' && this.activeItem === item) {
-            this.openAnki3dModal(item, isCleanFirstTry || attemptIndex === 2, hitCheck.distKm);
+          this.anki3dRevealTimer = setTimeout(() => {
+            if (this.appMode === 'objects' && this.activeItem === item) {
+              this.openAnki3dModal(item, isCleanFirstTry || attemptIndex === 2, hitCheck.distKm);
+            }
+          }, 360);
+        } else {
+          const grade = isCleanFirstTry ? 4 : 3;
+          NomenclatureEngine.recordSm2Grade(item.id, grade);
+          if (item.isCape) {
+            CapeSyncBridge.syncToContinentExam(item.id, grade >= 4 ? 'mastered' : 'success');
           }
-        }, 360);
+          Gamification.onAnswer(isCleanFirstTry || attemptIndex === 2);
+          this.updateDeckStatsUI();
+          this.checkMilestones();
+
+          this.setHudFeedback(
+            'success',
+            '✅',
+            isCleanFirstTry
+              ? `Точно с 1-й попытки: <strong>${item.displayTitle}</strong>!`
+              : `Найдено (${attemptIndex}-я попытка): <strong>${item.displayTitle}</strong>!`
+          );
+
+          const nextBtn = document.getElementById('hudNextBtn');
+          if (nextBtn) {
+            nextBtn.style.display = 'inline-flex';
+            nextBtn.innerHTML = '<span>Дальше</span><span>→</span>';
+          }
+
+          AutoAdvanceController.schedule(950, () => {
+            if (this.appMode === 'objects') {
+              if (DifficultyEngine.shouldSuggestUpgrade(NomenclatureEngine.activeDeckId)) {
+                this.showUpgradeNudgeModal();
+                return;
+              }
+              this.runNextObject();
+            }
+          });
+        }
         return;
       }
 
@@ -5272,31 +5414,54 @@
         return;
       }
 
-      // В 2-Step Anki Loop показываем верное положение на карте и открываем 3D-карточку SM-2
-      UnifiedMapEngine.showTargetPulsingMarker(item, lastClickLatLng, {
-        showLabel: true,
-        autoFly: true,
-        onTargetClick: () => this.openAnki3dModal(item, false, distKm)
-      });
-
       const distNote = distKm !== null ? ` (промах ${distKm.toLocaleString('ru-RU')} км)` : '';
-      this.setHudFeedback(
-        'error',
-        '📍',
-        `Точка показана${distNote}: <strong>${item.displayTitle}</strong>. Открываем карточку теории и оценки SM-2...`
-      );
 
-      const nextBtn = document.getElementById('hudNextBtn');
-      if (nextBtn) {
-        nextBtn.style.display = 'inline-flex';
-        nextBtn.innerHTML = '<span>Карточка SM-2</span><span>→</span>';
-      }
+      if (DifficultyEngine.shouldShowCardStep(item)) {
+        UnifiedMapEngine.showTargetPulsingMarker(item, lastClickLatLng, {
+          showLabel: true,
+          autoFly: true,
+          onTargetClick: () => this.openAnki3dModal(item, false, distKm)
+        });
 
-      this.anki3dRevealTimer = setTimeout(() => {
-        if (this.appMode === 'objects' && this.activeItem === item) {
-          this.openAnki3dModal(item, false, distKm);
+        this.setHudFeedback(
+          'error',
+          '📍',
+          `Точка показана${distNote}: <strong>${item.displayTitle}</strong>. Открываем карточку...`
+        );
+
+        const nextBtn = document.getElementById('hudNextBtn');
+        if (nextBtn) {
+          nextBtn.style.display = 'inline-flex';
+          nextBtn.innerHTML = '<span>Карточка</span><span>→</span>';
         }
-      }, 650);
+
+        this.anki3dRevealTimer = setTimeout(() => {
+          if (this.appMode === 'objects' && this.activeItem === item) {
+            this.openAnki3dModal(item, false, distKm);
+          }
+        }, 650);
+      } else {
+        UnifiedMapEngine.showTargetPulsingMarker(item, lastClickLatLng, {
+          showLabel: true,
+          autoFly: true
+        });
+        NomenclatureEngine.recordSm2Grade(item.id, 1);
+        if (item.isCape) CapeSyncBridge.syncToContinentExam(item.id, 'error');
+        Gamification.onAnswer(false);
+        this.updateDeckStatsUI();
+
+        this.setHudFeedback(
+          'error',
+          '📍',
+          `Точка показана${distNote}: <strong>${item.displayTitle}</strong>`
+        );
+
+        const nextBtn = document.getElementById('hudNextBtn');
+        if (nextBtn) {
+          nextBtn.style.display = 'inline-flex';
+          nextBtn.innerHTML = '<span>Дальше</span><span>→</span>';
+        }
+      }
     },
 
     advanceAfterPause() {
@@ -5367,7 +5532,7 @@
           this.celebratedMilestones.add(m);
           if (totalMast === m) {
             MotionFX.confettiBurst(55);
-            this.showToast(`🎉 Рубеж взят: выучено уже ${m} из ${stats.total} объектов курса БГУ!`);
+            this.showToast(`🎉 Рубеж взят: выучено уже ${m} из ${stats.total} объектов!`);
           }
         }
       });
@@ -5385,7 +5550,7 @@
       document.getElementById('resultsTitle').textContent = `Тема «${deck.shortTitle}» выучена на 100%!`;
       document.getElementById('resultsScoreBadge').textContent = `Освоено объектов: ${st.masteredCount} из ${st.total}`;
       document.getElementById('resultsDesc').textContent =
-        'Отличный результат! Переходите к следующему подразделу программы БГУ или закрепите материал.';
+        'Отличный результат! Переходите к следующей теме или закрепите материал.';
 
       const nextBtn = document.getElementById('resultsNextBtn');
       nextBtn.style.display = 'inline-flex';
@@ -5398,11 +5563,6 @@
     handleResultsNext() {
       document.getElementById('resultsModal')?.classList.remove('open');
       this.syncTelegramBackButton();
-
-      if (this.appMode === 'blitz') {
-        this.startBlitzChallenge();
-        return;
-      }
 
       if (this.appMode === 'continents') {
         const curId = ContinentExamEngine.activeDeckId;
@@ -5435,200 +5595,7 @@
     },
 
     // ========================================================================
-    // СКОРОСТНОЙ ЧЕЛЛЕНДЖ «БЛИЦ 60 СЕКУНД»
-    // ========================================================================
-    startBlitzChallenge() {
-      this.stopBlitzTimer();
-      AutoAdvanceController.cancel();
-      UnifiedMapEngine.clearFeedback();
-      UnifiedMapEngine.clearSpecialEntities();
-      UnifiedMapEngine.clearAtlasMarkers();
-      UnifiedMapEngine.setAtlasLabelsVisible(false);
-      document.getElementById('map')?.classList.remove('atlas-cursor');
-
-      this.closeHub();
-      this.appMode = 'blitz';
-      this.hideCompassBadge();
-
-      document.getElementById('atlasExploreBar').style.display = 'none';
-      document.getElementById('atlasInspectorCard').style.display = 'none';
-      document.getElementById('subtaskOverlay').style.display = 'none';
-      document.getElementById('briefingOverlay').style.display = 'none';
-      document.getElementById('anki3dOverlay').style.display = 'none';
-      document.getElementById('headerPmodeSwitch').style.display = 'none';
-      document.getElementById('ankiDeckCounters').style.display = 'none';
-      document.getElementById('blitzHudBar').style.display = 'flex';
-      document.getElementById('toggleHudCollapseBtn').style.display = 'flex';
-
-      document.getElementById('headerModeIcon').textContent = '⚡';
-      document.getElementById('islandBatchTitle').textContent = 'Блиц 60 сек';
-
-      const candidates = NomenclatureEngine.objects.filter(
-        (it) => it.difficulty !== 'Сложный' || NomenclatureEngine.getState(it.id).status !== 'new'
-      );
-      const pool = [...(candidates.length > 20 ? candidates : NomenclatureEngine.objects)];
-      for (let i = pool.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [pool[i], pool[j]] = [pool[j], pool[i]];
-      }
-
-      this.blitzState = {
-        timerId: null,
-        secondsLeft: 60,
-        score: 0,
-        combo: 1,
-        hits: 0,
-        pool
-      };
-
-      UnifiedMapEngine.resetView();
-      this.updateBlitzHud();
-      this.nextBlitzTarget();
-      this.syncTelegramBackButton();
-
-      this.blitzState.timerId = setInterval(() => {
-        this.blitzState.secondsLeft--;
-        this.updateBlitzHud();
-        if (this.blitzState.secondsLeft <= 0) {
-          this.finishBlitzChallenge();
-        }
-      }, 1000);
-    },
-
-    stopBlitzTimer() {
-      if (this.blitzState && this.blitzState.timerId) {
-        clearInterval(this.blitzState.timerId);
-        this.blitzState.timerId = null;
-      }
-    },
-
-    updateBlitzHud() {
-      const tEl = document.getElementById('blitzTimerText');
-      const sEl = document.getElementById('blitzScoreText');
-      const cEl = document.getElementById('blitzComboText');
-      if (tEl) tEl.textContent = `⏱️ ${Math.max(0, this.blitzState.secondsLeft)}с`;
-      if (sEl) sEl.textContent = `Очки: ${this.blitzState.score}`;
-      if (cEl) cEl.textContent = `🔥 x${this.blitzState.combo}`;
-    },
-
-    nextBlitzTarget() {
-      UnifiedMapEngine.clearFeedback();
-      if (this.blitzState.pool.length === 0) {
-        this.finishBlitzChallenge();
-        return;
-      }
-
-      const item = this.blitzState.pool.pop();
-      this.activeItem = item;
-      this.activeTaskFormat = 'locate';
-      this.isItemAnswered = false;
-
-      const hud = document.getElementById('taskHudCard');
-      hud.style.display = 'block';
-      hud.classList.remove('collapsed');
-
-      document.getElementById('hudQuizOptionsGrid').style.display = 'none';
-      document.getElementById('taskAttemptsBox').style.display = 'none';
-      document.getElementById('hudSkipBtn').style.display = 'none';
-      document.getElementById('hudHintRegionBtn').style.display = 'none';
-      document.getElementById('hudRevealBtn').style.display = 'none';
-      document.getElementById('hudNextBtn').style.display = 'none';
-
-      document.getElementById('taskCategoryTag').textContent = `⚡ ${item.categoryRu}`;
-      document.getElementById('taskContinentTag').textContent = `🌍 ${item.continent || item.worldRegion || 'Мир'}`;
-      const badge = document.getElementById('ankiCardStatusBadge');
-      badge.className = 'anki-status-badge status-review';
-      badge.textContent = `+${100 * this.blitzState.combo} очк.`;
-
-      document.getElementById('taskPromptHeading').textContent = item.isCape
-        ? `Покажите мыс: ${item.displayTitle} (${item.continent})`
-        : item.prompt;
-
-      this.setHudFeedback('neutral', '⚡', '1 клик на объект! Каждые 5 попаданий подряд дают +3 сек времени.');
-    },
-
-    handleBlitzMapClick(clickedLatLng) {
-      if (!this.activeItem || this.isItemAnswered) return;
-      this.isItemAnswered = true;
-
-      const item = this.activeItem;
-      const zoom = UnifiedMapEngine.map ? UnifiedMapEngine.map.getZoom() : 3;
-      const hit = GeoMath.checkSpatialHit(clickedLatLng.lat, clickedLatLng.lng, item, zoom);
-
-      if (hit.isHit) {
-        this.blitzState.hits++;
-        const gained = 100 * this.blitzState.combo;
-        this.blitzState.score += gained;
-        this.blitzState.combo = Math.min(8, this.blitzState.combo + 1);
-
-        let bonusTxt = '';
-        if (this.blitzState.hits % 5 === 0) {
-          this.blitzState.secondsLeft += 3;
-          bonusTxt = ' • ⏱️ +3 сек бонус!';
-        }
-
-        TelegramBridge.hapticHit();
-        AudioEngine.playSuccess(this.blitzState.combo);
-        UnifiedMapEngine.showTargetPulsingMarker(item, null, { showLabel: true, autoFly: false });
-        this.updateBlitzHud();
-        this.setHudFeedback('success', '⚡', `+${gained} очков: <strong>${item.displayTitle}</strong>${bonusTxt}`);
-
-        setTimeout(() => {
-          if (this.appMode === 'blitz') this.nextBlitzTarget();
-        }, 480);
-      } else {
-        this.blitzState.combo = 1;
-        TelegramBridge.hapticMiss();
-        AudioEngine.playError();
-        MotionFX.shakeHud();
-        UnifiedMapEngine.placeAttemptPin(clickedLatLng, 1, '#f43f5e');
-        UnifiedMapEngine.showTargetPulsingMarker(item, clickedLatLng, { showLabel: true, autoFly: false });
-        this.updateBlitzHud();
-        this.setHudFeedback(
-          'error',
-          '❌',
-          `Мимо (${hit.distKm.toLocaleString('ru-RU')} км) — это был <strong>${item.displayTitle}</strong>`
-        );
-
-        setTimeout(() => {
-          if (this.appMode === 'blitz') this.nextBlitzTarget();
-        }, 780);
-      }
-    },
-
-    finishBlitzChallenge() {
-      this.stopBlitzTimer();
-      const score = this.blitzState.score;
-      const isNewRecord = score > Gamification.bestBlitzScore;
-      if (isNewRecord) {
-        Gamification.bestBlitzScore = score;
-        Gamification.save();
-      }
-
-      AudioEngine.playCelebration();
-      if (score > 0) MotionFX.confettiBurst(isNewRecord ? 110 : 65);
-
-      const modal = document.getElementById('resultsModal');
-      document.getElementById('resultsTrophy').textContent = isNewRecord ? '🏆' : '⚡';
-      document.getElementById('resultsTitle').textContent = isNewRecord
-        ? 'Новый рекорд Блиц-челленджа!'
-        : 'Время вышло! Блиц завершён';
-      document.getElementById('resultsScoreBadge').textContent =
-        `Счёт: ${score} очк. • Точных попаданий: ${this.blitzState.hits}`;
-      document.getElementById('resultsDesc').textContent =
-        `Ваш лучший рекорд: ${Gamification.bestBlitzScore} очков. Отличная тренировка пространственной памяти!`;
-
-      const nextBtn = document.getElementById('resultsNextBtn');
-      nextBtn.style.display = 'inline-flex';
-      nextBtn.textContent = 'Сыграть ещё раз ⚡';
-      document.getElementById('resultsRepeatBtn').style.display = 'none';
-
-      modal?.classList.add('open');
-      this.syncTelegramBackButton();
-    },
-
-    // ========================================================================
-    // ШТОРКА ПОИСКА, ВЫБОР РАЗДЕЛОВ, ИНТЕРАКТИВНАЯ ШПАРГАЛКА И БЭКАП
+    // ШТОРКА ПОИСКА И ВЫБОР РАЗДЕЛОВ
     // ========================================================================
     updateDeckStatsUI() {
       const st = NomenclatureEngine.getDeckStats(NomenclatureEngine.activeDeckId);
@@ -5658,7 +5625,7 @@
         const allContItems = ContinentExamEngine.getDeckItems();
         const st = ContinentExamEngine.getDeckStats();
 
-        document.getElementById('drawerMainTitle').textContent = `📋 Билет: ${activeCont.name}`;
+        document.getElementById('drawerMainTitle').textContent = `📋 Материк: ${activeCont.name}`;
         document.getElementById('drawerSubTitle').textContent = `Всего вопросов в теме: ${st.total}`;
         document.getElementById('drawerPercentLabel').textContent = `${st.masteredCount}/${st.total} (${st.masteredPct}%)`;
         document.getElementById('drawerFillBar').style.width = `${st.masteredPct}%`;
@@ -5700,7 +5667,7 @@
       }
 
       const activeDeck = this.appMode === 'hub' || q.length > 0
-        ? NomenclatureEngine.decksMap.get('semester_all')
+        ? NomenclatureEngine.decksMap.get('all')
         : NomenclatureEngine.getActiveDeck();
       const deckItems = activeDeck.objectIds.map((id) => NomenclatureEngine.objectsMap.get(id)).filter(Boolean);
       const st = NomenclatureEngine.getDeckStats(activeDeck.id);
@@ -5770,7 +5737,7 @@
       const isContMode = !forceObjects && this.appMode === 'continents';
 
       if (isContMode) {
-        document.getElementById('batchModalHeading').textContent = '🌍 Выберите тему билетов Раздела 1';
+        document.getElementById('batchModalHeading').textContent = '🌍 Выберите тему (Раздел 1)';
         document.getElementById('batchModalSub').textContent =
           'Материки, глобальные метрики Земли, области Океании и глоссарий пустынь';
         if (tabsWrap) tabsWrap.style.display = 'none';
@@ -5836,6 +5803,8 @@
           document.getElementById('batchSelectModal')?.classList.remove('open');
           if (this.appMode === 'atlas') {
             this.openInteractiveAtlas(d.id);
+          } else if (this.appMode === 'hub') {
+            this.promptDifficultyAndStart(d.id);
           } else {
             this.startObjectsPractice(d.id);
           }
@@ -5844,325 +5813,9 @@
       });
     },
 
-    locateObjectFromCheatSheet(item) {
-      if (!item) return;
-      TelegramBridge.hapticSelect();
-      document.getElementById('theoryModal')?.classList.remove('open');
-      this.openInteractiveAtlas(item.moduleId || 'semester_all');
-      this.openAtlasInspector(item);
-      this.syncTelegramBackButton();
-    },
-
-    renderTheoryModal(tab = 'all_search') {
-      this.activeTheoryTab = tab;
-      const body = document.getElementById('theoryContentBody');
-      if (!body) return;
-
-      document.querySelectorAll('#theoryTabs .deck-group-tab').forEach((t) => {
-        t.classList.toggle('active', t.getAttribute('data-ttab') === tab);
-      });
-
-      const gd = window.GEOGRAPHY_DATA || {};
-
-      // Вкладка сводных таблиц материков, Океании и типов пустынь
-      if (tab === 'continents') {
-        const rowsHtml = (gd.continents || [])
-          .map((c) => {
-            const ep = c.extreme_points || {};
-            const capesHtml = ['north', 'south', 'west', 'east']
-              .filter((k) => ep[k])
-              .map((k) => {
-                const lbl = { north: 'С', south: 'Ю', west: 'З', east: 'В' }[k];
-                return `<div><strong>${lbl}:</strong> ${ep[k].name} <span style="color:var(--text-dim);">(${ep[k].desc})</span></div>`;
-              })
-              .join('');
-
-            return `
-              <tr>
-                <td><strong>${c.name}</strong></td>
-                <td>${c.area_total}</td>
-                <td>${capesHtml}</td>
-                <td><strong>${c.max_height?.point || '—'}</strong><br><span style="color:var(--emerald); font-weight:700;">${c.max_height?.height || ''}</span></td>
-                <td><strong>${c.min_height?.point || '—'}</strong><br><span style="color:var(--sky); font-weight:700;">${c.min_height?.height || ''}</span></td>
-                <td>${c.mean_height}</td>
-              </tr>
-            `;
-          })
-          .join('');
-
-        const em = gd.earth_metrics || {};
-        const specials = gd.special_entities || [];
-        const glossary = gd.desert_types_glossary || [];
-
-        const specialCards = specials
-          .map((sp) => `
-            <div class="theory-info-card">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
-                <h4>🏝️ ${sp.name}</h4>
-                <button type="button" class="btn-locate-on-map show-special-map-btn" data-spid="${sp.id}">
-                  🎯 На карте
-                </button>
-              </div>
-              ${sp.etymology ? `<p style="color:var(--sky); font-size:12.5px; margin-bottom:5px;"><em>Этимология:</em> ${sp.etymology}</p>` : ''}
-              <p>${sp.desc || ''}</p>
-              ${sp.main_islands ? `<p style="margin-top:6px;"><strong>Состав:</strong> ${sp.main_islands}</p>` : ''}
-            </div>
-          `)
-          .join('');
-
-        const glossaryHtml = glossary
-          .map((g) => `
-            <div class="theory-info-card">
-              <h4>🏜️ ${g.term}</h4>
-              <p style="color:var(--amber); font-weight:600; margin-bottom:6px;">${g.definition}</p>
-              <p>${g.details}</p>
-            </div>
-          `)
-          .join('');
-
-        body.innerHTML = `
-          <div class="theory-metrics-banner">
-            <div class="theory-metric-pill"><span>🌐 Поверхность Земли</span><strong>${em.earth_surface_area || '510,2 млн км²'}</strong></div>
-            <div class="theory-metric-pill"><span>🏔️ Площадь суши</span><strong>${em.land_surface_area || '149,1 млн км²'}</strong></div>
-            <div class="theory-metric-pill"><span>📊 Доля суши</span><strong>${em.land_percent || '29,2% поверхности Земли'}</strong></div>
-          </div>
-          <div class="theory-table-wrap" style="margin-bottom:16px;">
-            <table class="theory-table">
-              <thead>
-                <tr>
-                  <th>Материк</th>
-                  <th>Площадь</th>
-                  <th>Крайние точки</th>
-                  <th>Высшая точка</th>
-                  <th>Низшая точка</th>
-                  <th>Средняя высота (Шубаев)</th>
-                </tr>
-              </thead>
-              <tbody>${rowsHtml}</tbody>
-            </table>
-          </div>
-          <div class="theory-cards-grid" style="margin-bottom:16px;">${specialCards}</div>
-          <div class="theory-cards-grid">${glossaryHtml}</div>
-        `;
-
-        body.querySelectorAll('.show-special-map-btn').forEach((btn) => {
-          btn.onclick = () => {
-            document.getElementById('theoryModal')?.classList.remove('open');
-            this.openInteractiveAtlas('m1_all');
-            this.atlasCategoryFilter = 'special';
-            document.querySelectorAll('#atlasCategoryFilters .atlas-pill').forEach((p) => {
-              p.classList.toggle('active', p.getAttribute('data-cat') === 'special');
-            });
-            this.renderAtlasMarkers();
-            const spId = btn.getAttribute('data-spid');
-            const found = specials.find((x) => x.id === spId);
-            if (found) {
-              if (found.id === 'bermuda_triangle') {
-                UnifiedMapEngine.drawBermudaTriangle(found.vertices);
-                this.inspectSpecialEntity(found);
-              } else if (found.center) {
-                UnifiedMapEngine.flyToSmart(found.center[0], found.center[1], 3.4);
-                this.inspectSpecialEntity(found);
-              }
-            }
-          };
-        });
-        return;
-      }
-
-      // Интерактивная Шпаргалка с мгновенным поиском по всем 1 039 объектам
-      const q = (this.theorySearchQuery || '').toLowerCase();
-      let pool = NomenclatureEngine.objects;
-      if (['module1', 'module2', 'module3', 'module4'].includes(tab)) {
-        pool = pool.filter((it) => it.moduleId === tab);
-      }
-
-      if (q) {
-        pool = pool.filter((it) => {
-          const hay = [
-            it.title,
-            it.displayTitle,
-            it.categoryRu,
-            it.continent,
-            it.worldRegion,
-            it.desc,
-            it.ankiCard?.backMainAnswer || '',
-            it.ankiCard?.backNote || ''
-          ].join(' ').toLowerCase();
-          return hay.includes(q);
-        });
-      }
-
-      if (pool.length === 0) {
-        body.innerHTML = `<div style="padding:28px; text-align:center; color:var(--text-dim);">По запросу «${this.theorySearchQuery}» в этом разделе ничего не найдено.</div>`;
-        return;
-      }
-
-      const LIMIT = 120;
-      const shown = pool.slice(0, LIMIT);
-
-      const headerNote = document.createElement('div');
-      headerNote.style.cssText = 'font-size:12px; color:#94a3b8; margin-bottom:10px;';
-      headerNote.textContent = pool.length > LIMIT
-        ? `Найдено объектов: ${pool.length}. Показаны первые ${LIMIT} — уточните поисковый запрос выше.`
-        : `Показано объектов: ${pool.length}`;
-
-      const cardsWrap = document.createElement('div');
-      cardsWrap.className = 'theory-cards-grid';
-
-      shown.forEach((it) => {
-        const card = document.createElement('div');
-        card.className = 'cheat-item-card';
-
-        const answerSummary = it.ankiCard?.backMainAnswer || it.desc || '';
-        const metricsLine = (it.ankiCard?.backMetrics || [])
-          .filter((m) => m && m.value && m.value !== '—')
-          .slice(0, 3)
-          .map((m) => `${m.label}: <strong>${m.value}</strong>`)
-          .join(' • ');
-
-        card.innerHTML = `
-          <div class="cheat-item-top">
-            <div>
-              <div class="cheat-item-title">${it.displayTitle || it.title}</div>
-              <div class="cheat-item-sub">${it.categoryRu} • ${it.continent || it.worldRegion || 'Мир'}</div>
-            </div>
-            <button type="button" class="btn-locate-on-map">🎯 На карте</button>
-          </div>
-          ${answerSummary ? `<div style="font-size:12.5px; color:#cbd5e1; line-height:1.42;">${answerSummary}</div>` : ''}
-          ${metricsLine ? `<div style="font-size:11.5px; color:#94a3b8;">${metricsLine}</div>` : ''}
-        `;
-
-        card.querySelector('.btn-locate-on-map')?.addEventListener('click', () => {
-          this.locateObjectFromCheatSheet(it);
-        });
-
-        cardsWrap.appendChild(card);
-      });
-
-      body.innerHTML = '';
-      body.appendChild(headerNote);
-      body.appendChild(cardsWrap);
-    },
-
-    renderBackupModal() {
-      const box = document.getElementById('backupStatsSummary');
-      if (!box) return;
-      const cSt = ContinentExamEngine.getTotalStats();
-      const oSt = NomenclatureEngine.getTotalStats();
-      const curDeck = NomenclatureEngine.getActiveDeck();
-
-      const mStats = ['module1', 'module2', 'module3', 'module4'].map((mid, idx) => {
-        const dId = `m${idx + 1}_all`;
-        const st = NomenclatureEngine.getDeckStats(dId);
-        return `Раздел ${idx + 1}: ${st.masteredCount}/${st.total} (${st.masteredPct}%)`;
-      }).join(' • ');
-
-      box.innerHTML = `
-        <div style="display:grid; gap:6px; font-size:13px;">
-          <div>🎓 <strong>Общий прогресс курса (4 модуля):</strong> выучено ${oSt.masteredCount} из ${oSt.total} (${oSt.masteredPct}%)</div>
-          <div style="font-size:12px; color:#93c5fd;">${mStats}</div>
-          <div>🌍 <strong>Билеты материков (Раздел 1):</strong> выучено ${cSt.masteredCount} из ${cSt.total} (${cSt.masteredPct}%)</div>
-          <div>🔥 <strong>Лучшая серия:</strong> ${Gamification.bestStreak} • <strong>Рекорд Блица:</strong> ${Gamification.bestBlitzScore}</div>
-          <div style="color:var(--text-dim); font-size:12px;">Текущая выбранная колода: «${curDeck.title}»</div>
-        </div>
-      `;
-    },
-
-    exportProgressJSON() {
-      const payload = {
-        app: 'NomenclatureOZ',
-        version: '9.0',
-        exportedAt: new Date().toISOString(),
-        nomenclatureStates: NomenclatureEngine.srsStates,
-        nomenclatureStep: NomenclatureEngine.stepCounter,
-        activeDeckId: NomenclatureEngine.activeDeckId,
-        practiceMode: NomenclatureEngine.practiceMode,
-        continentStates: ContinentExamEngine.states,
-        continentStep: ContinentExamEngine.stepCounter,
-        gamification: {
-          streak: Gamification.streak,
-          bestStreak: Gamification.bestStreak,
-          dailyCount: Gamification.dailyCount,
-          dailyDate: Gamification.dailyDate,
-          bestBlitzScore: Gamification.bestBlitzScore
-        }
-      };
-
-      const jsonStr = JSON.stringify(payload, null, 2);
-      try {
-        const blob = new Blob([jsonStr], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `nomenclature_oz_progress_${new Date().toISOString().slice(0, 10)}.json`;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(url);
-      } catch (e) {}
-
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(jsonStr).catch(() => {});
-      }
-
-      this.showToast('📤 Резервная копия прогресса сохранена (и скопирована в буфер)');
-    },
-
-    importProgressJSON(event) {
-      const file = event.target?.files?.[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        try {
-          const data = JSON.parse(String(ev.target?.result || '{}'));
-          if (!data.nomenclatureStates && !data.continentStates) {
-            throw new Error('Invalid backup format');
-          }
-          if (data.nomenclatureStates) {
-            const migrated = {};
-            for (const [k, v] of Object.entries(data.nomenclatureStates)) {
-              migrated[NomenclatureEngine.resolveItemId(k)] = v;
-            }
-            NomenclatureEngine.srsStates = migrated;
-          }
-          if (typeof data.nomenclatureStep === 'number') NomenclatureEngine.stepCounter = data.nomenclatureStep;
-          if (data.activeDeckId && NomenclatureEngine.decksMap.has(data.activeDeckId)) {
-            NomenclatureEngine.activeDeckId = data.activeDeckId;
-          }
-          if (data.continentStates) ContinentExamEngine.states = data.continentStates;
-          if (typeof data.continentStep === 'number') ContinentExamEngine.stepCounter = data.continentStep;
-          if (data.gamification) {
-            Object.assign(Gamification, data.gamification);
-            Gamification.save();
-          }
-          CapeSyncBridge.reconcileOnStartup();
-          this.renderBackupModal();
-          this.renderHub();
-          document.getElementById('backupModal')?.classList.remove('open');
-          this.syncTelegramBackButton();
-          this.showToast('✅ Прогресс успешно восстановлен из резервной копии!');
-        } catch (err) {
-          this.showToast('❌ Не удалось прочитать JSON-файл резервной копии');
-        } finally {
-          event.target.value = '';
-        }
-      };
-      reader.readAsText(file);
-    },
-
-    resetSelectedDeckProgress() {
-      const deck = NomenclatureEngine.getActiveDeck();
-      if (!window.confirm(`Сбросить прогресс по теме «${deck.title}»? Остальные темы не пострадают.`)) return;
-      NomenclatureEngine.resetDeck(deck.id);
-      this.renderBackupModal();
-      this.renderHub();
-      this.showToast(`🧹 Прогресс темы «${deck.shortTitle}» сброшен`);
-    },
-
     resetAllProgress() {
       const totalCount = NomenclatureEngine.objects.length || 1039;
-      if (!window.confirm(`Вы уверены, что хотите полностью сбросить весь прогресс по всем ${totalCount} объектам и билетам материков?`)) {
+      if (!window.confirm(`Вы уверены, что хотите полностью сбросить весь прогресс по всем ${totalCount} объектам?`)) {
         return;
       }
       NomenclatureEngine.srsStates = {};
@@ -6180,11 +5833,9 @@
 
       StorageAdapter.clearAllCloudAndLocal();
 
-      this.renderBackupModal();
       this.renderHub();
-      document.getElementById('backupModal')?.classList.remove('open');
       this.syncTelegramBackButton();
-      this.showToast('🔄 Весь учебный прогресс сброшен с чистого листа');
+      this.showToast('🔄 Весь прогресс сброшен с чистого листа');
     }
   };
 
@@ -6192,6 +5843,7 @@
   window.MapApp = MapApp;
   window.NomenclatureEngine = NomenclatureEngine;
   window.ContinentExamEngine = ContinentExamEngine;
+  window.DifficultyEngine = DifficultyEngine;
   window.UnifiedMapEngine = UnifiedMapEngine;
   window.AudioEngine = AudioEngine;
   window.Gamification = Gamification;

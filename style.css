@@ -32,11 +32,11 @@
   --rose: #f43f5e;
   --violet: #a855f7;
 
-  /* Glass surfaces */
+  /* Crisp low-overhead dark surfaces (no expensive GPU blur over live map) */
   --bg-dark: #060b16;
-  --bg-glass-header: rgba(9, 17, 34, 0.86);
-  --bg-glass-hud: rgba(11, 21, 40, 0.89);
-  --bg-glass-card: rgba(13, 24, 46, 0.95);
+  --bg-glass-header: rgba(8, 16, 32, 0.94);
+  --bg-glass-hud: rgba(10, 19, 38, 0.95);
+  --bg-glass-card: rgba(12, 22, 44, 0.97);
 
   --border-glass: rgba(56, 189, 248, 0.24);
   --border-glass-light: rgba(148, 163, 184, 0.16);
@@ -194,9 +194,7 @@ body {
 
 /* Компактный тултип правильного ответа */
 .target-compact-tooltip {
-  background: rgba(8, 16, 32, 0.92) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
+  background: rgba(8, 16, 32, 0.95) !important;
   border: 1.5px solid #38bdf8 !important;
   color: #f8fafc !important;
   font-family: var(--font-sans) !important;
@@ -281,8 +279,6 @@ body {
   height: 42px;
   border-radius: 12px;
   background: var(--bg-glass-hud);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-glass);
   color: #ffffff;
   font-size: 18px;
@@ -313,9 +309,7 @@ body {
   position: absolute;
   inset: 0;
   z-index: 1800;
-  background: radial-gradient(circle at 50% 0%, rgba(14, 34, 68, 0.88) 0%, rgba(3, 7, 18, 0.92) 75%);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
+  background: radial-gradient(circle at 50% 0%, rgba(14, 34, 68, 0.96) 0%, rgba(3, 7, 18, 0.99) 75%);
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -857,8 +851,6 @@ body {
   position: relative;
   z-index: 1000;
   background: var(--bg-glass-header);
-  backdrop-filter: blur(26px);
-  -webkit-backdrop-filter: blur(26px);
   border: 1px solid var(--border-glass);
   border-radius: 18px;
   padding: 7px 12px;
@@ -1141,8 +1133,6 @@ body {
   z-index: 940;
   width: min(980px, 100%);
   background: var(--bg-glass-hud);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--border-glass);
   border-radius: 18px;
   padding: 10px 16px;
@@ -1260,8 +1250,6 @@ body {
   max-height: min(60dvh, 420px);
   overflow-y: auto;
   background: var(--bg-glass-card);
-  backdrop-filter: blur(26px);
-  -webkit-backdrop-filter: blur(26px);
   border: 1.5px solid var(--border-glass-glow);
   border-radius: 20px;
   padding: 16px 18px;
@@ -1338,8 +1326,6 @@ body {
   z-index: 950;
   width: min(760px, 100%);
   background: var(--bg-glass-hud);
-  backdrop-filter: blur(26px);
-  -webkit-backdrop-filter: blur(26px);
   border: 1px solid var(--border-glass);
   border-radius: 18px;
   padding: 12px 18px;
@@ -1729,9 +1715,7 @@ body {
   position: absolute;
   inset: 0;
   z-index: 1100;
-  background: rgba(2, 6, 23, 0.62);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(2, 6, 23, 0.78);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1745,8 +1729,6 @@ body {
   overflow-y: auto;
   background: var(--bg-glass-card);
   border: 1.5px solid var(--border-glass-glow);
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
   border-radius: 22px;
   padding: 22px;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 32px rgba(56, 189, 248, 0.18);
@@ -2243,9 +2225,7 @@ body {
   position: absolute;
   inset: 0;
   z-index: 1200;
-  background: rgba(2, 6, 23, 0.76);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(2, 6, 23, 0.82);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2324,8 +2304,6 @@ body {
   max-width: 100vw;
   background: var(--bg-glass-card);
   border-left: 1px solid var(--border-glass);
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
   z-index: 1900;
   display: flex;
   flex-direction: column;
@@ -2571,9 +2549,7 @@ body {
   position: absolute;
   inset: 0;
   z-index: 2000;
-  background: rgba(2, 6, 23, 0.84);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(2, 6, 23, 0.86);
   display: none;
   align-items: center;
   justify-content: center;
@@ -2938,8 +2914,6 @@ body {
   font-size: 13px;
   font-weight: 700;
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.68), 0 0 22px rgba(56, 189, 248, 0.28);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
   display: flex;
   align-items: center;
   gap: 12px;
@@ -3639,9 +3613,7 @@ body {
   position: fixed;
   inset: 0;
   z-index: 2200;
-  background: rgba(4, 9, 20, 0.62);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: rgba(4, 9, 20, 0.78);
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -4034,6 +4006,208 @@ body {
   }
   .anki3d-metrics-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ========================================================
+   НОВЫЕ ЭЛЕМЕНТЫ: УРОВНИ СЛОЖНОСТИ, ПОИСК В АТЛАСЕ, ⭐ ВАЖНО ЗНАТЬ
+   ======================================================== */
+.header-diff-pill {
+  background: rgba(245, 158, 11, 0.14);
+  border: 1px solid rgba(245, 158, 11, 0.38);
+  color: #fde68a;
+  padding: 5px 9px;
+  border-radius: 9px;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.header-diff-pill:hover {
+  background: rgba(245, 158, 11, 0.25);
+  border-color: #fbbf24;
+  color: #ffffff;
+}
+
+.atlas-inline-search {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(6, 12, 26, 0.85);
+  border: 1px solid rgba(56, 189, 248, 0.32);
+  border-radius: 10px;
+  padding: 4px 9px;
+  min-width: 190px;
+  flex: 1 1 200px;
+}
+.atlas-search-ico {
+  font-size: 12px;
+  opacity: 0.75;
+}
+.atlas-search-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #f8fafc;
+  font-size: 12px;
+  font-weight: 600;
+  width: 100%;
+  min-width: 0;
+}
+.atlas-search-input::placeholder {
+  color: #64748b;
+}
+.atlas-search-clear {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0 2px;
+}
+.atlas-search-clear:hover {
+  color: #ffffff;
+}
+
+.anki3d-important-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  background: rgba(245, 158, 11, 0.2);
+  color: #fde68a;
+  border: 1px solid rgba(251, 191, 36, 0.5);
+}
+
+.anki3d-metric-box.is-important {
+  background: rgba(245, 158, 11, 0.14);
+  border-color: rgba(251, 191, 36, 0.45);
+}
+.anki3d-metric-box.is-important .anki3d-metric-lbl {
+  color: #fcd34d;
+  font-weight: 700;
+}
+.anki3d-metric-box.is-reference {
+  opacity: 0.78;
+}
+
+.hub-footer-reset-row {
+  display: flex;
+  justify-content: center;
+  padding: 4px 0 18px;
+}
+.hub-reset-link-btn {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: color 0.15s ease;
+}
+.hub-reset-link-btn:hover {
+  color: #fda4af;
+}
+
+/* Модалка выбора целевой оценки */
+.difficulty-modal-card {
+  width: min(560px, 100%);
+}
+.difficulty-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 6px;
+}
+.diff-option-card {
+  text-align: left;
+  width: 100%;
+  background: rgba(15, 27, 50, 0.86);
+  border: 1.5px solid rgba(148, 163, 184, 0.2);
+  border-radius: 16px;
+  padding: 13px 15px;
+  cursor: pointer;
+  transition: border-color 0.16s ease, background 0.16s ease, transform 0.14s ease;
+}
+.diff-option-card:hover {
+  background: rgba(23, 41, 74, 0.94);
+  border-color: rgba(56, 189, 248, 0.55);
+  transform: translateY(-1px);
+}
+.diff-option-card.active {
+  border-color: #38bdf8;
+  background: rgba(2, 132, 199, 0.18);
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.2);
+}
+.diff-opt-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.diff-grade-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+}
+.diff-grade-badge.tier-1 {
+  background: rgba(16, 185, 129, 0.18);
+  color: #6ee7b7;
+  border: 1px solid rgba(16, 185, 129, 0.42);
+}
+.diff-grade-badge.tier-2 {
+  background: rgba(56, 189, 248, 0.18);
+  color: #7dd3fc;
+  border: 1px solid rgba(56, 189, 248, 0.42);
+}
+.diff-grade-badge.tier-3 {
+  background: rgba(245, 158, 11, 0.18);
+  color: #fde68a;
+  border: 1px solid rgba(245, 158, 11, 0.42);
+}
+.diff-opt-tag {
+  font-size: 11px;
+  font-weight: 700;
+  color: #94a3b8;
+}
+.diff-opt-title {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: #f8fafc;
+  margin-bottom: 4px;
+}
+.diff-opt-desc {
+  font-size: 12px;
+  color: #cbd5e1;
+  line-height: 1.42;
+}
+
+.bento-mod-footer-3 {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr auto;
+  gap: 8px;
+  margin-top: auto;
+}
+@media (max-width: 480px) {
+  .bento-mod-footer-3 {
+    grid-template-columns: 1fr 1fr;
+  }
+  .bento-mod-footer-3 .bento-btn-topics {
+    grid-column: span 2;
+  }
+  .atlas-inline-search {
+    min-width: 140px;
   }
 }
 
