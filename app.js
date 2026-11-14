@@ -1371,20 +1371,21 @@
   };
 
   // ==========================================================================
-  // 4.9. УРОВНИ СЛОЖНОСТИ ПО ОТМЕТКЕ (5-6 / 7-8 / 9-10) И ВАЖНЫЕ ОРИЕНТИРЫ
+  // 4.9. ГИБКАЯ НАСТРОЙКА ОПРОСА И СЛОЖНОСТИ (ДЛЯ КАЖДОГО СТУДЕНТА)
   // ==========================================================================
-  const DifficultyEngine = {
-    tier: 'tier2', // 'tier1' (5-6), 'tier2' (7-8), 'tier3' (9-10)
-    dismissedUpgradeFrom: new Set(),
-
-    TIER_META: {
-      tier1: { num: 1, label: '5–6 б.', fullLabel: '5–6 баллов', shortDesc: 'Базовые объекты и главные ориентиры' },
-      tier2: { num: 2, label: '7–8 б.', fullLabel: '7–8 баллов', shortDesc: 'Уверенный уровень и характеристики' },
-      tier3: { num: 3, label: '9–10 б.', fullLabel: '9–10 баллов', shortDesc: 'Вся номенклатура и детали' }
+  const QuizConfigEngine = {
+    preset: 'balanced', // 'map_only' | 'balanced' | 'full' | 'custom'
+    scope: 'extended',  // 'core' (tier 1) | 'extended' (tier <= 2) | 'all' (tier <= 3)
+    cardMode: 'smart',  // 'never' | 'smart' | 'always'
+    topics: {
+      folding: true,
+      metrics: true,
+      origin: true,
+      ocean: true,
+      notes: true
     },
 
-    // Главные знаменитые объекты и высоты/метрики, которые важно знать в первую очередь
-    IMPORTANT_KEYS: [
+    CORE_KEYS: [
       // Горы, вулканы, депрессии и равнины (Модуль 2)
       'альп', 'анды', 'гимала', 'кавказ', 'урал', 'алта', 'тянь-шан', 'памир', 'аппалач',
       'скалист', 'кордильер', 'скандинавск', 'карпат', 'пирене', 'тибет', 'большой водораздел',
@@ -1421,43 +1422,143 @@
     ],
 
     init() {
-      const saved = localStorage.getItem('geoatlas_target_grade');
-      if (saved && this.TIER_META[saved]) {
-        this.tier = saved;
-      } else {
-        this.tier = 'tier2';
-      }
+      try {
+        const raw = localStorage.getItem('geoatlas_quiz_config_v1');
+        if (raw) {
+          const d = JSON.parse(raw);
+          if (['core', 'extended', 'all'].includes(d.scope)) this.scope = d.scope;
+          if (['never', 'smart', 'always'].includes(d.cardMode)) this.cardMode = d.cardMode;
+          if (d.topics && typeof d.topics === 'object') {
+            Object.keys(this.topics).forEach((k) => {
+              if (typeof d.topics[k] === 'boolean') this.topics[k] = d.topics[k];
+            });
+          }
+          if (['map_only', 'balanced', 'full', 'custom'].includes(d.preset)) {
+            this.preset = d.preset;
+          } else {
+            this.detectPreset();
+          }
+        }
+      } catch (e) {}
     },
 
-    setTier(tierKey) {
-      if (!this.TIER_META[tierKey]) return;
-      this.tier = tierKey;
-      localStorage.setItem('geoatlas_target_grade', tierKey);
+    save() {
+      try {
+        localStorage.setItem('geoatlas_quiz_config_v1', JSON.stringify({
+          preset: this.preset,
+          scope: this.scope,
+          cardMode: this.cardMode,
+          topics: this.topics
+        }));
+      } catch (e) {}
+    },
+
+    setPreset(presetKey) {
+      this.preset = presetKey;
+      if (presetKey === 'map_only') {
+        this.scope = 'extended';
+        this.cardMode = 'never';
+      } else if (presetKey === 'balanced') {
+        this.scope = 'extended';
+        this.cardMode = 'smart';
+        Object.keys(this.topics).forEach((k) => { this.topics[k] = true; });
+      } else if (presetKey === 'full') {
+        this.scope = 'all';
+        this.cardMode = 'always';
+        Object.keys(this.topics).forEach((k) => { this.topics[k] = true; });
+      }
+      this.save();
       this.syncUI();
     },
 
-    getTierNum() {
-      return (this.TIER_META[this.tier] || this.TIER_META.tier2).num;
+    setScope(scopeKey) {
+      if (!['core', 'extended', 'all'].includes(scopeKey)) return;
+      this.scope = scopeKey;
+      this.detectPreset();
+      this.save();
+      this.syncUI();
     },
 
-    getNextTier() {
-      if (this.tier === 'tier1') return 'tier2';
-      if (this.tier === 'tier2') return 'tier3';
-      return null;
+    setCardMode(modeKey) {
+      if (!['never', 'smart', 'always'].includes(modeKey)) return;
+      this.cardMode = modeKey;
+      this.detectPreset();
+      this.save();
+      this.syncUI();
+    },
+
+    toggleTopic(topicKey) {
+      if (!(topicKey in this.topics)) return;
+      this.topics[topicKey] = !this.topics[topicKey];
+      this.detectPreset();
+      this.save();
+      this.syncUI();
+    },
+
+    detectPreset() {
+      const allTopicsOn = Object.values(this.topics).every(Boolean);
+      if (this.scope === 'extended' && this.cardMode === 'never') {
+        this.preset = 'map_only';
+      } else if (this.scope === 'extended' && this.cardMode === 'smart' && allTopicsOn) {
+        this.preset = 'balanced';
+      } else if (this.scope === 'all' && this.cardMode === 'always' && allTopicsOn) {
+        this.preset = 'full';
+      } else {
+        this.preset = 'custom';
+      }
+    },
+
+    getMaxTierNum() {
+      if (this.scope === 'core') return 1;
+      if (this.scope === 'all') return 3;
+      return 2;
+    },
+
+    getSummaryLabel() {
+      const presetNames = {
+        map_only: 'Только карта',
+        balanced: 'Основной',
+        full: 'Максимум',
+        custom: 'Свой режим'
+      };
+      const scopeNames = { core: 'ключевые', extended: 'расширенный', all: 'все 100%' };
+      const enabledCount = Object.values(this.topics).filter(Boolean).length;
+      if (this.cardMode === 'never') {
+        return `${presetNames[this.preset]} • Охват: ${scopeNames[this.scope]} • Без карточек`;
+      }
+      return `${presetNames[this.preset]} • Охват: ${scopeNames[this.scope]} • ${enabledCount}/5 параметров`;
     },
 
     syncUI() {
-      const meta = this.TIER_META[this.tier] || this.TIER_META.tier2;
-      const lbl = document.getElementById('headerDifficultyLabel');
-      if (lbl) lbl.textContent = `🎯 ${meta.label}`;
-      document.querySelectorAll('#difficultyOptionsList .diff-option-card').forEach((card) => {
-        card.classList.toggle('active', card.getAttribute('data-tier') === this.tier);
+      document.querySelectorAll('#cfgPresetRow .pp-choice-btn').forEach((btn) => {
+        btn.classList.toggle('active', btn.getAttribute('data-preset') === this.preset);
       });
+      document.querySelectorAll('#cfgScopeRow .pp-choice-btn').forEach((btn) => {
+        btn.classList.toggle('active', btn.getAttribute('data-scope') === this.scope);
+      });
+      document.querySelectorAll('#cfgCardModeRow .pp-choice-btn').forEach((btn) => {
+        btn.classList.toggle('active', btn.getAttribute('data-cardmode') === this.cardMode);
+      });
+      document.querySelectorAll('#cfgTopicsGrid .pp-choice-btn').forEach((btn) => {
+        const key = btn.getAttribute('data-topic');
+        const on = Boolean(this.topics[key]);
+        btn.classList.toggle('active', on);
+        const chk = btn.querySelector('.pp-chk');
+        if (chk) chk.style.opacity = on ? '1' : '0.2';
+      });
+
+      const cfgLbl = document.getElementById('hubConfigLabel');
+      if (cfgLbl) cfgLbl.textContent = this.getSummaryLabel();
+
+      const topicsWrap = document.getElementById('cfgTopicsGrid')?.closest('.pp-setting-section');
+      if (topicsWrap) {
+        topicsWrap.style.opacity = this.cardMode === 'never' ? '0.42' : '1';
+      }
     },
 
-    matchesImportantKey(str) {
+    matchesCoreKey(str) {
       const low = (str || '').toLowerCase();
-      return this.IMPORTANT_KEYS.some((kw) => low.includes(kw));
+      return this.CORE_KEYS.some((kw) => low.includes(kw));
     },
 
     classifyObject(obj) {
@@ -1470,31 +1571,16 @@
       ]);
       const isOceanEntity = oceanIds.has(obj.id);
       const rawTitle = `${obj.name || ''} ${obj.displayTitle || ''}`.toLowerCase();
-      const isKeyMatch = this.matchesImportantKey(rawTitle);
-
-      // Знаменитые высоты гор — только для известных мировых систем / вершин
-      const isFamousMountain = obj.category === 'mountains' && isKeyMatch &&
-        !rawTitle.includes('западный саян') &&
-        !rawTitle.includes('кузнецкий алатау') &&
-        !rawTitle.includes('тиманский') &&
-        !rawTitle.includes('енисейский') &&
-        !rawTitle.includes('бырранга');
-
-      let isImportant = Boolean(isOceanEntity || isKeyMatch);
-      if (obj.isCape && (obj.continent === 'Евразия' || obj.continent === 'Африка' || obj.continent === 'Америка')) {
-        isImportant = isImportant || true;
-      }
+      const isCoreMatch = this.matchesCoreKey(rawTitle);
 
       let tier = 3;
-      if (isOceanEntity || isKeyMatch) {
+      if (isOceanEntity || isCoreMatch) {
         tier = 1;
       } else if (obj.moduleId === 'module1') {
         if (obj.difficulty === 'Лёгкий') tier = 1;
         else if (obj.difficulty === 'Средний') tier = 2;
         else tier = 3;
       } else {
-        // Детерминированное распределение по уровням для модулей 2, 3, 4:
-        // важные категории вроде крупных гор/вулканов/депрессий/водопадов чаще в tier 2
         let hash = 0;
         const idStr = String(obj.id || obj.name || '');
         for (let i = 0; i < idStr.length; i++) {
@@ -1509,47 +1595,77 @@
       }
 
       obj.isOceanEntity = isOceanEntity;
-      obj.isImportant = isImportant;
-      obj.isFamousHeight = obj.category === 'mountains' ? isFamousMountain : isImportant;
+      obj.isCoreObject = Boolean(isOceanEntity || isCoreMatch);
       obj.tier = tier;
       return obj;
     },
 
+    isMetricAllowed(label) {
+      const lbl = (label || '').toLowerCase();
+      if (lbl.includes('складчат') || lbl.includes('эпох')) return this.topics.folding;
+      if (
+        lbl.includes('высот') || lbl.includes('вершин') || lbl.includes('глубин') ||
+        lbl.includes('отметк') || lbl.includes('площад') || lbl.includes('длин') ||
+        lbl.includes('ширин') || lbl.includes('перепад') || lbl.includes('протяж')
+      ) {
+        return this.topics.metrics;
+      }
+      if (
+        lbl.includes('происхож') || lbl.includes('генез') || lbl.includes('тип') ||
+        lbl.includes('грунт') || lbl.includes('терм') || lbl.includes('котловин') ||
+        lbl.includes('солён') || lbl.includes('пояс') || lbl.includes('статус')
+      ) {
+        return this.topics.origin;
+      }
+      if (
+        lbl.includes('течен') || lbl.includes('океан') || lbl.includes('бассейн') ||
+        lbl.includes('скорост') || lbl.includes('соединя') || lbl.includes('акватор')
+      ) {
+        return this.topics.ocean;
+      }
+      return this.topics.notes;
+    },
+
+    filterCardData(item) {
+      const cardData = (item && item.ankiCard) || {};
+      const rawMetrics = Array.isArray(cardData.backMetrics) && cardData.backMetrics.length > 0
+        ? cardData.backMetrics
+        : [
+            { label: 'Категория', value: item.categoryRu },
+            { label: 'Регион', value: item.continent || item.worldRegion || 'Мир' }
+          ];
+
+      const filteredMetrics = rawMetrics.filter((m) => m && m.value && m.value !== '—' && this.isMetricAllowed(m.label));
+      const mainAnswer = cardData.backMainAnswer || item.desc || item.categoryRu;
+      const note = this.topics.notes
+        ? (cardData.backNote || (item.desc && item.desc !== mainAnswer ? item.desc : ''))
+        : '';
+
+      return { mainAnswer, metrics: filteredMetrics.slice(0, 6), note };
+    },
+
     shouldShowCardStep(item) {
       if (!item || !item.ankiCard) return false;
+      if (this.cardMode === 'never') return false;
+
+      const hasAnyTopic = Object.values(this.topics).some(Boolean);
+      if (!hasAnyTopic) return false;
+
       if (item.isOceanEntity) return true;
 
-      const tierKey = this.tier;
+      const filtered = this.filterCardData(item);
+      if (filtered.metrics.length === 0 && !this.topics.notes) return false;
+
+      if (this.cardMode === 'always') return true;
+
+      // cardMode === 'smart'
       const specCats = new Set([
         'mountains', 'volcanoes', 'depressions',
         'continental_island', 'volcanic_island', 'coral_island',
         'trenches', 'currents', 'waterfalls', 'lakes'
       ]);
-
-      if (tierKey === 'tier1') {
-        // 5-6 баллов: карточка только у самых важных базовых объектов с характеристиками
-        return Boolean(item.isImportant && specCats.has(item.category));
-      }
-
-      if (tierKey === 'tier2') {
-        // 7-8 баллов: все горы (складчатость!), острова (генезис), вулканы, депрессии, течения, желоба, водопады, озёра + важные равнины/реки/моря
-        if (specCats.has(item.category)) return true;
-        return Boolean(item.isImportant && ['lowlands', 'uplands', 'plateaus', 'rivers', 'seas'].includes(item.category));
-      }
-
-      // 9-10 баллов: характеристики почти для каждого объекта (кроме мелких мысов без доп. данных)
-      if (item.isCape && !item.isImportant) return false;
-      return true;
-    },
-
-    shouldSuggestUpgrade(deckId) {
-      const next = this.getNextTier();
-      if (!next || this.dismissedUpgradeFrom.has(this.tier)) return false;
-      const st = NomenclatureEngine.getDeckStats(deckId);
-      if (st.total >= 5 && st.masteredPct >= 65) return true;
-      if (this.tier === 'tier1' && Gamification.streak >= 8) return true;
-      if (this.tier === 'tier2' && Gamification.streak >= 12) return true;
-      return false;
+      if (specCats.has(item.category)) return true;
+      return Boolean(item.isCoreObject && ['lowlands', 'uplands', 'plateaus', 'rivers', 'seas'].includes(item.category));
     }
   };
 
@@ -1570,13 +1686,13 @@
     ACTIVE_POOL_SIZE: 6,
 
     init(geoData) {
-      DifficultyEngine.init();
+      QuizConfigEngine.init();
       this.compileDecks(geoData);
       this.loadState();
       if (!this.activeDeckId || !this.decksMap.has(this.activeDeckId)) {
         this.activeDeckId = 'm1_all';
       }
-      DifficultyEngine.syncUI();
+      QuizConfigEngine.syncUI();
     },
 
     classifyWorldRegion(it) {
@@ -1737,7 +1853,7 @@
             ankiCard
           };
 
-          DifficultyEngine.classifyObject(obj);
+          QuizConfigEngine.classifyObject(obj);
 
           this.objects.push(obj);
           this.objectsMap.set(obj.id, obj);
@@ -1927,7 +2043,7 @@
       const deck = this.decksMap.get(deckId) || this.decks[0];
       const allItems = deck ? deck.objectIds.map((id) => this.objectsMap.get(id)).filter(Boolean) : [];
       if (includeAllTiers || !allItems.length) return allItems;
-      const maxTier = DifficultyEngine.getTierNum();
+      const maxTier = QuizConfigEngine.getMaxTierNum();
       if (maxTier >= 3) return allItems;
       const filtered = allItems.filter((it) => (it.tier || 3) <= maxTier);
       return filtered.length > 0 ? filtered : allItems;
@@ -2884,7 +3000,7 @@
       TelegramBridge.init();
       AudioEngine.loadMuteState();
       Gamification.load();
-      DifficultyEngine.init();
+      QuizConfigEngine.init();
       UnifiedMapEngine.init();
       if (typeof L !== 'undefined' && L.canvas) {
         this.atlasCanvasRenderer = L.canvas({ padding: 0.5 });
@@ -2893,7 +3009,7 @@
       NomenclatureEngine.init(window.GEOGRAPHY_DATA);
       ContinentExamEngine.init(window.GEOGRAPHY_DATA);
       CapeSyncBridge.reconcileOnStartup();
-      DifficultyEngine.syncUI();
+      QuizConfigEngine.syncUI();
 
       this.updateCloudSyncStatus(StorageAdapter.hasCloud() ? 'syncing' : 'local');
       StorageAdapter.syncFromCloud((didMerge) => {
@@ -2956,7 +3072,7 @@
         return;
       }
 
-      const openModals = ['batchSelectModal', 'difficultyModal', 'upgradeNudgeModal', 'resultsModal'];
+      const openModals = ['batchSelectModal', 'surveyConfigModal', 'resultsModal'];
       for (const mid of openModals) {
         const el = document.getElementById(mid);
         if (el && el.classList.contains('open')) {
@@ -3092,70 +3208,63 @@
         };
       });
 
-      // Кнопка выбора уровня оценки (5-6 / 7-8 / 9-10)
-      const diffModal = document.getElementById('difficultyModal');
-      document.getElementById('headerDifficultyBtn')?.addEventListener('click', () => {
+      // Модалка гибкой настройки опроса (в шапке Хаба, в шапке карты и в боковом меню)
+      const cfgModal = document.getElementById('surveyConfigModal');
+      const openSurveyConfig = () => {
         TelegramBridge.hapticSelect();
-        this.pendingStartDeckId = null;
-        DifficultyEngine.syncUI();
-        diffModal?.classList.add('open');
+        QuizConfigEngine.syncUI();
+        cfgModal?.classList.add('open');
         this.syncTelegramBackButton();
-      });
-      document.getElementById('closeDifficultyModalBtn')?.addEventListener('click', () => {
-        this.pendingStartDeckId = null;
-        diffModal?.classList.remove('open');
-        this.syncTelegramBackButton();
-      });
-      document.querySelectorAll('#difficultyOptionsList .diff-option-card').forEach((card) => {
-        card.onclick = () => {
-          TelegramBridge.hapticSelect();
-          const tierKey = card.getAttribute('data-tier') || 'tier2';
-          DifficultyEngine.setTier(tierKey);
-          diffModal?.classList.remove('open');
-          this.syncTelegramBackButton();
-          const pendingDeck = this.pendingStartDeckId;
-          this.pendingStartDeckId = null;
-          if (pendingDeck) {
-            this.startObjectsPractice(pendingDeck);
-          } else if (this.appMode === 'objects') {
-            this.updateDeckStatsUI();
-            this.runNextObject();
-          } else if (this.appMode === 'atlas') {
-            this.renderAtlasMarkers();
-          } else {
-            this.renderHub();
-          }
-        };
+      };
+      document.getElementById('hubConfigBtn')?.addEventListener('click', openSurveyConfig);
+      document.getElementById('hubOpenConfigBtn')?.addEventListener('click', openSurveyConfig);
+      document.getElementById('headerConfigBtn')?.addEventListener('click', openSurveyConfig);
+      document.getElementById('drawerOpenConfigBtn')?.addEventListener('click', () => {
+        document.getElementById('roadmapDrawer')?.classList.remove('open');
+        openSurveyConfig();
       });
 
-      // Модалка рекомендации перехода на следующий уровень
-      const upgradeModal = document.getElementById('upgradeNudgeModal');
-      document.getElementById('upgradeNudgeAcceptBtn')?.addEventListener('click', () => {
-        TelegramBridge.hapticHit();
-        const nextTier = DifficultyEngine.getNextTier();
-        if (nextTier) {
-          DifficultyEngine.setTier(nextTier);
-          this.showToast(`Уровень повышен: ${DifficultyEngine.TIER_META[nextTier].fullLabel}`);
-        }
-        upgradeModal?.classList.remove('open');
+      const closeSurveyConfig = () => {
+        cfgModal?.classList.remove('open');
         this.syncTelegramBackButton();
         if (this.appMode === 'objects') {
           this.updateDeckStatsUI();
           this.runNextObject();
-        } else {
+        } else if (this.appMode === 'hub') {
           this.renderHub();
         }
-      });
-      const dismissUpgrade = () => {
-        DifficultyEngine.dismissedUpgradeFrom.add(DifficultyEngine.tier);
-        upgradeModal?.classList.remove('open');
-        this.syncTelegramBackButton();
-        if (this.appMode === 'objects') {
-          this.runNextObject();
-        }
       };
-      document.getElementById('upgradeNudgeStayBtn')?.addEventListener('click', dismissUpgrade);
-      document.getElementById('closeUpgradeNudgeModalBtn')?.addEventListener('click', dismissUpgrade);
+      document.getElementById('closeSurveyConfigModalBtn')?.addEventListener('click', closeSurveyConfig);
+      document.getElementById('saveSurveyConfigBtn')?.addEventListener('click', () => {
+        TelegramBridge.hapticHit();
+        closeSurveyConfig();
+        this.showToast(`✓ Настройки опроса применены`);
+      });
+
+      document.querySelectorAll('#cfgPresetRow .pp-choice-btn').forEach((btn) => {
+        btn.onclick = () => {
+          TelegramBridge.hapticSelect();
+          QuizConfigEngine.setPreset(btn.getAttribute('data-preset') || 'balanced');
+        };
+      });
+      document.querySelectorAll('#cfgScopeRow .pp-choice-btn').forEach((btn) => {
+        btn.onclick = () => {
+          TelegramBridge.hapticSelect();
+          QuizConfigEngine.setScope(btn.getAttribute('data-scope') || 'extended');
+        };
+      });
+      document.querySelectorAll('#cfgCardModeRow .pp-choice-btn').forEach((btn) => {
+        btn.onclick = () => {
+          TelegramBridge.hapticSelect();
+          QuizConfigEngine.setCardMode(btn.getAttribute('data-cardmode') || 'smart');
+        };
+      });
+      document.querySelectorAll('#cfgTopicsGrid .pp-choice-btn').forEach((btn) => {
+        btn.onclick = () => {
+          TelegramBridge.hapticSelect();
+          QuizConfigEngine.toggleTopic(btn.getAttribute('data-topic') || '');
+        };
+      });
 
       // Кнопка сброса прогресса внизу Хаба
       document.getElementById('hubResetAllBtn')?.addEventListener('click', () => this.resetAllProgress());
@@ -3296,7 +3405,7 @@
           this.appMode === 'objects' &&
           this.isItemAnswered &&
           this.activeItem &&
-          DifficultyEngine.shouldShowCardStep(this.activeItem)
+          QuizConfigEngine.shouldShowCardStep(this.activeItem)
         ) {
           this.openAnki3dModal(this.activeItem, false, this.lastDistanceKm);
         } else {
@@ -3345,35 +3454,6 @@
       window.addEventListener('keydown', (e) => this.handleGlobalKeydown(e));
     },
 
-    promptDifficultyAndStart(deckId) {
-      this.pendingStartDeckId = deckId;
-      DifficultyEngine.syncUI();
-      const diffModal = document.getElementById('difficultyModal');
-      if (diffModal) {
-        diffModal.classList.add('open');
-        this.syncTelegramBackButton();
-      } else {
-        this.startObjectsPractice(deckId);
-      }
-    },
-
-    showUpgradeNudgeModal() {
-      const nextKey = DifficultyEngine.getNextTier();
-      if (!nextKey) return;
-      const curMeta = DifficultyEngine.TIER_META[DifficultyEngine.tier];
-      const nextMeta = DifficultyEngine.TIER_META[nextKey];
-      const txtEl = document.getElementById('upgradeNudgeText');
-      if (txtEl && curMeta && nextMeta) {
-        txtEl.textContent = `Ты отлично идёшь на уровне «${curMeta.fullLabel}»! Попробуй уровень «${nextMeta.fullLabel}», чтобы добавить новые объекты и углубить характеристики.`;
-      }
-      const btnEl = document.getElementById('upgradeNudgeAcceptBtn');
-      if (btnEl && nextMeta) {
-        btnEl.textContent = `Повысить до ${nextMeta.fullLabel}`;
-      }
-      document.getElementById('upgradeNudgeModal')?.classList.add('open');
-      this.syncTelegramBackButton();
-    },
-
     handleGlobalKeydown(e) {
       if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) {
         if (e.key === 'Escape') {
@@ -3389,7 +3469,7 @@
           this.toggleAnki3dPeek(false);
           return;
         }
-        const openModals = ['batchSelectModal', 'difficultyModal', 'upgradeNudgeModal'];
+        const openModals = ['batchSelectModal', 'surveyConfigModal'];
         for (const mid of openModals) {
           const el = document.getElementById(mid);
           if (el && el.classList.contains('open')) {
@@ -3807,14 +3887,14 @@
                 this.startContinentExam('all', true);
               } else {
                 const did = btn.getAttribute('data-deck');
-                if (did) this.promptDifficultyAndStart(did);
+                if (did) this.startObjectsPractice(did);
               }
             };
           });
 
           card.querySelector('.bento-btn-start')?.addEventListener('click', () => {
             TelegramBridge.hapticSelect();
-            this.promptDifficultyAndStart(mod.mainDeckId);
+            this.startObjectsPractice(mod.mainDeckId);
           });
 
           card.querySelector('.bento-btn-atlas')?.addEventListener('click', () => {
@@ -3837,7 +3917,7 @@
         });
       }
 
-      DifficultyEngine.syncUI();
+      QuizConfigEngine.syncUI();
       this.syncPracticeModeButtons();
     },
 
@@ -3875,7 +3955,7 @@
       document.getElementById('islandBatchTitle').textContent = `Атлас: ${curDeck.shortTitle}`;
 
       this.buildAtlasFilterPills(curDeck);
-      DifficultyEngine.syncUI();
+      QuizConfigEngine.syncUI();
       this.syncPracticeModeButtons();
       this.updateDeckStatsUI();
       this.renderAtlasMarkers();
@@ -4874,7 +4954,7 @@
       document.getElementById('headerModeIcon').textContent = curDeck.icon || '🗺️';
       document.getElementById('islandBatchTitle').textContent = curDeck.shortTitle;
 
-      DifficultyEngine.syncUI();
+      QuizConfigEngine.syncUI();
       this.syncPracticeModeButtons();
       this.updateDeckStatsUI();
 
@@ -4909,13 +4989,28 @@
 
       this.activeItem = nextObj;
 
-      // Океаны в обучении не нужно угадывать кликом по карте — сразу открываем характеристики
+      // Океаны в обучении не нужно угадывать кликом по карте — сразу показываем объект/карточку
       if (nextObj.isOceanEntity) {
         this.isItemAnswered = true;
         this.activeTaskFormat = 'locate';
-        document.getElementById('taskHudCard').style.display = 'none';
         UnifiedMapEngine.showTargetPulsingMarker(nextObj, null, { showLabel: true, autoFly: true });
-        this.openAnki3dModal(nextObj, true, 0);
+        if (QuizConfigEngine.shouldShowCardStep(nextObj)) {
+          document.getElementById('taskHudCard').style.display = 'none';
+          this.openAnki3dModal(nextObj, true, 0);
+        } else {
+          this.displayMapTask(nextObj);
+          NomenclatureEngine.recordSm2Grade(nextObj.id, 3);
+          this.updateDeckStatsUI();
+          document.getElementById('hudSkipBtn').style.display = 'none';
+          document.getElementById('hudHintRegionBtn').style.display = 'none';
+          document.getElementById('hudRevealBtn').style.display = 'none';
+          const nb = document.getElementById('hudNextBtn');
+          if (nb) {
+            nb.style.display = 'inline-flex';
+            nb.innerHTML = '<span>Дальше</span><span>→</span>';
+          }
+          this.setHudFeedback('success', '🌊', `Мировой океан: <strong>${nextObj.displayTitle}</strong>`);
+        }
         this.syncTelegramBackButton();
         return;
       }
@@ -4987,7 +5082,7 @@
         UnifiedMapEngine.flyToContinent(item.continent);
       }
 
-      const needsCard = DifficultyEngine.shouldShowCardStep(item);
+      const needsCard = QuizConfigEngine.shouldShowCardStep(item);
       const extraPromptHint = item.geometryType === 'polyline'
         ? (needsCard ? 'Кликните на линию объекта на карте, затем проверьте характеристики.' : 'Кликните в любую часть линии объекта на карте (3 попытки).')
         : item.isCape
@@ -5029,11 +5124,6 @@
       };
       document.getElementById('anki3dModulePill').textContent = modNames[item.moduleId] || 'Номенклатура';
 
-      const impBadge = document.getElementById('anki3dImportantBadge');
-      if (impBadge) {
-        impBadge.style.display = item.isImportant ? 'inline-flex' : 'none';
-      }
-
       const hitPill = document.getElementById('anki3dHitStatusPill');
       if (hitPill) {
         if (item.isOceanEntity) {
@@ -5055,55 +5145,26 @@
 
       const cardData = item.ankiCard || {};
       const title = item.displayTitle || item.title;
+      const filteredView = QuizConfigEngine.filterCardData(item);
 
       document.getElementById('anki3dFrontTitle').textContent = title;
       document.getElementById('anki3dFrontQuestion').textContent =
         cardData.frontQuestion || `Вспомните основные характеристики объекта «${title}»:`;
 
       document.getElementById('anki3dBackTitle').textContent = title;
-      document.getElementById('anki3dBackMainAnswer').textContent =
-        cardData.backMainAnswer || item.desc || item.categoryRu;
+      document.getElementById('anki3dBackMainAnswer').textContent = filteredView.mainAnswer;
 
       const metricsGrid = document.getElementById('anki3dBackMetricsGrid');
       metricsGrid.innerHTML = '';
-      const metrics = Array.isArray(cardData.backMetrics) && cardData.backMetrics.length > 0
-        ? cardData.backMetrics
-        : [
-            { label: 'Категория', value: item.categoryRu },
-            { label: 'Регион', value: item.continent || item.worldRegion || 'Мир' }
-          ];
 
-      metrics.slice(0, 6).forEach((m, idx) => {
-        if (!m || !m.value || m.value === '—') return;
+      filteredView.metrics.forEach((m) => {
         const box = document.createElement('div');
-        const lblLow = String(m.label || '').toLowerCase();
-        let boxCls = 'anki3d-metric-box';
-        let labelText = m.label;
-
-        if (item.category === 'mountains') {
-          if (lblLow.includes('складчат') || lblLow.includes('эпох')) {
-            boxCls += ' is-important';
-            labelText = `${m.label} ⭐`;
-          } else if (lblLow.includes('высот') || lblLow.includes('вершин')) {
-            if (item.isFamousHeight) {
-              boxCls += ' is-important';
-              labelText = `${m.label} ⭐ важно`;
-            } else {
-              boxCls += ' is-reference';
-              labelText = `${m.label} (справочно)`;
-            }
-          }
-        } else if (item.isImportant && idx === 0) {
-          boxCls += ' is-important';
-        }
-
-        box.className = boxCls;
-        box.innerHTML = `<span class="anki3d-metric-lbl">${labelText}</span><span class="anki3d-metric-val">${m.value}</span>`;
+        box.className = 'anki3d-metric-box';
+        box.innerHTML = `<span class="anki3d-metric-lbl">${m.label}</span><span class="anki3d-metric-val">${m.value}</span>`;
         metricsGrid.appendChild(box);
       });
 
-      document.getElementById('anki3dBackNote').textContent =
-        cardData.backNote || (item.desc && item.desc !== cardData.backMainAnswer ? item.desc : '');
+      document.getElementById('anki3dBackNote').textContent = filteredView.note;
 
       overlay.style.display = 'flex';
       MotionFX.pop(overlay.querySelector('.anki3d-modal-sheet'));
@@ -5160,10 +5221,6 @@
       document.getElementById('anki3dOverlay').style.display = 'none';
       this.updateDeckStatsUI();
       this.checkMilestones();
-      if (DifficultyEngine.shouldSuggestUpgrade(NomenclatureEngine.activeDeckId)) {
-        this.showUpgradeNudgeModal();
-        return;
-      }
       this.runNextObject();
     },
 
@@ -5284,7 +5341,7 @@
         UnifiedMapEngine.showTargetPulsingMarker(item, null, { showLabel: true, autoFly: false });
         AudioEngine.playSuccess(Gamification.streak + 1);
 
-        if (DifficultyEngine.shouldShowCardStep(item)) {
+        if (QuizConfigEngine.shouldShowCardStep(item)) {
           this.setHudFeedback(
             'success',
             '🎯',
@@ -5324,10 +5381,6 @@
 
           AutoAdvanceController.schedule(950, () => {
             if (this.appMode === 'objects') {
-              if (DifficultyEngine.shouldSuggestUpgrade(NomenclatureEngine.activeDeckId)) {
-                this.showUpgradeNudgeModal();
-                return;
-              }
               this.runNextObject();
             }
           });
@@ -5416,7 +5469,7 @@
 
       const distNote = distKm !== null ? ` (промах ${distKm.toLocaleString('ru-RU')} км)` : '';
 
-      if (DifficultyEngine.shouldShowCardStep(item)) {
+      if (QuizConfigEngine.shouldShowCardStep(item)) {
         UnifiedMapEngine.showTargetPulsingMarker(item, lastClickLatLng, {
           showLabel: true,
           autoFly: true,
@@ -5803,8 +5856,6 @@
           document.getElementById('batchSelectModal')?.classList.remove('open');
           if (this.appMode === 'atlas') {
             this.openInteractiveAtlas(d.id);
-          } else if (this.appMode === 'hub') {
-            this.promptDifficultyAndStart(d.id);
           } else {
             this.startObjectsPractice(d.id);
           }
@@ -5843,7 +5894,7 @@
   window.MapApp = MapApp;
   window.NomenclatureEngine = NomenclatureEngine;
   window.ContinentExamEngine = ContinentExamEngine;
-  window.DifficultyEngine = DifficultyEngine;
+  window.QuizConfigEngine = QuizConfigEngine;
   window.UnifiedMapEngine = UnifiedMapEngine;
   window.AudioEngine = AudioEngine;
   window.Gamification = Gamification;

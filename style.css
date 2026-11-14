@@ -1,62 +1,63 @@
 /*
- * ГеоАтлас — Интерактивный тренажёр физической географии и номенклатуры (v8.0)
- * Дизайн-стек: daisyUI Semantic Theme Tokens + Kokonut UI Glow & Shine + Motion Springs
+ * Номенклатура ОЗ — Стиль PARAplan (Obsidian + Emerald + White Active)
  */
 
 :root,
-[data-theme="geoatlas"] {
-  /* Telegram Mini App (TMA) adaptive palette variables with dark-mode defaults */
-  --tg-bg: var(--tg-theme-bg-color, #060b16);
-  --tg-text: var(--tg-theme-text-color, #f8fafc);
-  --tg-hint: var(--tg-theme-hint-color, #94a3b8);
-  --tg-sec-bg: var(--tg-theme-secondary-bg-color, #0b1426);
-  --tg-btn: var(--tg-theme-button-color, #38bdf8);
+[data-theme="geoatlas"],
+[data-theme="paraplan"] {
+  /* Telegram Mini App (TMA) matte obsidian palette matching PARAplan */
+  --tg-bg: #09090b;
+  --tg-text: #f4f4f5;
+  --tg-hint: #71717a;
+  --tg-sec-bg: #111114;
+  --tg-btn: #10b981;
 
-  /* daisyUI-compatible semantic base tokens */
-  --base-100: var(--tg-bg, #060b16);
-  --base-200: rgba(11, 20, 38, 0.9);
-  --base-300: rgba(17, 29, 54, 0.95);
-  --base-content: var(--tg-text, #f8fafc);
+  --base-100: #09090b;
+  --base-200: #111114;
+  --base-300: #16161a;
+  --base-content: #f4f4f5;
 
-  --primary: #38bdf8;
-  --primary-content: #06283d;
-  --secondary: #a855f7;
-  --accent: #38bdf8;
-  --accent-hover: #0ea5e9;
-  --accent-glow: rgba(56, 189, 248, 0.34);
-  --sky: #38bdf8;
+  --primary: #10b981;
+  --primary-content: #052e16;
+  --secondary: #8b5cf6;
+  --accent: #10b981;
+  --accent-hover: #059669;
+  --accent-glow: rgba(16, 185, 129, 0.28);
+  --sky: #34d399;
 
   --emerald: #10b981;
-  --emerald-light: #4ade80;
+  --emerald-light: #34d399;
   --amber: #f59e0b;
   --rose: #f43f5e;
   --violet: #a855f7;
 
-  /* Crisp low-overhead dark surfaces (no expensive GPU blur over live map) */
-  --bg-dark: #060b16;
-  --bg-glass-header: rgba(8, 16, 32, 0.94);
-  --bg-glass-hud: rgba(10, 19, 38, 0.95);
-  --bg-glass-card: rgba(12, 22, 44, 0.97);
+  /* Matte PARAplan dark surfaces (zero GPU blur overhead) */
+  --bg-dark: #09090b;
+  --bg-surface: #111114;
+  --bg-surface-2: #16161a;
+  --bg-glass-header: rgba(17, 17, 20, 0.96);
+  --bg-glass-hud: rgba(17, 17, 20, 0.97);
+  --bg-glass-card: #111114;
 
-  --border-glass: rgba(56, 189, 248, 0.24);
-  --border-glass-light: rgba(148, 163, 184, 0.16);
-  --border-glass-glow: rgba(56, 189, 248, 0.5);
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --border-glass-light: rgba(255, 255, 255, 0.09);
+  --border-glass-glow: rgba(16, 185, 129, 0.45);
 
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --text-dim: #64748b;
+  --text-main: #f4f4f5;
+  --text-muted: #a1a1aa;
+  --text-dim: #71717a;
 
-  /* Anki SRS semantic tokens */
+  /* Status pill colors */
   --anki-new: #38bdf8;
-  --anki-new-bg: rgba(56, 189, 248, 0.15);
+  --anki-new-bg: rgba(56, 189, 248, 0.14);
   --anki-learn: #f43f5e;
-  --anki-learn-bg: rgba(244, 63, 94, 0.17);
+  --anki-learn-bg: rgba(244, 63, 94, 0.14);
   --anki-review: #f59e0b;
-  --anki-review-bg: rgba(245, 158, 11, 0.17);
+  --anki-review-bg: rgba(245, 158, 11, 0.14);
   --anki-mastered: #10b981;
-  --anki-mastered-bg: rgba(16, 185, 129, 0.18);
+  --anki-mastered-bg: rgba(16, 185, 129, 0.16);
 
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Inter, "Helvetica Neue", sans-serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
   --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.22);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 
@@ -4010,59 +4011,366 @@ body {
 }
 
 /* ========================================================
-   НОВЫЕ ЭЛЕМЕНТЫ: УРОВНИ СЛОЖНОСТИ, ПОИСК В АТЛАСЕ, ⭐ ВАЖНО ЗНАТЬ
+   PARAPLAN THEME SYSTEM OVERRIDES (OBSIDIAN + EMERALD + WHITE)
    ======================================================== */
-.header-diff-pill {
-  background: rgba(245, 158, 11, 0.14);
-  border: 1px solid rgba(245, 158, 11, 0.38);
-  color: #fde68a;
-  padding: 5px 9px;
-  border-radius: 9px;
-  font-size: 11px;
-  font-weight: 800;
+.pp-green-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.75);
+  flex-shrink: 0;
+}
+
+.hub-screen-overlay {
+  background: #09090b !important;
+}
+
+.hub-header {
+  background: #111114 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 22px !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55) !important;
+  padding: 11px 16px !important;
+}
+
+.hub-logo-box {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 12px !important;
+  background: #18181c !important;
+  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+  box-shadow: none !important;
+  font-size: 20px !important;
+}
+
+.hub-subtitle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #a1a1aa !important;
+  font-size: 12px !important;
+}
+
+.pp-nav-dock {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #16161a;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 4px;
+  border-radius: 999px;
+}
+
+.pp-nav-circle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #a1a1aa;
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.pp-nav-circle:hover {
+  background: #222228;
+  color: #ffffff;
+}
+
+.pp-nav-circle.active {
+  background: rgba(16, 185, 129, 0.16);
+  border-color: rgba(16, 185, 129, 0.55);
+  color: #34d399;
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.25);
+  cursor: default;
+}
+
+.hub-stat-pill {
+  background: #16161a !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #e4e4e7 !important;
+  border-radius: 999px !important;
+  padding: 6px 12px !important;
+}
+
+.hub-config-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  background: #111114;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 10px 15px;
+}
+
+.hub-config-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: #a1a1aa;
+  flex-wrap: wrap;
+}
+
+.hub-config-info strong {
+  color: #f4f4f5;
+  font-weight: 700;
+}
+
+.pp-inline-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #18181c;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #e4e4e7;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 999px;
   cursor: pointer;
   white-space: nowrap;
-  flex-shrink: 0;
-  transition: background 0.15s ease, border-color 0.15s ease;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
-.header-diff-pill:hover {
-  background: rgba(245, 158, 11, 0.25);
-  border-color: #fbbf24;
+
+.pp-inline-pill-btn:hover {
+  background: #222228;
+  border-color: rgba(16, 185, 129, 0.5);
   color: #ffffff;
+}
+
+/* Bento Module Cards — стиль списка пар PARAplan */
+.bento-module-card {
+  background: #111114 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+}
+
+.bento-module-card:hover {
+  border-color: rgba(255, 255, 255, 0.16) !important;
+  transform: translateY(-1px) !important;
+}
+
+.bento-mod-badge.mod-1 {
+  background: rgba(245, 158, 11, 0.12) !important;
+  color: #fbbf24 !important;
+  border-color: rgba(245, 158, 11, 0.34) !important;
+}
+.bento-mod-badge.mod-2 {
+  background: rgba(59, 130, 246, 0.13) !important;
+  color: #60a5fa !important;
+  border-color: rgba(59, 130, 246, 0.34) !important;
+}
+.bento-mod-badge.mod-3 {
+  background: rgba(16, 185, 129, 0.13) !important;
+  color: #34d399 !important;
+  border-color: rgba(16, 185, 129, 0.34) !important;
+}
+.bento-mod-badge.mod-4 {
+  background: rgba(168, 85, 247, 0.13) !important;
+  color: #c084fc !important;
+  border-color: rgba(168, 85, 247, 0.34) !important;
+}
+
+.bento-mod-pct {
+  background: #18181c !important;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #e4e4e7 !important;
+  border-radius: 999px !important;
+  padding: 3px 10px !important;
+  font-size: 11.5px !important;
+}
+
+.progress-bar-track {
+  background: #1c1c21 !important;
+}
+.progress-bar-fill {
+  background: #10b981 !important;
+}
+
+.bento-subdeck-chip {
+  background: #16161a !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #e4e4e7 !important;
+  border-radius: 10px !important;
+}
+.bento-subdeck-chip:hover {
+  background: #202026 !important;
+  border-color: rgba(16, 185, 129, 0.5) !important;
+  color: #ffffff !important;
+}
+.bento-subdeck-chip .chip-cnt {
+  color: #34d399 !important;
+}
+
+.bento-mod-footer-3 {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr auto;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.bento-btn-start {
+  background: #ffffff !important;
+  border: 1px solid #ffffff !important;
+  color: #09090b !important;
+  font-weight: 800 !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+}
+.bento-btn-start:hover {
+  background: #e4e4e7 !important;
+  border-color: #e4e4e7 !important;
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.14) !important;
+}
+
+.bento-btn-atlas {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  background: #18181c;
+  color: #f4f4f5;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.bento-btn-atlas:hover {
+  background: #222228;
+  border-color: rgba(16, 185, 129, 0.55);
+  color: #34d399;
+}
+
+.bento-btn-topics {
+  background: #16161a !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #a1a1aa !important;
+  border-radius: 12px !important;
+}
+.bento-btn-topics:hover {
+  background: #202026 !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  color: #ffffff !important;
+}
+
+/* Шапка на карте + HUD + панели в стиле PARAplan */
+.app-header-island,
+.task-hud-card,
+.atlas-explore-bar,
+.atlas-inspector-card,
+.roadmap-drawer,
+.modal-card,
+.subtask-modal-card,
+.briefing-card,
+.anki3d-modal-sheet {
+  background: #111114 !important;
+  border-color: rgba(255, 255, 255, 0.09) !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.72) !important;
+}
+
+.btn-back-hub,
+.batch-select-btn,
+.header-icon-btn,
+.map-ctrl-btn {
+  background: #18181c !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #f4f4f5 !important;
+}
+.btn-back-hub:hover,
+.batch-select-btn:hover,
+.header-icon-btn:hover,
+.map-ctrl-btn:hover {
+  background: #222228 !important;
+  border-color: rgba(16, 185, 129, 0.5) !important;
+}
+.back-arrow {
+  color: #34d399 !important;
+}
+
+.header-pmode-pills,
+.map-segmented-control,
+.anki-deck-counters,
+.streak-mini-pill {
+  background: #16161a !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.h-pmode-btn.active,
+.seg-btn.active,
+.atlas-pill.active,
+.deck-group-tab.active,
+.drawer-tab.active {
+  background: #ffffff !important;
+  color: #09090b !important;
+  border-color: #ffffff !important;
+  font-weight: 800 !important;
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.28) !important;
+}
+
+.btn-primary-action,
+.btn-primary-next,
+.anki3d-flip-cta {
+  background: #ffffff !important;
+  color: #09090b !important;
+  border: 1px solid #ffffff !important;
+  box-shadow: none !important;
+  font-weight: 800 !important;
+}
+.btn-primary-action:hover,
+.btn-primary-next:hover,
+.anki3d-flip-cta:hover {
+  background: #e4e4e7 !important;
+  border-color: #e4e4e7 !important;
 }
 
 .atlas-inline-search {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: rgba(6, 12, 26, 0.85);
-  border: 1px solid rgba(56, 189, 248, 0.32);
+  background: #16161a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
-  padding: 4px 9px;
+  padding: 5px 10px;
   min-width: 190px;
   flex: 1 1 200px;
 }
+.atlas-inline-search:focus-within {
+  border-color: rgba(16, 185, 129, 0.6);
+}
 .atlas-search-ico {
   font-size: 12px;
-  opacity: 0.75;
+  opacity: 0.7;
 }
 .atlas-search-input {
   background: transparent;
   border: none;
   outline: none;
-  color: #f8fafc;
-  font-size: 12px;
+  color: #f4f4f5;
+  font-size: 12.5px;
   font-weight: 600;
   width: 100%;
   min-width: 0;
 }
 .atlas-search-input::placeholder {
-  color: #64748b;
+  color: #71717a;
 }
 .atlas-search-clear {
   background: transparent;
   border: none;
-  color: #94a3b8;
+  color: #a1a1aa;
   font-size: 12px;
   cursor: pointer;
   padding: 0 2px;
@@ -4071,29 +4379,30 @@ body {
   color: #ffffff;
 }
 
-.anki3d-important-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 3px 9px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 800;
-  background: rgba(245, 158, 11, 0.2);
-  color: #fde68a;
-  border: 1px solid rgba(251, 191, 36, 0.5);
+.anki3d-face {
+  background: #111114 !important;
+  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+}
+.anki3d-metric-box {
+  background: #16161a !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+.anki3d-metric-lbl {
+  color: #71717a !important;
+}
+.anki3d-metric-val {
+  color: #f4f4f5 !important;
+}
+.anki3d-main-answer {
+  background: #16161a !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #f4f4f5 !important;
 }
 
-.anki3d-metric-box.is-important {
-  background: rgba(245, 158, 11, 0.14);
-  border-color: rgba(251, 191, 36, 0.45);
-}
-.anki3d-metric-box.is-important .anki3d-metric-lbl {
-  color: #fcd34d;
-  font-weight: 700;
-}
-.anki3d-metric-box.is-reference {
-  opacity: 0.78;
+.drawer-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .hub-footer-reset-row {
@@ -4104,7 +4413,7 @@ body {
 .hub-reset-link-btn {
   background: transparent;
   border: none;
-  color: #64748b;
+  color: #71717a;
   font-size: 11.5px;
   font-weight: 600;
   cursor: pointer;
@@ -4116,90 +4425,157 @@ body {
   color: #fda4af;
 }
 
-/* Модалка выбора целевой оценки */
-.difficulty-modal-card {
-  width: min(560px, 100%);
-}
-.difficulty-options-list {
+/* ========================================================
+   МОДАЛКА «НАСТРОЙКА ОПРОСА» (Скриншот №2 PARAplan)
+   ======================================================== */
+.pp-settings-card {
+  width: min(520px, 100%) !important;
+  background: #111114 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 22px !important;
+  padding: 18px !important;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-top: 6px;
+  gap: 16px;
 }
-.diff-option-card {
-  text-align: left;
-  width: 100%;
-  background: rgba(15, 27, 50, 0.86);
-  border: 1.5px solid rgba(148, 163, 184, 0.2);
-  border-radius: 16px;
-  padding: 13px 15px;
-  cursor: pointer;
-  transition: border-color 0.16s ease, background 0.16s ease, transform 0.14s ease;
-}
-.diff-option-card:hover {
-  background: rgba(23, 41, 74, 0.94);
-  border-color: rgba(56, 189, 248, 0.55);
-  transform: translateY(-1px);
-}
-.diff-option-card.active {
-  border-color: #38bdf8;
-  background: rgba(2, 132, 199, 0.18);
-  box-shadow: 0 0 18px rgba(56, 189, 248, 0.2);
-}
-.diff-opt-head {
+
+.pp-settings-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 6px;
+  gap: 12px;
 }
-.diff-grade-badge {
-  display: inline-flex;
+.pp-settings-title-wrap {
+  display: flex;
   align-items: center;
-  padding: 3px 10px;
-  border-radius: 999px;
-  font-size: 12px;
+  gap: 10px;
+}
+.pp-logo-sq {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #18181c;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+.pp-settings-header h3 {
+  font-size: 16px;
   font-weight: 800;
+  color: #f4f4f5;
+  margin: 0;
 }
-.diff-grade-badge.tier-1 {
-  background: rgba(16, 185, 129, 0.18);
-  color: #6ee7b7;
-  border: 1px solid rgba(16, 185, 129, 0.42);
-}
-.diff-grade-badge.tier-2 {
-  background: rgba(56, 189, 248, 0.18);
-  color: #7dd3fc;
-  border: 1px solid rgba(56, 189, 248, 0.42);
-}
-.diff-grade-badge.tier-3 {
-  background: rgba(245, 158, 11, 0.18);
-  color: #fde68a;
-  border: 1px solid rgba(245, 158, 11, 0.42);
-}
-.diff-opt-tag {
-  font-size: 11px;
-  font-weight: 700;
-  color: #94a3b8;
-}
-.diff-opt-title {
-  font-size: 14.5px;
-  font-weight: 800;
-  color: #f8fafc;
-  margin-bottom: 4px;
-}
-.diff-opt-desc {
-  font-size: 12px;
-  color: #cbd5e1;
-  line-height: 1.42;
+.pp-settings-sub {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: #a1a1aa;
+  margin-top: 2px;
 }
 
-.bento-mod-footer-3 {
-  display: grid;
-  grid-template-columns: 1.3fr 1fr auto;
-  gap: 8px;
-  margin-top: auto;
+.pp-settings-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
-@media (max-width: 480px) {
+.pp-setting-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: opacity 0.18s ease;
+}
+.pp-section-label {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #71717a;
+  text-transform: uppercase;
+}
+
+.pp-choice-grid {
+  display: grid;
+  gap: 8px;
+}
+.pp-choice-grid.cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.pp-choice-grid.cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.pp-choice-grid.cols-2 > :last-child:nth-child(odd) {
+  grid-column: span 2;
+}
+.modal-overlay {
+  background: rgba(0, 0, 0, 0.78) !important;
+}
+
+.pp-choice-btn {
+  background: #16161a;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #e4e4e7;
+  border-radius: 13px;
+  padding: 10px 11px;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-align: center;
+  transition: background 0.14s ease, border-color 0.14s ease, color 0.14s ease;
+}
+.pp-choice-btn:hover {
+  background: #202026;
+  border-color: rgba(255, 255, 255, 0.18);
+}
+.pp-choice-btn.active {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #09090b;
+  font-weight: 800;
+}
+.pp-chk {
+  font-weight: 900;
+}
+
+.pp-helper-caption {
+  font-size: 11.5px;
+  color: #71717a;
+  margin-top: 2px;
+}
+
+.pp-apply-btn {
+  width: 100%;
+  background: #ffffff;
+  color: #09090b;
+  border: none;
+  border-radius: 14px;
+  padding: 13px 16px;
+  font-size: 13.5px;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background 0.15s ease;
+}
+.pp-apply-btn:hover {
+  background: #e4e4e7;
+}
+
+@media (max-width: 540px) {
+  .pp-choice-grid.cols-3,
+  .pp-choice-grid.cols-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+  .pp-choice-grid.cols-3 > :last-child {
+    grid-column: span 2;
+  }
   .bento-mod-footer-3 {
     grid-template-columns: 1fr 1fr;
   }

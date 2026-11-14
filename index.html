@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="ru" data-theme="geoatlas">
+<html lang="ru" data-theme="paraplan">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Номенклатура ОЗ — Интерактивный тренажёр физической географии</title>
 
   <!-- PWA & Mobile Web App Meta Tags -->
-  <meta name="theme-color" content="#060b16" />
+  <meta name="theme-color" content="#09090b" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Номенклатура ОЗ" />
@@ -44,16 +44,18 @@
     <div class="hub-screen-overlay" id="hubScreen">
       <div class="hub-container">
 
-        <!-- Верхняя шапка Хаба -->
+        <!-- Верхняя шапка Хаба (стиль PARAplan) -->
         <header class="hub-header">
           <div class="hub-brand">
             <div class="hub-logo-box">🧭</div>
             <div>
               <div class="hub-title-row">
                 <h1 class="hub-title">Номенклатура ОЗ</h1>
-                <span class="tma-pill-badge">Общее землеведение</span>
               </div>
-              <p class="hub-subtitle">Интерактивный тренажёр по карте • 4 раздела</p>
+              <p class="hub-subtitle">
+                <span class="pp-green-dot"></span>
+                <span id="hubProfileSummary">4 раздела • 1 039 объектов</span>
+              </p>
             </div>
           </div>
 
@@ -62,11 +64,28 @@
               <span>🔥</span>
               <span id="hubStreakSummary">Серия: 0</span>
             </div>
-            <button class="header-icon-btn" id="hubSoundBtn" title="Включить / выключить звук">
-              <span id="hubSoundIcon">🔔</span>
-            </button>
+            <div class="pp-nav-dock">
+              <span class="pp-nav-circle active" title="Главный экран">🗺️</span>
+              <button class="pp-nav-circle" id="hubConfigBtn" title="Настройка опроса и параметров">⚙️</button>
+              <button class="pp-nav-circle" id="hubSoundBtn" title="Включить / выключить звук">
+                <span id="hubSoundIcon">🔔</span>
+              </button>
+            </div>
           </div>
         </header>
+
+        <!-- Быстрая панель настройки опроса под шапкой -->
+        <div class="hub-config-strip" id="hubConfigBanner">
+          <div class="hub-config-info">
+            <span class="pp-green-dot"></span>
+            <span class="hub-config-caption">Опрос:</span>
+            <strong id="hubConfigLabel">Основной • Карта + характеристики</strong>
+          </div>
+          <button type="button" class="pp-inline-pill-btn" id="hubOpenConfigBtn">
+            <span>⚙️</span>
+            <span>Настроить опрос</span>
+          </button>
+        </div>
 
         <!-- 4 больших раздела курса -->
         <div class="hub-bento-modules-grid" id="hubModulesBentoGrid">
@@ -98,10 +117,6 @@
           <span class="batch-icon" id="headerModeIcon">🧭</span>
           <span class="batch-title" id="islandBatchTitle">Раздел</span>
           <span class="batch-arrow">▾</span>
-        </button>
-
-        <button class="header-diff-pill" id="headerDifficultyBtn" title="Изменить целевую оценку (уровень сложности)">
-          <span id="headerDifficultyLabel">🎯 7–8 б.</span>
         </button>
 
         <!-- Переключатель: Обучение / Атлас -->
@@ -153,6 +168,10 @@
         <button class="header-icon-btn" id="openRoadmapBtn" title="Список объектов темы">
           <span class="btn-icon">📋</span>
           <span class="btn-text-desktop">Список</span>
+        </button>
+
+        <button class="header-icon-btn pp-config-btn" id="headerConfigBtn" title="Настройка опроса и сложности">
+          <span>⚙️</span>
         </button>
 
         <button class="header-icon-btn" id="soundBtn" title="Включить / выключить звук">
@@ -308,7 +327,6 @@
           <div class="anki3d-badges">
             <span class="anki3d-mod-pill" id="anki3dModulePill">Раздел 1</span>
             <span class="anki3d-hit-pill" id="anki3dHitStatusPill">🎯 Точно на карте</span>
-            <span class="anki3d-important-pill" id="anki3dImportantBadge" style="display: none;">⭐ Важно знать</span>
           </div>
           <button type="button" class="anki3d-peek-btn" id="anki3dPeekMapBtn" title="Посмотреть объект на карте">
             <span>🗺️</span>
@@ -573,7 +591,10 @@
           <h3 id="drawerMainTitle">📋 Номенклатура объектов</h3>
           <p id="drawerSubTitle">Поиск, статусы памяти и быстрый переход</p>
         </div>
-        <button class="drawer-close-btn" id="closeRoadmapBtn" title="Закрыть">✕</button>
+        <div class="drawer-header-actions">
+          <button class="pp-inline-pill-btn" id="drawerOpenConfigBtn" title="Настроить что спрашивать в опросе">⚙️ Опрос</button>
+          <button class="drawer-close-btn" id="closeRoadmapBtn" title="Закрыть">✕</button>
+        </div>
       </div>
 
       <!-- Строка мгновенного поиска -->
@@ -639,63 +660,69 @@
     </div>
 
     <!-- ========================================================
-         МОДАЛЬНОЕ ОКНО ВЫБОРА СЛОЖНОСТИ («НА КАКУЮ ОЦЕНКУ ГОТОВИМСЯ?»)
+         НАСТРОЙКА ОПРОСА (ГИБКАЯ НАСТРОЙКА В СТИЛЕ PARAPLAN)
          ======================================================== -->
-    <div class="modal-overlay" id="difficultyModal">
-      <div class="modal-card difficulty-modal-card">
-        <div class="modal-header-row">
-          <div>
-            <h3 id="diffModalTitle">🎯 На какую оценку готовимся?</h3>
-            <p class="modal-sub-caption" id="diffModalSub">Уровень сложности определяет состав объектов и глубину характеристик (можно переключить в любой момент)</p>
+    <div class="modal-overlay" id="surveyConfigModal">
+      <div class="modal-card pp-settings-card">
+        <div class="pp-settings-header">
+          <div class="pp-settings-title-wrap">
+            <div class="pp-logo-sq">🧭</div>
+            <div>
+              <h3>Настройка опроса</h3>
+              <p class="pp-settings-sub"><span class="pp-green-dot"></span> Параметры можно менять в любой момент</p>
+            </div>
           </div>
-          <button class="drawer-close-btn" id="closeDifficultyModalBtn">✕</button>
+          <button class="drawer-close-btn" id="closeSurveyConfigModalBtn" title="Закрыть">✕</button>
         </div>
 
-        <div class="difficulty-options-list" id="difficultyOptionsList">
-          <button type="button" class="diff-option-card" data-tier="tier1">
-            <div class="diff-opt-head">
-              <span class="diff-grade-badge tier-1">5–6 баллов</span>
-              <span class="diff-opt-tag">Базовый уровень</span>
+        <div class="pp-settings-body">
+          <!-- Блок 1: Быстрый профиль -->
+          <div class="pp-setting-section">
+            <div class="pp-section-label">БЫСТРЫЙ ПРОФИЛЬ</div>
+            <div class="pp-choice-grid cols-3" id="cfgPresetRow">
+              <button type="button" class="pp-choice-btn" data-preset="map_only">Только карта</button>
+              <button type="button" class="pp-choice-btn active" data-preset="balanced">Основной</button>
+              <button type="button" class="pp-choice-btn" data-preset="full">Максимум</button>
             </div>
-            <div class="diff-opt-title">Основные объекты и ключевые ориентиры</div>
-            <p class="diff-opt-desc">Только самые важные географические объекты и базовые характеристики главных вершин, течений и островов.</p>
-          </button>
+          </div>
 
-          <button type="button" class="diff-option-card" data-tier="tier2">
-            <div class="diff-opt-head">
-              <span class="diff-grade-badge tier-2">7–8 баллов</span>
-              <span class="diff-opt-tag">Уверенный уровень</span>
+          <!-- Блок 2: Охват объектов -->
+          <div class="pp-setting-section">
+            <div class="pp-section-label">ОХВАТ ОБЪЕКТОВ В ТЕМАХ</div>
+            <div class="pp-choice-grid cols-3" id="cfgScopeRow">
+              <button type="button" class="pp-choice-btn" data-scope="core">Ключевые</button>
+              <button type="button" class="pp-choice-btn active" data-scope="extended">Расширенный</button>
+              <button type="button" class="pp-choice-btn" data-scope="all">Все (100%)</button>
             </div>
-            <div class="diff-opt-title">Расширенная номенклатура и характеристики</div>
-            <p class="diff-opt-desc">Объекты средней и высокой важности. Спрашиваются складчатость гор, происхождение островов, течения, вулканы, озёра и водопады.</p>
-          </button>
+          </div>
 
-          <button type="button" class="diff-option-card" data-tier="tier3">
-            <div class="diff-opt-head">
-              <span class="diff-grade-badge tier-3">9–10 баллов</span>
-              <span class="diff-opt-tag">Максимум</span>
+          <!-- Блок 3: Карточка характеристик после карты -->
+          <div class="pp-setting-section">
+            <div class="pp-section-label">КАРТОЧКА ТЕОРИИ ПОСЛЕ КАРТЫ</div>
+            <div class="pp-choice-grid cols-3" id="cfgCardModeRow">
+              <button type="button" class="pp-choice-btn" data-cardmode="never">Не открывать</button>
+              <button type="button" class="pp-choice-btn active" data-cardmode="smart">По темам</button>
+              <button type="button" class="pp-choice-btn" data-cardmode="always">Для всех</button>
             </div>
-            <div class="diff-opt-title">Вся номенклатура и характеристики почти всего</div>
-            <p class="diff-opt-desc">Все объекты раздела, включая редкие. Карточка с характеристиками открывается практически для каждого объекта (высоты второстепенных хребтов — справочно).</p>
-          </button>
+          </div>
+
+          <!-- Блок 4: Какие параметры показывать и опрашивать -->
+          <div class="pp-setting-section">
+            <div class="pp-section-label">ЧТО СПРАШИВАТЬ В ХАРАКТЕРИСТИКАХ</div>
+            <div class="pp-choice-grid cols-2" id="cfgTopicsGrid">
+              <button type="button" class="pp-choice-btn active" data-topic="folding">Складчатость гор <span class="pp-chk">✓</span></button>
+              <button type="button" class="pp-choice-btn active" data-topic="metrics">Высоты и глубины <span class="pp-chk">✓</span></button>
+              <button type="button" class="pp-choice-btn active" data-topic="origin">Типы островов, озёр, пустынь <span class="pp-chk">✓</span></button>
+              <button type="button" class="pp-choice-btn active" data-topic="ocean">Течения, желоба и моря <span class="pp-chk">✓</span></button>
+              <button type="button" class="pp-choice-btn active" data-topic="notes">Описание и регион <span class="pp-chk">✓</span></button>
+            </div>
+            <p class="pp-helper-caption">Нажмите на параметр, чтобы включить или исключить его из опроса</p>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <!-- ========================================================
-         ПРЕДЛОЖЕНИЕ ПОВЫСИТЬ СЛОЖНОСТЬ (АДАПТИВНЫЙ ПОДЪЁМ)
-         ======================================================== -->
-    <div class="modal-overlay" id="upgradeNudgeModal">
-      <div class="modal-card celebration">
-        <div class="celebration-trophy">🚀</div>
-        <h2 id="upgradeNudgeTitle">Отлично получается!</h2>
-        <p class="celebration-desc" id="upgradeNudgeDesc">
-          Ты уверенно отвечаешь на текущем уровне. Готов перейти на следующий уровень сложности?
-        </p>
-        <div class="results-actions-row">
-          <button class="btn-primary-action" id="upgradeNudgeAcceptBtn">Перейти выше →</button>
-          <button class="btn-ghost-tool" id="upgradeNudgeStayBtn">Пока остаться здесь</button>
-        </div>
+        <button type="button" class="pp-apply-btn" id="saveSurveyConfigBtn">
+          ✓ Применить настройки
+        </button>
       </div>
     </div>
 
