@@ -227,7 +227,7 @@
         const stats = engine.getModuleStats(mod.id, scope);
         const card = document.createElement('article');
         card.className = 'module-card stagger-item';
-        card.style.setProperty('--mod-color', mod.color || '#10b981');
+        card.style.setProperty('--mod-color', 'var(--accent)');
 
         const visibleDecks = (mod.decks || []).filter((d) => !/^m[1234]_all$/.test(d.id));
 
