@@ -117,7 +117,9 @@ function run() {
   });
 
   const m1Cont = reg.module1.items.filter((i) => i.submoduleId === 'm1_continents_earth');
-  assert.strictEqual(m1Cont.length, 34, `Expected 34 items in m1_continents_earth, got ${m1Cont.length}`);
+  assert.strictEqual(m1Cont.length, 28, `Expected 28 items in m1_continents_earth, got ${m1Cont.length}`);
+  assert(!reg.module1.items.some((i) => i.id === 'm1_earth_total_area' || i.id === 'm1_earth_land_area'), 'Earth total area & land % removed');
+  assert(!reg.module1.items.some((i) => ['m1_desert_hamada', 'm1_desert_serir_reg', 'm1_desert_erg_kum_nefud', 'm1_desert_shor_takyr'].includes(i.id)), 'Desert glossary cards removed');
 
   const andes = reg.module2.items.find((i) => i.id === 'm2_mtn_andes');
   const ural = reg.module2.items.find((i) => i.id === 'm2_mtn_ural_mountains');
@@ -171,8 +173,10 @@ function run() {
   assert.deepStrictEqual(StorageAdapter.defaultMeta().exploredSections, {}, 'Default exploredSections must be empty object');
   LearningEngine.init({}, StorageAdapter.defaultMeta());
 
-  // Verify oral theory cards ONLY on non-map items (M1=22 theory cards, M3=5 whole oceans; 12 peaks/depressions are on M1 map!)
-  assert.strictEqual(LearningEngine.getModuleTheoryItems('module1', 'full').length, 22, 'M1 oral theory has 22 continent/Earth cards');
+  // Verify oral theory cards ONLY on non-map items (M1=16 theory cards, M3=5 whole oceans; 12 peaks/depressions are on M1 map!)
+  assert.strictEqual(LearningEngine.getModuleTheoryItems('module1', 'full').length, 16, 'M1 oral theory has 16 continent/Oceania cards');
+  const aDesert = reg.module1.items.find((i) => i.category === 'desert');
+  assert(aDesert && !QuizConfig.buildCardSpec(aDesert, 'custom_full', { module1: { islands: true } }).requiresFlipCard, 'Desert items do not prompt characteristic cards');
   assert.strictEqual(LearningEngine.getModuleTheoryItems('module3', 'full').length, 5, 'M3 oral theory has 5 whole oceans');
   assert.strictEqual(LearningEngine.getModuleTheoryItems('module2', 'full').length, 0, 'M2 has no standalone non-map card deck');
   assert.strictEqual(LearningEngine.getModuleTheoryItems('module4', 'full').length, 0, 'M4 has no standalone non-map card deck');

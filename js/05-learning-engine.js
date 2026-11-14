@@ -98,10 +98,11 @@
       } else if (
         item.category === 'continental_island' ||
         item.category === 'volcanic_island' ||
-        item.category === 'coral_island' ||
-        item.category === 'desert'
+        item.category === 'coral_island'
       ) {
         enabled = useCustom ? !!modCfg.islands : false;
+      } else if (item.category === 'desert') {
+        enabled = false;
       } else if (item.category === 'mountains') {
         enabled = !useCustom || modCfg.mountainAge !== false;
       } else if (item.category === 'volcanoes') {

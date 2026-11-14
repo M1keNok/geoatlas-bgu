@@ -7820,33 +7820,6 @@ const MODULE1_THEORY_ITEMS = [];
 
 const EXTRA_THEORY_ITEMS = [
   {
-    id: "m1_earth_total_area",
-    name: "Общая площадь поверхности Земли",
-    shortName: "Площадь Земли",
-    region: "Мир",
-    lat: 15, lng: 0,
-    frontQuestion: "Какова общая площадь поверхности Земли (океан + суша)?",
-    backMainAnswer: "510,2 млн км² (океан 361,1 млн км² / 70,8%, суша 149,1 млн км² / 29,2%)",
-    metrics: [
-      { label: "Поверхность Земли", value: "510,2 млн км²" },
-      { label: "Мировой океан", value: "361,1 млн км² (70,8%)" },
-      { label: "Суша", value: "149,1 млн км² (29,2%)" }
-    ]
-  },
-  {
-    id: "m1_earth_land_area",
-    name: "Площадь суши Земли и доля в %",
-    shortName: "Площадь суши",
-    region: "Мир",
-    lat: 25, lng: 20,
-    frontQuestion: "Какова площадь суши Земли со всеми островами и её доля от площади планеты?",
-    backMainAnswer: "149,1 млн км² (29,2% поверхности Земли)",
-    metrics: [
-      { label: "Площадь суши", value: "149,1 млн км²" },
-      { label: "Доля от Земли", value: "29,2%" }
-    ]
-  },
-  {
     id: "m1_oceania_melanesia",
     name: "Меланезия (Океания)",
     shortName: "Меланезия",
@@ -7901,56 +7874,6 @@ const EXTRA_THEORY_ITEMS = [
       { label: "Море", value: "Запад Саргассова моря (Атлантика)" },
       { label: "Вершины", value: "Бермуды — Флорида — Пуэрто-Рико" }
     ]
-  },
-  {
-    id: "m1_desert_hamada",
-    name: "Гамада (хамада)",
-    shortName: "Гамада",
-    region: "Типы пустынь",
-    lat: 26, lng: 12,
-    frontQuestion: "Что представляет собой пустыня типа «гамада (хамада)»?",
-    backMainAnswer: "Каменистая пустыня с обнажёнными скальными породами и щебнем",
-    metrics: [{ label: "Характер покрова", value: "Коренные скалы, щебень без почв" }]
-  },
-  {
-    id: "m1_desert_serir_reg",
-    name: "Серир и Рег",
-    shortName: "Серир и Рег",
-    region: "Типы пустынь",
-    lat: 24, lng: 18,
-    frontQuestion: "В чём различие пустынь типа «серир» и «рег»?",
-    backMainAnswer: "Серир — глинистая с галечниковым покровом; Рег — песчано-гравийная после дефляции (выдувания)",
-    metrics: [
-      { label: "Серир", value: "Глинистая поверхность с плотной галькой (Ливия, Египет)" },
-      { label: "Рег", value: "Гравийно-галечниковый панцирь после выдувания песка" }
-    ]
-  },
-  {
-    id: "m1_desert_erg_kum_nefud",
-    name: "Эрги, кумы и нефуды",
-    shortName: "Эрги / Кумы / Нефуды",
-    region: "Типы пустынь",
-    lat: 35, lng: 45,
-    frontQuestion: "К каким регионам мира относятся песчаные пустыни «эрги», «кумы» и «нефуды»?",
-    backMainAnswer: "Кумы — Ср. Азия, Эрги — Сев. Африка (Сахара), Нефуды — Аравийский п-ов",
-    metrics: [
-      { label: "Кумы", value: "Средняя Азия (Каракумы, Кызылкум)" },
-      { label: "Эрги", value: "Сахара (Большой Восточный и Западный Эрг)" },
-      { label: "Нефуды", value: "Аравия (Большой и Малый Нефуд)" }
-    ]
-  },
-  {
-    id: "m1_desert_shor_takyr",
-    name: "Шоры (кевиры) и такыры",
-    shortName: "Шоры и такыры",
-    region: "Типы пустынь",
-    lat: 38, lng: 56,
-    frontQuestion: "Чем отличаются «такыры» от «шоров (кевиров)» в аридных областях?",
-    backMainAnswer: "Такыры — гладкие глинистые днища в многоугольных трещинах; Шоры (кевиры) — солончаковые пустыни с коркой соли",
-    metrics: [
-      { label: "Такыр", value: "Плоский глинистый «паркет» в замкнутом понижении" },
-      { label: "Шор / Кевир", value: "Глинистый солончак с коркой соли (Деште-Кевир)" }
-    ]
   }
 ];
 
@@ -7960,7 +7883,7 @@ EXTRA_THEORY_ITEMS.forEach((et) => {
     moduleId: "module1",
     submoduleId: "m1_continents_earth",
     category: "continent_theory",
-    categoryRu: et.region === "Типы пустынь" ? "Глоссарий пустынь" : "Метрики Земли и Океании",
+    categoryRu: "Океания и регионы",
     isCoreLandmark: true,
     name: et.name,
     shortName: et.shortName,
@@ -7993,7 +7916,7 @@ window.GEO_MODULES_REGISTRY.module1 = {
   color: "emerald",
   decks: [
     { id: "m1_all", title: `Весь Раздел 1 (${MODULE1_UNIFIED_ITEMS.length} объектов)`, count: MODULE1_UNIFIED_ITEMS.length },
-    { id: "m1_continents_earth", title: "Материки, Земля, Океания и типы пустынь", count: MODULE1_THEORY_ITEMS.length },
+    { id: "m1_continents_earth", title: "Материки и Океания", count: MODULE1_THEORY_ITEMS.length },
     { id: "m1_capes", title: "Крайние мысы материков", count: MODULE1_BASE_ITEMS.filter(i => i.submoduleId === "m1_capes").length },
     { id: "m1_peninsulas", title: "Полуострова", count: MODULE1_BASE_ITEMS.filter(i => i.submoduleId === "m1_peninsulas").length },
     { id: "m1_islands", title: "Острова (материковые, вулкан., коралловые)", count: MODULE1_BASE_ITEMS.filter(i => i.submoduleId === "m1_islands").length },
