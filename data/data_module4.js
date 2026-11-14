@@ -1,6 +1,6 @@
 /**
  * data/data_module4.js — Раздел 4: Реки, озёра, водопады
- * ГеоАтлас v9.0 (Общее Землеведение, БГУ)
+ * ГеоАтлас v9.0 (Общее землеведение и картография)
  */
 
 window.GEO_MODULES_REGISTRY = window.GEO_MODULES_REGISTRY || {};

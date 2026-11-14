@@ -1,5 +1,5 @@
 /**
- * ГеоАтлас v10.0 — GeoMath & Spatial Clustering (Polylines, Bounds, 8-Rhumb Compass, Neighbor Chains)
+ * ГеоАтлас / Тренажер ОЗК — GeoMath (Normalized Bounds, Polylines, Antimeridian, 8-Rhumb Compass, Basic->Niche Order)
  */
 (function (global) {
   'use strict';
@@ -21,20 +21,8 @@
     { dir: 'СЗ', arrow: '↖️', label: 'северо-западнее' }
   ];
 
-  const MACROREGION_ORDER = [
-    'belarus_ee',
-    'europe',
-    'asia_nc',
-    'asia_foreign',
-    'africa',
-    'north_america',
-    'south_america',
-    'australia_oceania',
-    'antarctica_oceans'
-  ];
-
   const MACROREGION_LABELS = {
-    belarus_ee: 'Беларусь и Восточная Европа',
+    belarus_ee: 'Восточная Европа',
     europe: 'Зарубежная Европа',
     asia_nc: 'Северная и Центральная Азия',
     asia_foreign: 'Зарубежная Азия',
@@ -52,6 +40,37 @@
 
   function shortestLngDelta(fromLng, toLng) {
     return ((toLng - fromLng + 540) % 360) - 180;
+  }
+
+  function normalizeBounds(bounds) {
+    if (!Array.isArray(bounds)) return null;
+    if (bounds.length === 4 && typeof bounds[0] === 'number') {
+      const [s, w, n, e] = bounds.map(Number);
+      if ([s, w, n, e].some(Number.isNaN)) return null;
+      return [
+        [Math.min(s, n), w],
+        [Math.max(s, n), e]
+      ];
+    }
+    if (bounds.length === 2 && Array.isArray(bounds[0]) && Array.isArray(bounds[1])) {
+      const [s, w] = bounds[0].map(Number);
+      const [n, e] = bounds[1].map(Number);
+      if ([s, w, n, e].some(Number.isNaN)) return null;
+      return [
+        [Math.min(s, n), w],
+        [Math.max(s, n), e]
+      ];
+    }
+    return null;
+  }
+
+  function isOralTheoryItem(item) {
+    if (!item) return false;
+    return (
+      item.geometryType === 'none' ||
+      item.geometryType === 'region_focus' ||
+      item.submoduleId === 'm1_continents_earth'
+    );
   }
 
   function calcDistanceKm(lat1, lng1, lat2, lng2) {
@@ -82,9 +101,7 @@
       return Math.hypot(ax, ay);
     }
     const t = Math.max(0, Math.min(1, -(ax * dx + ay * dy) / lenSq));
-    const projX = ax + t * dx;
-    const projY = ay + t * dy;
-    return Math.hypot(projX, projY);
+    return Math.hypot(ax + t * dx, ay + t * dy);
   }
 
   function calcPolylineDistanceKm(lat, lng, coords) {
@@ -105,16 +122,20 @@
 
   function getItemCenter(item) {
     if (!item) return { lat: 0, lng: 0 };
-    if (Array.isArray(item.bounds) && item.bounds.length === 2) {
-      const [[minLat, minLng], [maxLat, maxLng]] = item.bounds;
+    if (Array.isArray(item.coords) && item.coords.length > 0) {
+      const mid = item.coords[Math.floor(item.coords.length / 2)];
+      return { lat: Number(mid[0]) || 0, lng: Number(mid[1]) || 0 };
+    }
+    if (typeof item.lat === 'number' && typeof item.lng === 'number' && (item.lat !== 0 || item.lng !== 0)) {
+      return { lat: item.lat, lng: item.lng };
+    }
+    const nb = normalizeBounds(item.bounds);
+    if (nb) {
+      const [[minLat, minLng], [maxLat, maxLng]] = nb;
       return {
         lat: (minLat + maxLat) / 2,
         lng: normalizeLng((minLng + maxLng) / 2)
       };
-    }
-    if (Array.isArray(item.coords) && item.coords.length > 0) {
-      const mid = item.coords[Math.floor(item.coords.length / 2)];
-      return { lat: Number(mid[0]) || 0, lng: Number(mid[1]) || 0 };
     }
     return { lat: Number(item.lat) || 0, lng: Number(item.lng) || 0 };
   }
@@ -143,34 +164,34 @@
   function getToleranceKm(item, zoom = 3) {
     const z = Number(zoom) || 3;
     const isLine = item && item.geometryType === 'polyline' && Array.isArray(item.coords);
-    const isBbox = item && Array.isArray(item.bounds);
+    const nb = item ? normalizeBounds(item.bounds) : null;
+    const customRadius = item && typeof item.hitRadiusKm === 'number' ? item.hitRadiusKm : 0;
 
-    if (isBbox) {
-      if (z <= 3) return 210;
-      if (z <= 5) return 150;
-      return 100;
+    let baseTol = 180;
+    if (nb) {
+      baseTol = z <= 3 ? 210 : z <= 5 ? 150 : 100;
+    } else if (isLine) {
+      baseTol = z <= 2 ? 260 : z <= 4 ? 195 : z <= 6 ? 145 : 110;
+    } else {
+      baseTol = z <= 2 ? 250 : z <= 4 ? 185 : z <= 6 ? 130 : 85;
     }
-    if (isLine) {
-      if (z <= 2) return 260;
-      if (z <= 4) return 195;
-      if (z <= 6) return 145;
-      return 110;
+
+    if (customRadius > 0 && !nb) {
+      return Math.max(baseTol, Math.min(customRadius, 450));
     }
-    if (z <= 2) return 245;
-    if (z <= 4) return 175;
-    if (z <= 6) return 120;
-    return 75;
+    return baseTol;
   }
 
   function checkSpatialHit(clickLat, clickLng, item, zoom = 3) {
-    if (!item || item.geometryType === 'none') {
+    if (!item || isOralTheoryItem(item)) {
       return { hit: true, distKm: 0, targetLat: 0, targetLng: 0 };
     }
     const tolKm = getToleranceKm(item, zoom);
     const center = getItemCenter(item);
+    const nb = normalizeBounds(item.bounds);
 
-    if (Array.isArray(item.bounds) && item.bounds.length === 2) {
-      const [[minLat, minLng], [maxLat, maxLng]] = item.bounds;
+    if (nb) {
+      const [[minLat, minLng], [maxLat, maxLng]] = nb;
       const clampedLat = Math.max(minLat, Math.min(maxLat, clickLat));
       let clampedLng = clickLng;
       if (minLng <= maxLng) {
@@ -213,103 +234,55 @@
 
   function getMacroregion(item) {
     if (!item) return 'antarctica_oceans';
-    const reg = String(item.region || '').toLowerCase();
-    const cont = String(item.continent || '').toLowerCase();
-    const text = reg + ' ' + cont;
-
-    if (item.geometryType === 'none') {
-      if (cont.includes('евраз')) return 'asia_nc';
-      if (cont.includes('африк')) return 'africa';
-      if (cont.includes('северная америк')) return 'north_america';
-      if (cont.includes('южная америк')) return 'south_america';
-      if (cont.includes('австрал') || text.includes('океан')) return 'australia_oceania';
-      return 'antarctica_oceans';
-    }
-
+    const text = `${item.region || ''} ${item.continent || ''}`.toLowerCase();
     const { lat, lng } = getItemCenter(item);
 
-    if (text.includes('беларус') || (lat >= 51 && lat <= 56.5 && lng >= 23 && lng <= 33)) {
-      return 'belarus_ee';
-    }
-    if (text.includes('антаркт') || lat <= -58) {
-      return 'antarctica_oceans';
-    }
-    if (text.includes('южная америк') || (lat < 13 && lng >= -85 && lng <= -32)) {
-      return 'south_america';
-    }
-    if (text.includes('северная америк') || (lat >= 7 && lng >= -172 && lng <= -50)) {
-      return 'north_america';
-    }
-    if (text.includes('австрал') || text.includes('океани') || (lat <= 0 && lng >= 110 && lng <= 180) || (lat <= -10 && lng <= -120)) {
-      return 'australia_oceania';
-    }
-    if (text.includes('африк') || (lat >= -36 && lat <= 37.5 && lng >= -19 && lng <= 52 && !(lat >= 28 && lng >= 25))) {
-      return 'africa';
-    }
-    if (lat >= 46 && lng >= 33 && lng <= 180) {
-      return 'asia_nc';
-    }
-    if (lat >= 35 && lng >= -25 && lng < 48) {
-      return 'europe';
-    }
-    if (lng >= 26 && lng <= 180 && lat >= -12) {
-      return 'asia_foreign';
-    }
+    if (text.includes('беларус') || (lat >= 51 && lat <= 56.5 && lng >= 23 && lng <= 33)) return 'belarus_ee';
+    if (text.includes('антаркт') || lat <= -58) return 'antarctica_oceans';
+    if (text.includes('южная америк') || (lat < 13 && lng >= -85 && lng <= -32)) return 'south_america';
+    if (text.includes('северная америк') || (lat >= 7 && lng >= -172 && lng <= -50)) return 'north_america';
+    if (text.includes('австрал') || text.includes('океани') || (lat <= 0 && lng >= 110 && lng <= 180) || (lat <= -10 && lng <= -120)) return 'australia_oceania';
+    if (text.includes('африк') || (lat >= -36 && lat <= 37.5 && lng >= -19 && lng <= 52 && !(lat >= 28 && lng >= 25))) return 'africa';
+    if (lat >= 46 && lng >= 33 && lng <= 180) return 'asia_nc';
+    if (lat >= 35 && lng >= -25 && lng < 48) return 'europe';
+    if (lng >= 26 && lng <= 180 && lat >= -12) return 'asia_foreign';
     return 'antarctica_oceans';
   }
 
-  function sortItemsSpatially(items) {
-    if (!Array.isArray(items) || items.length <= 1) return (items || []).slice();
-    const buckets = {};
-    MACROREGION_ORDER.forEach((k) => (buckets[k] = []));
+  function sortItemsBasicToNiche(items, getStateFn = null) {
+    if (!Array.isArray(items)) return [];
+    return items.slice().sort((a, b) => {
+      const sa = getStateFn ? getStateFn(a.id) : null;
+      const sb = getStateFn ? getStateFn(b.id) : null;
 
-    items.forEach((it) => {
-      const m = getMacroregion(it);
-      (buckets[m] || buckets.antarctica_oceans).push(it);
+      // Priority 1: Weak/unmastered ahead of already mastered
+      const aWeak = sa && sa.weakSpot ? 0 : 1;
+      const bWeak = sb && sb.weakSpot ? 0 : 1;
+      if (aWeak !== bWeak) return aWeak - bWeak;
+
+      const aMast = sa && sa.status === 'mastered' && (sa.reps || 0) >= 2 ? 1 : 0;
+      const bMast = sb && sb.status === 'mastered' && (sb.reps || 0) >= 2 ? 1 : 0;
+      if (aMast !== bMast) return aMast - bMast;
+
+      // Priority 2: Core landmarks (basic) first, niche objects progressively later
+      const aCore = a.isCoreLandmark ? 0 : 1;
+      const bCore = b.isCoreLandmark ? 0 : 1;
+      if (aCore !== bCore) return aCore - bCore;
+
+      // Priority 3: Keep objects grouped neatly by macroregion
+      const ma = getMacroregion(a);
+      const mb = getMacroregion(b);
+      if (ma !== mb) return ma.localeCompare(mb);
+
+      return 0;
     });
-
-    const result = [];
-    MACROREGION_ORDER.forEach((macro) => {
-      const group = buckets[macro];
-      if (!group || group.length === 0) return;
-
-      const remaining = group.slice().sort((a, b) => {
-        const ca = getItemCenter(a);
-        const cb = getItemCenter(b);
-        return cb.lat - ca.lat || ca.lng - cb.lng;
-      });
-
-      let current = remaining.shift();
-      result.push(current);
-
-      while (remaining.length > 0) {
-        const curCenter = getItemCenter(current);
-        let bestIdx = 0;
-        let bestScore = Infinity;
-
-        for (let i = 0; i < remaining.length; i++) {
-          const cand = remaining[i];
-          const cc = getItemCenter(cand);
-          let d = calcDistanceKm(curCenter.lat, curCenter.lng, cc.lat, cc.lng);
-          if (cand.geometryType === 'none' || current.geometryType === 'none') {
-            d = cand.continent === current.continent ? 50 : 5000;
-          }
-          if (d < bestScore) {
-            bestScore = d;
-            bestIdx = i;
-          }
-        }
-        current = remaining.splice(bestIdx, 1)[0];
-        result.push(current);
-      }
-    });
-
-    return result;
   }
 
   GeoAtlas.GeoMath = {
     normalizeLng,
     shortestLngDelta,
+    normalizeBounds,
+    isOralTheoryItem,
     calcDistanceKm,
     calcPolylineDistanceKm,
     calcCompass8Rhumb,
@@ -318,6 +291,7 @@
     getItemCenter,
     getMacroregion,
     MACROREGION_LABELS,
-    sortItemsSpatially
+    sortItemsBasicToNiche,
+    sortItemsSpatially: sortItemsBasicToNiche
   };
 })(window);

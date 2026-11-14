@@ -1,6 +1,6 @@
 /**
  * data/data_module2.js — Раздел 2: Горы и нагорья; вулканы; равнины
- * ГеоАтлас v9.0 (Общее Землеведение, БГУ)
+ * ГеоАтлас v9.0 (Общее землеведение и картография)
  */
 
 window.GEO_MODULES_REGISTRY = window.GEO_MODULES_REGISTRY || {};

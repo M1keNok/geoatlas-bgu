@@ -1,5 +1,5 @@
 /**
- * ГеоАтлас v10.0 — MapEngine (Esri Physical + Satellite + Offline Vector Auto-Fallback + Polyline/Bounds Rendering)
+ * ГеоАтлас / Тренажер ОЗК — MapEngine (Silhouettes, Polylines, Normalized Bounds, Offline Fallback)
  */
 (function (global) {
   'use strict';
@@ -36,15 +36,17 @@
     seas: '#38bdf8',
     straits: '#22d3ee',
     gulfs: '#0ea5e9',
-    trenches: '#6366f1',
+    trenches: '#818cf8',
     currents: '#fb7185',
-    rivers: '#60a5fa',
+    rivers: '#38bdf8',
     waterfalls: '#2dd4bf',
     lakes: '#34d399',
-    capes: '#f472b6',
-    islands: '#eab308',
-    peninsulas: '#fb923c',
-    continents_earth: '#10b981'
+    extreme_point: '#f472b6',
+    continental_island: '#eab308',
+    volcanic_island: '#f97316',
+    coral_island: '#2dd4bf',
+    peninsula: '#fb923c',
+    desert: '#fcd34d'
   };
 
   const MapEngine = {
@@ -53,10 +55,11 @@
     activeTileLayer: null,
     vectorLayer: null,
     graticuleLayer: null,
+    specialGroup: null,
+    poolGroup: null,
     atlasGroup: null,
     trainerGroup: null,
     attemptsGroup: null,
-    specialGroup: null,
     currentLayerId: 'esri_phys',
     _tileErrorCount: 0,
     _onOfflineFallback: null,
@@ -82,6 +85,7 @@
 
       this.canvasRenderer = L.canvas({ padding: 0.45 });
       this.specialGroup = L.layerGroup().addTo(this.map);
+      this.poolGroup = L.layerGroup().addTo(this.map);
       this.atlasGroup = L.layerGroup().addTo(this.map);
       this.trainerGroup = L.layerGroup().addTo(this.map);
       this.attemptsGroup = L.layerGroup().addTo(this.map);
@@ -90,7 +94,7 @@
 
       this.map.on('click', (e) => {
         if (typeof this._onMapClick === 'function') {
-          this._onMapClick(e.latlng.lat, GeoAtlas.GeoMath.normalizeLng(e.latlng.lng), this.map.getZoom());
+          this._onMapClick(e.latlng.lat, GeoAtlas.GeoMath.normalizeLng(e.latlng.lng), this.map.getZoom(), null);
         }
       });
     },
@@ -164,7 +168,7 @@
     _renderVectorBase(L) {
       const gratLines = [];
       for (let lat = -60; lat <= 60; lat += 30) {
-        gratLines.push([[-180, lat], [180, lat]].map(([lng, lt]) => [lt, lng]));
+        gratLines.push([[lat, -180], [lat, 180]]);
       }
       for (let lng = -150; lng <= 180; lng += 30) {
         gratLines.push([[-82, lng], [82, lng]]);
@@ -197,6 +201,10 @@
       if (this.attemptsGroup) this.attemptsGroup.clearLayers();
     },
 
+    clearPool() {
+      if (this.poolGroup) this.poolGroup.clearLayers();
+    },
+
     clearAtlas() {
       if (this.atlasGroup) this.atlasGroup.clearLayers();
     },
@@ -226,10 +234,11 @@
     },
 
     fitItem(item, maxZoom = 6) {
-      if (!this.map || !item || item.geometryType === 'none') return;
+      if (!this.map || !item || GeoAtlas.GeoMath.isOralTheoryItem(item)) return;
       const L = global.L;
-      if (Array.isArray(item.bounds) && item.bounds.length === 2) {
-        const b = L.latLngBounds(item.bounds[0], item.bounds[1]);
+      const nb = GeoAtlas.GeoMath.normalizeBounds(item.bounds);
+      if (nb) {
+        const b = L.latLngBounds(nb[0], nb[1]);
         if (b.isValid()) {
           this.map.fitBounds(b, { padding: [65, 65], maxZoom, animate: true });
           return;
@@ -247,17 +256,21 @@
       if (!this.map || !Array.isArray(items) || typeof global.L === 'undefined') return;
       const pts = [];
       items.forEach((it) => {
-        if (!it || it.geometryType === 'none') return;
+        if (!it || GeoAtlas.GeoMath.isOralTheoryItem(it)) return;
+        const nb = GeoAtlas.GeoMath.normalizeBounds(it.bounds);
         if (Array.isArray(it.coords) && it.coords.length) {
           it.coords.forEach((c) => pts.push([c[0], c[1]]));
-        } else if (Array.isArray(it.bounds) && it.bounds.length === 2) {
-          pts.push(it.bounds[0], it.bounds[1]);
+        } else if (nb) {
+          pts.push(nb[0], nb[1]);
         } else {
           const c = GeoAtlas.GeoMath.getItemCenter(it);
           pts.push([c.lat, c.lng]);
         }
       });
-      if (pts.length === 0) return;
+      if (pts.length === 0) {
+        this.resetWorldView();
+        return;
+      }
       if (pts.length === 1) {
         this.map.setView(pts[0], 4, { animate: true });
         return;
@@ -265,7 +278,7 @@
       const clean = this._unwrapAntimeridian(pts);
       const bounds = global.L.latLngBounds(clean);
       if (bounds.isValid()) {
-        this.map.fitBounds(bounds, { padding: [70, 70], maxZoom, animate: true });
+        this.map.fitBounds(bounds, { padding: [65, 65], maxZoom, animate: true });
       }
     },
 
@@ -297,85 +310,138 @@
     },
 
     drawItemShape(group, item, opts = {}) {
-      if (!this.map || !item || item.geometryType === 'none' || typeof global.L === 'undefined') return null;
+      if (!this.map || !item || GeoAtlas.GeoMath.isOralTheoryItem(item) || typeof global.L === 'undefined') {
+        return null;
+      }
       const L = global.L;
       const color = opts.color || this._getItemColor(item);
       const showLabel = !!opts.showLabel;
+      const hoverLabel = !!opts.hoverLabel;
       const labelText = opts.labelText || item.name;
       const onClick = opts.onClick || null;
       const interactive = opts.interactive !== false;
-      const weight = opts.weight || (opts.highlight ? 5 : 3);
-      let layer = null;
+      const weight = opts.weight || (opts.highlight ? 5 : opts.subtle ? 3.2 : 3);
+      const nb = GeoAtlas.GeoMath.normalizeBounds(item.bounds);
+      let primaryLayer = null;
 
-      if (Array.isArray(item.bounds) && item.bounds.length === 2 && !opts.pointOnly) {
-        layer = L.rectangle(item.bounds, {
+      if (nb && !opts.pointOnly) {
+        const rect = L.rectangle(nb, {
           color,
-          weight: opts.highlight ? 2.5 : 1.5,
+          weight: opts.highlight ? 2.5 : opts.subtle ? 1.3 : 1.6,
+          opacity: opts.highlight ? 0.95 : opts.subtle ? 0.55 : 0.75,
           fillColor: color,
-          fillOpacity: opts.highlight ? 0.22 : 0.1,
-          dashArray: opts.dashed ? '6 4' : null,
+          fillOpacity: opts.highlight ? 0.22 : opts.subtle ? 0.08 : 0.12,
+          dashArray: opts.dashed || opts.subtle ? '5 4' : null,
           interactive,
           renderer: this.canvasRenderer
         }).addTo(group);
+
+        if (onClick) {
+          rect.on('click', (e) => {
+            L.DomEvent.stopPropagation(e);
+            onClick(item, e.latlng);
+          });
+        }
+        primaryLayer = rect;
       }
 
       if (item.geometryType === 'polyline' && Array.isArray(item.coords) && item.coords.length >= 2) {
         const lineLayer = L.polyline(item.coords, {
           color,
           weight,
-          opacity: opts.highlight ? 0.96 : 0.85,
+          opacity: opts.highlight ? 0.98 : opts.subtle ? 0.72 : 0.88,
           dashArray: item.category === 'currents' ? '8 6' : null,
           interactive,
           renderer: this.canvasRenderer
         }).addTo(group);
-        if (item.category === 'currents' && opts.highlight) {
+
+        if (item.category === 'currents' && (opts.highlight || opts.subtle)) {
           this._addDirectionArrow(L, group, item.coords, color);
         }
-        layer = layer || lineLayer;
-        if (onClick) lineLayer.on('click', () => onClick(item));
-        if (showLabel) {
-          const c = GeoAtlas.GeoMath.getItemCenter(item);
-          L.marker([c.lat, c.lng], {
-            interactive: !!onClick,
-            icon: L.divIcon({
-              className: 'geo-pill-label' + (opts.highlight ? ' is-highlight' : ''),
-              html: `<span>${labelText}</span>`,
-              iconSize: null
-            })
-          })
-            .addTo(group)
-            .on('click', () => onClick && onClick(item));
+        if (onClick) {
+          lineLayer.on('click', (e) => {
+            L.DomEvent.stopPropagation(e);
+            onClick(item, e.latlng);
+          });
         }
-        return layer;
+        if (showLabel || hoverLabel) {
+          const c = GeoAtlas.GeoMath.getItemCenter(item);
+          if (showLabel) {
+            L.marker([c.lat, c.lng], {
+              interactive: !!onClick,
+              icon: L.divIcon({
+                className: 'geo-pill-label' + (opts.highlight ? ' is-highlight' : ''),
+                html: `<span>${labelText}</span>`,
+                iconSize: null
+              })
+            })
+              .addTo(group)
+              .on('click', (e) => {
+                L.DomEvent.stopPropagation(e);
+                if (onClick) onClick(item, e.latlng);
+              });
+          } else {
+            lineLayer.bindTooltip(labelText, { sticky: true, className: 'geo-map-tooltip' });
+          }
+        }
+        return primaryLayer || lineLayer;
       }
 
       const center = GeoAtlas.GeoMath.getItemCenter(item);
       const marker = L.circleMarker([center.lat, center.lng], {
-        radius: opts.highlight ? 9 : 6,
+        radius: opts.highlight ? 9 : opts.subtle ? 5.5 : 6,
         color: '#09090b',
         weight: 2,
         fillColor: color,
-        fillOpacity: opts.highlight ? 1 : 0.88,
+        fillOpacity: opts.highlight ? 1 : opts.subtle ? 0.75 : 0.9,
         interactive,
         renderer: this.canvasRenderer
       }).addTo(group);
 
-      if (onClick) marker.on('click', () => onClick(item));
-      if (showLabel) {
+      if (onClick) {
+        marker.on('click', (e) => {
+          L.DomEvent.stopPropagation(e);
+          onClick(item, e.latlng);
+        });
+      }
+      if (showLabel || hoverLabel) {
         marker.bindTooltip(labelText, {
-          permanent: true,
+          permanent: showLabel,
           direction: 'top',
           offset: [0, -8],
           className: 'geo-map-tooltip' + (opts.highlight ? ' is-highlight' : '')
         });
       }
-      return layer || marker;
+      return primaryLayer || marker;
+    },
+
+    drawPoolShapes(items, opts = {}) {
+      if (!this.poolGroup) return;
+      this.poolGroup.clearLayers();
+      if (!Array.isArray(items) || items.length === 0) return;
+
+      const selectedId = opts.selectedId || null;
+      const showLabels = !!opts.showLabels && items.length <= 75;
+      const hoverLabel = !!opts.hoverLabel;
+      const onClick = opts.onClick || null;
+
+      items.forEach((it) => {
+        if (!it || GeoAtlas.GeoMath.isOralTheoryItem(it)) return;
+        const isSel = it.id === selectedId;
+        this.drawItemShape(this.poolGroup, it, {
+          subtle: !isSel,
+          highlight: isSel,
+          showLabel: showLabels || isSel,
+          hoverLabel: !showLabels && hoverLabel,
+          onClick
+        });
+      });
     },
 
     drawAttemptPin(lat, lng, missNum) {
       if (!this.map || !this.attemptsGroup || typeof global.L === 'undefined') return;
       const L = global.L;
-      const marker = L.marker([lat, lng], {
+      return L.marker([lat, lng], {
         interactive: false,
         icon: L.divIcon({
           className: 'geo-miss-pin',
@@ -384,35 +450,19 @@
           iconAnchor: [12, 12]
         })
       }).addTo(this.attemptsGroup);
-      return marker;
-    },
-
-    drawClusterPreview(fiveItems, activeId, onSelect) {
-      if (!this.trainerGroup) return;
-      this.trainerGroup.clearLayers();
-      this.attemptsGroup.clearLayers();
-      fiveItems.forEach((it, idx) => {
-        const isSel = it.id === activeId;
-        this.drawItemShape(this.trainerGroup, it, {
-          highlight: isSel,
-          showLabel: true,
-          labelText: `${idx + 1}. ${it.name}`,
-          color: isSel ? '#10b981' : undefined,
-          onClick: onSelect
-        });
-      });
     },
 
     drawAtlasItems(items, showLabels, selectedId, onClickItem) {
       if (!this.atlasGroup) return;
       this.atlasGroup.clearLayers();
-      const shouldShowLabels = showLabels && items.length <= 85;
+      const shouldShowLabels = showLabels && items.length <= 80;
       items.forEach((it) => {
-        if (it.geometryType === 'none') return;
+        if (GeoAtlas.GeoMath.isOralTheoryItem(it)) return;
         const isSel = it.id === selectedId;
         this.drawItemShape(this.atlasGroup, it, {
           highlight: isSel,
           showLabel: shouldShowLabels || isSel,
+          hoverLabel: !shouldShowLabels,
           onClick: onClickItem
         });
       });

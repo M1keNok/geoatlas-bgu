@@ -1,5 +1,5 @@
 /**
- * ГеоАтлас v10.0 — UITrainer (Cluster Learn, Exam, Neighbor Quiz, Binary 3D Flip Card)
+ * ГеоАтлас / Тренажер ОЗК — UITrainer (Explore->Recall Flow, Visible Silhouettes, Oral Theory, Binary Flip Card)
  */
 (function (global) {
   'use strict';
@@ -7,10 +7,11 @@
   const GeoAtlas = (global.GeoAtlas = global.GeoAtlas || {});
 
   const MODE_LABELS = {
-    learn: '🎓 Учить с нуля',
+    learn: '🎓 Учить',
     exam: '🎯 Экзамен',
-    quiz: '⚡ Узнать по точке',
-    weak: '🩹 Слабые места'
+    quiz: '⚡ Квиз',
+    weak: '🩹 Слабые места',
+    theory: '📖 Устная теория'
   };
 
   const UITrainer = {
@@ -18,11 +19,10 @@
     mode: 'learn',
     moduleId: null,
     submoduleId: null,
+    pool: [],
     queue: [],
     currentIndex: 0,
-    batchItems: [],
-    batchCursor: 0,
-    inPreviewStage: false,
+    inExploreStage: false,
     mistakes: 0,
     revealed: false,
     awaitingNext: false,
@@ -30,7 +30,6 @@
     sessionWeak: 0,
     quizLocked: false,
     _currentCardSpec: null,
-    _currentFlipDoneCb: null,
 
     init() {
       this._bindControls();
@@ -40,7 +39,9 @@
       const byId = (id) => document.getElementById(id);
 
       byId('btnExitTrainer')?.addEventListener('click', () => this.exitToHub());
-      byId('btnClusterReady')?.addEventListener('click', () => this._startBatchRecall());
+      byId('btnExploreExit')?.addEventListener('click', () => this.exitToHub());
+      byId('btnFlipExitToMenu')?.addEventListener('click', () => this.exitToHub());
+      byId('btnExploreStartRecall')?.addEventListener('click', () => this._startRecallFromExplore());
       byId('btnHint')?.addEventListener('click', () => this.showHint());
       byId('btnSkip')?.addEventListener('click', () => this.skipCurrent());
       byId('btnReveal')?.addEventListener('click', () => this.revealCurrent());
@@ -74,6 +75,8 @@
             } else if (this.revealed) {
               this._finishFlip(false);
             }
+          } else if (e.key === 'Escape') {
+            this.exitToHub();
           }
           return;
         }
@@ -91,11 +94,12 @@
 
     start({ mode = 'learn', moduleId = null, submoduleId = null } = {}) {
       const engine = GeoAtlas.LearningEngine;
+      const scope = engine.meta.scope;
       const limit = mode === 'exam' || mode === 'quiz' ? (submoduleId ? null : 20) : null;
       const queue = engine.buildSessionQueue({ mode, moduleId, submoduleId, limit });
 
       if (!queue.length) {
-        GeoAtlas.App.showToast('В выбранной теме пока нет объектов для тренировки');
+        GeoAtlas.App.showToast('В выбранном разделе пока нет объектов для тренировки');
         return;
       }
 
@@ -104,136 +108,169 @@
       this.moduleId = moduleId;
       this.submoduleId = submoduleId;
       this.queue = queue;
+      this.pool =
+        mode === 'theory'
+          ? []
+          : mode === 'weak'
+          ? queue.filter((x) => !GeoAtlas.GeoMath.isOralTheoryItem(x))
+          : engine.filterItems({ moduleId, submoduleId, scope, mapOnly: true });
       this.currentIndex = 0;
-      this.batchItems = [];
-      this.batchCursor = 0;
       this.sessionClean = 0;
       this.sessionWeak = 0;
 
       GeoAtlas.UIHub.hide();
       GeoAtlas.UIAtlas.hideHud();
       document.getElementById('resultsModal')?.classList.add('hidden');
-      document.getElementById('trainerHud')?.classList.remove('hidden');
 
       GeoAtlas.MapEngine.clearAtlas();
       GeoAtlas.MapEngine.clearTrainer();
-      GeoAtlas.MapEngine.drawSpecialOverlays(moduleId === 'module1' || !moduleId);
-      GeoAtlas.MapEngine.setMapClickHandler((lat, lng, zoom) => this._handleMapClick(lat, lng, zoom));
+      GeoAtlas.MapEngine.clearPool();
+      GeoAtlas.MapEngine.drawSpecialOverlays(moduleId === 'module1' && !submoduleId);
 
       if (GeoAtlas.TelegramBridge) {
         GeoAtlas.TelegramBridge.showBackButton(() => this.exitToHub());
       }
 
       if (mode === 'learn') {
-        this._loadNextClusterBatch();
+        this._openExploreStage();
       } else {
+        this._drawClickablePoolSilhouettes();
         this._presentItem(this.queue[0]);
       }
     },
 
     exitToHub() {
       this.active = false;
-      this.inPreviewStage = false;
+      this.inExploreStage = false;
       this._hideAllSubBars();
       document.getElementById('trainerHud')?.classList.add('hidden');
       document.getElementById('flipOverlay')?.classList.add('hidden');
       document.getElementById('resultsModal')?.classList.add('hidden');
       GeoAtlas.MapEngine.clearTrainer();
+      GeoAtlas.MapEngine.clearPool();
       GeoAtlas.MapEngine.setMapClickHandler(null);
       GeoAtlas.UIHub.show();
     },
 
     _hideAllSubBars() {
-      document.getElementById('clusterBar')?.classList.add('hidden');
+      document.getElementById('exploreBar')?.classList.add('hidden');
       document.getElementById('quizBar')?.classList.add('hidden');
       document.getElementById('compassBanner')?.classList.add('hidden');
     },
 
-    _currentItem() {
-      if (this.mode === 'learn') {
-        return this.batchItems[this.batchCursor] || null;
-      }
-      return this.queue[this.currentIndex] || null;
-    },
-
-    _totalPlanned() {
-      return this.queue.length;
-    },
-
-    _overallProcessed() {
-      if (this.mode === 'learn') {
-        return Math.min(this.queue.length, this.currentIndex + this.batchCursor + 1);
-      }
-      return Math.min(this.queue.length, this.currentIndex + 1);
-    },
-
-    _loadNextClusterBatch() {
-      if (this.currentIndex >= this.queue.length) {
-        this._showResults();
-        return;
-      }
-      this.batchItems = this.queue.slice(this.currentIndex, this.currentIndex + 5);
-      this.batchCursor = 0;
-
-      const mapItems = this.batchItems.filter((it) => it.geometryType !== 'none');
-      if (mapItems.length === 0) {
-        this._presentItem(this.batchItems[0]);
-        return;
-      }
-
-      this.inPreviewStage = true;
+    _openExploreStage() {
+      this.inExploreStage = true;
       this._hideAllSubBars();
       document.getElementById('trainerHud')?.classList.add('hidden');
 
-      const clusterBar = document.getElementById('clusterBar');
-      const chipsEl = document.getElementById('clusterChips');
-      if (!clusterBar || !chipsEl) return;
+      const bar = document.getElementById('exploreBar');
+      const chipsEl = document.getElementById('exploreChips');
+      const infoEl = document.getElementById('exploreInfoStrip');
+      const titleEl = document.getElementById('exploreTitle');
+      if (!bar || !chipsEl) return;
 
-      let selectedId = mapItems[0].id;
-      const renderPreview = () => {
-        GeoAtlas.MapEngine.drawClusterPreview(mapItems, selectedId, (clicked) => {
-          selectedId = clicked.id;
-          GeoAtlas.MapEngine.fitItem(clicked, 5);
-          renderPreview();
+      const mod = GeoAtlas.LearningEngine.modules.find((m) => m.id === this.moduleId);
+      const deck = mod && this.submoduleId ? mod.decks.find((d) => d.id === this.submoduleId) : null;
+      const sectionTitle = (deck && deck.title) || (mod && mod.shortTitle) || 'Раздел карты';
+      if (titleEl) titleEl.textContent = `${sectionTitle} · ${this.queue.length} объектов`;
+
+      let selectedId = this.queue[0]?.id || null;
+
+      const showInspectInfo = (it) => {
+        if (!infoEl || !it) return;
+        const typeLbl = it.categoryLabel || GeoAtlas.LearningEngine.getCategoryLabel(it);
+        const detail = [it.region || it.continent, it.ocean || it.basin, it.foldingAge, it.seaType, it.currentType, it.origin, it.description]
+          .filter(Boolean)
+          .join(' · ');
+        infoEl.innerHTML = `<span class="badge badge-type-prominent">${typeLbl}</span> <strong>${it.name}</strong>${detail ? ` — ${detail}` : ''}`;
+        infoEl.classList.remove('hidden');
+      };
+
+      const renderExplore = () => {
+        GeoAtlas.MapEngine.drawPoolShapes(this.queue, {
+          selectedId,
+          showLabels: true,
+          hoverLabel: true,
+          onClick: (clicked) => {
+            selectedId = clicked.id;
+            GeoAtlas.MapEngine.fitItem(clicked, 5);
+            showInspectInfo(clicked);
+            renderExplore();
+          }
         });
-        chipsEl.innerHTML = mapItems
-          .map(
-            (it, idx) =>
-              `<button class="cluster-chip ${it.id === selectedId ? 'is-selected' : ''}" data-chip-id="${it.id}" type="button">${idx + 1}. ${it.name}</button>`
-          )
+
+        chipsEl.innerHTML = this.queue
+          .map((it) => {
+            const star = it.isCoreLandmark ? '⭐ ' : '';
+            return `<button class="cluster-chip ${it.id === selectedId ? 'is-selected' : ''}" data-chip-id="${it.id}" type="button">${star}${it.name}</button>`;
+          })
           .join('');
       };
 
       chipsEl.onclick = (e) => {
         const btn = e.target.closest('[data-chip-id]');
         if (!btn) return;
-        const id = btn.getAttribute('data-chip-id');
-        const found = mapItems.find((x) => x.id === id);
+        const found = this.queue.find((x) => x.id === btn.getAttribute('data-chip-id'));
         if (found) {
           selectedId = found.id;
           GeoAtlas.MapEngine.fitItem(found, 5);
-          renderPreview();
+          showInspectInfo(found);
+          renderExplore();
         }
       };
 
-      renderPreview();
-      GeoAtlas.MapEngine.fitBatch(mapItems, 5);
-      clusterBar.classList.remove('hidden');
-      GeoAtlas.MotionFX?.reveal(clusterBar);
+      GeoAtlas.MapEngine.setMapClickHandler(null);
+      if (this.queue[0]) showInspectInfo(this.queue[0]);
+      renderExplore();
+      GeoAtlas.MapEngine.fitBatch(this.queue, 4);
+      bar.classList.remove('hidden');
+      GeoAtlas.MotionFX?.reveal(bar);
     },
 
-    _startBatchRecall() {
-      this.inPreviewStage = false;
-      this.batchCursor = 0;
-      document.getElementById('clusterBar')?.classList.add('hidden');
-      document.getElementById('trainerHud')?.classList.remove('hidden');
-      GeoAtlas.MapEngine.clearTrainer();
-      this._presentItem(this.batchItems[0]);
+    _startRecallFromExplore() {
+      this.inExploreStage = false;
+      this.currentIndex = 0;
+      document.getElementById('exploreBar')?.classList.add('hidden');
+      this._drawClickablePoolSilhouettes();
+      this._presentItem(this.queue[0]);
+    },
+
+    _drawClickablePoolSilhouettes() {
+      if (this.mode === 'theory' || !this.pool.length) {
+        GeoAtlas.MapEngine.clearPool();
+        GeoAtlas.MapEngine.setMapClickHandler(null);
+        return;
+      }
+
+      GeoAtlas.MapEngine.drawPoolShapes(this.pool, {
+        showLabels: false,
+        hoverLabel: false,
+        onClick: (clickedItem, latlng) => {
+          const z = GeoAtlas.MapEngine.map ? GeoAtlas.MapEngine.map.getZoom() : 4;
+          const c = GeoAtlas.GeoMath.getItemCenter(clickedItem);
+          const lat = latlng ? latlng.lat : c.lat;
+          const lng = latlng ? GeoAtlas.GeoMath.normalizeLng(latlng.lng) : c.lng;
+          this._handleMapClick(lat, lng, z, clickedItem);
+        }
+      });
+
+      GeoAtlas.MapEngine.setMapClickHandler((lat, lng, zoom) => {
+        this._handleMapClick(lat, lng, zoom, null);
+      });
+    },
+
+    _currentItem() {
+      return this.queue[this.currentIndex] || null;
+    },
+
+    _updateMissDots(count) {
+      const dots = document.querySelectorAll('#hudMissDots .miss-dot');
+      dots.forEach((d, idx) => d.classList.toggle('is-used', idx < count));
     },
 
     _presentItem(item) {
       if (!item) {
-        this._advanceCursor();
+        this._showResults();
         return;
       }
       this.mistakes = 0;
@@ -247,9 +284,10 @@
       const hud = document.getElementById('trainerHud');
       hud?.classList.remove('hidden');
 
+      const typeLabel = item.categoryLabel || GeoAtlas.LearningEngine.getCategoryLabel(item);
       document.getElementById('hudModeBadge').textContent = MODE_LABELS[this.mode] || 'Тренировка';
-      document.getElementById('hudProgressBadge').textContent = `${this._overallProcessed()} / ${this._totalPlanned()}`;
-      document.getElementById('hudCategoryBadge').textContent = item.categoryLabel || item.continent || 'Объект';
+      document.getElementById('hudProgressBadge').textContent = `${this.currentIndex + 1} / ${this.queue.length}`;
+      document.getElementById('hudCategoryBadge').textContent = typeLabel;
 
       const targetNameEl = document.getElementById('hudTargetName');
       const subPromptEl = document.getElementById('hudSubPrompt');
@@ -258,7 +296,7 @@
       this._updateMissDots(0);
 
       if (this.mode === 'quiz') {
-        targetNameEl.textContent = 'Что это за объект на карте?';
+        targetNameEl.textContent = `Что это? (${typeLabel})`;
         subPromptEl.textContent = 'Выберите верное название из 4 географических соседей';
         if (dotsEl) dotsEl.classList.add('hidden');
         document.getElementById('btnHint')?.classList.add('hidden');
@@ -277,20 +315,17 @@
       document.getElementById('btnHint')?.classList.remove('hidden');
       document.getElementById('btnReveal')?.classList.remove('hidden');
 
-      if (item.geometryType === 'none') {
+      if (GeoAtlas.GeoMath.isOralTheoryItem(item)) {
         targetNameEl.textContent = item.name;
-        subPromptEl.textContent = 'Теоретическая карточка программы БГУ';
+        subPromptEl.textContent = 'Устная теоретическая карточка';
         this._openFlipCard(item, { mapMistakes: 0, mapRevealed: false });
         return;
       }
 
       targetNameEl.textContent = item.name;
-      subPromptEl.textContent = 'Найдите и нажмите на объект на карте (3 попытки)';
-
-      if (this.mode === 'learn') {
-        GeoAtlas.MapEngine.fitBatch(this.batchItems, 4);
-      } else {
-        GeoAtlas.MapEngine.resetWorldView();
+      subPromptEl.textContent = `${typeLabel} · найдите и нажмите на карте (3 попытки)`;
+      if (this.currentIndex === 0) {
+        GeoAtlas.MapEngine.fitBatch(this.pool.length ? this.pool : this.queue, 4);
       }
     },
 
@@ -326,8 +361,7 @@
           GeoAtlas.TelegramBridge?.hapticNotification('success');
         } else {
           btn.classList.add('is-wrong');
-          const rightBtn = bar.querySelector(`[data-opt-id="${target.id}"]`);
-          rightBtn?.classList.add('is-correct');
+          bar.querySelector(`[data-opt-id="${target.id}"]`)?.classList.add('is-correct');
           GeoAtlas.AudioEngine.playMiss();
           GeoAtlas.TelegramBridge?.hapticNotification('error');
         }
@@ -344,17 +378,18 @@
       };
     },
 
-    _updateMissDots(count) {
-      const dots = document.querySelectorAll('#hudMissDots .miss-dot');
-      dots.forEach((d, idx) => d.classList.toggle('is-used', idx < count));
-    },
-
-    _handleMapClick(lat, lng, zoom) {
-      if (!this.active || this.inPreviewStage || this.awaitingNext || this.mode === 'quiz') return;
+    _handleMapClick(lat, lng, zoom, clickedItem = null) {
+      if (!this.active || this.inExploreStage || this.awaitingNext || this.mode === 'quiz' || this.mode === 'theory') {
+        return;
+      }
       const item = this._currentItem();
-      if (!item || item.geometryType === 'none') return;
+      if (!item || GeoAtlas.GeoMath.isOralTheoryItem(item)) return;
 
-      const res = GeoAtlas.GeoMath.checkSpatialHit(lat, lng, item, zoom);
+      const directHit = !!(clickedItem && clickedItem.id === item.id);
+      const res = directHit
+        ? { hit: true, distKm: 0, targetLat: lat, targetLng: lng }
+        : GeoAtlas.GeoMath.checkSpatialHit(lat, lng, item, zoom);
+
       if (res.hit) {
         this.awaitingNext = true;
         GeoAtlas.AudioEngine.playSuccess();
@@ -397,7 +432,7 @@
 
     showHint() {
       const item = this._currentItem();
-      if (!item || item.geometryType === 'none') return;
+      if (!item || GeoAtlas.GeoMath.isOralTheoryItem(item)) return;
       const c = GeoAtlas.GeoMath.getItemCenter(item);
       const macroLabel = GeoAtlas.GeoMath.MACROREGION_LABELS[GeoAtlas.GeoMath.getMacroregion(item)] || item.continent || 'Регион';
       GeoAtlas.MapEngine.map?.setView([c.lat, c.lng], 3.3, { animate: true });
@@ -410,7 +445,7 @@
 
     revealCurrent() {
       const item = this._currentItem();
-      if (!item || this.awaitingNext) return;
+      if (!item || this.awaitingNext || this.inExploreStage) return;
       this.revealed = true;
       this.awaitingNext = true;
       GeoAtlas.AudioEngine.playMiss();
@@ -419,28 +454,13 @@
 
     skipCurrent() {
       const item = this._currentItem();
-      if (!item || this.inPreviewStage || this.awaitingNext) return;
+      if (!item || this.inExploreStage || this.awaitingNext) return;
       const skippedId = item.id;
       const savedIdx = this.currentIndex;
 
-      if (this.mode === 'learn') {
-        this.batchItems.splice(this.batchCursor, 1);
-        this.queue.push(item);
-        if (this.batchCursor >= this.batchItems.length) {
-          this.currentIndex += 5;
-          this._loadNextClusterBatch();
-        } else {
-          this._presentItem(this.batchItems[this.batchCursor]);
-        }
-      } else {
-        this.queue.splice(this.currentIndex, 1);
-        this.queue.push(item);
-        if (this.currentIndex >= this.queue.length) {
-          this._showResults();
-        } else {
-          this._presentItem(this.queue[this.currentIndex]);
-        }
-      }
+      this.queue.splice(this.currentIndex, 1);
+      this.queue.push(item);
+      this._presentItem(this.queue[this.currentIndex]);
 
       GeoAtlas.App.showToast('Объект отложен в конец сессии', () => {
         if (!this.active) return;
@@ -453,11 +473,13 @@
     },
 
     _showTrueObjectAndFailCard(item) {
-      GeoAtlas.MapEngine.drawItemShape(GeoAtlas.MapEngine.trainerGroup, item, {
-        highlight: true,
-        showLabel: true
-      });
-      GeoAtlas.MapEngine.fitItem(item, 5);
+      if (!GeoAtlas.GeoMath.isOralTheoryItem(item)) {
+        GeoAtlas.MapEngine.drawItemShape(GeoAtlas.MapEngine.trainerGroup, item, {
+          highlight: true,
+          showLabel: true
+        });
+        GeoAtlas.MapEngine.fitItem(item, 5);
+      }
       setTimeout(() => {
         this._openFlipCard(item, { mapMistakes: this.mistakes, mapRevealed: true });
       }, 600);
@@ -492,30 +514,32 @@
       this._currentCardSpec = { item, mapMistakes, mapRevealed, cardSpec };
       card.classList.remove('is-flipped');
 
-      const badgeFront = document.getElementById('flipBadgeFront');
-      const titleFront = document.getElementById('flipItemTitleFront');
-      const promptFront = document.getElementById('flipPromptFront');
-      const titleBack = document.getElementById('flipItemTitleBack');
-      const ansBox = document.getElementById('flipAnswerBox');
-      const factsList = document.getElementById('flipFactsList');
-      const mapResBadge = document.getElementById('flipMapResultBadge');
-      const binActions = document.getElementById('flipBinaryActions');
-      const contAction = document.getElementById('flipContinueAction');
+      const isOral = GeoAtlas.GeoMath.isOralTheoryItem(item);
+      const badgeText = cardSpec.badge || item.categoryLabel || 'Справка';
 
-      badgeFront.textContent = cardSpec.badge || item.categoryLabel || 'Справка';
-      titleFront.textContent = item.name;
-      promptFront.textContent = cardSpec.prompt || 'Вспомните ключевой географический факт об объекте';
+      document.getElementById('flipBadgeFront').textContent = badgeText;
+      document.getElementById('flipStepFront').textContent = isOral
+        ? `${this.currentIndex + 1} / ${this.queue.length}`
+        : 'Устная проверка';
+      document.getElementById('flipItemTitleFront').textContent = item.name;
+      document.getElementById('flipPromptFront').textContent =
+        cardSpec.prompt || 'Вспомните ключевой географический факт об объекте';
 
-      titleBack.textContent = item.name;
+      document.getElementById('flipBadgeBack').textContent = badgeText;
+      document.getElementById('flipItemTitleBack').textContent = item.name;
       const ansText =
         cardSpec.answer ||
         [item.continent || item.region, item.ocean, item.description].filter(Boolean).join(' · ') ||
         'Изучите расположение на карте';
-      ansBox.textContent = ansText;
+      document.getElementById('flipAnswerBox').textContent = ansText;
 
-      factsList.innerHTML = (cardSpec.facts || [])
+      document.getElementById('flipFactsList').innerHTML = (cardSpec.facts || [])
         .map((f) => `<div class="flip-fact-row"><strong>${f.label}:</strong> ${f.val}</div>`)
         .join('');
+
+      const mapResBadge = document.getElementById('flipMapResultBadge');
+      const binActions = document.getElementById('flipBinaryActions');
+      const contAction = document.getElementById('flipContinueAction');
 
       if (mapRevealed) {
         mapResBadge.textContent = 'Не найдено на карте';
@@ -524,8 +548,12 @@
         contAction?.classList.remove('hidden');
         card.classList.add('is-flipped');
       } else {
-        mapResBadge.textContent = mapMistakes === 0 ? 'Точно на карте!' : `Найдено (промахов: ${mapMistakes})`;
-        mapResBadge.className = mapMistakes === 0 ? 'badge badge-accent' : 'badge badge-amber';
+        mapResBadge.textContent = isOral
+          ? 'Устная карточка'
+          : mapMistakes === 0
+          ? 'Точно на карте!'
+          : `Найдено (промахов: ${mapMistakes})`;
+        mapResBadge.className = isOral ? 'badge badge-sky' : mapMistakes === 0 ? 'badge badge-accent' : 'badge badge-amber';
         binActions?.classList.remove('hidden');
         contAction?.classList.add('hidden');
       }
@@ -566,16 +594,6 @@
     },
 
     _advanceCursor() {
-      if (this.mode === 'learn') {
-        this.batchCursor += 1;
-        if (this.batchCursor >= this.batchItems.length) {
-          this.currentIndex += 5;
-          this._loadNextClusterBatch();
-        } else {
-          this._presentItem(this.batchItems[this.batchCursor]);
-        }
-        return;
-      }
       this.currentIndex += 1;
       if (this.currentIndex >= this.queue.length) {
         this._showResults();
@@ -587,6 +605,7 @@
     _showResults() {
       this._hideAllSubBars();
       document.getElementById('trainerHud')?.classList.add('hidden');
+      GeoAtlas.MapEngine.clearPool();
       const modal = document.getElementById('resultsModal');
       if (!modal) return;
 

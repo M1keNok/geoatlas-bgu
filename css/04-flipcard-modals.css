@@ -73,6 +73,15 @@
   padding: 16px;
 }
 
+.flip-exit-btn {
+  position: fixed;
+  top: calc(14px + var(--safe-top));
+  right: 14px;
+  z-index: 55;
+  background: var(--bg-surface);
+  border-color: var(--border-strong);
+}
+
 .flip-scene {
   width: min(500px, 100%);
   perspective: 1100px;

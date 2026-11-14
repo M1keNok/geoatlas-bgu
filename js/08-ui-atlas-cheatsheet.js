@@ -101,7 +101,7 @@
       if (!this.active) return;
       const engine = GeoAtlas.LearningEngine;
       const items = engine.allItems.filter((it) => {
-        if (it.geometryType === 'none') return false;
+        if (GeoAtlas.GeoMath.isOralTheoryItem(it)) return false;
         if (this.filterMod !== 'all' && it.moduleId !== this.filterMod) return false;
         if (this.searchQuery) {
           const hay = [it.name, it.region, it.continent, it.ocean, it.foldingAge, it.description]
@@ -215,13 +215,12 @@
 
       tbody.innerHTML = items
         .map((it) => {
-          const mapBtn =
-            it.geometryType !== 'none'
-              ? `<button class="btn btn-sm btn-ghost" data-jump-id="${it.id}" type="button">🎯</button>`
-              : '—';
+          const mapBtn = !GeoAtlas.GeoMath.isOralTheoryItem(it)
+            ? `<button class="btn btn-sm btn-ghost" data-jump-id="${it.id}" type="button">🎯</button>`
+            : '—';
 
           if (this.activeTab === 'module1') {
-            const info = it.answerText || it.hint || it.description || it.ocean || '';
+            const info = (it.ankiCard && it.ankiCard.backMainAnswer) || it.answerText || it.hint || it.description || it.ocean || '';
             return `<tr><td><strong>${it.name}</strong></td><td>${it.categoryLabel || ''}</td><td>${info}</td><td>${mapBtn}</td></tr>`;
           }
           if (this.activeTab === 'module2') {

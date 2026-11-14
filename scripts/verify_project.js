@@ -65,6 +65,8 @@ function run() {
   ['vendor/leaflet.js', 'vendor/world_vector.js', 'js/01-motion-audio.js', 'js/08-ui-atlas-cheatsheet.js'].forEach((src) => {
     assert(html.includes(src), `index.html loads ${src}`);
   });
+  const brandingCheck = [html, read('README.md'), read('ИНСТРУКЦИЯ.txt'), ...jsFiles.map(read)].join('\n');
+  assert(!brandingCheck.includes('БГУ'), 'All mentions of БГУ must be removed');
 
   const htmlIds = new Set(Array.from(html.matchAll(/\bid="([^"]+)"/g)).map((m) => m[1]));
   const uiCode = ['js/06-ui-hub.js', 'js/07-ui-trainer.js', 'js/08-ui-atlas-cheatsheet.js'].map(read).join('\n');
@@ -114,25 +116,30 @@ function run() {
   const ural = reg.module2.items.find((i) => i.id === 'm2_mtn_ural_mountains');
   const med = reg.module3.items.find((i) => i.id === 'm3_sea_mediterranean');
   const casp = reg.module4.items.find((i) => i.id === 'm4_lk_caspian_sea');
+  const hindustan = reg.module1.items.find((i) => i.id === 'm1_pen_15');
   assert(andes && andes.geometryType === 'polyline' && andes.coords.length >= 2, 'Andes must be polyline');
   assert(ural && ural.geometryType === 'polyline' && ural.coords.length >= 2, 'Ural must be polyline');
-  assert(med && Array.isArray(med.bounds), 'Mediterranean Sea must have bounds');
-  assert(casp && Array.isArray(casp.bounds), 'Caspian Sea must have bounds');
+  assert(med && GeoMath.normalizeBounds(med.bounds), 'Mediterranean Sea must normalize bounds');
+  assert(casp && GeoMath.normalizeBounds(casp.bounds), 'Caspian Sea must normalize bounds');
+  assert(hindustan && GeoMath.normalizeBounds(hindustan.bounds), 'Hindustan must normalize bounds');
   console.log(`[PASS] Data integrity (${allItems.length} unique objects, geometry & bounds verified)`);
 
-  // 4. Spatial Hitboxes & Clustering Assertions
+  // 4. Spatial Hitboxes & Basic->Niche Ordering Assertions
   const andesMid = andes.coords[Math.floor(andes.coords.length / 2)];
   assert(GeoMath.checkSpatialHit(andesMid[0] + 0.3, andesMid[1] + 0.3, andes, 4).hit, 'Andes polyline hit near segment');
   assert(!GeoMath.checkSpatialHit(0, 0, andes, 4).hit, 'Atlantic ocean click misses Andes');
   assert(GeoMath.checkSpatialHit(36, 18, med, 4).hit, 'Inside Mediterranean Sea bounds must hit');
   assert(!GeoMath.checkSpatialHit(55, 18, med, 4).hit, 'Baltic area click must miss Mediterranean Sea');
+  assert(GeoMath.checkSpatialHit(9.2, 77.5, hindustan, 4).hit, 'Southern edge of Hindustan peninsula must hit');
+  assert(!GeoMath.checkSpatialHit(55, 77.5, hindustan, 4).hit, 'Siberia click must miss Hindustan');
   assert(GeoMath.calcDistanceKm(0, 179.5, 0, -179.5) < 130, 'Antimeridian shortest distance < 130km');
   assert.strictEqual(GeoMath.calcCompass8Rhumb(0, 0, 10, 0).dir, 'С', 'North compass direction');
   assert.strictEqual(GeoMath.calcCompass8Rhumb(0, 0, 10, 10).dir, 'СВ', 'North-East compass direction');
 
-  const m2Clustered = GeoMath.sortItemsSpatially(reg.module2.items.slice(0, 40));
-  assert.strictEqual(m2Clustered.length, 40, 'Spatial clustering preserves item count');
-  console.log('[PASS] Spatial hitboxes, bounds, antimeridian distance, compass & clustering');
+  const ordered = GeoMath.sortItemsBasicToNiche(reg.module1.items.filter((i) => !GeoMath.isOralTheoryItem(i)));
+  const firstNonCore = ordered.findIndex((x) => !x.isCoreLandmark);
+  assert(firstNonCore > 0, 'Basic core landmarks ordered before niche objects');
+  console.log('[PASS] Spatial hitboxes (incl. Hindustan edge), bounds, antimeridian, compass & basic->niche ordering');
 
   // 5. AutoCompositeSRS, m2_depressions Fix & Storage Legacy Migration
   mockStore['geoatlas_cont_anki_states'] = JSON.stringify({

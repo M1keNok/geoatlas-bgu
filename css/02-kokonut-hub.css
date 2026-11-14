@@ -209,6 +209,25 @@
   color: var(--text-secondary);
 }
 
+/* Dedicated Oral Theory Card */
+.theory-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(90deg, rgba(56, 189, 248, 0.13), rgba(16, 185, 129, 0.08));
+  border: 1px solid rgba(56, 189, 248, 0.34);
+  flex-wrap: wrap;
+}
+
+.theory-banner-title {
+  font-weight: 700;
+  font-size: 14.5px;
+  color: #bae6fd;
+}
+
 /* Bento Grid of 4 Modules */
 .bento-grid {
   display: grid;

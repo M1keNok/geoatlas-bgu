@@ -1,5 +1,5 @@
 /**
- * ГеоАтлас v10.0 — UIHub (Bento Modules, 2 Scopes, 3 Depth Presets, Weak Spots Banner)
+ * ГеоАтлас / Тренажер ОЗК — UIHub (Oral Theory Split, Bento Modules, 2 Scopes, 3 Depth Presets)
  */
 (function (global) {
   'use strict';
@@ -9,10 +9,10 @@
   const PRESET_SCHEMA = [
     {
       moduleId: 'module1',
-      title: 'Модуль 1 · Берега, материки и Земля',
+      title: 'Модуль 1 · Берега, острова, мысы и пустыни',
       checks: [
         { key: 'capes', label: 'Крайние точки (материк и сторона света)' },
-        { key: 'continentsEarth', label: 'Цифры Земли, материки, Океания, пустыни' },
+        { key: 'continentsEarth', label: 'Устная теория: материки, Земля, Океания' },
         { key: 'islands', label: 'Острова (океан / регион)' },
         { key: 'peninsulas', label: 'Полуострова (регион)' }
       ]
@@ -105,13 +105,9 @@
         });
       }
 
-      const btnPreset = document.getElementById('btnOpenCustomPreset');
-      if (btnPreset) btnPreset.addEventListener('click', () => this.openPresetModal());
-
-      const btnClosePreset = document.getElementById('btnClosePresetModal');
-      const btnSavePreset = document.getElementById('btnSavePresetModal');
-      if (btnClosePreset) btnClosePreset.addEventListener('click', () => this.closePresetModal());
-      if (btnSavePreset) btnSavePreset.addEventListener('click', () => this.closePresetModal());
+      document.getElementById('btnOpenCustomPreset')?.addEventListener('click', () => this.openPresetModal());
+      document.getElementById('btnClosePresetModal')?.addEventListener('click', () => this.closePresetModal());
+      document.getElementById('btnSavePresetModal')?.addEventListener('click', () => this.closePresetModal());
 
       const btnReset = document.getElementById('btnResetProgressPrompt');
       if (btnReset) {
@@ -136,33 +132,24 @@
         });
       }
 
-      const btnMute = document.getElementById('btnMuteToggle');
-      if (btnMute) {
-        btnMute.addEventListener('click', () => {
-          const meta = GeoAtlas.LearningEngine.meta;
-          meta.muted = !meta.muted;
-          GeoAtlas.AudioEngine.setMuted(meta.muted);
-          GeoAtlas.StorageAdapter.saveMeta(meta);
-          this._renderControlStates();
-        });
-      }
+      document.getElementById('btnMuteToggle')?.addEventListener('click', () => {
+        const meta = GeoAtlas.LearningEngine.meta;
+        meta.muted = !meta.muted;
+        GeoAtlas.AudioEngine.setMuted(meta.muted);
+        GeoAtlas.StorageAdapter.saveMeta(meta);
+        this._renderControlStates();
+      });
 
-      const btnWeak = document.getElementById('btnStartWeak');
-      if (btnWeak) {
-        btnWeak.addEventListener('click', () => {
-          GeoAtlas.UITrainer.start({ mode: 'weak' });
-        });
-      }
+      document.getElementById('btnStartWeak')?.addEventListener('click', () => {
+        GeoAtlas.UITrainer.start({ mode: 'weak' });
+      });
 
-      const btnAtlas = document.getElementById('btnOpenAtlasGlobal');
-      if (btnAtlas) {
-        btnAtlas.addEventListener('click', () => GeoAtlas.UIAtlas.open());
-      }
+      document.getElementById('btnStartOralTheory')?.addEventListener('click', () => {
+        GeoAtlas.UITrainer.start({ mode: 'theory' });
+      });
 
-      const btnCheatsheet = document.getElementById('btnOpenCheatsheet');
-      if (btnCheatsheet) {
-        btnCheatsheet.addEventListener('click', () => GeoAtlas.UICheatsheet.open());
-      }
+      document.getElementById('btnOpenAtlasGlobal')?.addEventListener('click', () => GeoAtlas.UIAtlas.open());
+      document.getElementById('btnOpenCheatsheet')?.addEventListener('click', () => GeoAtlas.UICheatsheet.open());
     },
 
     _renderControlStates() {
@@ -191,8 +178,15 @@
         weakHintEl.textContent =
           meta.scope === 'landmarks'
             ? 'Показывается прогресс по ключевым ориентирам'
-            : 'Показывается прогресс по всей программе БГУ';
+            : 'Показывается прогресс по полной программе ОЗК';
       }
+
+      const oralStats = GeoAtlas.LearningEngine.getOralTheoryStats(meta.scope);
+      const oralStatsEl = document.getElementById('oralTheoryStats');
+      if (oralStatsEl) {
+        oralStatsEl.textContent = `Площади, высоты, рекорды материков, Океания и пустыни · выучено ${oralStats.mastered} из ${oralStats.total}`;
+      }
+
       const weakBanner = document.getElementById('weakBanner');
       const weakBadge = document.getElementById('weakCountBadge');
       if (weakBanner && weakBadge) {
@@ -218,6 +212,7 @@
         card.style.setProperty('--mod-color', mod.color || '#10b981');
 
         const deckRows = (mod.decks || [])
+          .filter((d) => d.id !== 'm1_continents_earth')
           .map((deck) => {
             const ds = engine.getSubmoduleStats(mod.id, deck.id, scope);
             if (ds.total === 0) return '';
@@ -233,11 +228,14 @@
           })
           .join('');
 
+        const displayTitle = mod.id === 'module1' ? 'Берега, острова и мысы' : mod.shortTitle || mod.title;
+        const displayDesc = mod.id === 'module1' ? 'Крайние точки, полуострова, острова и пустыни на карте' : mod.title;
+
         card.innerHTML = `
           <div class="module-head">
             <div>
-              <div class="module-title">${mod.shortTitle || mod.title}</div>
-              <div class="module-desc">${mod.title}</div>
+              <div class="module-title">${displayTitle}</div>
+              <div class="module-desc">${displayDesc}</div>
             </div>
             <span class="badge ${stats.pct === 100 ? 'badge-accent' : ''}">${stats.pct}%</span>
           </div>

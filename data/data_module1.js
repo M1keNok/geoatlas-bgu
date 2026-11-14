@@ -1,6 +1,6 @@
 /**
  * data/data_module1.js — Раздел 1: Материки, острова, полуострова, пустыни
- * ГеоАтлас v9.0 (Общее Землеведение, БГУ)
+ * ГеоАтлас v9.0 (Общее землеведение и картография)
  */
 
 window.GEO_MODULES_REGISTRY = window.GEO_MODULES_REGISTRY || {};
@@ -7753,7 +7753,7 @@ const MODULE1_THEORY_ITEMS = [];
       frontQuestion: `Какова средняя высота материка ${cont.name} над уровнем моря (по Л.П. Шубаеву / А.М. Рябчикову)?`,
       backMainAnswer: cont.mean_height,
       backMetrics: [{ label: "Средняя высота", value: cont.mean_height }],
-      backNote: `Эталон программы ОЗ БГУ.`
+      backNote: `Эталон программы ОЗК.`
     }
   });
 
