@@ -20,9 +20,9 @@ const MODULE2_ITEMS = [
     "region": "Восток Индостана",
     "locationDesc": "Восток Индостана",
     "mapPrompt": "Покажите на карте: Восточные Гаты",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 18.5,
-    "lng": 83.0,
+    "lng": 83,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -52,7 +52,31 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Восточные Гаты: Восток Индостана."
-    }
+    },
+    "coords": [
+      [
+        20.5,
+        85
+      ],
+      [
+        18.5,
+        83
+      ],
+      [
+        15.5,
+        79.5
+      ],
+      [
+        12.5,
+        78.5
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_drakensberg",
@@ -69,7 +93,7 @@ const MODULE2_ITEMS = [
     "region": "Крайний юго-восток Африки (Лесото, ЮАР)",
     "locationDesc": "Крайний юго-восток Африки (Лесото, ЮАР)",
     "mapPrompt": "Покажите на карте: Драконовы горы",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": -29.47,
     "lng": 29.27,
     "hitRadiusKm": 220,
@@ -101,7 +125,31 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Драконовы горы: Крайний юго-восток Африки (Лесото, ЮАР)."
-    }
+    },
+    "coords": [
+      [
+        -24.5,
+        30.8
+      ],
+      [
+        -27.5,
+        29.8
+      ],
+      [
+        -29.47,
+        29.27
+      ],
+      [
+        -31.8,
+        27.5
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_west_ghats",
@@ -118,9 +166,9 @@ const MODULE2_ITEMS = [
     "region": "Запад Индостана",
     "locationDesc": "Запад Индостана",
     "mapPrompt": "Покажите на карте: Западные Гаты (Сахьядри)",
-    "geometryType": "point",
-    "lat": 14.0,
-    "lng": 75.0,
+    "geometryType": "polyline",
+    "lat": 14,
+    "lng": 75,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -150,7 +198,31 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Западные Гаты (Сахьядри): Запад Индостана."
-    }
+    },
+    "coords": [
+      [
+        20,
+        73.7
+      ],
+      [
+        16.5,
+        74
+      ],
+      [
+        14,
+        75
+      ],
+      [
+        10.5,
+        76.8
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_nilgiri",
@@ -198,7 +270,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Нилгири: Место схождения Западных и Восточных Гат (Индостан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_anaimalai",
@@ -247,7 +320,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "массив Анаймалаи: Юг п-ова Индостан (высшая точка Индии южнее Гималаев)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_yemen_jebel",
@@ -296,7 +370,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Йеменские горы (Джебель): Юго-запад Аравийского полуострова."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_macdonnell",
@@ -345,7 +420,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "хребет Макдонелл: Центральная Австралия."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_musgrave",
@@ -394,7 +470,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "хребет Масгрейв: Центральная Австралия (граница Юж. Австралии и Сев. территории)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_khibiny",
@@ -443,7 +520,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Хибины: Кольский полуостров, Россия."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_aldan_highland",
@@ -461,7 +539,7 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Алданское нагорье",
     "geometryType": "point",
     "lat": 58.5,
-    "lng": 127.0,
+    "lng": 127,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -491,7 +569,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Алданское нагорье: Восток России, юг Якутии."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_ahaggar",
@@ -540,7 +619,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Ахаггар (Хоггар): Сахара, юг Алжира, Африка."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_tibesti",
@@ -588,7 +668,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Тибести: Центральная Сахара, север Чада, Африка."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_ethiopian_highland",
@@ -609,7 +690,12 @@ const MODULE2_ITEMS = [
     "lat": 13.24,
     "lng": 38.37,
     "hitRadiusKm": 220,
-    "bounds": null,
+    "bounds": [
+      6,
+      35,
+      15,
+      42
+    ],
     "badgeColor": "amber",
     "orogeny": "precambrian",
     "peakName": "г. Рас-Дашан",
@@ -637,7 +723,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Эфиопское нагорье: Северо-восток Африки, Эфиопия."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_east_sayan_ne",
@@ -654,7 +741,7 @@ const MODULE2_ITEMS = [
     "region": "Россия, Красноярский край, Иркутская обл., Бурятия",
     "locationDesc": "Россия, Красноярский край, Иркутская обл., Бурятия",
     "mapPrompt": "Покажите на карте: Восточный Саян (северо-восточная часть)",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 51.72,
     "lng": 100.6,
     "hitRadiusKm": 220,
@@ -686,7 +773,31 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Восточный Саян (северо-восточная часть): Россия, Красноярский край, Иркутская обл., Бурятия."
-    }
+    },
+    "coords": [
+      [
+        54.5,
+        93.5
+      ],
+      [
+        53,
+        97
+      ],
+      [
+        51.72,
+        100.6
+      ],
+      [
+        51.5,
+        103.5
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_yenisey_ridge",
@@ -704,7 +815,7 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Енисейский кряж",
     "geometryType": "point",
     "lat": 59.5,
-    "lng": 93.0,
+    "lng": 93,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -734,7 +845,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Енисейский кряж: Россия, Красноярский край, правобережье Енисея."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_stanovoye_highland",
@@ -753,7 +865,7 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Становое нагорье (Забайкалье)",
     "geometryType": "point",
     "lat": 56.5,
-    "lng": 117.0,
+    "lng": 117,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -783,7 +895,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Становое нагорье (Забайкалье): Россия, Забайкалье, Бурятия."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_vitim_plateau",
@@ -800,8 +913,8 @@ const MODULE2_ITEMS = [
     "locationDesc": "Россия, Бурятия, Забайкальский край",
     "mapPrompt": "Покажите на карте: Витимское плоскогорье (Забайкалье)",
     "geometryType": "point",
-    "lat": 54.0,
-    "lng": 114.0,
+    "lat": 54,
+    "lng": 114,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -831,7 +944,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Витимское плоскогорье (Забайкалье): Россия, Бурятия, Забайкальский край."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_primorsky_ridge",
@@ -849,7 +963,7 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Приморский хребет (Предбайкалье)",
     "geometryType": "point",
     "lat": 52.8,
-    "lng": 106.0,
+    "lng": 106,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -879,7 +993,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Приморский хребет (Предбайкалье): Западное побережье оз. Байкал (южная часть)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_baikal_ridge",
@@ -897,7 +1012,7 @@ const MODULE2_ITEMS = [
     "locationDesc": "Западное побережье оз. Байкал (северная часть)",
     "mapPrompt": "Покажите на карте: Байкальский хребет (Предбайкалье)",
     "geometryType": "point",
-    "lat": 55.0,
+    "lat": 55,
     "lng": 108.5,
     "hitRadiusKm": 220,
     "bounds": null,
@@ -928,7 +1043,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Байкальский хребет (Предбайкалье): Западное побережье оз. Байкал (северная часть)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_timan_ridge",
@@ -946,7 +1062,7 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Тиманский кряж",
     "geometryType": "point",
     "lat": 64.5,
-    "lng": 51.0,
+    "lng": 51,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -976,7 +1092,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Тиманский кряж: Северо-восток Восточно-Европейской равнины, Россия."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_appalachians_north",
@@ -993,7 +1110,7 @@ const MODULE2_ITEMS = [
     "region": "Восточная часть Северной Америки (США, Канада)",
     "locationDesc": "Восточная часть Северной Америки (США, Канада)",
     "mapPrompt": "Покажите на карте: Аппалачи (северная часть)",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 44.27,
     "lng": -71.3,
     "hitRadiusKm": 220,
@@ -1025,7 +1142,31 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Аппалачи (северная часть): Восточная часть Северной Америки (США, Канада)."
-    }
+    },
+    "coords": [
+      [
+        48.5,
+        -65.5
+      ],
+      [
+        46,
+        -69.5
+      ],
+      [
+        44.27,
+        -71.3
+      ],
+      [
+        41.5,
+        -74
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_east_greenland",
@@ -1073,7 +1214,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Восточно-Гренландские горы: Восточная Гренландия (высшая точка Арктики)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_west_sayan",
@@ -1089,8 +1231,8 @@ const MODULE2_ITEMS = [
     "region": "Россия, Красноярский край, Тыва",
     "locationDesc": "Россия, Красноярский край, Тыва",
     "mapPrompt": "Покажите на карте: Западный Саян",
-    "geometryType": "point",
-    "lat": 52.0,
+    "geometryType": "polyline",
+    "lat": 52,
     "lng": 92.5,
     "hitRadiusKm": 220,
     "bounds": null,
@@ -1121,7 +1263,27 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Западный Саян: Россия, Красноярский край, Тыва."
-    }
+    },
+    "coords": [
+      [
+        51.7,
+        89.5
+      ],
+      [
+        52,
+        92.5
+      ],
+      [
+        52.8,
+        95.5
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_kazakh_upland_west",
@@ -1170,7 +1332,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Казахский мелкосопочник (западная часть): Казахстан (Сарыарка)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_kuznetsk_alatau",
@@ -1188,7 +1351,7 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Кузнецкий Алатау",
     "geometryType": "point",
     "lat": 53.8,
-    "lng": 89.0,
+    "lng": 89,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -1218,7 +1381,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Кузнецкий Алатау: Северо-запад от Западного Саяна, юг Сибири."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_cambrian_mtns",
@@ -1267,7 +1431,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Кембрийские горы: Полуостров Уэльс, Великобритания."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_pennines",
@@ -1316,7 +1481,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Пеннинские горы: Центр Великобритании."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_north_west_highlands",
@@ -1335,7 +1501,7 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Северо-Шотландское нагорье (в т.ч. Грампианские горы)",
     "geometryType": "point",
     "lat": 56.8,
-    "lng": -5.0,
+    "lng": -5,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -1365,7 +1531,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Северо-Шотландское нагорье (в т.ч. Грампианские горы): Север Великобритании, Шотландия (высшая точка Британских о-вов)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_scandinavian_mtns",
@@ -1381,7 +1548,7 @@ const MODULE2_ITEMS = [
     "region": "Скандинавский полуостров (Норвегия, Швеция)",
     "locationDesc": "Скандинавский полуостров (Норвегия, Швеция)",
     "mapPrompt": "Покажите на карте: Скандинавские горы",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 61.64,
     "lng": 8.31,
     "hitRadiusKm": 220,
@@ -1413,7 +1580,35 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Скандинавские горы: Скандинавский полуостров (Норвегия, Швеция)."
-    }
+    },
+    "coords": [
+      [
+        70.2,
+        22
+      ],
+      [
+        67.5,
+        16.5
+      ],
+      [
+        64.5,
+        13
+      ],
+      [
+        61.64,
+        8.31
+      ],
+      [
+        59.2,
+        6.8
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_tian_shan_north",
@@ -1429,8 +1624,8 @@ const MODULE2_ITEMS = [
     "region": "Средняя и Центральная Азия (Казахстан, Кыргызстан)",
     "locationDesc": "Средняя и Центральная Азия (Казахстан, Кыргызстан)",
     "mapPrompt": "Покажите на карте: Тянь-Шань (северные хребты)",
-    "geometryType": "point",
-    "lat": 43.0,
+    "geometryType": "polyline",
+    "lat": 43,
     "lng": 77.2,
     "hitRadiusKm": 220,
     "bounds": null,
@@ -1461,7 +1656,31 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Тянь-Шань (северные хребты): Средняя и Центральная Азия (Казахстан, Кыргызстан)."
-    }
+    },
+    "coords": [
+      [
+        42.8,
+        71.5
+      ],
+      [
+        42.9,
+        74.5
+      ],
+      [
+        43,
+        77.2
+      ],
+      [
+        43.3,
+        80
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_altai",
@@ -1478,7 +1697,7 @@ const MODULE2_ITEMS = [
     "region": "Азия; Россия, Казахстан, Монголия, Китай",
     "locationDesc": "Азия; Россия, Казахстан, Монголия, Китай",
     "mapPrompt": "Покажите на карте: Алтай",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 49.8,
     "lng": 86.59,
     "hitRadiusKm": 220,
@@ -1510,7 +1729,27 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Алтай: Азия; Россия, Казахстан, Монголия, Китай."
-    }
+    },
+    "coords": [
+      [
+        51.5,
+        83
+      ],
+      [
+        49.8,
+        86.59
+      ],
+      [
+        48.5,
+        89.5
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_altyntag",
@@ -1527,8 +1766,8 @@ const MODULE2_ITEMS = [
     "locationDesc": "Запад Китая, северное обрамление Тибета",
     "mapPrompt": "Покажите на карте: Алтынтаг, хребет",
     "geometryType": "point",
-    "lat": 38.0,
-    "lng": 89.0,
+    "lat": 38,
+    "lng": 89,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -1558,7 +1797,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Алтынтаг, хребет: Запад Китая, северное обрамление Тибета."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_anatolia_plateau",
@@ -1576,8 +1816,8 @@ const MODULE2_ITEMS = [
     "locationDesc": "Малая Азия, центральная часть Турции",
     "mapPrompt": "Покажите на карте: Анатолийское плоскогорье",
     "geometryType": "point",
-    "lat": 39.0,
-    "lng": 33.0,
+    "lat": 39,
+    "lng": 33,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -1607,7 +1847,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Анатолийское плоскогорье: Малая Азия, центральная часть Турции."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_appalachians_south",
@@ -1624,7 +1865,7 @@ const MODULE2_ITEMS = [
     "region": "Восток Северной Америки (США, Северная Каролина)",
     "locationDesc": "Восток Северной Америки (США, Северная Каролина)",
     "mapPrompt": "Покажите на карте: Аппалачи (центральная и южная части)",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 35.76,
     "lng": -82.26,
     "hitRadiusKm": 220,
@@ -1656,7 +1897,31 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Аппалачи (центральная и южная части): Восток Северной Америки (США, Северная Каролина)."
-    }
+    },
+    "coords": [
+      [
+        41,
+        -76
+      ],
+      [
+        38.5,
+        -79.5
+      ],
+      [
+        35.76,
+        -82.26
+      ],
+      [
+        33.5,
+        -86
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_atlas_mid_south",
@@ -1673,7 +1938,7 @@ const MODULE2_ITEMS = [
     "region": "Северо-запад Африки (Марокко, Алжир)",
     "locationDesc": "Северо-запад Африки (Марокко, Алжир)",
     "mapPrompt": "Покажите на карте: Атлас (средняя и южная части)",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 31.5,
     "lng": -6.5,
     "hitRadiusKm": 220,
@@ -1705,7 +1970,31 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Атлас (средняя и южная части): Северо-запад Африки (Марокко, Алжир)."
-    }
+    },
+    "coords": [
+      [
+        30.5,
+        -9
+      ],
+      [
+        31.5,
+        -6.5
+      ],
+      [
+        33.5,
+        -1
+      ],
+      [
+        35,
+        5.5
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_great_dividing_range",
@@ -1722,7 +2011,7 @@ const MODULE2_ITEMS = [
     "region": "Восточная Австралия (высшая точка Австралии)",
     "locationDesc": "Восточная Австралия (высшая точка Австралии)",
     "mapPrompt": "Покажите на карте: Большой Водораздельный хребет",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": -36.45,
     "lng": 148.26,
     "hitRadiusKm": 220,
@@ -1754,7 +2043,39 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Большой Водораздельный хребет: Восточная Австралия (высшая точка Австралии)."
-    }
+    },
+    "coords": [
+      [
+        -16,
+        145
+      ],
+      [
+        -22,
+        148.5
+      ],
+      [
+        -28,
+        152
+      ],
+      [
+        -33.5,
+        150.2
+      ],
+      [
+        -36.45,
+        148.26
+      ],
+      [
+        -37.6,
+        145.5
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_greater_khingan",
@@ -1770,9 +2091,9 @@ const MODULE2_ITEMS = [
     "region": "Северо-восток Китая, восток Монголии",
     "locationDesc": "Северо-восток Китая, восток Монголии",
     "mapPrompt": "Покажите на карте: Большой Хинган",
-    "geometryType": "point",
-    "lat": 48.0,
-    "lng": 121.0,
+    "geometryType": "polyline",
+    "lat": 48,
+    "lng": 121,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -1802,7 +2123,27 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Большой Хинган: Северо-восток Китая, восток Монголии."
-    }
+    },
+    "coords": [
+      [
+        52.5,
+        122
+      ],
+      [
+        48,
+        121
+      ],
+      [
+        44,
+        118.5
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_byrranga",
@@ -1819,8 +2160,8 @@ const MODULE2_ITEMS = [
     "locationDesc": "Полуостров Таймыр, крайний север России",
     "mapPrompt": "Покажите на карте: Бырранга, горы",
     "geometryType": "point",
-    "lat": 75.0,
-    "lng": 98.0,
+    "lat": 75,
+    "lng": 98,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -1850,7 +2191,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Бырранга, горы: Полуостров Таймыр, крайний север России."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_gobi_altai",
@@ -1866,7 +2208,7 @@ const MODULE2_ITEMS = [
     "region": "Юг Монголии, пустыня Гоби",
     "locationDesc": "Юг Монголии, пустыня Гоби",
     "mapPrompt": "Покажите на карте: Гобийский Алтай",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 44.8,
     "lng": 101.5,
     "hitRadiusKm": 220,
@@ -1898,7 +2240,27 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Гобийский Алтай: Юг Монголии, пустыня Гоби."
-    }
+    },
+    "coords": [
+      [
+        45.3,
+        97.5
+      ],
+      [
+        44.8,
+        101.5
+      ],
+      [
+        43.5,
+        106
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_donets_ridge",
@@ -1946,7 +2308,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Донецкий кряж: Юг Восточно-Европейской равнины."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_kazakh_upland_east",
@@ -1995,7 +2358,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Казахский мелкосопочник (восточная часть): Казахстан (горы Кент, Каркаралы, Кызылрай)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_cape_ranges",
@@ -2013,7 +2377,7 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Капские горы",
     "geometryType": "point",
     "lat": -33.4,
-    "lng": 21.0,
+    "lng": 21,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -2043,7 +2407,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Капские горы: Юго-запад Африки (ЮАР)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_kunlun",
@@ -2060,9 +2425,9 @@ const MODULE2_ITEMS = [
     "region": "Китай, север Тибета",
     "locationDesc": "Китай, север Тибета",
     "mapPrompt": "Покажите на карте: Кунь-Лунь (обновлен в альпийскую)",
-    "geometryType": "point",
-    "lat": 36.0,
-    "lng": 85.0,
+    "geometryType": "polyline",
+    "lat": 36,
+    "lng": 85,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -2092,7 +2457,35 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Кунь-Лунь (обновлен в альпийскую): Китай, север Тибета."
-    }
+    },
+    "coords": [
+      [
+        36.5,
+        76.5
+      ],
+      [
+        36,
+        81.5
+      ],
+      [
+        36,
+        85
+      ],
+      [
+        36.3,
+        91
+      ],
+      [
+        35.5,
+        96.5
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_lesser_khingan",
@@ -2109,8 +2502,8 @@ const MODULE2_ITEMS = [
     "locationDesc": "Дальний Восток России и Северо-восток Китая",
     "mapPrompt": "Покажите на карте: Малый Хинган",
     "geometryType": "point",
-    "lat": 48.0,
-    "lng": 130.0,
+    "lat": 48,
+    "lng": 130,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -2140,7 +2533,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Малый Хинган: Дальний Восток России и Северо-восток Китая."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_meseta_iberian",
@@ -2189,7 +2583,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Месета (Кастильское плоскогорье): Центр Пиренейского полуострова (Испания)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_mongolian_altai",
@@ -2205,8 +2600,8 @@ const MODULE2_ITEMS = [
     "region": "На северо-запад от пустыни Гоби (Монголия, Китай)",
     "locationDesc": "На северо-запад от пустыни Гоби (Монголия, Китай)",
     "mapPrompt": "Покажите на карте: Монгольский Алтай",
-    "geometryType": "point",
-    "lat": 47.0,
+    "geometryType": "polyline",
+    "lat": 47,
     "lng": 92.5,
     "hitRadiusKm": 220,
     "bounds": null,
@@ -2237,7 +2632,27 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Монгольский Алтай: На северо-запад от пустыни Гоби (Монголия, Китай)."
-    }
+    },
+    "coords": [
+      [
+        49,
+        88.5
+      ],
+      [
+        47,
+        92.5
+      ],
+      [
+        45.3,
+        96.5
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_mugodzhar",
@@ -2285,7 +2700,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Мугоджары: Южное продолжение Урала, Казахстан."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_nanshan",
@@ -2302,9 +2718,9 @@ const MODULE2_ITEMS = [
     "region": "Китай, северо-восток Тибета",
     "locationDesc": "Китай, северо-восток Тибета",
     "mapPrompt": "Покажите на карте: Наньшань",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 38.5,
-    "lng": 98.0,
+    "lng": 98,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -2334,7 +2750,27 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Наньшань: Китай, северо-восток Тибета."
-    }
+    },
+    "coords": [
+      [
+        39.8,
+        94.5
+      ],
+      [
+        38.5,
+        98
+      ],
+      [
+        37.2,
+        102
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_patagonia_plateau",
@@ -2351,10 +2787,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Юг Южной Америки (Аргентина)",
     "mapPrompt": "Покажите на карте: Патагония, плато*",
     "geometryType": "point",
-    "lat": -45.0,
-    "lng": -69.0,
+    "lat": -45,
+    "lng": -69,
     "hitRadiusKm": 220,
-    "bounds": null,
+    "bounds": [
+      -51,
+      -72,
+      -39,
+      -65.5
+    ],
     "badgeColor": "amber",
     "orogeny": "hercynian",
     "peakName": "-",
@@ -2382,7 +2823,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Патагония, плато*: Юг Южной Америки (Аргентина)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_rhodopes",
@@ -2430,7 +2872,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Родопы: Юг Болгарии и север Греции."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_stanovoy_range",
@@ -2446,7 +2889,7 @@ const MODULE2_ITEMS = [
     "region": "Юг Дальнего Востока, граница Якутии и Амурской обл.",
     "locationDesc": "Юг Дальнего Востока, граница Якутии и Амурской обл.",
     "mapPrompt": "Покажите на карте: Становой хребет",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 55.8,
     "lng": 126.5,
     "hitRadiusKm": 220,
@@ -2478,7 +2921,31 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Становой хребет: Юг Дальнего Востока, граница Якутии и Амурской обл.."
-    }
+    },
+    "coords": [
+      [
+        56.5,
+        121
+      ],
+      [
+        55.8,
+        126.5
+      ],
+      [
+        56.2,
+        132.5
+      ],
+      [
+        56.8,
+        136.5
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_ural_mountains",
@@ -2495,7 +2962,7 @@ const MODULE2_ITEMS = [
     "region": "Между Восточно-Европейской и Западно-Сибирской равнинами",
     "locationDesc": "Между Восточно-Европейской и Западно-Сибирской равнинами",
     "mapPrompt": "Покажите на карте: Уральские горы",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 65.03,
     "lng": 60.11,
     "hitRadiusKm": 220,
@@ -2527,7 +2994,35 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Уральские горы: Между Восточно-Европейской и Западно-Сибирской равнинами."
-    }
+    },
+    "coords": [
+      [
+        68.5,
+        65.5
+      ],
+      [
+        65.03,
+        60.11
+      ],
+      [
+        61,
+        59.3
+      ],
+      [
+        56.5,
+        59
+      ],
+      [
+        51.5,
+        58
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_tian_shan",
@@ -2544,7 +3039,7 @@ const MODULE2_ITEMS = [
     "region": "Средняя и Центральная Азия (Кыргызстан, Китай)",
     "locationDesc": "Средняя и Центральная Азия (Кыргызстан, Китай)",
     "mapPrompt": "Покажите на карте: Тянь-Шань (основная часть)",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 42.03,
     "lng": 80.13,
     "hitRadiusKm": 220,
@@ -2576,7 +3071,35 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Тянь-Шань (основная часть): Средняя и Центральная Азия (Кыргызстан, Китай)."
-    }
+    },
+    "coords": [
+      [
+        40.5,
+        73
+      ],
+      [
+        41.5,
+        77
+      ],
+      [
+        42.03,
+        80.13
+      ],
+      [
+        42.8,
+        86
+      ],
+      [
+        43.2,
+        92
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_ardennes",
@@ -2594,7 +3117,7 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Арденны",
     "geometryType": "point",
     "lat": 50.5,
-    "lng": 6.0,
+    "lng": 6,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -2624,7 +3147,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Арденны: Бельгия, Франция, Люксембург."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_vosges",
@@ -2672,7 +3196,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вогезы: Северо-восток Франции."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_harz",
@@ -2720,7 +3245,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Гарц: Германия (Нижняя Саксония, Саксония-Анхальт)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_rhenish_massif",
@@ -2768,7 +3294,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Рейнские Сланцевые горы: Германия, по обоим берегам Рейна."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_ore_mountains",
@@ -2817,7 +3344,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Рудные горы (Крушне-Гори): Граница Германии и Чехии."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_sudetes",
@@ -2866,7 +3394,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Судеты: Чехия, Польша, Германия."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_thuringian_forest",
@@ -2914,7 +3443,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Тюрингенский лес: Центральная часть Германии (Тюрингия)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_massif_central",
@@ -2962,7 +3492,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Центральный Французский массив: Юг Франции."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_black_forest",
@@ -2980,7 +3511,7 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Шварцвальд",
     "geometryType": "point",
     "lat": 47.87,
-    "lng": 8.0,
+    "lng": 8,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -3010,7 +3541,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Шварцвальд: Юго-запад Германии (Баден-Вюртемберг)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_annamite_range",
@@ -3026,9 +3558,9 @@ const MODULE2_ITEMS = [
     "region": "Вьетнам, Лаос, Камбоджа",
     "locationDesc": "Вьетнам, Лаос, Камбоджа",
     "mapPrompt": "Покажите на карте: Аннамские горы (Чыонгшон)",
-    "geometryType": "point",
-    "lat": 16.0,
-    "lng": 107.0,
+    "geometryType": "polyline",
+    "lat": 16,
+    "lng": 107,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -3058,7 +3590,27 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Аннамские горы (Чыонгшон): Вьетнам, Лаос, Камбоджа."
-    }
+    },
+    "coords": [
+      [
+        19.5,
+        104.5
+      ],
+      [
+        16,
+        107
+      ],
+      [
+        12.5,
+        108.5
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_coast_mountains_ca",
@@ -3075,7 +3627,7 @@ const MODULE2_ITEMS = [
     "region": "Западное побережье Канады (Британская Колумбия)",
     "locationDesc": "Западное побережье Канады (Британская Колумбия)",
     "mapPrompt": "Покажите на карте: Береговой хребет (Канада)",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 51.37,
     "lng": -125.26,
     "hitRadiusKm": 220,
@@ -3107,7 +3659,31 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Береговой хребет (Канада): Западное побережье Канады (Британская Колумбия)."
-    }
+    },
+    "coords": [
+      [
+        58.5,
+        -134
+      ],
+      [
+        55,
+        -130
+      ],
+      [
+        51.37,
+        -125.26
+      ],
+      [
+        49.3,
+        -122.8
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_great_basin",
@@ -3124,10 +3700,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Запад США (Невада, Юта)",
     "mapPrompt": "Покажите на карте: Большой Бассейн",
     "geometryType": "point",
-    "lat": 39.0,
-    "lng": -117.0,
+    "lat": 39,
+    "lng": -117,
     "hitRadiusKm": 220,
-    "bounds": null,
+    "bounds": [
+      35.5,
+      -120,
+      42.5,
+      -112
+    ],
     "badgeColor": "amber",
     "orogeny": "cimmerian",
     "peakName": "-",
@@ -3155,7 +3736,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Большой Бассейн: Запад США (Невада, Юта)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_brooks_range",
@@ -3172,9 +3754,9 @@ const MODULE2_ITEMS = [
     "region": "Северо-Запад Северной Америки (северная Аляска)",
     "locationDesc": "Северо-Запад Северной Америки (северная Аляска)",
     "mapPrompt": "Покажите на карте: Брукса, хребет",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 69.2,
-    "lng": -144.0,
+    "lng": -144,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -3204,7 +3786,31 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Брукса, хребет: Северо-Запад Северной Америки (северная Аляска)."
-    }
+    },
+    "coords": [
+      [
+        68.2,
+        -163
+      ],
+      [
+        68.5,
+        -154
+      ],
+      [
+        69.2,
+        -144
+      ],
+      [
+        69,
+        -140.5
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_verkhoyansk_range",
@@ -3220,9 +3826,9 @@ const MODULE2_ITEMS = [
     "region": "Северо-восток Сибири, Якутия",
     "locationDesc": "Северо-восток Сибири, Якутия",
     "mapPrompt": "Покажите на карте: Верхоянский хребет",
-    "geometryType": "point",
-    "lat": 67.0,
-    "lng": 128.0,
+    "geometryType": "polyline",
+    "lat": 67,
+    "lng": 128,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -3252,7 +3858,35 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Верхоянский хребет: Северо-восток Сибири, Якутия."
-    }
+    },
+    "coords": [
+      [
+        71.5,
+        128
+      ],
+      [
+        69,
+        127.5
+      ],
+      [
+        67,
+        128
+      ],
+      [
+        64.5,
+        132
+      ],
+      [
+        62.5,
+        138
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_sierra_madre_oriental",
@@ -3269,8 +3903,8 @@ const MODULE2_ITEMS = [
     "locationDesc": "Восток Мексики",
     "mapPrompt": "Покажите на карте: Восточная Сьерра-Мадре",
     "geometryType": "point",
-    "lat": 24.0,
-    "lng": -100.0,
+    "lat": 24,
+    "lng": -100,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -3300,7 +3934,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Восточная Сьерра-Мадре: Восток Мексики."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_dzhugdzhur",
@@ -3319,7 +3954,7 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Джугджур, хребет",
     "geometryType": "point",
     "lat": 57.5,
-    "lng": 139.0,
+    "lng": 139,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -3349,7 +3984,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Джугджур, хребет: Дальний Восток России, побережье Охотского моря."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_sierra_madre_occidental",
@@ -3366,8 +4002,8 @@ const MODULE2_ITEMS = [
     "locationDesc": "Запад Мексики",
     "mapPrompt": "Покажите на карте: Западная Сьерра-Мадре",
     "geometryType": "point",
-    "lat": 26.0,
-    "lng": -106.0,
+    "lat": 26,
+    "lng": -106,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -3397,7 +4033,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Западная Сьерра-Мадре: Запад Мексики."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_cascade_range",
@@ -3414,7 +4051,7 @@ const MODULE2_ITEMS = [
     "region": "Северо-запад США (Вашингтон, Орегон)",
     "locationDesc": "Северо-запад США (Вашингтон, Орегон)",
     "mapPrompt": "Покажите на карте: Каскадные горы",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 46.85,
     "lng": -121.76,
     "hitRadiusKm": 220,
@@ -3446,7 +4083,31 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Каскадные горы: Северо-запад США (Вашингтон, Орегон)."
-    }
+    },
+    "coords": [
+      [
+        49,
+        -121.5
+      ],
+      [
+        46.85,
+        -121.76
+      ],
+      [
+        44,
+        -121.8
+      ],
+      [
+        40.5,
+        -121.5
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_kolyma_highland",
@@ -3464,7 +4125,7 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Колымское нагорье",
     "geometryType": "point",
     "lat": 62.5,
-    "lng": 155.0,
+    "lng": 155,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -3494,7 +4155,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Колымское нагорье: Северо-восток Сибири, Магаданская обл.."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_columbia_plateau",
@@ -3511,8 +4173,8 @@ const MODULE2_ITEMS = [
     "locationDesc": "Северо-запад США (бассейн р. Колумбия)",
     "mapPrompt": "Покажите на карте: Колумбийское плато*",
     "geometryType": "point",
-    "lat": 46.0,
-    "lng": -119.0,
+    "lat": 46,
+    "lng": -119,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -3542,7 +4204,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Колумбийское плато*: Северо-запад США (бассейн р. Колумбия)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_cordillera_denali",
@@ -3560,9 +4223,9 @@ const MODULE2_ITEMS = [
     "region": "Северная Америка, Аляска (высшая точка Сев. Америки)",
     "locationDesc": "Северная Америка, Аляска (высшая точка Сев. Америки)",
     "mapPrompt": "Покажите на карте: Кордильеры (в т.ч. Аляскинский хребет)",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 63.07,
-    "lng": -151.0,
+    "lng": -151,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -3592,7 +4255,47 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Кордильеры (в т.ч. Аляскинский хребет): Северная Америка, Аляска (высшая точка Сев. Америки)."
-    }
+    },
+    "coords": [
+      [
+        66.5,
+        -162
+      ],
+      [
+        63.07,
+        -151
+      ],
+      [
+        60.5,
+        -141
+      ],
+      [
+        56,
+        -130
+      ],
+      [
+        49,
+        -120
+      ],
+      [
+        40,
+        -112
+      ],
+      [
+        32,
+        -108
+      ],
+      [
+        20,
+        -100
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_sikhote_alin",
@@ -3608,7 +4311,7 @@ const MODULE2_ITEMS = [
     "region": "Дальний Восток России, Хабаровский и Приморский край",
     "locationDesc": "Дальний Восток России, Хабаровский и Приморский край",
     "mapPrompt": "Покажите на карте: Сихотэ-Алинь",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 45.3,
     "lng": 136.4,
     "hitRadiusKm": 220,
@@ -3640,7 +4343,31 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Сихотэ-Алинь: Дальний Восток России, Хабаровский и Приморский край."
-    }
+    },
+    "coords": [
+      [
+        51,
+        139.5
+      ],
+      [
+        48,
+        138
+      ],
+      [
+        45.3,
+        136.4
+      ],
+      [
+        43.2,
+        134
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_rocky_mountains",
@@ -3657,7 +4384,7 @@ const MODULE2_ITEMS = [
     "region": "Северная Америка (США, Колорадо / Канада)",
     "locationDesc": "Северная Америка (США, Колорадо / Канада)",
     "mapPrompt": "Покажите на карте: Скалистые горы",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 39.12,
     "lng": -106.44,
     "hitRadiusKm": 220,
@@ -3689,7 +4416,39 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Скалистые горы: Северная Америка (США, Колорадо / Канада)."
-    }
+    },
+    "coords": [
+      [
+        59,
+        -126
+      ],
+      [
+        53,
+        -119
+      ],
+      [
+        47,
+        -113
+      ],
+      [
+        43,
+        -109.5
+      ],
+      [
+        39.12,
+        -106.44
+      ],
+      [
+        35.5,
+        -105.5
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_sierra_nevada_us",
@@ -3705,7 +4464,7 @@ const MODULE2_ITEMS = [
     "region": "Юго-запад США, Калифорния",
     "locationDesc": "Юго-запад США, Калифорния",
     "mapPrompt": "Покажите на карте: Сьерра-Невада",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 36.58,
     "lng": -118.29,
     "hitRadiusKm": 220,
@@ -3737,7 +4496,31 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Сьерра-Невада: Юго-запад США, Калифорния."
-    }
+    },
+    "coords": [
+      [
+        40.2,
+        -121
+      ],
+      [
+        38.5,
+        -120
+      ],
+      [
+        36.58,
+        -118.29
+      ],
+      [
+        35.2,
+        -118.4
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_tibet_highland",
@@ -3754,10 +4537,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Центральная Азия (Тибетское нагорье, 'Крыша мира')",
     "mapPrompt": "Покажите на карте: Тибет",
     "geometryType": "point",
-    "lat": 32.0,
-    "lng": 87.0,
+    "lat": 32,
+    "lng": 87,
     "hitRadiusKm": 220,
-    "bounds": null,
+    "bounds": [
+      28,
+      78,
+      36.5,
+      99
+    ],
     "badgeColor": "amber",
     "orogeny": "cimmerian",
     "peakName": "-",
@@ -3785,7 +4573,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Тибет: Центральная Азия (Тибетское нагорье, 'Крыша мира')."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_chersky_range",
@@ -3802,9 +4591,9 @@ const MODULE2_ITEMS = [
     "region": "Северо-восток Азии, Якутия",
     "locationDesc": "Северо-восток Азии, Якутия",
     "mapPrompt": "Покажите на карте: Черского, хребет",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 65.17,
-    "lng": 146.0,
+    "lng": 146,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -3834,7 +4623,35 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Черского, хребет: Северо-восток Азии, Якутия."
-    }
+    },
+    "coords": [
+      [
+        68.5,
+        139
+      ],
+      [
+        66.5,
+        143
+      ],
+      [
+        65.17,
+        146
+      ],
+      [
+        63.5,
+        148.5
+      ],
+      [
+        62,
+        151
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_chukotka_highland",
@@ -3852,7 +4669,7 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Чукотское нагорье",
     "geometryType": "point",
     "lat": 67.5,
-    "lng": 175.0,
+    "lng": 175,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -3882,7 +4699,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Чукотское нагорье: Чукотский полуостров, крайний северо-восток Азии."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_yukon_plateau",
@@ -3899,8 +4717,8 @@ const MODULE2_ITEMS = [
     "locationDesc": "Северо-запад Северной Америки (Канада, Аляска)",
     "mapPrompt": "Покажите на карте: Юкон, плато*",
     "geometryType": "point",
-    "lat": 63.0,
-    "lng": -137.0,
+    "lat": 63,
+    "lng": -137,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "amber",
@@ -3930,7 +4748,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Юкон, плато*: Северо-запад Северной Америки (Канада, Аляска)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_alps",
@@ -3947,7 +4766,7 @@ const MODULE2_ITEMS = [
     "region": "Север Италии, Франция, Швейцария, Австрия",
     "locationDesc": "Север Италии, Франция, Швейцария, Австрия",
     "mapPrompt": "Покажите на карте: Альпы",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 45.83,
     "lng": 6.86,
     "hitRadiusKm": 220,
@@ -3979,7 +4798,35 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Альпы: Север Италии, Франция, Швейцария, Австрия."
-    }
+    },
+    "coords": [
+      [
+        44.2,
+        7.2
+      ],
+      [
+        45.83,
+        6.86
+      ],
+      [
+        46.5,
+        9.8
+      ],
+      [
+        47.1,
+        12.8
+      ],
+      [
+        47.7,
+        15.8
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_andalusian_mtns",
@@ -4028,7 +4875,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Андалусские горы (Бетские Кордильеры): Юго-восток Испании (Сьерра-Невада)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_andes",
@@ -4045,7 +4893,7 @@ const MODULE2_ITEMS = [
     "region": "Южная Америка (высшая точка Зап. и Юж. полушарий)",
     "locationDesc": "Южная Америка (высшая точка Зап. и Юж. полушарий)",
     "mapPrompt": "Покажите на карте: Анды (в т.ч. плато Альтиплано)",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": -32.65,
     "lng": -70.01,
     "hitRadiusKm": 220,
@@ -4077,7 +4925,55 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Анды (в т.ч. плато Альтиплано): Южная Америка (высшая точка Зап. и Юж. полушарий)."
-    }
+    },
+    "coords": [
+      [
+        10.5,
+        -71.5
+      ],
+      [
+        5,
+        -75.5
+      ],
+      [
+        -2,
+        -78.5
+      ],
+      [
+        -10,
+        -77
+      ],
+      [
+        -16.5,
+        -69.5
+      ],
+      [
+        -23,
+        -68
+      ],
+      [
+        -32.65,
+        -70.01
+      ],
+      [
+        -42,
+        -72
+      ],
+      [
+        -52,
+        -73
+      ],
+      [
+        -54.8,
+        -68
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_apennines",
@@ -4094,7 +4990,7 @@ const MODULE2_ITEMS = [
     "region": "Апеннинский п-ов, Италия (массив Гран-Сассо)",
     "locationDesc": "Апеннинский п-ов, Италия (массив Гран-Сассо)",
     "mapPrompt": "Покажите на карте: Апеннины",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 42.47,
     "lng": 13.57,
     "hitRadiusKm": 220,
@@ -4126,7 +5022,35 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Апеннины: Апеннинский п-ов, Италия (массив Гран-Сассо)."
-    }
+    },
+    "coords": [
+      [
+        44.4,
+        9
+      ],
+      [
+        43.3,
+        12
+      ],
+      [
+        42.47,
+        13.57
+      ],
+      [
+        40.5,
+        15.8
+      ],
+      [
+        38.2,
+        15.9
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_arakan_mountains",
@@ -4175,7 +5099,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Араканские горы (Ракхайн): Запад Мьянмы (Бурма)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_armenian_highland",
@@ -4224,7 +5149,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Армянское нагорье: Турция, Иран, Армения."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_atlas_north",
@@ -4241,7 +5167,7 @@ const MODULE2_ITEMS = [
     "region": "Север Африки, Марокко (Высокий Атлас)",
     "locationDesc": "Север Африки, Марокко (Высокий Атлас)",
     "mapPrompt": "Покажите на карте: Атлас (северные хребты)",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 31.06,
     "lng": -7.91,
     "hitRadiusKm": 220,
@@ -4273,7 +5199,31 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Атлас (северные хребты): Север Африки, Марокко (Высокий Атлас)."
-    }
+    },
+    "coords": [
+      [
+        31.06,
+        -7.91
+      ],
+      [
+        34,
+        -3.5
+      ],
+      [
+        36.2,
+        3
+      ],
+      [
+        36.8,
+        9
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_pacific_coast_ranges",
@@ -4290,7 +5240,7 @@ const MODULE2_ITEMS = [
     "region": "Западное побережье США (п-ов Олимпик, Вашингтон)",
     "locationDesc": "Западное побережье США (п-ов Олимпик, Вашингтон)",
     "mapPrompt": "Покажите на карте: Береговые хребты (США)",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 47.8,
     "lng": -123.7,
     "hitRadiusKm": 220,
@@ -4322,7 +5272,35 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Береговые хребты (США): Западное побережье США (п-ов Олимпик, Вашингтон)."
-    }
+    },
+    "coords": [
+      [
+        48.5,
+        -124.2
+      ],
+      [
+        44.5,
+        -123.8
+      ],
+      [
+        40.5,
+        -123.5
+      ],
+      [
+        36.5,
+        -121.5
+      ],
+      [
+        34,
+        -118.5
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_himalayas",
@@ -4340,7 +5318,7 @@ const MODULE2_ITEMS = [
     "region": "Между Тибетским нагорьем и Индо-Гангской низменностью",
     "locationDesc": "Между Тибетским нагорьем и Индо-Гангской низменностью",
     "mapPrompt": "Покажите на карте: Гималаи",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 27.988,
     "lng": 86.925,
     "hitRadiusKm": 220,
@@ -4372,7 +5350,39 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Гималаи: Между Тибетским нагорьем и Индо-Гангской низменностью."
-    }
+    },
+    "coords": [
+      [
+        34.5,
+        74.5
+      ],
+      [
+        32,
+        78
+      ],
+      [
+        29.5,
+        82
+      ],
+      [
+        27.988,
+        86.925
+      ],
+      [
+        27.5,
+        92.5
+      ],
+      [
+        28.5,
+        96.5
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_hindu_kush",
@@ -4388,7 +5398,7 @@ const MODULE2_ITEMS = [
     "region": "Азия: Афганистан, Пакистан",
     "locationDesc": "Азия: Афганистан, Пакистан",
     "mapPrompt": "Покажите на карте: Гиндукуш",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 36.25,
     "lng": 71.84,
     "hitRadiusKm": 220,
@@ -4420,7 +5430,31 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Гиндукуш: Азия: Афганистан, Пакистан."
-    }
+    },
+    "coords": [
+      [
+        34.5,
+        67.5
+      ],
+      [
+        35.5,
+        70
+      ],
+      [
+        36.25,
+        71.84
+      ],
+      [
+        36.8,
+        73.5
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_maoke_mountains",
@@ -4470,7 +5504,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Горы Маоке: Остров Новая Гвинея, Индонезия (высшая точка Океании)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_dinaric_alps",
@@ -4519,7 +5554,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Динара (Динарское нагорье): Хорватия, Босния и Герцеговина, Албания."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_elburz_range",
@@ -4568,7 +5604,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Иранское нагорье (хр. Эльбурс): Иран, южнее Каспийского моря."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_zagros_mountains",
@@ -4585,7 +5622,7 @@ const MODULE2_ITEMS = [
     "region": "Западная часть Ирана",
     "locationDesc": "Западная часть Ирана",
     "mapPrompt": "Покажите на карте: Загрос, горы",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 32.37,
     "lng": 50.07,
     "hitRadiusKm": 220,
@@ -4617,7 +5654,35 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Загрос, горы: Западная часть Ирана."
-    }
+    },
+    "coords": [
+      [
+        36,
+        45.5
+      ],
+      [
+        34,
+        47.5
+      ],
+      [
+        32.37,
+        50.07
+      ],
+      [
+        29.5,
+        53
+      ],
+      [
+        27.5,
+        56
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_greater_caucasus",
@@ -4634,7 +5699,7 @@ const MODULE2_ITEMS = [
     "region": "Между Чёрным морем и Каспийским морем-озером",
     "locationDesc": "Между Чёрным морем и Каспийским морем-озером",
     "mapPrompt": "Покажите на карте: Большой Кавказ",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 43.35,
     "lng": 42.44,
     "hitRadiusKm": 220,
@@ -4666,7 +5731,35 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Большой Кавказ: Между Чёрным морем и Каспийским морем-озером."
-    }
+    },
+    "coords": [
+      [
+        44.6,
+        38
+      ],
+      [
+        43.6,
+        40.5
+      ],
+      [
+        43.35,
+        42.44
+      ],
+      [
+        42.5,
+        45
+      ],
+      [
+        41.2,
+        48.5
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_lesser_caucasus",
@@ -4683,7 +5776,7 @@ const MODULE2_ITEMS = [
     "region": "Юг Закавказья (Грузия, Армения, Азербайджан)",
     "locationDesc": "Юг Закавказья (Грузия, Армения, Азербайджан)",
     "mapPrompt": "Покажите на карте: Малый Кавказ",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 40.28,
     "lng": 46.37,
     "hitRadiusKm": 220,
@@ -4715,7 +5808,31 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Малый Кавказ: Юг Закавказья (Грузия, Армения, Азербайджан)."
-    }
+    },
+    "coords": [
+      [
+        41.5,
+        42.5
+      ],
+      [
+        40.9,
+        44.5
+      ],
+      [
+        40.28,
+        46.37
+      ],
+      [
+        39.2,
+        46.8
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_karakoram",
@@ -4732,7 +5849,7 @@ const MODULE2_ITEMS = [
     "region": "Центральная Азия (граница Пакистана и Китая)",
     "locationDesc": "Центральная Азия (граница Пакистана и Китая)",
     "mapPrompt": "Покажите на карте: Каракорум",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 35.88,
     "lng": 76.51,
     "hitRadiusKm": 220,
@@ -4764,7 +5881,27 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Каракорум: Центральная Азия (граница Пакистана и Китая)."
-    }
+    },
+    "coords": [
+      [
+        36.8,
+        74
+      ],
+      [
+        35.88,
+        76.51
+      ],
+      [
+        34.6,
+        78.8
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_carpathians",
@@ -4781,7 +5918,7 @@ const MODULE2_ITEMS = [
     "region": "Восток Средней Европы (Словакия, Польша, Украина, Румыния)",
     "locationDesc": "Восток Средней Европы (Словакия, Польша, Украина, Румыния)",
     "mapPrompt": "Покажите на карте: Карпаты",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 49.16,
     "lng": 20.13,
     "hitRadiusKm": 220,
@@ -4813,7 +5950,39 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Карпаты: Восток Средней Европы (Словакия, Польша, Украина, Румыния)."
-    }
+    },
+    "coords": [
+      [
+        48.5,
+        17.5
+      ],
+      [
+        49.16,
+        20.13
+      ],
+      [
+        48.3,
+        24
+      ],
+      [
+        46.5,
+        26.5
+      ],
+      [
+        45.3,
+        24.5
+      ],
+      [
+        44.7,
+        22.4
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_koryak_highland",
@@ -4861,7 +6030,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Корякское нагорье: Побережье Берингова моря, северо-восток России."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_crimean_mountains",
@@ -4910,7 +6080,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Крымские горы: Крымский полуостров."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_anatolia_taurus",
@@ -4960,7 +6131,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Малоазиатское нагорье: хребет Тавр: Юг полуострова Малая Азия (Турция)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_pontic_mountains",
@@ -5009,7 +6181,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Малоазиатское нагорье: Понтийские горы: Север полуострова Малая Азия (Турция)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_mexican_plateau",
@@ -5027,10 +6200,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Мексика",
     "mapPrompt": "Покажите на карте: Мексиканское нагорье",
     "geometryType": "point",
-    "lat": 23.0,
-    "lng": -102.0,
+    "lat": 23,
+    "lng": -102,
     "hitRadiusKm": 220,
-    "bounds": null,
+    "bounds": [
+      18.5,
+      -106,
+      30,
+      -98
+    ],
     "badgeColor": "amber",
     "orogeny": "alpine",
     "peakName": "влк. Орисаба",
@@ -5058,7 +6236,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Мексиканское нагорье: Мексика."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_oman_mountains",
@@ -5107,7 +6286,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Оманские горы (Эль-Ахдар): Аравийский полуостров (Оман)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_pamir_mountains",
@@ -5124,7 +6304,7 @@ const MODULE2_ITEMS = [
     "region": "Средняя Азия, Таджикистан ('Крыша мира')",
     "locationDesc": "Средняя Азия, Таджикистан ('Крыша мира')",
     "mapPrompt": "Покажите на карте: Памир",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 38.95,
     "lng": 72.02,
     "hitRadiusKm": 220,
@@ -5156,7 +6336,31 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Памир: Средняя Азия, Таджикистан ('Крыша мира')."
-    }
+    },
+    "coords": [
+      [
+        39.5,
+        71
+      ],
+      [
+        38.95,
+        72.02
+      ],
+      [
+        38.2,
+        74
+      ],
+      [
+        37.2,
+        73.5
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_kashgar_mountains",
@@ -5204,7 +6408,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Кашгарские горы: Западный Китай, Синьцзян."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_sarykol_range",
@@ -5252,7 +6457,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Сарыкольский хребет: Китай, граница с Таджикистаном."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_paropamisus",
@@ -5300,7 +6506,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Паропамиз: Северо-запад Афганистана."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_pyrenees",
@@ -5317,7 +6524,7 @@ const MODULE2_ITEMS = [
     "region": "Пиренейский полуостров, граница Франции и Испании",
     "locationDesc": "Пиренейский полуостров, граница Франции и Испании",
     "mapPrompt": "Покажите на карте: Пиренеи",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 42.63,
     "lng": 0.66,
     "hitRadiusKm": 220,
@@ -5349,7 +6556,27 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Пиренеи: Пиренейский полуостров, граница Франции и Испании."
-    }
+    },
+    "coords": [
+      [
+        43.2,
+        -1.8
+      ],
+      [
+        42.63,
+        0.66
+      ],
+      [
+        42.4,
+        3
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_mtn_pindus",
@@ -5398,7 +6625,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Пинд, горы: Балканский полуостров, север Греции."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_sulaiman_mountains",
@@ -5446,7 +6674,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Сулеймановы горы: Пакистан, восток Иранского нагорья."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_sredinny_range",
@@ -5462,7 +6691,7 @@ const MODULE2_ITEMS = [
     "region": "Полуостров Камчатка, Россия",
     "locationDesc": "Полуостров Камчатка, Россия",
     "mapPrompt": "Покажите на карте: Срединный хребет",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 55.68,
     "lng": 157.73,
     "hitRadiusKm": 220,
@@ -5494,7 +6723,31 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Срединный хребет: Полуостров Камчатка, Россия."
-    }
+    },
+    "coords": [
+      [
+        59.5,
+        161.5
+      ],
+      [
+        57.5,
+        159.5
+      ],
+      [
+        55.68,
+        157.73
+      ],
+      [
+        53.5,
+        157
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_stara_planina",
@@ -5511,7 +6764,7 @@ const MODULE2_ITEMS = [
     "region": "Болгария, Балканский полуостров",
     "locationDesc": "Болгария, Балканский полуостров",
     "mapPrompt": "Покажите на карте: Стара-Планина (Балканские горы)",
-    "geometryType": "point",
+    "geometryType": "polyline",
     "lat": 42.72,
     "lng": 24.92,
     "hitRadiusKm": 220,
@@ -5543,7 +6796,27 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Стара-Планина (Балканские горы): Болгария, Балканский полуостров."
-    }
+    },
+    "coords": [
+      [
+        43.8,
+        22.5
+      ],
+      [
+        42.72,
+        24.92
+      ],
+      [
+        42.7,
+        27.6
+      ]
+    ],
+    "crossTrackBufferKm": 155,
+    "flowStyle": {
+      "hasDirection": false,
+      "tempType": "mountain"
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_kopet_dag",
@@ -5561,7 +6834,7 @@ const MODULE2_ITEMS = [
     "locationDesc": "Иран, Туркменистан",
     "mapPrompt": "Покажите на карте: Туркмено-Хорасанские горы: Копетдаг",
     "geometryType": "point",
-    "lat": 37.0,
+    "lat": 37,
     "lng": 58.5,
     "hitRadiusKm": 220,
     "bounds": null,
@@ -5592,7 +6865,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Туркмено-Хорасанские горы: Копетдаг: Иран, Туркменистан."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_nishapur_mountains",
@@ -5641,7 +6915,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Туркмено-Хорасанские горы: Нишапурские: Северо-восток Ирана."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_mtn_southern_alps_nz",
@@ -5690,7 +6965,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Южные Альпы: Новая Зеландия, Южный остров."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_volc_avachinskaya",
@@ -5733,7 +7009,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Авачинская Сопка (2741 м), Полуостров Камчатка, Россия."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_bezymianny",
@@ -5776,7 +7053,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Безымянный (3085 м), Полуостров Камчатка (56° с.ш., 161° в.д.)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_izalco",
@@ -5820,7 +7098,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Исалько (1885 м), Центральная Америка, Сальвадор (14° с.ш., 90° з.д.)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_katmai",
@@ -5861,7 +7140,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Катмай (2047 м), Северная Америка, Аляска (Долина десяти тысяч дымов)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_kilauea",
@@ -5902,7 +7182,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Килауэа (1247 м), Остров Гавайи (один из самых активных вулканов мира)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_volc_klyuchevskaya",
@@ -5945,7 +7226,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Ключевская Сопка (4750 м), Полуостров Камчатка (высочайший активный вулкан Евразии)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_volc_nevado_de_colima",
@@ -5986,7 +7268,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Невадо-де-Колима (4625 м), Северная Америка, Мексика (потухший пик массива Колима)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_fuego_de_colima",
@@ -6029,7 +7312,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Фуэго-де-Колима (3846 м), Северная Америка, Мексика (активный вулкан 'Огненная Колима')."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_cotopaxi",
@@ -6070,7 +7354,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Котопахи (5896 м), Южная Америка, Эквадор (один из высочайших действующих вулканов)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_volc_llullaillaco",
@@ -6111,7 +7396,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Льюльяйльяко (6723 м), Южная Америка, граница Чили и Аргентины (высочайший исторически активный вулкан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_denali_volc",
@@ -6129,7 +7415,7 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите вулкан: Денали",
     "geometryType": "point",
     "lat": 63.07,
-    "lng": -151.0,
+    "lng": -151,
     "hitRadiusKm": 110,
     "bounds": null,
     "badgeColor": "red",
@@ -6154,7 +7440,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Денали (6194 м), Северная Америка, Аляска."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_mauna_loa",
@@ -6195,7 +7482,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Мауна-Лоа (4170 м), Остров Гавайи (крупнейший по объёму щитовой вулкан)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_volc_mauna_kea",
@@ -6236,7 +7524,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Мауна-Кеа (4205 м), Остров Гавайи (высочайшая гора от подводного подножия >10 000 м)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_mont_pelee",
@@ -6279,7 +7568,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Мон-Пеле (Монтань-Пеле) (1397 м), Остров Мартиника, Малые Антильские острова (катастрофа 1902 г.)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_orizaba",
@@ -6323,7 +7613,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Орисаба (5700 м), Северная Америка, Мексика (высочайшая вершина Мексики)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_volc_paricutin",
@@ -6364,7 +7655,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Парикутин (2808 м), Северная Америка, Мексика (19° с.ш., 102° з.д., рождён на кукурузном поле в 1943 г.)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_popocatepetl",
@@ -6405,7 +7697,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Попокатепетль (5452 м), Северная Америка, Мексика ('Дымящаяся гора')."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_volc_rainier",
@@ -6446,7 +7739,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Рейнир (4392 м), Северная Америка, США, Каскадные горы."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_ruapehu",
@@ -6487,7 +7781,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Руапеху (2796 м), Новая Зеландия, остров Северный."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_volc_nevado_del_ruiz",
@@ -6530,7 +7825,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Руис (Невадо-дель-Руис) (5400 м), Южная Америка, Колумбия (трагедия Армеро 1985 г.)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_sangay",
@@ -6545,7 +7841,7 @@ const MODULE2_ITEMS = [
     "locationDesc": "Южная Америка, Эквадор",
     "mapPrompt": "Покажите вулкан: Сангай",
     "geometryType": "point",
-    "lat": -2.0,
+    "lat": -2,
     "lng": -78.34,
     "hitRadiusKm": 110,
     "bounds": null,
@@ -6571,7 +7867,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Сангай (5230 м), Южная Америка, Эквадор."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_san_pedro",
@@ -6612,7 +7909,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Сан-Педро (6159 м), Южная Америка, север Чили (пустыня Атакама)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_tajumulco",
@@ -6653,7 +7951,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Тахумулько (4220 м), Центральная Америка, Гватемала (высшая точка Центральной Америки)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_terror",
@@ -6694,7 +7993,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Террор (3262 м), Антарктида, остров Росса, море Росса."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_tolbachik",
@@ -6738,7 +8038,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Толбачик (3628 м), Полуостров Камчатка (55°50′ с.ш., 160°20′ в.д.)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_fuji",
@@ -6781,7 +8082,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Фудзияма (3776 м), Остров Хонсю, Япония (священная гора Японии)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_volc_chimborazo",
@@ -6822,7 +8124,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Чимборасо (6267 м), Южная Америка, Эквадор (самая удалённая от центра Земли точка)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_erebus",
@@ -6863,7 +8166,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Эребус (3794 м), Антарктида, о. Росса (~30 км на запад от вулкана Террор, лавовое озеро)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_volc_karisimbi",
@@ -6904,7 +8208,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Карисимби (4507 м), Горы Вирунга (между оз. Киву и оз. Эдуард, Руанда/ДРК)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_nyiragongo",
@@ -6945,7 +8250,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Ньирагонго (3470 м), ~22 км на запад от Карисимби (ДР Конго, постоянное лавовое озеро)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_nyamuragira",
@@ -6986,7 +8292,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Ньямлагира (3506 м), ~30 км на северо-запад от Карисимби (ДР Конго)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_mount_kenya",
@@ -7027,7 +8334,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Кения (5199 м), Восточная Африка, Кения (вторая по высоте вершина Африки)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_kilimanjaro",
@@ -7071,7 +8379,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Килиманджаро (5895 м), Восточная Африка, Танзания (пик Ухуру, высшая точка Африки)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_volc_mount_meru",
@@ -7112,7 +8421,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Меру (4567 м), Танзания (3° ю.ш., 36° в.д., восточнее парка Серенгети)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_ngorongoro",
@@ -7153,7 +8463,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Нгоронгоро (2500 м), Танзания (3.2° ю.ш., 35° в.д., гигантская кальдера)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_hekla",
@@ -7194,7 +8505,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Гекла (1419 м), Остров Исландия ('Ворота в ад')."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_volc_mount_cameroon",
@@ -7237,7 +8549,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Камерун (4070 м), Западная Африка, побережье залива Биафра (Камерун)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_volc_laki",
@@ -7278,7 +8591,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Лаки (818 м), Остров Исландия (вулканическая трещина, катастрофическое извержение 1783 г.)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_hvannadalshnukur",
@@ -7319,7 +8633,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Хваннадальсхнукюр (2119 м), Остров Исландия (ледник Ватнайёкюдль, высшая точка Исландии)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_vesuvius",
@@ -7360,7 +8675,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Везувий (1277 м), Апеннинский полуостров, Неаполитанский залив, Италия."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_volc_vulcano",
@@ -7401,7 +8717,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Вулькано (499 м), Липарские (Тирренские) острова, Италия."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_kerinci",
@@ -7444,7 +8761,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Керинчи (Индрапура) (3805 м), Остров Суматра, Индонезия (высший вулкан Индонезии)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_damavand",
@@ -7485,7 +8803,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Демавенд (5604 м), Горы Эльбурс, Иран (высочайший вулкан Азии)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_kazbek",
@@ -7526,7 +8845,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Казбек (5033 м), Большой Кавказ, граница Грузии и России."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_krakatoa",
@@ -7567,7 +8887,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Кракатау (813 м), Зондский пролив между Суматрой и Явой, Индонезия (катастрофа 1883 г.)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_volc_santorini",
@@ -7610,7 +8931,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Санторин (Тира) (504 м), Архипелаг Киклады, Эгейское море, Греция (минойское извержение)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_greater_ararat",
@@ -7651,7 +8973,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Арарат: Большой Арарат (5156 м), Армянское нагорье, Турция."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_volc_lesser_ararat",
@@ -7692,7 +9015,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Арарат: Малый Арарат (3925 м), Юго-восточнее Большого Арарата, Турция."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_volc_semeru",
@@ -7733,7 +9057,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Семеру (3676 м), Остров Ява, Индонезия (высшая точка Явы)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_volc_stromboli",
@@ -7774,7 +9099,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Стромболи (926 м), Липарские острова, Италия ('Маяк Средиземного моря')."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_volc_elbrus",
@@ -7815,7 +9141,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Эльбрус (5642 м), Большой Кавказ, Россия (высочайшая вершина Европы и России)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_volc_etna",
@@ -7856,7 +9183,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Вулкан Этна (3340 м), Остров Сицилия, Италия (крупнейший активный вулкан Европы)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_depr_ghor",
@@ -7895,7 +9223,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Депрессия Гхор (Эль-Гхор, Мёртвое море) (-430 м), Израиль, Иордания, Сирия (глубочайшая впадина суши на Земле)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_depr_sea_of_galilee",
@@ -7934,7 +9263,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Депрессия Тивериадское (Генисаретское) озеро (-212 м), Израиль, севернее Мёртвого моря (озеро Кинерет)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_depr_turpan",
@@ -7972,7 +9302,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Депрессия Турфанская котловина (-154 м), Китай, Синьцзян, южнее Тянь-Шаня."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_depr_afar_assal",
@@ -8011,7 +9342,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Депрессия Афар (уровень оз. Ассаль) (-153 м), Джибути, Восточная Африка (глубочайшая точка Африки)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_depr_qattara",
@@ -8049,7 +9381,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Депрессия Каттара (-133 м), Север Египта, Ливийская пустыня."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_depr_karagiye",
@@ -8087,7 +9420,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Депрессия Карагие (Батыр) (-132 м), Казахстан, полуостров Мангышлак (глубочайшая точка СНГ/Казахстана)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_depr_laguna_del_carbon",
@@ -8123,7 +9457,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Депрессия Лагуна-дель-Карбон (-105 м), Аргентина, Патагония (49,5° ю.ш., 68° з.д., низшая точка Америки)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_depr_death_valley",
@@ -8162,7 +9497,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Депрессия Долина Смерти (Бэдуотер) (-86 м), США, штат Калифорния (низшая точка Северной Америки)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_depr_akdzhakaya",
@@ -8200,7 +9536,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Депрессия Акджакая (Акчакая) (-81 м), Туркменистан, север пустыни Каракумы."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_depr_salton_sea",
@@ -8238,7 +9575,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Депрессия Нижнекалифорнийская (уровень оз. Солтон-Си) (-72 м), США, юг штата Калифорния."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_depr_birket_qarun",
@@ -8277,7 +9615,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Депрессия Биркет-Карун, озеро (-45 м), Ливийская пустыня, оазис Файюм, юго-юго-западнее Каира (Египет)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_depr_salina_grande_valdes",
@@ -8315,7 +9654,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Депрессия Салина-Чика (-42 м), Аргентина, полуостров Вальдес."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_depr_sarygamysh_depr",
@@ -8332,7 +9672,7 @@ const MODULE2_ITEMS = [
     "locationDesc": "Средняя Азия, Туркменистан/Узбекистан, юго-западнее Аральского моря",
     "mapPrompt": "Покажите депрессию суши: Сарыкамышская впадина",
     "geometryType": "point",
-    "lat": 42.0,
+    "lat": 42,
     "lng": 57.4,
     "hitRadiusKm": 180,
     "bounds": null,
@@ -8353,7 +9693,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Депрессия Сарыкамышская впадина (-38 м), Средняя Азия, Туркменистан/Узбекистан, юго-западнее Аральского моря."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_depr_salinas_chicas",
@@ -8369,7 +9710,7 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите депрессию суши: Салинас-Чикас",
     "geometryType": "point",
     "lat": -38.5,
-    "lng": -63.0,
+    "lng": -63,
     "hitRadiusKm": 180,
     "bounds": null,
     "badgeColor": "cyan",
@@ -8389,7 +9730,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Депрессия Салинас-Чикас (-35 м), Аргентина, юг провинции Буэнос-Айрес (38,5° ю.ш., 63° з.д.)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_depr_caspian_depression",
@@ -8406,8 +9748,8 @@ const MODULE2_ITEMS = [
     "locationDesc": "Северное побережье Каспийского моря (Россия, Казахстан)",
     "mapPrompt": "Покажите депрессию суши: Прикаспийская низменность (депрессия)",
     "geometryType": "point",
-    "lat": 47.0,
-    "lng": 49.0,
+    "lat": 47,
+    "lng": 49,
     "hitRadiusKm": 180,
     "bounds": null,
     "badgeColor": "cyan",
@@ -8427,7 +9769,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Депрессия Прикаспийская низменность (депрессия) (-28 м), Северное побережье Каспийского моря (Россия, Казахстан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_depr_lake_eyre_north",
@@ -8465,7 +9808,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Депрессия Эйр-Норт, озеро (-16 м), Австралия, штат Южная Австралия (низшая точка Австралии)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_amazon",
@@ -8482,10 +9826,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Южная Америка, бассейн р. Амазонка (крупнейшая низменность Земли >5 млн км²)",
     "mapPrompt": "Покажите на карте: Амазонская низменность",
     "geometryType": "point",
-    "lat": -3.0,
-    "lng": -62.0,
+    "lat": -3,
+    "lng": -62,
     "hitRadiusKm": 500,
-    "bounds": null,
+    "bounds": [
+      -8,
+      -74,
+      2,
+      -50
+    ],
     "badgeColor": "emerald",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -8502,7 +9851,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Амазонская низменность: Южная Америка, бассейн р. Амазонка (крупнейшая низменность Земли >5 млн км²)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_plain_baraba",
@@ -8539,7 +9889,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Барабинская низменность (степь): Западно-Сибирская равнина, между Обью и Иртышом."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_great_artesian",
@@ -8554,10 +9905,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Центрально-восточная Австралия (крупнейший резервуар подземных вод)",
     "mapPrompt": "Покажите на карте: Большой Артезианский бассейн",
     "geometryType": "point",
-    "lat": -26.0,
-    "lng": 140.0,
+    "lat": -26,
+    "lng": 140,
     "hitRadiusKm": 450,
-    "bounds": null,
+    "bounds": [
+      -31,
+      135,
+      -18,
+      146
+    ],
     "badgeColor": "emerald",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -8574,7 +9930,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Большой Артезианский бассейн: Центрально-восточная Австралия (крупнейший резервуар подземных вод)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_vasyugan",
@@ -8592,7 +9949,7 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Васюганская равнина (низменность)",
     "geometryType": "point",
     "lat": 57.5,
-    "lng": 78.0,
+    "lng": 78,
     "hitRadiusKm": 300,
     "bounds": null,
     "badgeColor": "emerald",
@@ -8611,7 +9968,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Васюганская равнина (низменность): Западно-Сибирская равнина, Томская/Новосибирская обл. (Васюганские болота)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_north_china",
@@ -8628,10 +9986,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Восток Китая, нижнее течение рек Хуанхэ и Янцзы",
     "mapPrompt": "Покажите на карте: Великая Китайская равнина",
     "geometryType": "point",
-    "lat": 36.0,
-    "lng": 116.0,
+    "lat": 36,
+    "lng": 116,
     "hitRadiusKm": 350,
-    "bounds": null,
+    "bounds": [
+      31.5,
+      113.5,
+      40,
+      120
+    ],
     "badgeColor": "emerald",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -8648,7 +10011,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Великая Китайская равнина: Восток Китая, нижнее течение рек Хуанхэ и Янцзы."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_plain_wielkopolska",
@@ -8664,7 +10028,7 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Великопольско-Куявская низменность",
     "geometryType": "point",
     "lat": 52.3,
-    "lng": 18.0,
+    "lng": 18,
     "hitRadiusKm": 250,
     "bounds": null,
     "badgeColor": "emerald",
@@ -8683,7 +10047,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Великопольско-Куявская низменность: Среднеевропейская равнина, Польша (бассейн р. Варта)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_aquitaine",
@@ -8720,7 +10085,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Гароннская (Аквитанская) низменность: Европа, юго-запад Франции (бассейн р. Гаронна)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_hudson_bay_lowland",
@@ -8735,10 +10101,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Северная Америка, Канада (юго-запад побережья Гудзонова залива)",
     "mapPrompt": "Покажите на карте: Низменность Гудзонова залива",
     "geometryType": "point",
-    "lat": 54.0,
-    "lng": -84.0,
+    "lat": 54,
+    "lng": -84,
     "hitRadiusKm": 350,
-    "bounds": null,
+    "bounds": [
+      51,
+      -92,
+      58.5,
+      -79
+    ],
     "badgeColor": "emerald",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -8755,7 +10126,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Низменность Гудзонова залива: Северная Америка, Канада (юго-запад побережья Гудзонова залива)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_indo_gangetic",
@@ -8770,10 +10142,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Азия, Индия, Пакистан, Бангладеш (бассейны Инда и Ганга)",
     "mapPrompt": "Покажите на карте: Индо-Гангская равнина (низменность)",
     "geometryType": "point",
-    "lat": 27.0,
-    "lng": 78.0,
+    "lat": 27,
+    "lng": 78,
     "hitRadiusKm": 400,
-    "bounds": null,
+    "bounds": [
+      23,
+      68,
+      31.5,
+      89
+    ],
     "badgeColor": "emerald",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -8790,7 +10167,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Индо-Гангская равнина (низменность): Азия, Индия, Пакистан, Бангладеш (бассейны Инда и Ганга)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_plain_ishim_plain",
@@ -8807,7 +10185,7 @@ const MODULE2_ITEMS = [
     "locationDesc": "Западно-Сибирская равнина, юг Тюменской/Омской обл. и север Казахстана",
     "mapPrompt": "Покажите на карте: Ишимская равнина (низменность)",
     "geometryType": "point",
-    "lat": 55.0,
+    "lat": 55,
     "lng": 69.5,
     "hitRadiusKm": 280,
     "bounds": null,
@@ -8827,7 +10205,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Ишимская равнина (низменность): Западно-Сибирская равнина, юг Тюменской/Омской обл. и север Казахстана."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_central_valley_ca",
@@ -8844,7 +10223,7 @@ const MODULE2_ITEMS = [
     "locationDesc": "Северная Америка, США (Калифорния, между Сьерра-Невадой и Береговыми хребтами)",
     "mapPrompt": "Покажите на карте: Калифорнийская долина",
     "geometryType": "point",
-    "lat": 37.0,
+    "lat": 37,
     "lng": -120.5,
     "hitRadiusKm": 280,
     "bounds": null,
@@ -8864,7 +10243,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Калифорнийская долина: Северная Америка, США (Калифорния, между Сьерра-Невадой и Береговыми хребтами)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_colchis",
@@ -8882,7 +10262,7 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Колхидская низменность",
     "geometryType": "point",
     "lat": 42.2,
-    "lng": 42.0,
+    "lng": 42,
     "hitRadiusKm": 200,
     "bounds": null,
     "badgeColor": "emerald",
@@ -8901,7 +10281,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Колхидская низменность: Западное Закавказье, Грузия (долина р. Риони, побережье Чёрного моря)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_kolyma_lowland",
@@ -8916,10 +10297,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Северо-восток Сибири, Якутия, долина р. Колыма",
     "mapPrompt": "Покажите на карте: Колымская низменность",
     "geometryType": "point",
-    "lat": 68.0,
-    "lng": 155.0,
+    "lat": 68,
+    "lng": 155,
     "hitRadiusKm": 300,
-    "bounds": null,
+    "bounds": [
+      66.5,
+      148,
+      70,
+      161
+    ],
     "badgeColor": "emerald",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -8936,7 +10322,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Колымская низменность: Северо-восток Сибири, Якутия, долина р. Колыма."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_kulunda",
@@ -8953,7 +10340,7 @@ const MODULE2_ITEMS = [
     "locationDesc": "Юг Западно-Сибирской равнины (Алтайский край, Казахстан)",
     "mapPrompt": "Покажите на карте: Кулундинская равнина (степь)",
     "geometryType": "point",
-    "lat": 53.0,
+    "lat": 53,
     "lng": 79.5,
     "hitRadiusKm": 260,
     "bounds": null,
@@ -8973,7 +10360,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Кулундинская равнина (степь): Юг Западно-Сибирской равнины (Алтайский край, Казахстан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_kura_araks",
@@ -8988,7 +10376,7 @@ const MODULE2_ITEMS = [
     "locationDesc": "Восточное Закавказье, Азербайджан (долины рек Кура и Аракс)",
     "mapPrompt": "Покажите на карте: Кура-Араксинская низменность",
     "geometryType": "point",
-    "lat": 40.0,
+    "lat": 40,
     "lng": 48.3,
     "hitRadiusKm": 220,
     "bounds": null,
@@ -9008,7 +10396,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Кура-Араксинская низменность: Восточное Закавказье, Азербайджан (долины рек Кура и Аракс)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_la_plata_plain",
@@ -9026,10 +10415,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Южная Америка (Аргентина, Парагвай, Уругвай, долина р. Парана)",
     "mapPrompt": "Покажите на карте: Лаплатская низменность",
     "geometryType": "point",
-    "lat": -28.0,
-    "lng": -60.0,
+    "lat": -28,
+    "lng": -60,
     "hitRadiusKm": 450,
-    "bounds": null,
+    "bounds": [
+      -38,
+      -65,
+      -18,
+      -55
+    ],
     "badgeColor": "emerald",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -9046,7 +10440,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Лаплатская низменность: Южная Америка (Аргентина, Парагвай, Уругвай, долина р. Парана)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_plain_mackenzie_lowland",
@@ -9061,10 +10456,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Северо-запад Канады, долина реки Маккензи",
     "mapPrompt": "Покажите на карте: Низменность Маккензи",
     "geometryType": "point",
-    "lat": 64.0,
-    "lng": -124.0,
+    "lat": 64,
+    "lng": -124,
     "hitRadiusKm": 350,
-    "bounds": null,
+    "bounds": [
+      60,
+      -133,
+      69,
+      -118
+    ],
     "badgeColor": "emerald",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -9081,7 +10481,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Низменность Маккензи: Северо-запад Канады, долина реки Маккензи."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_mekong_plain",
@@ -9118,7 +10519,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Меконг-Менамская низменность (Кохинхина): Полуостров Индокитай, дельты Меконга и Менама (Вьетнам, Камбоджа, Таиланд)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_mesopotamia",
@@ -9137,9 +10539,14 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Месопотамская низменность",
     "geometryType": "point",
     "lat": 32.5,
-    "lng": 45.0,
+    "lng": 45,
     "hitRadiusKm": 300,
-    "bounds": null,
+    "bounds": [
+      29.5,
+      41,
+      36.5,
+      48.5
+    ],
     "badgeColor": "emerald",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -9156,7 +10563,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Месопотамская низменность: Ближний Восток, Ирак (долины рек Тигр и Евфрат)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_plain_meshchera",
@@ -9174,7 +10582,7 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Мещёрская низменность",
     "geometryType": "point",
     "lat": 55.3,
-    "lng": 40.0,
+    "lng": 40,
     "hitRadiusKm": 200,
     "bounds": null,
     "badgeColor": "emerald",
@@ -9193,7 +10601,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Мещёрская низменность: Центр Европейской части России, юго-восточнее Москвы (Ока, Клязьма)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_lower_danube",
@@ -9213,7 +10622,12 @@ const MODULE2_ITEMS = [
     "lat": 44.3,
     "lng": 26.5,
     "hitRadiusKm": 260,
-    "bounds": null,
+    "bounds": [
+      43.5,
+      23,
+      45.8,
+      29
+    ],
     "badgeColor": "emerald",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -9230,7 +10644,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Нижнедунайская равнина: Европа, Румыния, Болгария (долина Дуная в нижнем течении)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_oka_don",
@@ -9247,10 +10662,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Восточно-Европейская равнина, левобережье верховий р. Дон (Тамбовская обл.)",
     "mapPrompt": "Покажите на карте: Окско-Донская равнина",
     "geometryType": "point",
-    "lat": 53.0,
+    "lat": 53,
     "lng": 40.5,
     "hitRadiusKm": 250,
-    "bounds": null,
+    "bounds": [
+      50.5,
+      38.5,
+      55,
+      43
+    ],
     "badgeColor": "emerald",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -9267,7 +10687,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Окско-Донская равнина: Восточно-Европейская равнина, левобережье верховий р. Дон (Тамбовская обл.)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_orinoco_plain",
@@ -9285,9 +10706,14 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Оринокская низменность (Льянос)",
     "geometryType": "point",
     "lat": 6.5,
-    "lng": -67.0,
+    "lng": -67,
     "hitRadiusKm": 380,
-    "bounds": null,
+    "bounds": [
+      3,
+      -72,
+      10,
+      -61.5
+    ],
     "badgeColor": "emerald",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -9304,7 +10730,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Оринокская низменность (Льянос): Север Южной Америки, Колумбия, Венесуэла (бассейн р. Ориноко)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_plain_po_valley",
@@ -9322,10 +10749,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Север Италии, долина реки По (Ломбардия, Венето)",
     "mapPrompt": "Покажите на карте: Паданская низменность",
     "geometryType": "point",
-    "lat": 45.0,
+    "lat": 45,
     "lng": 10.5,
     "hitRadiusKm": 240,
-    "bounds": null,
+    "bounds": [
+      44.2,
+      7.5,
+      46,
+      13
+    ],
     "badgeColor": "emerald",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -9342,7 +10774,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Паданская низменность: Север Италии, долина реки По (Ломбардия, Венето)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_pechora_lowland",
@@ -9358,9 +10791,14 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Печорская низменность",
     "geometryType": "point",
     "lat": 65.5,
-    "lng": 54.0,
+    "lng": 54,
     "hitRadiusKm": 300,
-    "bounds": null,
+    "bounds": [
+      62.5,
+      49,
+      68.5,
+      60
+    ],
     "badgeColor": "emerald",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -9377,7 +10815,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Печорская низменность: Северо-восток Европейской части России, бассейн р. Печора."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_polesia",
@@ -9394,10 +10833,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Беларусь, Украина, Польша (бассейн р. Припять)",
     "mapPrompt": "Покажите на карте: Полесская низменность",
     "geometryType": "point",
-    "lat": 52.0,
+    "lat": 52,
     "lng": 26.5,
     "hitRadiusKm": 280,
-    "bounds": null,
+    "bounds": [
+      50.5,
+      23.5,
+      53.3,
+      31
+    ],
     "badgeColor": "emerald",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -9414,7 +10858,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Полесская низменность: Беларусь, Украина, Польша (бассейн р. Припять)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_atlantic_coastal_plain",
@@ -9429,10 +10874,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Восточное побережье США от Нью-Йорка до Флориды",
     "mapPrompt": "Покажите на карте: Приатлантическая низменность",
     "geometryType": "point",
-    "lat": 34.0,
-    "lng": -78.0,
+    "lat": 34,
+    "lng": -78,
     "hitRadiusKm": 380,
-    "bounds": null,
+    "bounds": [
+      27,
+      -82,
+      40.5,
+      -73.5
+    ],
     "badgeColor": "emerald",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -9449,7 +10899,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Приатлантическая низменность: Восточное побережье США от Нью-Йорка до Флориды."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_plain_dnieper_lowland",
@@ -9464,10 +10915,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Левобережье р. Днепр, Украина",
     "mapPrompt": "Покажите на карте: Приднепровская низменность",
     "geometryType": "point",
-    "lat": 50.0,
-    "lng": 33.0,
+    "lat": 50,
+    "lng": 33,
     "hitRadiusKm": 280,
-    "bounds": null,
+    "bounds": [
+      48.5,
+      30.5,
+      52,
+      36.5
+    ],
     "badgeColor": "emerald",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -9484,7 +10940,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Приднепровская низменность: Левобережье р. Днепр, Украина."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_gulf_coastal_plain",
@@ -9500,9 +10957,14 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Примексиканская низменность",
     "geometryType": "point",
     "lat": 29.5,
-    "lng": -92.0,
+    "lng": -92,
     "hitRadiusKm": 380,
-    "bounds": null,
+    "bounds": [
+      24,
+      -98.5,
+      33.5,
+      -83.5
+    ],
     "badgeColor": "emerald",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -9519,7 +10981,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Примексиканская низменность: Северное побережье Мексиканского залива (США, Техас, Луизиана)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_plain_black_sea_lowland",
@@ -9537,7 +11000,12 @@ const MODULE2_ITEMS = [
     "lat": 46.5,
     "lng": 32.5,
     "hitRadiusKm": 280,
-    "bounds": null,
+    "bounds": [
+      45.5,
+      28.5,
+      47.8,
+      37.5
+    ],
     "badgeColor": "emerald",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -9554,7 +11022,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Причерноморская низменность: Северное побережье Чёрного моря (Украина, юг Молдовы)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_north_siberian",
@@ -9571,10 +11040,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Север Сибири, южнее гор Бырранга (между Енисеем и Оленёком)",
     "mapPrompt": "Покажите на карте: Северо-Сибирская (Таймырская) низменность",
     "geometryType": "point",
-    "lat": 72.0,
-    "lng": 95.0,
+    "lat": 72,
+    "lng": 95,
     "hitRadiusKm": 400,
-    "bounds": null,
+    "bounds": [
+      69,
+      84,
+      74.5,
+      114
+    ],
     "badgeColor": "emerald",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -9591,7 +11065,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Северо-Сибирская (Таймырская) низменность: Север Сибири, южнее гор Бырранга (между Енисеем и Оленёком)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_plain_north_german_plain",
@@ -9606,10 +11081,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Среднеевропейская равнина, север Германии (Бранденбург, Нижняя Саксония)",
     "mapPrompt": "Покажите на карте: Северо-Германская низменность",
     "geometryType": "point",
-    "lat": 53.0,
-    "lng": 11.0,
+    "lat": 53,
+    "lng": 11,
     "hitRadiusKm": 280,
-    "bounds": null,
+    "bounds": [
+      51.5,
+      6.5,
+      54.5,
+      15
+    ],
     "badgeColor": "emerald",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -9626,7 +11106,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Северо-Германская низменность: Среднеевропейская равнина, север Германии (Бранденбург, Нижняя Саксония)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_paris_basin",
@@ -9646,7 +11127,12 @@ const MODULE2_ITEMS = [
     "lat": 48.8,
     "lng": 2.5,
     "hitRadiusKm": 280,
-    "bounds": null,
+    "bounds": [
+      47,
+      -0.5,
+      50.5,
+      5
+    ],
     "badgeColor": "emerald",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -9663,7 +11149,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Северо-Французская низменность (Парижский бассейн): Европа, Франция (бассейн реки Сена)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_middle_danube",
@@ -9684,7 +11171,12 @@ const MODULE2_ITEMS = [
     "lat": 46.8,
     "lng": 19.5,
     "hitRadiusKm": 280,
-    "bounds": null,
+    "bounds": [
+      44.8,
+      16.5,
+      48.5,
+      22.5
+    ],
     "badgeColor": "emerald",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -9701,7 +11193,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Среднедунайская низменность (Тисо-Дунайская): Центральная Европа, Венгрия (Паннонская равнина)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_plain_songliao_plain",
@@ -9719,9 +11212,14 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Сунляо (Маньчжурская равнина)",
     "geometryType": "point",
     "lat": 44.5,
-    "lng": 125.0,
+    "lng": 125,
     "hitRadiusKm": 350,
-    "bounds": null,
+    "bounds": [
+      41.5,
+      121.5,
+      48,
+      128
+    ],
     "badgeColor": "emerald",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -9738,7 +11236,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Сунляо (Маньчжурская равнина): Северо-восток Китая, долины рек Сунгари и Ляохэ."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_turan_lowland",
@@ -9755,10 +11254,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Средняя Азия, на юге и востоке от Аральского моря (Казахстан, Узбекистан)",
     "mapPrompt": "Покажите на карте: Туранская низменность",
     "geometryType": "point",
-    "lat": 43.0,
-    "lng": 62.0,
+    "lat": 43,
+    "lng": 62,
     "hitRadiusKm": 450,
-    "bounds": null,
+    "bounds": [
+      37.5,
+      53,
+      47.5,
+      68.5
+    ],
     "badgeColor": "emerald",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -9775,7 +11279,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Туранская низменность: Средняя Азия, на юге и востоке от Аральского моря (Казахстан, Узбекистан)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_plain_yana_indigirka",
@@ -9790,10 +11295,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Северо-восток Сибири, Якутия (низовья рек Яна и Индигирка)",
     "mapPrompt": "Покажите на карте: Яно-Индигирская низменность",
     "geometryType": "point",
-    "lat": 71.0,
-    "lng": 142.0,
+    "lat": 71,
+    "lng": 142,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      69,
+      134,
+      72.5,
+      150
+    ],
     "badgeColor": "emerald",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -9810,7 +11320,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Яно-Индигирская низменность: Северо-восток Сибири, Якутия (низовья рек Яна и Индигирка)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_belarusian_ridge",
@@ -9828,7 +11339,7 @@ const MODULE2_ITEMS = [
     "locationDesc": "Русская равнина, Беларусь (высшая точка г. Дзержинская 345 м)",
     "mapPrompt": "Покажите на карте: Белорусская гряда",
     "geometryType": "point",
-    "lat": 54.0,
+    "lat": 54,
     "lng": 27.2,
     "hitRadiusKm": 220,
     "bounds": null,
@@ -9848,7 +11359,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Белорусская гряда: Русская равнина, Беларусь (высшая точка г. Дзержинская 345 м)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_plain_valdai",
@@ -9866,9 +11378,14 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Валдайская возвышенность",
     "geometryType": "point",
     "lat": 57.5,
-    "lng": 33.0,
+    "lng": 33,
     "hitRadiusKm": 220,
-    "bounds": null,
+    "bounds": [
+      55.8,
+      31.5,
+      58.8,
+      35.5
+    ],
     "badgeColor": "lime",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -9885,7 +11402,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Валдайская возвышенность: Русская равнина, истоки Волги, Днепра, Зап. Двины (г. Макушка Валдая 346,9 м)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_plain_volyn_upland",
@@ -9920,7 +11438,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Волынская возвышенность: Северо-запад Украины."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_dzungaria",
@@ -9937,10 +11456,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Северо-запад Китая, Синьцзян, севернее Тянь-Шаня",
     "mapPrompt": "Покажите на карте: Джунгария (Джунгарская равнина)",
     "geometryType": "point",
-    "lat": 45.0,
-    "lng": 88.0,
+    "lat": 45,
+    "lng": 88,
     "hitRadiusKm": 350,
-    "bounds": null,
+    "bounds": [
+      43.5,
+      82.5,
+      47,
+      91
+    ],
     "badgeColor": "lime",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -9957,7 +11481,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Джунгария (Джунгарская равнина): Северо-запад Китая, Синьцзян, севернее Тянь-Шаня."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_yergeni",
@@ -9992,7 +11517,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Ергени, возвышенность: Западнее Прикаспийской низменности (Калмыкия, Волгоградская обл.)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_zhiguli",
@@ -10030,7 +11556,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Жигули (Жигулёвские горы): Самарская Лука на р. Волга (Тольятти, Самара)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_congo_basin",
@@ -10047,10 +11574,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Экваториальная Африка, обширная котловина в бассейне реки Конго",
     "mapPrompt": "Покажите на карте: впадина Конго (котловина Конго)",
     "geometryType": "point",
-    "lat": 0.0,
-    "lng": 22.0,
+    "lat": 0,
+    "lng": 22,
     "hitRadiusKm": 450,
-    "bounds": null,
+    "bounds": [
+      -5,
+      15,
+      4.5,
+      27.5
+    ],
     "badgeColor": "lime",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -10067,7 +11599,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "впадина Конго (котловина Конго): Экваториальная Африка, обширная котловина в бассейне реки Конго."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_plain_laurentian_upland",
@@ -10084,10 +11617,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Северная Америка, Канада (Канадский щит, окаймляет Гудзонов залив)",
     "mapPrompt": "Покажите на карте: Лаврентийская возвышенность",
     "geometryType": "point",
-    "lat": 55.0,
-    "lng": -72.0,
+    "lat": 55,
+    "lng": -72,
     "hitRadiusKm": 500,
-    "bounds": null,
+    "bounds": [
+      47,
+      -90,
+      61,
+      -61
+    ],
     "badgeColor": "lime",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -10104,7 +11642,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Лаврентийская возвышенность: Северная Америка, Канада (Канадский щит, окаймляет Гудзонов залив)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_plain_maanselka",
@@ -10120,7 +11659,7 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Манселькя",
     "geometryType": "point",
     "lat": 64.5,
-    "lng": 29.0,
+    "lng": 29,
     "hitRadiusKm": 250,
     "bounds": null,
     "badgeColor": "lime",
@@ -10139,7 +11678,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Манселькя: Восток Финляндии и северо-запад Карелии (водораздел Белого и Балтийского морей)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_nullarbor",
@@ -10176,7 +11716,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Налларбор (200-250 м): Юг Австралии, побережье Большого Австралийского залива (карстовая равнина без деревьев)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_normandy_hills",
@@ -10211,7 +11752,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Нормандская возвышенность: Северо-запад Франции (Нормандия)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_obshchy_syrt",
@@ -10246,7 +11788,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Общий Сырт: Юго-западнее Уральских гор (между Волгой и Уралом)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_podil_upland",
@@ -10264,7 +11807,7 @@ const MODULE2_ITEMS = [
     "locationDesc": "Запад Украины, левобережье Днестра",
     "mapPrompt": "Покажите на карте: Подольская возвышенность",
     "geometryType": "point",
-    "lat": 49.0,
+    "lat": 49,
     "lng": 26.5,
     "hitRadiusKm": 220,
     "bounds": null,
@@ -10284,7 +11827,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Подольская возвышенность: Запад Украины, левобережье Днестра."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_volga_upland",
@@ -10299,10 +11843,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Правобережье реки Волга от Нижнего Новгорода до Волгограда",
     "mapPrompt": "Покажите на карте: Приволжская возвышенность",
     "geometryType": "point",
-    "lat": 53.0,
+    "lat": 53,
     "lng": 46.5,
     "hitRadiusKm": 280,
-    "bounds": null,
+    "bounds": [
+      49,
+      44,
+      56,
+      49.5
+    ],
     "badgeColor": "lime",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -10319,7 +11868,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Приволжская возвышенность: Правобережье реки Волга от Нижнего Новгорода до Волгограда."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_plain_dnieper_upland",
@@ -10334,8 +11884,8 @@ const MODULE2_ITEMS = [
     "locationDesc": "Правобережье реки Днепр, Украина",
     "mapPrompt": "Покажите на карте: Приднепровская возвышенность",
     "geometryType": "point",
-    "lat": 49.0,
-    "lng": 31.0,
+    "lat": 49,
+    "lng": 31,
     "hitRadiusKm": 250,
     "bounds": null,
     "badgeColor": "lime",
@@ -10354,7 +11904,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Приднепровская возвышенность: Правобережье реки Днепр, Украина."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_salpausselka",
@@ -10369,7 +11920,7 @@ const MODULE2_ITEMS = [
     "locationDesc": "Юг Финляндии (конечно-моренные гряды последнего оледенения)",
     "mapPrompt": "Покажите на карте: Салпаусселькя",
     "geometryType": "point",
-    "lat": 61.0,
+    "lat": 61,
     "lng": 27.5,
     "hitRadiusKm": 220,
     "bounds": null,
@@ -10389,7 +11940,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Салпаусселькя: Юг Финляндии (конечно-моренные гряды последнего оледенения)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_severnye_uvaly",
@@ -10405,7 +11957,7 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Северные Увалы",
     "geometryType": "point",
     "lat": 59.5,
-    "lng": 48.0,
+    "lng": 48,
     "hitRadiusKm": 280,
     "bounds": null,
     "badgeColor": "lime",
@@ -10424,7 +11976,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Северные Увалы: Русская равнина, водораздел бассейнов Волги и Сев. Двины."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_siberian_uvaly",
@@ -10440,7 +11993,7 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Сибирские Увалы",
     "geometryType": "point",
     "lat": 62.5,
-    "lng": 75.0,
+    "lng": 75,
     "hitRadiusKm": 350,
     "bounds": null,
     "badgeColor": "lime",
@@ -10459,7 +12012,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Сибирские Увалы: Западно-Сибирская равнина (водораздел между бассейнами Оби и Пура/Таза)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_smolensk_moscow",
@@ -10477,7 +12031,12 @@ const MODULE2_ITEMS = [
     "lat": 55.5,
     "lng": 34.5,
     "hitRadiusKm": 250,
-    "bounds": null,
+    "bounds": [
+      54.5,
+      32,
+      56.8,
+      38
+    ],
     "badgeColor": "lime",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -10494,7 +12053,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Смоленско-Московская возвышенность: Русская равнина (Смоленская, Московская, Тверская обл.)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_central_european_upland",
@@ -10509,8 +12069,8 @@ const MODULE2_ITEMS = [
     "locationDesc": "Центральная Европа (полоса герцинских массивов к северу от Альп)",
     "mapPrompt": "Покажите на карте: Среднеевропейские возвышенности",
     "geometryType": "point",
-    "lat": 50.0,
-    "lng": 10.0,
+    "lat": 50,
+    "lng": 10,
     "hitRadiusKm": 320,
     "bounds": null,
     "badgeColor": "lime",
@@ -10529,7 +12089,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Среднеевропейские возвышенности: Центральная Европа (полоса герцинских массивов к северу от Альп)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_stavropol_upland",
@@ -10546,8 +12107,8 @@ const MODULE2_ITEMS = [
     "locationDesc": "Предкавказье, севернее Большого Кавказа (г. Стрижамент 831 м)",
     "mapPrompt": "Покажите на карте: Ставропольская возвышенность",
     "geometryType": "point",
-    "lat": 45.0,
-    "lng": 42.0,
+    "lat": 45,
+    "lng": 42,
     "hitRadiusKm": 200,
     "bounds": null,
     "badgeColor": "lime",
@@ -10566,7 +12127,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Ставропольская возвышенность: Предкавказье, севернее Большого Кавказа (г. Стрижамент 831 м)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_tarim_basin",
@@ -10584,10 +12146,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Западный Китай, Синьцзян, пустыня Такла-Макан в окружении гор",
     "mapPrompt": "Покажите на карте: Таримская (Кашгарская) равнина",
     "geometryType": "point",
-    "lat": 39.0,
-    "lng": 83.0,
+    "lat": 39,
+    "lng": 83,
     "hitRadiusKm": 400,
-    "bounds": null,
+    "bounds": [
+      36.5,
+      76,
+      41.5,
+      90
+    ],
     "badgeColor": "lime",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -10604,7 +12171,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Таримская (Кашгарская) равнина: Западный Китай, Синьцзян, пустыня Такла-Макан в окружении гор."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_fergana_valley",
@@ -10639,7 +12207,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Ферганская долина: Средняя Азия, Узбекистан, Кыргызстан, Таджикистан (межгорная котловина)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_central_plains_us",
@@ -10656,10 +12225,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Северная Америка, США, Канада (между Аппалачами и Великими равнинами)",
     "mapPrompt": "Покажите на карте: Центральные равнины",
     "geometryType": "point",
-    "lat": 41.0,
-    "lng": -91.0,
+    "lat": 41,
+    "lng": -91,
     "hitRadiusKm": 400,
-    "bounds": null,
+    "bounds": [
+      36,
+      -98,
+      46.5,
+      -83
+    ],
     "badgeColor": "lime",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -10676,7 +12250,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Центральные равнины: Северная Америка, США, Канада (между Аппалачами и Великими равнинами)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_plain_brazilian_highlands",
@@ -10693,10 +12268,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Южная Америка, Бразилия (высшая точка г. Бандейра 2890 м)",
     "mapPrompt": "Покажите на карте: Бразильское плоскогорье",
     "geometryType": "point",
-    "lat": -15.0,
-    "lng": -48.0,
+    "lat": -15,
+    "lng": -48,
     "hitRadiusKm": 500,
-    "bounds": null,
+    "bounds": [
+      -24,
+      -54,
+      -5,
+      -37
+    ],
     "badgeColor": "lime",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -10713,7 +12293,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Бразильское плоскогорье: Южная Америка, Бразилия (высшая точка г. Бандейра 2890 м)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_plain_east_african_plateau",
@@ -10728,10 +12309,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Восточная Африка (Кения, Танзания, Уганда, Великие Африканские озёра)",
     "mapPrompt": "Покажите на карте: Восточно-Африканское плоскогорье",
     "geometryType": "point",
-    "lat": -2.0,
-    "lng": 34.0,
+    "lat": -2,
+    "lng": 34,
     "hitRadiusKm": 450,
-    "bounds": null,
+    "bounds": [
+      -10,
+      29,
+      5,
+      40
+    ],
     "badgeColor": "lime",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -10748,7 +12334,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Восточно-Африканское плоскогорье: Восточная Африка (Кения, Танзания, Уганда, Великие Африканские озёра)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_plain_guiana_shield",
@@ -10766,10 +12353,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Север Южной Америки (г. Неблина 3014 м, Рорайма, столовые горы тепуи)",
     "mapPrompt": "Покажите на карте: Гвианское плоскогорье",
     "geometryType": "point",
-    "lat": 4.0,
-    "lng": -62.0,
+    "lat": 4,
+    "lng": -62,
     "hitRadiusKm": 450,
-    "bounds": null,
+    "bounds": [
+      1,
+      -67,
+      7.5,
+      -54
+    ],
     "badgeColor": "lime",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -10786,7 +12378,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Гвианское плоскогорье: Север Южной Америки (г. Неблина 3014 м, Рорайма, столовые горы тепуи)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_plain_central_siberian",
@@ -10804,10 +12397,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Сибирь между Енисеем и Леной (в т.ч. Енисейский кряж, плато Путорана, Анабарское плато)",
     "mapPrompt": "Покажите на карте: Среднесибирское плоскогорье",
     "geometryType": "point",
-    "lat": 65.0,
-    "lng": 102.0,
+    "lat": 65,
+    "lng": 102,
     "hitRadiusKm": 500,
-    "bounds": null,
+    "bounds": [
+      57,
+      88,
+      71,
+      118
+    ],
     "badgeColor": "lime",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -10824,7 +12422,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Среднесибирское плоскогорье: Сибирь между Енисеем и Леной (в т.ч. Енисейский кряж, плато Путорана, Анабарское плато)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_plain_gobi_plateau",
@@ -10841,10 +12440,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Центральная Азия, юг Монголии и север Китая (пустынное плато)",
     "mapPrompt": "Покажите на карте: Гоби (плоскогорье)",
     "geometryType": "point",
-    "lat": 43.0,
-    "lng": 105.0,
+    "lat": 43,
+    "lng": 105,
     "hitRadiusKm": 450,
-    "bounds": null,
+    "bounds": [
+      39.5,
+      96,
+      46.5,
+      113
+    ],
     "badgeColor": "lime",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -10861,7 +12465,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Гоби (плоскогорье): Центральная Азия, юг Монголии и север Китая (пустынное плато)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_plain_deccan_plateau",
@@ -10878,10 +12483,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Полуостров Индостан, Индия (базальтовые траппы Декана)",
     "mapPrompt": "Покажите на карте: Декан, плоскогорье",
     "geometryType": "point",
-    "lat": 16.0,
-    "lng": 77.0,
+    "lat": 16,
+    "lng": 77,
     "hitRadiusKm": 400,
-    "bounds": null,
+    "bounds": [
+      10.5,
+      74,
+      22,
+      82
+    ],
     "badgeColor": "lime",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -10898,7 +12508,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Декан, плоскогорье: Полуостров Индостан, Индия (базальтовые траппы Декана)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_plain_west_australian_plateau",
@@ -10913,10 +12524,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Западная часть материка Австралия (Австралийский щит)",
     "mapPrompt": "Покажите на карте: Западно-Австралийское плоскогорье",
     "geometryType": "point",
-    "lat": -24.0,
-    "lng": 122.0,
+    "lat": -24,
+    "lng": 122,
     "hitRadiusKm": 500,
-    "bounds": null,
+    "bounds": [
+      -31,
+      115,
+      -15,
+      133
+    ],
     "badgeColor": "lime",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -10933,7 +12549,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Западно-Австралийское плоскогорье: Западная часть материка Австралия (Австралийский щит)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_plain_great_plains_us",
@@ -10951,10 +12568,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Северная Америка, восток Скалистых гор (США, Канада)",
     "mapPrompt": "Покажите на карте: Великие равнины (плато Прерий)",
     "geometryType": "point",
-    "lat": 43.0,
-    "lng": -102.0,
+    "lat": 43,
+    "lng": -102,
     "hitRadiusKm": 450,
-    "bounds": null,
+    "bounds": [
+      31.5,
+      -106.5,
+      52,
+      -97
+    ],
     "badgeColor": "lime",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -10971,7 +12593,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Великие равнины (плато Прерий): Северная Америка, восток Скалистых гор (США, Канада)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_plain_darfur",
@@ -11008,7 +12631,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Дарфур, плато: Восточная Африка, запад Судана (вулканический массив Марра)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_colorado_plateau",
@@ -11026,10 +12650,15 @@ const MODULE2_ITEMS = [
     "locationDesc": "Северная Америка, юго-запад США (Гранд-Каньон)",
     "mapPrompt": "Покажите на карте: Колорадо, плато",
     "geometryType": "point",
-    "lat": 37.0,
-    "lng": -111.0,
+    "lat": 37,
+    "lng": -111,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      34.5,
+      -113,
+      40.5,
+      -107
+    ],
     "badgeColor": "lime",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -11046,7 +12675,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Колорадо, плато: Северная Америка, юго-запад США (Гранд-Каньон)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m2_plain_khorat_plateau",
@@ -11064,7 +12694,7 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Корат, плато",
     "geometryType": "point",
     "lat": 15.5,
-    "lng": 103.0,
+    "lng": 103,
     "hitRadiusKm": 250,
     "bounds": null,
     "badgeColor": "lime",
@@ -11083,7 +12713,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Корат, плато: Полуостров Индокитай, северо-восток Таиланда."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_loess_plateau",
@@ -11101,7 +12732,7 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Лёссовое плато",
     "geometryType": "point",
     "lat": 36.5,
-    "lng": 109.0,
+    "lng": 109,
     "hitRadiusKm": 320,
     "bounds": null,
     "badgeColor": "lime",
@@ -11120,7 +12751,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Лёссовое плато: Северо-восток Китая, бассейн среднего течения р. Хуанхэ."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_mangyshlak_plateau",
@@ -11135,7 +12767,7 @@ const MODULE2_ITEMS = [
     "locationDesc": "Казахстан, восточное побережье Каспийского моря",
     "mapPrompt": "Покажите на карте: Мангышлак, плато",
     "geometryType": "point",
-    "lat": 44.0,
+    "lat": 44,
     "lng": 52.5,
     "hitRadiusKm": 220,
     "bounds": null,
@@ -11155,7 +12787,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Мангышлак, плато: Казахстан, восточное побережье Каспийского моря."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_norrland",
@@ -11173,7 +12806,7 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Норландское плато",
     "geometryType": "point",
     "lat": 63.5,
-    "lng": 16.0,
+    "lng": 16,
     "hitRadiusKm": 300,
     "bounds": null,
     "badgeColor": "lime",
@@ -11192,7 +12825,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Норландское плато: Швеция, Скандинавский полуостров (Норрланд)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_prilenskoe_plateau",
@@ -11210,7 +12844,7 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Приленское плато",
     "geometryType": "point",
     "lat": 61.5,
-    "lng": 128.0,
+    "lng": 128,
     "hitRadiusKm": 300,
     "bounds": null,
     "badgeColor": "lime",
@@ -11229,7 +12863,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Приленское плато: Восточная Сибирь, Якутия, долина реки Лена (Ленские столбы)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_turgay_plateau",
@@ -11246,8 +12881,8 @@ const MODULE2_ITEMS = [
     "locationDesc": "Казахстан, юго-восточнее Уральских гор",
     "mapPrompt": "Покажите на карте: Тургайское плато (Тургайская ложбина)",
     "geometryType": "point",
-    "lat": 50.0,
-    "lng": 63.0,
+    "lat": 50,
+    "lng": 63,
     "hitRadiusKm": 280,
     "bounds": null,
     "badgeColor": "lime",
@@ -11266,7 +12901,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Тургайское плато (Тургайская ложбина): Казахстан, юго-восточнее Уральских гор."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m2_plain_ustyurt_plateau",
@@ -11284,9 +12920,14 @@ const MODULE2_ITEMS = [
     "mapPrompt": "Покажите на карте: Устюрт, плато",
     "geometryType": "point",
     "lat": 43.5,
-    "lng": 56.0,
+    "lng": 56,
     "hitRadiusKm": 300,
-    "bounds": null,
+    "bounds": [
+      41.5,
+      53,
+      45.8,
+      59
+    ],
     "badgeColor": "lime",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -11303,7 +12944,8 @@ const MODULE2_ITEMS = [
         }
       ],
       "backNote": "Устюрт, плато: Средняя Азия, между Каспийским и Аральским морями (Казахстан, Узбекистан)."
-    }
+    },
+    "isCoreLandmark": true
   }
 ];
 

@@ -21,8 +21,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Тихий океан",
     "mapPrompt": "Покажите на карте: Тихий океан",
     "geometryType": "point",
-    "lat": 0.0,
-    "lng": -160.0,
+    "lat": 0,
+    "lng": -160,
     "hitRadiusKm": 800,
     "bounds": null,
     "badgeColor": "blue",
@@ -48,7 +48,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Площадь 178,68 млн км² (~50% Мирового океана), макс. глубина 11 022 м (Марианский желоб)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_atlantic_ocean",
@@ -63,8 +64,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Атлантический океан",
     "mapPrompt": "Покажите на карте: Атлантический океан",
     "geometryType": "point",
-    "lat": 10.0,
-    "lng": -30.0,
+    "lat": 10,
+    "lng": -30,
     "hitRadiusKm": 800,
     "bounds": null,
     "badgeColor": "blue",
@@ -90,7 +91,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Площадь 91,66 млн км² (~25% Мирового океана), макс. глубина 8 742 м (желоб Пуэрто-Рико)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_indian_ocean",
@@ -105,8 +107,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Индийский океан",
     "mapPrompt": "Покажите на карте: Индийский океан",
     "geometryType": "point",
-    "lat": -15.0,
-    "lng": 75.0,
+    "lat": -15,
+    "lng": 75,
     "hitRadiusKm": 800,
     "bounds": null,
     "badgeColor": "blue",
@@ -132,7 +134,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Площадь 76,17 млн км² (~21% Мирового океана), макс. глубина 7 729 м (Зондский желоб)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_arctic_ocean",
@@ -149,8 +152,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Северный Ледовитый океан",
     "mapPrompt": "Покажите на карте: Северный Ледовитый океан",
     "geometryType": "point",
-    "lat": 85.0,
-    "lng": 40.0,
+    "lat": 85,
+    "lng": 40,
     "hitRadiusKm": 700,
     "bounds": null,
     "badgeColor": "blue",
@@ -176,7 +179,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Площадь 14,75 млн км² (~4% Мирового океана), макс. глубина 5 527 м (Гренландское море) / ущелье Литке 5 449 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_southern_ocean",
@@ -193,8 +197,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Южный океан",
     "mapPrompt": "Покажите на карте: Южный океан (по Рылюку и Еловичевой)",
     "geometryType": "point",
-    "lat": -60.0,
-    "lng": 0.0,
+    "lat": -60,
+    "lng": 0,
     "hitRadiusKm": 800,
     "bounds": null,
     "badgeColor": "blue",
@@ -220,7 +224,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Площадь ~86 млн км² (по Г.Я. Рылюку и Я.К. Еловичевой, 2005). Северная граница — линия антарктической конвергенции (40-60° ю.ш.)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_amundsen",
@@ -235,8 +240,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Тихий океан",
     "mapPrompt": "Покажите на карте: Море Амундсена",
     "geometryType": "point",
-    "lat": -73.0,
-    "lng": -112.0,
+    "lat": -73,
+    "lng": -112,
     "hitRadiusKm": 320,
     "bounds": null,
     "badgeColor": "blue",
@@ -262,7 +267,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Море Амундсена (Тихий океан), глубина до 585 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_sea_banda",
@@ -278,7 +284,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите на карте: Море Банда",
     "geometryType": "point",
     "lat": -5.5,
-    "lng": 127.0,
+    "lng": 127,
     "hitRadiusKm": 320,
     "bounds": null,
     "badgeColor": "blue",
@@ -304,7 +310,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Море Банда (Тихий океан), глубина до 7440 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_sea_bellingshausen",
@@ -319,8 +326,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Тихий океан",
     "mapPrompt": "Покажите на карте: Море Беллинсгаузена",
     "geometryType": "point",
-    "lat": -71.0,
-    "lng": -85.0,
+    "lat": -71,
+    "lng": -85,
     "hitRadiusKm": 320,
     "bounds": null,
     "badgeColor": "blue",
@@ -346,7 +353,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Море Беллинсгаузена (Тихий океан), глубина до 4115 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_sea_bering",
@@ -361,10 +369,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Тихий океан",
     "mapPrompt": "Покажите на карте: Берингово море",
     "geometryType": "point",
-    "lat": 58.0,
-    "lng": 175.0,
+    "lat": 58,
+    "lng": 175,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      52,
+      162,
+      65.5,
+      -162
+    ],
     "badgeColor": "blue",
     "oceanBasin": "pacific",
     "areaThousandKm2": 2315,
@@ -388,7 +401,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Берингово море (Тихий океан), глубина до 5500 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_seto_inland",
@@ -432,7 +446,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Внутреннее Японское море (Сето-Найкай) (Тихий океан), глубина до 74 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_east_china",
@@ -447,10 +462,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Тихий океан",
     "mapPrompt": "Покажите на карте: Восточно-Китайское море",
     "geometryType": "point",
-    "lat": 29.0,
-    "lng": 125.0,
+    "lat": 29,
+    "lng": 125,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      24,
+      120,
+      33.5,
+      130
+    ],
     "badgeColor": "blue",
     "oceanBasin": "pacific",
     "areaThousandKm2": 836,
@@ -474,7 +494,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Восточно-Китайское море (Тихий океан), глубина до 2719 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_yellow",
@@ -489,10 +510,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Тихий океан",
     "mapPrompt": "Покажите на карте: Жёлтое море",
     "geometryType": "point",
-    "lat": 35.0,
-    "lng": 123.0,
+    "lat": 35,
+    "lng": 123,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      33.5,
+      118,
+      40.5,
+      126.5
+    ],
     "badgeColor": "blue",
     "oceanBasin": "pacific",
     "areaThousandKm2": 416,
@@ -516,7 +542,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Жёлтое море (Тихий океан), глубина до 106 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_coral",
@@ -531,10 +558,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Тихий океан",
     "mapPrompt": "Покажите на карте: Коралловое море",
     "geometryType": "point",
-    "lat": -18.0,
-    "lng": 153.0,
+    "lat": -18,
+    "lng": 153,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      -24,
+      143,
+      -9,
+      166
+    ],
     "badgeColor": "blue",
     "oceanBasin": "pacific",
     "areaThousandKm2": 4068,
@@ -558,7 +590,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Коралловое море (Тихий океан), глубина до 9174 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_molucca",
@@ -573,8 +606,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Тихий океан",
     "mapPrompt": "Покажите на карте: Молуккское море",
     "geometryType": "point",
-    "lat": 1.0,
-    "lng": 126.0,
+    "lat": 1,
+    "lng": 126,
     "hitRadiusKm": 320,
     "bounds": null,
     "badgeColor": "blue",
@@ -600,7 +633,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Молуккское море (Тихий океан), глубина до 4180 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_sea_okhotsk",
@@ -615,10 +649,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Тихий океан",
     "mapPrompt": "Покажите на карте: Охотское море",
     "geometryType": "point",
-    "lat": 54.0,
-    "lng": 150.0,
+    "lat": 54,
+    "lng": 150,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      44,
+      136,
+      62,
+      162
+    ],
     "badgeColor": "blue",
     "oceanBasin": "pacific",
     "areaThousandKm2": 1603,
@@ -642,7 +681,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Охотское море (Тихий океан), глубина до 3521 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_ross",
@@ -657,10 +697,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Тихий океан",
     "mapPrompt": "Покажите на карте: Море Росса",
     "geometryType": "point",
-    "lat": -75.0,
-    "lng": 175.0,
+    "lat": -75,
+    "lng": 175,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      -78.5,
+      162,
+      -69,
+      -158
+    ],
     "badgeColor": "blue",
     "oceanBasin": "pacific",
     "areaThousandKm2": 440,
@@ -684,7 +729,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Море Росса (Тихий океан), глубина до 2972 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_seram",
@@ -726,7 +772,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Море Серам (Тихий океан), глубина до 5319 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_sea_sulawesi",
@@ -744,7 +791,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите на карте: Море Сулавеси (Целебесское)",
     "geometryType": "point",
     "lat": 3.5,
-    "lng": 122.0,
+    "lng": 122,
     "hitRadiusKm": 320,
     "bounds": null,
     "badgeColor": "blue",
@@ -770,7 +817,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Море Сулавеси (Целебесское) (Тихий океан), глубина до 5914 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_sea_sulu",
@@ -786,7 +834,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите на карте: Море Сулу",
     "geometryType": "point",
     "lat": 8.5,
-    "lng": 120.0,
+    "lng": 120,
     "hitRadiusKm": 320,
     "bounds": null,
     "badgeColor": "blue",
@@ -812,7 +860,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Море Сулу (Тихий океан), глубина до 5576 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_sea_tasman",
@@ -827,10 +876,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Тихий океан",
     "mapPrompt": "Покажите на карте: Тасманово море",
     "geometryType": "point",
-    "lat": -38.0,
-    "lng": 160.0,
+    "lat": -38,
+    "lng": 160,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      -46,
+      148,
+      -28,
+      173
+    ],
     "badgeColor": "blue",
     "oceanBasin": "pacific",
     "areaThousandKm2": 3336,
@@ -854,7 +908,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Тасманово море (Тихий океан), глубина до 6015 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_fiji",
@@ -869,8 +924,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Тихий океан",
     "mapPrompt": "Покажите на карте: Море Фиджи",
     "geometryType": "point",
-    "lat": -20.0,
-    "lng": 175.0,
+    "lat": -20,
+    "lng": 175,
     "hitRadiusKm": 320,
     "bounds": null,
     "badgeColor": "blue",
@@ -896,7 +951,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Море Фиджи (Тихий океан), глубина до 7633 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_sea_philippine",
@@ -911,10 +967,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Тихий океан",
     "mapPrompt": "Покажите на карте: Филиппинское море",
     "geometryType": "point",
-    "lat": 18.0,
-    "lng": 134.0,
+    "lat": 18,
+    "lng": 134,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      5,
+      122,
+      32,
+      146
+    ],
     "badgeColor": "blue",
     "oceanBasin": "pacific",
     "areaThousandKm2": 5726,
@@ -938,7 +999,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Филиппинское море (Тихий океан), глубина до 10265 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_south_china",
@@ -953,10 +1015,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Тихий океан",
     "mapPrompt": "Покажите на карте: Южно-Китайское море",
     "geometryType": "point",
-    "lat": 12.0,
-    "lng": 114.0,
+    "lat": 12,
+    "lng": 114,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      1,
+      104,
+      23,
+      121
+    ],
     "badgeColor": "blue",
     "oceanBasin": "pacific",
     "areaThousandKm2": 3537,
@@ -980,7 +1047,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Южно-Китайское море (Тихий океан), глубина до 5560 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_java",
@@ -995,10 +1063,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Тихий океан",
     "mapPrompt": "Покажите на карте: Яванское море",
     "geometryType": "point",
-    "lat": -5.0,
-    "lng": 111.0,
+    "lat": -5,
+    "lng": 111,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      -7.5,
+      105,
+      -3,
+      118
+    ],
     "badgeColor": "blue",
     "oceanBasin": "pacific",
     "areaThousandKm2": 552,
@@ -1022,7 +1095,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Яванское море (Тихий океан), глубина до 1272 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_japan",
@@ -1037,10 +1111,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Тихий океан",
     "mapPrompt": "Покажите на карте: Японское море",
     "geometryType": "point",
-    "lat": 40.0,
-    "lng": 135.0,
+    "lat": 40,
+    "lng": 135,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      34.5,
+      128,
+      51,
+      141.5
+    ],
     "badgeColor": "blue",
     "oceanBasin": "pacific",
     "areaThousandKm2": 1062,
@@ -1064,7 +1143,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Японское море (Тихий океан), глубина до 3720 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_azov",
@@ -1079,7 +1159,7 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Атлантический океан",
     "mapPrompt": "Покажите на карте: Азовское море",
     "geometryType": "point",
-    "lat": 46.0,
+    "lat": 46,
     "lng": 36.5,
     "hitRadiusKm": 180,
     "bounds": null,
@@ -1106,7 +1186,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Самое мелкое море мира (макс. глубина 15 м, средняя около 7-8 м)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_baltic",
@@ -1121,10 +1202,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Атлантический океан",
     "mapPrompt": "Покажите на карте: Балтийское море",
     "geometryType": "point",
-    "lat": 58.0,
-    "lng": 20.0,
+    "lat": 58,
+    "lng": 20,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      53.5,
+      10,
+      65.5,
+      29.5
+    ],
     "badgeColor": "blue",
     "oceanBasin": "atlantic",
     "areaThousandKm2": 419,
@@ -1148,7 +1234,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Балтийское море (Атлантический океан), глубина до 470 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_irish",
@@ -1190,7 +1277,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Ирландское море (Атлантический океан), глубина до 197 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_sea_caribbean",
@@ -1205,10 +1293,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Атлантический океан",
     "mapPrompt": "Покажите на карте: Карибское море",
     "geometryType": "point",
-    "lat": 15.0,
-    "lng": -75.0,
+    "lat": 15,
+    "lng": -75,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      9,
+      -88,
+      22,
+      -60
+    ],
     "badgeColor": "blue",
     "oceanBasin": "atlantic",
     "areaThousandKm2": 2777,
@@ -1232,7 +1325,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Карибское море (Атлантический океан), глубина до 7090 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_lazarev",
@@ -1247,8 +1341,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Атлантический океан",
     "mapPrompt": "Покажите на карте: Море Лазарева",
     "geometryType": "point",
-    "lat": -68.0,
-    "lng": 7.0,
+    "lat": -68,
+    "lng": 7,
     "hitRadiusKm": 320,
     "bounds": null,
     "badgeColor": "blue",
@@ -1274,7 +1368,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Море Лазарева (Атлантический океан), глубина до 4500 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_sea_marmara",
@@ -1290,7 +1385,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите на карте: Мраморное море",
     "geometryType": "point",
     "lat": 40.7,
-    "lng": 28.0,
+    "lng": 28,
     "hitRadiusKm": 320,
     "bounds": null,
     "badgeColor": "blue",
@@ -1316,7 +1411,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Мраморное море (Атлантический океан), глубина до 1273 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_sea_sargasso",
@@ -1331,10 +1427,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Атлантический океан",
     "mapPrompt": "Покажите на карте: Саргассово море",
     "geometryType": "point",
-    "lat": 28.0,
-    "lng": -66.0,
+    "lat": 28,
+    "lng": -66,
     "hitRadiusKm": 450,
-    "bounds": null,
+    "bounds": [
+      20,
+      -76,
+      35,
+      -45
+    ],
     "badgeColor": "blue",
     "oceanBasin": "atlantic",
     "areaThousandKm2": 6500,
@@ -1358,7 +1459,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Море без берегов в центре Атлантического круговорота."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_north_sea",
@@ -1373,10 +1475,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Атлантический океан",
     "mapPrompt": "Покажите на карте: Северное море",
     "geometryType": "point",
-    "lat": 56.0,
-    "lng": 3.0,
+    "lat": 56,
+    "lng": 3,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      51,
+      -3,
+      61.5,
+      9
+    ],
     "badgeColor": "blue",
     "oceanBasin": "atlantic",
     "areaThousandKm2": 565,
@@ -1400,7 +1507,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Северное море (Атлантический океан), глубина до 725 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_scotia",
@@ -1417,10 +1525,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Атлантический океан",
     "mapPrompt": "Покажите на карте: Море Скоша (Скотия)",
     "geometryType": "point",
-    "lat": -57.0,
-    "lng": -45.0,
+    "lat": -57,
+    "lng": -45,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      -62,
+      -66,
+      -52,
+      -26
+    ],
     "badgeColor": "blue",
     "oceanBasin": "atlantic",
     "areaThousandKm2": 1335,
@@ -1444,7 +1557,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Море Скоша (Скотия) (Атлантический океан), глубина до 6022 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_sea_mediterranean",
@@ -1459,10 +1573,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Атлантический океан",
     "mapPrompt": "Покажите на карте: Средиземное море (Романское)",
     "geometryType": "point",
-    "lat": 35.0,
-    "lng": 18.0,
+    "lat": 35,
+    "lng": 18,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      30.5,
+      -5.5,
+      44.5,
+      36
+    ],
     "badgeColor": "blue",
     "oceanBasin": "atlantic",
     "areaThousandKm2": 2505,
@@ -1486,7 +1605,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Средиземное море (Романское) (Атлантический океан), глубина до 5121 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_adriatic",
@@ -1501,10 +1621,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Атлантический океан",
     "mapPrompt": "Покажите на карте: Адриатическое море",
     "geometryType": "point",
-    "lat": 43.0,
-    "lng": 15.0,
+    "lat": 43,
+    "lng": 15,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      40,
+      12.2,
+      45.8,
+      19.5
+    ],
     "badgeColor": "blue",
     "oceanBasin": "atlantic",
     "areaThousandKm2": 144,
@@ -1528,7 +1653,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Адриатическое море (Атлантический океан), глубина до 1230 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_sea_alboran",
@@ -1543,8 +1669,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Атлантический океан",
     "mapPrompt": "Покажите на карте: Море Альборан",
     "geometryType": "point",
-    "lat": 36.0,
-    "lng": -3.0,
+    "lat": 36,
+    "lng": -3,
     "hitRadiusKm": 320,
     "bounds": null,
     "badgeColor": "blue",
@@ -1570,7 +1696,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Море Альборан (Атлантический океан), глубина до 2407 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_sea_ionian",
@@ -1585,8 +1712,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Атлантический океан",
     "mapPrompt": "Покажите на карте: Ионическое море",
     "geometryType": "point",
-    "lat": 38.0,
-    "lng": 18.0,
+    "lat": 38,
+    "lng": 18,
     "hitRadiusKm": 250,
     "bounds": null,
     "badgeColor": "blue",
@@ -1612,7 +1739,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Здесь находится глубочайшая впадина Средиземного моря — впадина Гелла (5 121 м)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_sea_ligurian",
@@ -1628,7 +1756,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите на карте: Лигурийское море",
     "geometryType": "point",
     "lat": 43.5,
-    "lng": 9.0,
+    "lng": 9,
     "hitRadiusKm": 320,
     "bounds": null,
     "badgeColor": "blue",
@@ -1654,7 +1782,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Лигурийское море (Атлантический океан), глубина до 2546 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_sea_tyrrhenian",
@@ -1669,8 +1798,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Атлантический океан",
     "mapPrompt": "Покажите на карте: Тирренское море",
     "geometryType": "point",
-    "lat": 40.0,
-    "lng": 12.0,
+    "lat": 40,
+    "lng": 12,
     "hitRadiusKm": 320,
     "bounds": null,
     "badgeColor": "blue",
@@ -1696,7 +1825,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Тирренское море (Атлантический океан), глубина до 3830 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_sea_aegean",
@@ -1712,9 +1842,14 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите на карте: Эгейское море",
     "geometryType": "point",
     "lat": 38.5,
-    "lng": 25.0,
+    "lng": 25,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      35,
+      22.8,
+      41,
+      27.2
+    ],
     "badgeColor": "blue",
     "oceanBasin": "atlantic",
     "areaThousandKm2": 191,
@@ -1738,7 +1873,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Эгейское море (Атлантический океан), глубина до 2561 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_sea_weddell",
@@ -1753,10 +1889,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Атлантический океан",
     "mapPrompt": "Покажите на карте: Море Уэдделла",
     "geometryType": "point",
-    "lat": -72.0,
-    "lng": -45.0,
+    "lat": -72,
+    "lng": -45,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      -78,
+      -62,
+      -63,
+      -15
+    ],
     "badgeColor": "blue",
     "oceanBasin": "atlantic",
     "areaThousandKm2": 2910,
@@ -1780,7 +1921,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Море Уэдделла (Атлантический океан), глубина до 6820 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_black_sea",
@@ -1795,10 +1937,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Атлантический океан",
     "mapPrompt": "Покажите на карте: Чёрное море",
     "geometryType": "point",
-    "lat": 43.0,
-    "lng": 35.0,
+    "lat": 43,
+    "lng": 35,
     "hitRadiusKm": 280,
-    "bounds": null,
+    "bounds": [
+      41,
+      27.5,
+      46.5,
+      41.5
+    ],
     "badgeColor": "blue",
     "oceanBasin": "atlantic",
     "areaThousandKm2": 422,
@@ -1822,7 +1969,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Сероводородный слой глубже 150-200 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_andaman",
@@ -1837,10 +1985,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Индийский океан",
     "mapPrompt": "Покажите на карте: Андаманское море",
     "geometryType": "point",
-    "lat": 10.0,
-    "lng": 96.0,
+    "lat": 10,
+    "lng": 96,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      6,
+      92,
+      16.5,
+      98.5
+    ],
     "badgeColor": "blue",
     "oceanBasin": "indian",
     "areaThousandKm2": 605,
@@ -1864,7 +2017,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Андаманское море (Индийский океан), глубина до 4507 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_sea_arabian",
@@ -1879,10 +2033,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Индийский океан",
     "mapPrompt": "Покажите на карте: Аравийское море",
     "geometryType": "point",
-    "lat": 16.0,
-    "lng": 64.0,
+    "lat": 16,
+    "lng": 64,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      5,
+      52,
+      25,
+      76
+    ],
     "badgeColor": "blue",
     "oceanBasin": "indian",
     "areaThousandKm2": 4832,
@@ -1906,7 +2065,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Аравийское море (Индийский океан), глубина до 5803 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_arafura",
@@ -1922,7 +2082,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите на карте: Арафурское море",
     "geometryType": "point",
     "lat": -9.5,
-    "lng": 135.0,
+    "lng": 135,
     "hitRadiusKm": 320,
     "bounds": null,
     "badgeColor": "blue",
@@ -1948,7 +2108,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Арафурское море (Индийский океан), глубина до 3680 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_sea_davis",
@@ -1963,8 +2124,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Индийский океан",
     "mapPrompt": "Покажите на карте: Море Дейвиса",
     "geometryType": "point",
-    "lat": -66.0,
-    "lng": 92.0,
+    "lat": -66,
+    "lng": 92,
     "hitRadiusKm": 320,
     "bounds": null,
     "badgeColor": "blue",
@@ -1990,7 +2151,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Море Дейвиса (Индийский океан), глубина до 1369 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_cosmonauts",
@@ -2005,8 +2167,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Индийский океан",
     "mapPrompt": "Покажите на карте: Море Космонавтов",
     "geometryType": "point",
-    "lat": -65.0,
-    "lng": 45.0,
+    "lat": -65,
+    "lng": 45,
     "hitRadiusKm": 320,
     "bounds": null,
     "badgeColor": "blue",
@@ -2032,7 +2194,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Море Космонавтов (Индийский океан), глубина до 4798 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_sea_red_sea",
@@ -2047,10 +2210,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Индийский океан",
     "mapPrompt": "Покажите на карте: Красное море",
     "geometryType": "point",
-    "lat": 22.0,
-    "lng": 38.0,
+    "lat": 22,
+    "lng": 38,
     "hitRadiusKm": 250,
-    "bounds": null,
+    "bounds": [
+      12.5,
+      32.5,
+      28,
+      43.5
+    ],
     "badgeColor": "blue",
     "oceanBasin": "indian",
     "areaThousandKm2": 460,
@@ -2074,7 +2242,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Самое солёное море Мирового океана (до 42‰) из имеющих связь с океаном."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_commonwealth",
@@ -2089,8 +2258,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Индийский океан",
     "mapPrompt": "Покажите на карте: Море Содружества",
     "geometryType": "point",
-    "lat": -65.0,
-    "lng": 72.0,
+    "lat": -65,
+    "lng": 72,
     "hitRadiusKm": 320,
     "bounds": null,
     "badgeColor": "blue",
@@ -2116,7 +2285,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Море Содружества (Индийский океан), глубина до 3000 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_sea_timor",
@@ -2131,8 +2301,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Индийский океан",
     "mapPrompt": "Покажите на карте: Тиморское море",
     "geometryType": "point",
-    "lat": -11.0,
-    "lng": 128.0,
+    "lat": -11,
+    "lng": 128,
     "hitRadiusKm": 320,
     "bounds": null,
     "badgeColor": "blue",
@@ -2158,7 +2328,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Тиморское море (Индийский океан), глубина до 3310 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_sea_barents",
@@ -2173,10 +2344,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Северный Ледовитый океан",
     "mapPrompt": "Покажите на карте: Баренцево море",
     "geometryType": "point",
-    "lat": 72.0,
-    "lng": 40.0,
+    "lat": 72,
+    "lng": 40,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      67,
+      20,
+      80.5,
+      62
+    ],
     "badgeColor": "blue",
     "oceanBasin": "arctic",
     "areaThousandKm2": 1424,
@@ -2200,7 +2376,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Баренцево море (Северный Ледовитый океан), глубина до 600 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_baffin",
@@ -2215,10 +2392,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Северный Ледовитый океан",
     "mapPrompt": "Покажите на карте: Море Баффина",
     "geometryType": "point",
-    "lat": 73.0,
-    "lng": -67.0,
+    "lat": 73,
+    "lng": -67,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      66,
+      -78,
+      78,
+      -53
+    ],
     "badgeColor": "blue",
     "oceanBasin": "arctic",
     "areaThousandKm2": 530,
@@ -2242,7 +2424,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Море Баффина (Северный Ледовитый океан), глубина до 2414 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_sea_white_sea",
@@ -2260,7 +2443,12 @@ const MODULE3_ITEMS = [
     "lat": 65.5,
     "lng": 37.5,
     "hitRadiusKm": 180,
-    "bounds": null,
+    "bounds": [
+      63.8,
+      32,
+      68.5,
+      44
+    ],
     "badgeColor": "blue",
     "oceanBasin": "arctic",
     "areaThousandKm2": 90,
@@ -2284,7 +2472,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Белое море (Северный Ледовитый океан), глубина до 350 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_beaufort",
@@ -2299,10 +2488,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Северный Ледовитый океан",
     "mapPrompt": "Покажите на карте: Море Бофорта",
     "geometryType": "point",
-    "lat": 72.0,
-    "lng": -135.0,
+    "lat": 72,
+    "lng": -135,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      69,
+      -156,
+      76,
+      -124
+    ],
     "badgeColor": "blue",
     "oceanBasin": "arctic",
     "areaThousandKm2": 481,
@@ -2326,7 +2520,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Море Бофорта (Северный Ледовитый океан), глубина до 3749 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_sea_east_siberian",
@@ -2341,10 +2536,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Северный Ледовитый океан",
     "mapPrompt": "Покажите на карте: Восточно-Сибирское море",
     "geometryType": "point",
-    "lat": 72.0,
-    "lng": 163.0,
+    "lat": 72,
+    "lng": 163,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      69,
+      142,
+      78,
+      179
+    ],
     "badgeColor": "blue",
     "oceanBasin": "arctic",
     "areaThousandKm2": 913,
@@ -2368,7 +2568,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Восточно-Сибирское море (Северный Ледовитый океан), глубина до 915 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_greenland",
@@ -2383,10 +2584,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Северный Ледовитый океан",
     "mapPrompt": "Покажите на карте: Гренландское море",
     "geometryType": "point",
-    "lat": 75.0,
-    "lng": -5.0,
+    "lat": 75,
+    "lng": -5,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      67,
+      -24,
+      81,
+      14
+    ],
     "badgeColor": "blue",
     "oceanBasin": "arctic",
     "areaThousandKm2": 1195,
@@ -2410,7 +2616,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Гренландское море (Северный Ледовитый океан), глубина до 5527 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_kara",
@@ -2425,10 +2632,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Северный Ледовитый океан",
     "mapPrompt": "Покажите на карте: Карское море",
     "geometryType": "point",
-    "lat": 75.0,
-    "lng": 75.0,
+    "lat": 75,
+    "lng": 75,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      68,
+      56,
+      81,
+      102
+    ],
     "badgeColor": "blue",
     "oceanBasin": "arctic",
     "areaThousandKm2": 883,
@@ -2452,7 +2664,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Карское море (Северный Ледовитый океан), глубина до 600 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_laptev",
@@ -2467,10 +2680,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Северный Ледовитый океан",
     "mapPrompt": "Покажите на карте: Море Лаптевых",
     "geometryType": "point",
-    "lat": 75.0,
-    "lng": 125.0,
+    "lat": 75,
+    "lng": 125,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      71,
+      102,
+      81,
+      142
+    ],
     "badgeColor": "blue",
     "oceanBasin": "arctic",
     "areaThousandKm2": 662,
@@ -2494,7 +2712,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Море Лаптевых (Северный Ледовитый океан), глубина до 3385 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_lincoln",
@@ -2510,7 +2729,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите на карте: Море Линкольна",
     "geometryType": "point",
     "lat": 83.5,
-    "lng": -57.0,
+    "lng": -57,
     "hitRadiusKm": 320,
     "bounds": null,
     "badgeColor": "blue",
@@ -2536,7 +2755,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Море Линкольна (Северный Ледовитый океан), глубина до 582 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_sea_norwegian",
@@ -2551,10 +2771,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Северный Ледовитый океан",
     "mapPrompt": "Покажите на карте: Норвежское море",
     "geometryType": "point",
-    "lat": 66.0,
-    "lng": 3.0,
+    "lat": 66,
+    "lng": 3,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      61,
+      -10,
+      73,
+      18
+    ],
     "badgeColor": "blue",
     "oceanBasin": "arctic",
     "areaThousandKm2": 1340,
@@ -2578,7 +2803,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Норвежское море (Северный Ледовитый океан), глубина до 3970 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_sea_chukchi",
@@ -2593,10 +2819,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Бассейн: Северный Ледовитый океан",
     "mapPrompt": "Покажите на карте: Чукотское море",
     "geometryType": "point",
-    "lat": 69.0,
-    "lng": -172.0,
+    "lat": 69,
+    "lng": -172,
     "hitRadiusKm": 320,
-    "bounds": null,
+    "bounds": [
+      66,
+      178,
+      74,
+      -158
+    ],
     "badgeColor": "blue",
     "oceanBasin": "arctic",
     "areaThousandKm2": 595,
@@ -2620,7 +2851,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Чукотское море (Северный Ледовитый океан), глубина до 1256 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_str_bass",
@@ -2638,7 +2870,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите пролив: Бассов пролив",
     "geometryType": "point",
     "lat": -39.3,
-    "lng": 146.0,
+    "lng": 146,
     "hitRadiusKm": 120,
     "bounds": null,
     "badgeColor": "teal",
@@ -2663,7 +2895,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Бассов пролив: длина 490 км, ширина от 213 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_str_bering_strait",
@@ -2706,7 +2939,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Берингов пролив: длина 96 км, ширина от 86 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_str_sunda",
@@ -2749,7 +2983,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Зондский пролив: длина 130 км, ширина от 26 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_str_korea",
@@ -2792,7 +3027,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Корейский пролив: длина 324 км, ширина от 180 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_str_cook",
@@ -2833,7 +3069,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Пролив Кука: длина 107 км, ширина от 22 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_str_la_perouse",
@@ -2851,7 +3088,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите пролив: Пролив Лаперуза",
     "geometryType": "point",
     "lat": 45.7,
-    "lng": 142.0,
+    "lng": 142,
     "hitRadiusKm": 120,
     "bounds": null,
     "badgeColor": "teal",
@@ -2876,7 +3113,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Пролив Лаперуза: длина 94 км, ширина от 43 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_str_magellan",
@@ -2892,7 +3130,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите пролив: Магелланов пролив",
     "geometryType": "point",
     "lat": -53.5,
-    "lng": -71.0,
+    "lng": -71,
     "hitRadiusKm": 120,
     "bounds": null,
     "badgeColor": "teal",
@@ -2917,7 +3155,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Магелланов пролив: длина 575 км, ширина от 2.2 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_str_makassar",
@@ -2932,7 +3171,7 @@ const MODULE3_ITEMS = [
     "locationDesc": "Тихий океан (длина 710 км, наим. ширина 120 км)",
     "mapPrompt": "Покажите пролив: Макасарский пролив",
     "geometryType": "point",
-    "lat": -1.0,
+    "lat": -1,
     "lng": 118.5,
     "hitRadiusKm": 120,
     "bounds": null,
@@ -2958,7 +3197,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Макасарский пролив: длина 710 км, ширина от 120 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_str_malacca",
@@ -2973,8 +3213,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Тихий океан (длина 937 км, наим. ширина 15 км)",
     "mapPrompt": "Покажите пролив: Малаккский пролив",
     "geometryType": "point",
-    "lat": 3.0,
-    "lng": 101.0,
+    "lat": 3,
+    "lng": 101,
     "hitRadiusKm": 120,
     "bounds": null,
     "badgeColor": "teal",
@@ -2999,7 +3239,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Малаккский пролив: длина 937 км, ширина от 15 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_str_singapore",
@@ -3040,7 +3281,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Сингапурский пролив: длина 114 км, ширина от 12 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_str_taiwan",
@@ -3083,7 +3325,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Тайваньский пролив: длина 398 км, ширина от 139 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_str_tatar",
@@ -3100,7 +3343,7 @@ const MODULE3_ITEMS = [
     "locationDesc": "Тихий океан (длина 663 км, наим. ширина 40 км)",
     "mapPrompt": "Покажите пролив: Татарский пролив",
     "geometryType": "point",
-    "lat": 50.0,
+    "lat": 50,
     "lng": 141.5,
     "hitRadiusKm": 120,
     "bounds": null,
@@ -3126,7 +3369,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Татарский пролив: длина 663 км, ширина от 40 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_str_torres",
@@ -3141,7 +3385,7 @@ const MODULE3_ITEMS = [
     "locationDesc": "Тихий океан (длина 74 км, наим. ширина 150 км)",
     "mapPrompt": "Покажите пролив: Торресов пролив",
     "geometryType": "point",
-    "lat": -10.0,
+    "lat": -10,
     "lng": 142.5,
     "hitRadiusKm": 120,
     "bounds": null,
@@ -3167,7 +3411,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Торресов пролив: длина 74 км, ширина от 150 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_str_tsugaru",
@@ -3210,7 +3455,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Цугару (Сангарский пролив): длина 96 км, ширина от 18 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_str_belle_isle",
@@ -3251,7 +3497,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Пролив Белл-Айл: длина 125 км, ширина от 15 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_str_great_belt",
@@ -3267,7 +3514,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите пролив: Большой Бельт",
     "geometryType": "point",
     "lat": 55.3,
-    "lng": 11.0,
+    "lng": 11,
     "hitRadiusKm": 120,
     "bounds": null,
     "badgeColor": "teal",
@@ -3292,7 +3539,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Большой Бельт: длина 120 км, ширина от 11 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_str_bonifacio",
@@ -3333,7 +3581,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Между Корсикой и Сардинией."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_str_bosphorus",
@@ -3376,7 +3625,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Босфор (Константинопольский): длина 30 км, ширина от 0.7 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_str_gibraltar",
@@ -3417,7 +3667,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Гибралтарский пролив: длина 59 км, ширина от 14 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_str_dardanelles",
@@ -3460,7 +3711,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Дарданеллы: длина 120 км, ширина от 0.3 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_str_denmark_strait",
@@ -3476,7 +3728,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите пролив: Датский пролив",
     "geometryType": "point",
     "lat": 66.5,
-    "lng": -27.0,
+    "lng": -27,
     "hitRadiusKm": 120,
     "bounds": null,
     "badgeColor": "teal",
@@ -3501,7 +3753,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Датский пролив: длина 530 км, ширина от 287 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_str_davis_strait",
@@ -3516,8 +3769,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (длина 1170 км, наим. ширина 360 км)",
     "mapPrompt": "Покажите пролив: Девисов пролив",
     "geometryType": "point",
-    "lat": 65.0,
-    "lng": -58.0,
+    "lat": 65,
+    "lng": -58,
     "hitRadiusKm": 120,
     "bounds": null,
     "badgeColor": "teal",
@@ -3542,7 +3795,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Девисов пролив: длина 1170 км, ширина от 360 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_str_drake_passage",
@@ -3558,7 +3812,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите пролив: Пролив Дрейка",
     "geometryType": "point",
     "lat": -58.5,
-    "lng": -65.0,
+    "lng": -65,
     "hitRadiusKm": 200,
     "bounds": null,
     "badgeColor": "teal",
@@ -3583,7 +3837,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Самый широкий пролив на Земле (до 818-1000 км)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_str_cabot",
@@ -3624,7 +3879,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Пролив Кабота: длина 195 км, ширина от 107 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_str_kattegat",
@@ -3665,7 +3921,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Каттегат: длина 270 км, ширина от 60 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_str_kerch",
@@ -3706,7 +3963,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Керченский пролив: длина 41 км, ширина от 4 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_str_english_channel",
@@ -3723,8 +3981,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (длина 578 км, наим. ширина 32 км)",
     "mapPrompt": "Покажите пролив: Ла-Манш (Английский канал)",
     "geometryType": "point",
-    "lat": 50.0,
-    "lng": -1.0,
+    "lat": 50,
+    "lng": -1,
     "hitRadiusKm": 120,
     "bounds": null,
     "badgeColor": "teal",
@@ -3749,7 +4007,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Ла-Манш (Английский канал): длина 578 км, ширина от 32 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_str_strait_of_dover",
@@ -3766,7 +4025,7 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (длина 37 км, наим. ширина 32 км)",
     "mapPrompt": "Покажите пролив: Па-де-Кале (Дуврский пролив)",
     "geometryType": "point",
-    "lat": 51.0,
+    "lat": 51,
     "lng": 1.4,
     "hitRadiusKm": 120,
     "bounds": null,
@@ -3792,7 +4051,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Па-де-Кале (Дуврский пролив): длина 37 км, ширина от 32 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_str_little_belt",
@@ -3833,7 +4093,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Малый Бельт: длина 130 км, ширина от 0.5 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_str_messina",
@@ -3874,7 +4135,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Мессинский пролив: длина 33 км, ширина от 3 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_str_otrant",
@@ -3889,8 +4151,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (длина 130 км, наим. ширина 75 км)",
     "mapPrompt": "Покажите пролив: Пролив Отранто",
     "geometryType": "point",
-    "lat": 40.0,
-    "lng": 19.0,
+    "lat": 40,
+    "lng": 19,
     "hitRadiusKm": 120,
     "bounds": null,
     "badgeColor": "teal",
@@ -3915,7 +4177,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Пролив Отранто: длина 130 км, ширина от 75 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_str_st_george",
@@ -3956,7 +4219,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Пролив Святого Георга: длина 160 км, ширина от 75 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_str_skagerrak",
@@ -3971,7 +4235,7 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (длина 225 км, наим. ширина 60 км)",
     "mapPrompt": "Покажите пролив: Скагеррак",
     "geometryType": "point",
-    "lat": 58.0,
+    "lat": 58,
     "lng": 9.5,
     "hitRadiusKm": 120,
     "bounds": null,
@@ -3997,7 +4261,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Скагеррак: длина 225 км, ширина от 60 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_str_florida_strait",
@@ -4038,7 +4303,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Флоридский пролив: длина 651 км, ширина от 80 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_str_oresund",
@@ -4081,7 +4347,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Эресунн (Зунд): длина 102 км, ширина от 3.4 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_str_yucatan_channel",
@@ -4122,7 +4389,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Юкатанский пролив: длина 55 км, ширина от 200 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_str_bab_el_mandeb",
@@ -4165,7 +4433,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Баб-эль-Мандебский пролив: длина 109 км, ширина от 26 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_str_mozambique_channel",
@@ -4180,8 +4449,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Индийский океан (длина 1760 км, наим. ширина 422 км)",
     "mapPrompt": "Покажите пролив: Мозамбикский пролив",
     "geometryType": "point",
-    "lat": -18.0,
-    "lng": 41.0,
+    "lat": -18,
+    "lng": 41,
     "hitRadiusKm": 200,
     "bounds": null,
     "badgeColor": "teal",
@@ -4206,7 +4475,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Самый длинный пролив на Земле (1 760 км)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_str_hormuz",
@@ -4249,7 +4519,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Ормузский (Хормузский) пролив: длина 195 км, ширина от 54 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_str_palk_strait",
@@ -4290,7 +4561,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Полкский пролив: длина 150 км, ширина от 55 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_str_vilkitsky",
@@ -4306,7 +4578,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите пролив: Пролив Вилькицкого",
     "geometryType": "point",
     "lat": 77.9,
-    "lng": 103.0,
+    "lng": 103,
     "hitRadiusKm": 120,
     "bounds": null,
     "badgeColor": "teal",
@@ -4331,7 +4603,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Пролив Вилькицкого: длина 104 км, ширина от 55 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_str_hudson_strait",
@@ -4347,7 +4620,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите пролив: Гудзонов пролив",
     "geometryType": "point",
     "lat": 62.5,
-    "lng": -71.0,
+    "lng": -71,
     "hitRadiusKm": 120,
     "bounds": null,
     "badgeColor": "teal",
@@ -4372,7 +4645,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Гудзонов пролив: длина 806 км, ширина от 115 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_str_dmitry_laptev",
@@ -4387,8 +4661,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Северный Ледовитый океан (длина 115 км, наим. ширина 50 км)",
     "mapPrompt": "Покажите пролив: Пролив Дмитрия Лаптева",
     "geometryType": "point",
-    "lat": 73.0,
-    "lng": 142.0,
+    "lat": 73,
+    "lng": 142,
     "hitRadiusKm": 120,
     "bounds": null,
     "badgeColor": "teal",
@@ -4413,7 +4687,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Пролив Дмитрия Лаптева: длина 115 км, ширина от 50 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_str_kara_gates",
@@ -4429,7 +4704,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите пролив: Карские Ворота",
     "geometryType": "point",
     "lat": 70.5,
-    "lng": 58.0,
+    "lng": 58,
     "hitRadiusKm": 120,
     "bounds": null,
     "badgeColor": "teal",
@@ -4454,7 +4729,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Карские Ворота: длина 33 км, ширина от 45 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_str_long_strait",
@@ -4470,7 +4746,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите пролив: Пролив Лонга",
     "geometryType": "point",
     "lat": 70.2,
-    "lng": 178.0,
+    "lng": 178,
     "hitRadiusKm": 120,
     "bounds": null,
     "badgeColor": "teal",
@@ -4495,7 +4771,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Пролив Лонга: длина 128 км, ширина от 146 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_str_matochkin_shar",
@@ -4511,7 +4788,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите пролив: Маточкин Шар",
     "geometryType": "point",
     "lat": 73.3,
-    "lng": 55.0,
+    "lng": 55,
     "hitRadiusKm": 120,
     "bounds": null,
     "badgeColor": "teal",
@@ -4536,7 +4813,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Маточкин Шар: длина 98 км, ширина от 0.6 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_str_sannikov",
@@ -4552,7 +4830,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите пролив: Пролив Санникова",
     "geometryType": "point",
     "lat": 74.5,
-    "lng": 140.0,
+    "lng": 140,
     "hitRadiusKm": 120,
     "bounds": null,
     "badgeColor": "teal",
@@ -4577,7 +4855,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Пролив Санникова: длина 238 км, ширина от 55 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_str_shokalsky",
@@ -4592,8 +4871,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Северный Ледовитый океан (длина 106 км, наим. ширина 19 км)",
     "mapPrompt": "Покажите пролив: Пролив Шокальского",
     "geometryType": "point",
-    "lat": 79.0,
-    "lng": 100.0,
+    "lat": 79,
+    "lng": 100,
     "hitRadiusKm": 120,
     "bounds": null,
     "badgeColor": "teal",
@@ -4618,7 +4897,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Пролив Шокальского: длина 106 км, ширина от 19 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_str_yugorsky_shar",
@@ -4659,7 +4939,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Пролив Югорский Шар: длина 40 км, ширина от 2.8 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_alaska_gulf",
@@ -4674,10 +4955,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Тихий океан (Северная Америка, юг Аляски)",
     "mapPrompt": "Покажите залив: Залив Аляска",
     "geometryType": "point",
-    "lat": 57.0,
-    "lng": -145.0,
+    "lat": 57,
+    "lng": -145,
     "hitRadiusKm": 220,
-    "bounds": null,
+    "bounds": [
+      54,
+      -155,
+      60.5,
+      -135
+    ],
     "badgeColor": "sky",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -4694,7 +4980,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Залив Аляска: Северная Америка, юг Аляски (Тихий океан)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_gulf_anadyr_gulf",
@@ -4709,8 +4996,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Тихий океан (Берингово море, Чукотка)",
     "mapPrompt": "Покажите залив: Анадырский залив",
     "geometryType": "point",
-    "lat": 64.0,
-    "lng": 178.0,
+    "lat": 64,
+    "lng": 178,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "sky",
@@ -4729,7 +5016,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Анадырский залив: Берингово море, Чукотка (Тихий океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_tonkin_gulf",
@@ -4766,7 +5054,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Бакбо (Тонкинский залив): Южно-Китайское море (Вьетнам, Китай) (Тихий океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_bohai_sea",
@@ -4784,7 +5073,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите залив: Бохайвань",
     "geometryType": "point",
     "lat": 38.5,
-    "lng": 119.0,
+    "lng": 119,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "sky",
@@ -4803,7 +5092,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Бохайвань: Жёлтое море, северный залив (Тихий океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_guayaquil",
@@ -4818,7 +5108,7 @@ const MODULE3_ITEMS = [
     "locationDesc": "Тихий океан (Побережье Эквадора)",
     "mapPrompt": "Покажите залив: Залив Гуаякиль",
     "geometryType": "point",
-    "lat": -3.0,
+    "lat": -3,
     "lng": -80.5,
     "hitRadiusKm": 220,
     "bounds": null,
@@ -4838,7 +5128,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Залив Гуаякиль: Побережье Эквадора (Тихий океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_corcovado",
@@ -4873,7 +5164,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Залив Корковадо: Чили, восточнее острова Чилоэ (Тихий океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_california_gulf",
@@ -4893,7 +5185,12 @@ const MODULE3_ITEMS = [
     "lat": 26.5,
     "lng": -110.5,
     "hitRadiusKm": 220,
-    "bounds": null,
+    "bounds": [
+      23,
+      -114.8,
+      31.8,
+      -106
+    ],
     "badgeColor": "sky",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -4910,7 +5207,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Калифорнийский залив: Запад Северной Америки (море Кортеса, Мексика) (Тихий океан)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_gulf_cook_inlet",
@@ -4927,8 +5225,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Тихий океан (Северо-запад Северной Америки, юг Аляски)",
     "mapPrompt": "Покажите залив: Залив Кука (Кенайский)",
     "geometryType": "point",
-    "lat": 60.0,
-    "lng": -152.0,
+    "lat": 60,
+    "lng": -152,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "sky",
@@ -4947,7 +5245,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Залив Кука (Кенайский): Северо-запад Северной Америки, юг Аляски (Тихий океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_liaodong",
@@ -4962,8 +5261,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Тихий океан (Жёлтое море, северо-восток Бохайваня)",
     "mapPrompt": "Покажите залив: Ляодунский залив",
     "geometryType": "point",
-    "lat": 40.0,
-    "lng": 121.0,
+    "lat": 40,
+    "lng": 121,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "sky",
@@ -4982,7 +5281,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Ляодунский залив: Жёлтое море, северо-восток Бохайваня (Тихий океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_panama_gulf",
@@ -4997,7 +5297,7 @@ const MODULE3_ITEMS = [
     "locationDesc": "Тихий океан (Панамский перешеек, южное побережье)",
     "mapPrompt": "Покажите залив: Панамский залив",
     "geometryType": "point",
-    "lat": 8.0,
+    "lat": 8,
     "lng": -79.5,
     "hitRadiusKm": 220,
     "bounds": null,
@@ -5017,7 +5317,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Панамский залив: Панамский перешеек, южное побережье (Тихий океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_papua_gulf",
@@ -5032,8 +5333,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Тихий океан (Коралловое море, юг Новой Гвинеи)",
     "mapPrompt": "Покажите залив: Залив Папуа",
     "geometryType": "point",
-    "lat": -9.0,
-    "lng": 145.0,
+    "lat": -9,
+    "lng": 145,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "sky",
@@ -5052,7 +5353,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Залив Папуа: Коралловое море, юг Новой Гвинеи (Тихий океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_penzhina_bay",
@@ -5067,8 +5369,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Тихий океан (Охотское море, залив Шелихова (макс. приливы до 13 м))",
     "mapPrompt": "Покажите залив: Пенжинская губа",
     "geometryType": "point",
-    "lat": 62.0,
-    "lng": 162.0,
+    "lat": 62,
+    "lng": 162,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "sky",
@@ -5087,7 +5389,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Пенжинская губа: Охотское море, залив Шелихова (макс. приливы до 13 м) (Тихий океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_peter_the_great",
@@ -5103,7 +5406,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите залив: Залив Петра Великого",
     "geometryType": "point",
     "lat": 42.8,
-    "lng": 132.0,
+    "lng": 132,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "sky",
@@ -5122,7 +5425,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Залив Петра Великого: Японское море, Приморский край (Владивосток) (Тихий океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_sakhalin_gulf",
@@ -5157,7 +5461,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Сахалинский залив: Охотское море, севернее Сахалина (Тихий океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_thailand_gulf",
@@ -5174,10 +5479,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Тихий океан (Южно-Китайское море (Таиланд, Камбоджа, Вьетнам))",
     "mapPrompt": "Покажите залив: Сиамский залив",
     "geometryType": "point",
-    "lat": 10.0,
-    "lng": 101.0,
+    "lat": 10,
+    "lng": 101,
     "hitRadiusKm": 220,
-    "bounds": null,
+    "bounds": [
+      6.5,
+      99,
+      13.5,
+      105
+    ],
     "badgeColor": "sky",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -5194,7 +5504,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Сиамский залив: Южно-Китайское море (Таиланд, Камбоджа, Вьетнам) (Тихий океан)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_gulf_tasman_bay",
@@ -5209,7 +5520,7 @@ const MODULE3_ITEMS = [
     "locationDesc": "Тихий океан (Новая Зеландия, север Южного острова)",
     "mapPrompt": "Покажите залив: Залив Тасман",
     "geometryType": "point",
-    "lat": -41.0,
+    "lat": -41,
     "lng": 173.2,
     "hitRadiusKm": 220,
     "bounds": null,
@@ -5229,7 +5540,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Залив Тасман: Новая Зеландия, север Южного острова (Тихий океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_patience_bay",
@@ -5264,7 +5576,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Залив Терпения: Юго-восток Сахалина, Охотское море (Тихий океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_shelikhov_gulf",
@@ -5280,7 +5593,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите залив: Залив Шелихова",
     "geometryType": "point",
     "lat": 59.5,
-    "lng": 158.0,
+    "lng": 158,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "sky",
@@ -5299,7 +5612,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Залив Шелихова: Охотское море, между Камчаткой и материком (Тихий океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_biafra_bight",
@@ -5316,8 +5630,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (Гвинейский залив, побережье Камеруна/Нигерии)",
     "mapPrompt": "Покажите залив: Залив Биафра (Бони)",
     "geometryType": "point",
-    "lat": 4.0,
-    "lng": 8.0,
+    "lat": 4,
+    "lng": 8,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "sky",
@@ -5336,7 +5650,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Залив Биафра (Бони): Гвинейский залив, побережье Камеруна/Нигерии (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_biscay_bay",
@@ -5352,9 +5667,14 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите залив: Бискайский залив",
     "geometryType": "point",
     "lat": 45.5,
-    "lng": -4.0,
+    "lng": -4,
     "hitRadiusKm": 220,
-    "bounds": null,
+    "bounds": [
+      43.2,
+      -9,
+      48,
+      -1.2
+    ],
     "badgeColor": "sky",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -5371,7 +5691,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Бискайский залив: Европа, Франция, Испания (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_gulf_bothnia_gulf",
@@ -5386,10 +5707,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (Балтийское море, между Швецией и Финляндией)",
     "mapPrompt": "Покажите залив: Ботнический залив",
     "geometryType": "point",
-    "lat": 63.0,
-    "lng": 20.0,
+    "lat": 63,
+    "lng": 20,
     "hitRadiusKm": 220,
-    "bounds": null,
+    "bounds": [
+      60.2,
+      17.5,
+      65.8,
+      25
+    ],
     "badgeColor": "sky",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -5406,7 +5732,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Ботнический залив: Балтийское море, между Швецией и Финляндией (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_bristol_channel",
@@ -5422,7 +5749,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите залив: Бристольский залив",
     "geometryType": "point",
     "lat": 51.3,
-    "lng": -4.0,
+    "lng": -4,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "sky",
@@ -5441,7 +5768,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Бристольский залив: Великобритания (Уэльс и Англия) (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_valencia_gulf",
@@ -5476,7 +5804,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Валенсийский залив: Средиземное море, восток Испании (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_venezuela_gulf",
@@ -5492,7 +5821,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите залив: Венесуэльский залив (Маракайбо)",
     "geometryType": "point",
     "lat": 11.5,
-    "lng": -71.0,
+    "lng": -71,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "sky",
@@ -5511,7 +5840,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Венесуэльский залив (Маракайбо): Карибское море, вход в озеро Маракайбо (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_venice_gulf",
@@ -5527,7 +5857,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите залив: Венецианский залив",
     "geometryType": "point",
     "lat": 45.2,
-    "lng": 13.0,
+    "lng": 13,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "sky",
@@ -5546,7 +5876,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Венецианский залив: Адриатическое море, северная часть (Италия) (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_gabes_gulf",
@@ -5563,7 +5894,7 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (Средиземное море, побережье Туниса)",
     "mapPrompt": "Покажите залив: Залив Габес (Малый Сирт)",
     "geometryType": "point",
-    "lat": 34.0,
+    "lat": 34,
     "lng": 10.5,
     "hitRadiusKm": 220,
     "bounds": null,
@@ -5583,7 +5914,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Залив Габес (Малый Сирт): Средиземное море, побережье Туниса (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_guinea_gulf",
@@ -5598,10 +5930,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (Атлантический океан, экваториальная Западная Африка (пересечение экватора и 0° меридиана))",
     "mapPrompt": "Покажите залив: Гвинейский залив",
     "geometryType": "point",
-    "lat": 2.0,
-    "lng": 2.0,
+    "lat": 2,
+    "lng": 2,
     "hitRadiusKm": 220,
-    "bounds": null,
+    "bounds": [
+      -4,
+      -8,
+      6.5,
+      10
+    ],
     "badgeColor": "sky",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -5618,7 +5955,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Гвинейский залив: Атлантический океан, экваториальная Западная Африка (пересечение экватора и 0° меридиана) (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_gulf_genoa_gulf",
@@ -5653,7 +5991,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Генуэзский залив: Лигурийское море, Италия (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_cardigan_bay",
@@ -5688,7 +6027,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Залив Кардиган: Пролив Святого Георга, запад Уэльса (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_campeche_bay",
@@ -5723,7 +6063,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Залив Кампече: Мексиканский залив, южная часть (Мексика) (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_la_plata_estuary",
@@ -5758,7 +6099,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Ла-Плата (эстуарий): Южная Америка, эстуарий рек Парана и Уругвай (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_lyon_gulf",
@@ -5773,8 +6115,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (Средиземное море, юг Франции)",
     "mapPrompt": "Покажите залив: Лионский залив",
     "geometryType": "point",
-    "lat": 43.0,
-    "lng": 4.0,
+    "lat": 43,
+    "lng": 4,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "sky",
@@ -5793,7 +6135,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Лионский залив: Средиземное море, юг Франции (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_mexico_gulf",
@@ -5808,10 +6151,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (Северная Америка, полузамкнутое море Атлантики)",
     "mapPrompt": "Покажите залив: Мексиканский залив",
     "geometryType": "point",
-    "lat": 25.0,
-    "lng": -90.0,
+    "lat": 25,
+    "lng": -90,
     "hitRadiusKm": 220,
-    "bounds": null,
+    "bounds": [
+      18.5,
+      -97.8,
+      30.5,
+      -81
+    ],
     "badgeColor": "sky",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -5828,7 +6176,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Мексиканский залив: Северная Америка, полузамкнутое море Атлантики (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_gulf_maine_gulf",
@@ -5843,8 +6192,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (США и Канада (включает залив Фанди))",
     "mapPrompt": "Покажите залив: Залив Мэн",
     "geometryType": "point",
-    "lat": 43.0,
-    "lng": -68.0,
+    "lat": 43,
+    "lng": -68,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "sky",
@@ -5863,7 +6212,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Залив Мэн: США и Канада (включает залив Фанди) (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_riga_gulf",
@@ -5898,7 +6248,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Рижский залив: Балтийское море, Латвия, Эстония (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_st_lawrence_gulf",
@@ -5913,10 +6264,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (Канада, устье реки Святого Лаврентия)",
     "mapPrompt": "Покажите залив: Залив Святого Лаврентия",
     "geometryType": "point",
-    "lat": 48.0,
-    "lng": -62.0,
+    "lat": 48,
+    "lng": -62,
     "hitRadiusKm": 220,
-    "bounds": null,
+    "bounds": [
+      45.5,
+      -66.5,
+      51.5,
+      -57
+    ],
     "badgeColor": "sky",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -5933,7 +6289,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Залив Святого Лаврентия: Канада, устье реки Святого Лаврентия (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_st_malo_gulf",
@@ -5949,7 +6306,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите залив: Залив Сен-Мало",
     "geometryType": "point",
     "lat": 48.8,
-    "lng": -2.0,
+    "lng": -2,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "sky",
@@ -5968,7 +6325,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Залив Сен-Мало: Пролив Ла-Манш, побережье Бретани и Нормандии (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_sivash",
@@ -6005,7 +6363,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Залив Сиваш (Гнилое море): Азовское море, запад Крыма (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_sidra_gulf",
@@ -6023,7 +6382,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите залив: Залив Сидра (Большой Сирт)",
     "geometryType": "point",
     "lat": 31.5,
-    "lng": 18.0,
+    "lng": 18,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "sky",
@@ -6042,7 +6401,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Залив Сидра (Большой Сирт): Средиземное море, побережье Ливии (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_sognefjord",
@@ -6058,7 +6418,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите залив: Согне-Фьорд",
     "geometryType": "point",
     "lat": 61.1,
-    "lng": 6.0,
+    "lng": 6,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "sky",
@@ -6077,7 +6437,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Согне-Фьорд: Северное море, побережье Норвегии (крупнейший фьорд Европы, глубина до 1308 м) (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_taganrog_bay",
@@ -6093,7 +6454,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите залив: Таганрогский залив",
     "geometryType": "point",
     "lat": 46.9,
-    "lng": 38.0,
+    "lng": 38,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "sky",
@@ -6112,7 +6473,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Таганрогский залив: Азовское море, северо-восточная часть, устье Дона (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_taranto_gulf",
@@ -6127,7 +6489,7 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (Ионическое море, 'подъём итальянского сапога')",
     "mapPrompt": "Покажите залив: Залив Таранто",
     "geometryType": "point",
-    "lat": 40.0,
+    "lat": 40,
     "lng": 17.2,
     "hitRadiusKm": 220,
     "bounds": null,
@@ -6147,7 +6509,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Залив Таранто: Ионическое море, 'подъём итальянского сапога' (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_fundy_bay",
@@ -6162,7 +6525,7 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (Северная Америка, Канада (высочайшие приливы в мире — до 18 м))",
     "mapPrompt": "Покажите залив: Залив Фанди",
     "geometryType": "point",
-    "lat": 45.0,
+    "lat": 45,
     "lng": -65.5,
     "hitRadiusKm": 220,
     "bounds": null,
@@ -6182,7 +6545,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Залив Фанди: Северная Америка, Канада (высочайшие приливы в мире — до 18 м) (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_firth_of_forth",
@@ -6198,7 +6562,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите залив: Фёрт-оф-Форт",
     "geometryType": "point",
     "lat": 56.1,
-    "lng": -3.0,
+    "lng": -3,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "sky",
@@ -6217,7 +6581,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Фёрт-оф-Форт: Северное море, восток Шотландии (Эдинбург) (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_finland_gulf",
@@ -6232,8 +6597,8 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (Балтийское море (Россия, Финляндия, Эстония))",
     "mapPrompt": "Покажите залив: Финский залив",
     "geometryType": "point",
-    "lat": 60.0,
-    "lng": 26.0,
+    "lat": 60,
+    "lng": 26,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "sky",
@@ -6252,7 +6617,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Финский залив: Балтийское море (Россия, Финляндия, Эстония) (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_gulf_chesapeake_bay",
@@ -6268,7 +6634,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите залив: Чесапикский залив",
     "geometryType": "point",
     "lat": 37.5,
-    "lng": -76.0,
+    "lng": -76,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "sky",
@@ -6287,7 +6653,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Чесапикский залив: Восточное побережье США (г. Балтимор, эстуарий р. Саскуэханна) (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_aden_gulf",
@@ -6303,9 +6670,14 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите залив: Аденский залив",
     "geometryType": "point",
     "lat": 12.5,
-    "lng": 48.0,
+    "lng": 48,
     "hitRadiusKm": 220,
-    "bounds": null,
+    "bounds": [
+      10.5,
+      43,
+      15,
+      52
+    ],
     "badgeColor": "sky",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -6322,7 +6694,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Аденский залив: Аравийское море (между Аравией и Африканским Рогом) (Индийский океан)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_gulf_aqaba_gulf",
@@ -6357,7 +6730,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Залив Акаба: Красное море, восточный рукав Синая (Иордания, Израиль, Египет) (Индийский океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_bengal_bay",
@@ -6372,10 +6746,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Индийский океан (Индийский океан, на восток от п-ова Индостан (крупнейший залив мира))",
     "mapPrompt": "Покажите залив: Бенгальский залив",
     "geometryType": "point",
-    "lat": 15.0,
-    "lng": 88.0,
+    "lat": 15,
+    "lng": 88,
     "hitRadiusKm": 220,
-    "bounds": null,
+    "bounds": [
+      6,
+      80,
+      22.5,
+      96
+    ],
     "badgeColor": "sky",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -6392,7 +6771,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Бенгальский залив: Индийский океан, на восток от п-ова Индостан (крупнейший залив мира) (Индийский океан)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_gulf_great_australian_bight",
@@ -6407,10 +6787,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Индийский океан (Юг Австралии, открытый шельфовый залив)",
     "mapPrompt": "Покажите залив: Большой Австралийский залив",
     "geometryType": "point",
-    "lat": -34.0,
-    "lng": 130.0,
+    "lat": -34,
+    "lng": 130,
     "hitRadiusKm": 220,
-    "bounds": null,
+    "bounds": [
+      -36.5,
+      118,
+      -31.5,
+      138
+    ],
     "badgeColor": "sky",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -6427,7 +6812,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Большой Австралийский залив: Юг Австралии, открытый шельфовый залив (Индийский океан)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_gulf_geographe_bay",
@@ -6462,7 +6848,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Залив Географа: Юго-запад Австралии (Индийский океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_joseph_bonaparte_gulf",
@@ -6497,7 +6884,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Залив Жозеф-Бонапарт: Тиморское море, север Австралии (Индийский океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_carpentaria_gulf",
@@ -6512,10 +6900,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Индийский океан (Арафурское море, между п-овом Кейп-Йорк и Арнем-Лендом)",
     "mapPrompt": "Покажите залив: Залив Карпентария",
     "geometryType": "point",
-    "lat": -14.0,
-    "lng": 139.0,
+    "lat": -14,
+    "lng": 139,
     "hitRadiusKm": 220,
-    "bounds": null,
+    "bounds": [
+      -17.6,
+      135.5,
+      -10.5,
+      142
+    ],
     "badgeColor": "sky",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -6532,7 +6925,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Залив Карпентария: Арафурское море, между п-овом Кейп-Йорк и Арнем-Лендом (Индийский океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_oman_gulf",
@@ -6567,7 +6961,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Оманский залив: Аравийское море, вход в Ормузский пролив (Индийский океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_persian_gulf",
@@ -6582,10 +6977,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Индийский океан (На северо-восток от Аравийского полуострова)",
     "mapPrompt": "Покажите залив: Персидский залив",
     "geometryType": "point",
-    "lat": 27.0,
-    "lng": 51.0,
+    "lat": 27,
+    "lng": 51,
     "hitRadiusKm": 220,
-    "bounds": null,
+    "bounds": [
+      24,
+      48,
+      30.2,
+      56.5
+    ],
     "badgeColor": "sky",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -6602,7 +7002,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Персидский залив: На северо-восток от Аравийского полуострова (Индийский океан)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_gulf_spencer_gulf",
@@ -6617,7 +7018,7 @@ const MODULE3_ITEMS = [
     "locationDesc": "Индийский океан (Юг Австралии, глубоко вдаётся в сушу)",
     "mapPrompt": "Покажите залив: Залив Спенсер",
     "geometryType": "point",
-    "lat": -34.0,
+    "lat": -34,
     "lng": 136.5,
     "hitRadiusKm": 220,
     "bounds": null,
@@ -6637,7 +7038,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Залив Спенсер: Юг Австралии, глубоко вдаётся в сушу (Индийский океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_suez_gulf",
@@ -6672,7 +7074,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Суэцкий залив: Красное море, западный рукав Синайского полуострова (вход в Суэцкий канал) (Индийский океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_hudson_bay",
@@ -6687,10 +7090,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Северный Ледовитый океан (Северная Америка, Канада ('внутреннее море Канады'))",
     "mapPrompt": "Покажите залив: Гудзонов залив",
     "geometryType": "point",
-    "lat": 60.0,
-    "lng": -85.0,
+    "lat": 60,
+    "lng": -85,
     "hitRadiusKm": 220,
-    "bounds": null,
+    "bounds": [
+      51.5,
+      -94,
+      64.5,
+      -76.5
+    ],
     "badgeColor": "sky",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -6707,7 +7115,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Гудзонов залив: Северная Америка, Канада ('внутреннее море Канады') (Северный Ледовитый океан)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_gulf_kandalaksha_gulf",
@@ -6742,7 +7151,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Кандалакшский залив: Белое море, Кольский полуостров (Северный Ледовитый океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_kotzebue_sound",
@@ -6777,7 +7187,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Залив Коцебу: Чукотское море, Аляска (Северный Ледовитый океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_ob_bay",
@@ -6792,10 +7203,15 @@ const MODULE3_ITEMS = [
     "locationDesc": "Северный Ледовитый океан (Карское море, гигантский эстуарий реки Обь (длина >800 км))",
     "mapPrompt": "Покажите залив: Обская губа",
     "geometryType": "point",
-    "lat": 69.0,
+    "lat": 69,
     "lng": 73.5,
     "hitRadiusKm": 220,
-    "bounds": null,
+    "bounds": [
+      66.5,
+      70,
+      73,
+      76
+    ],
     "badgeColor": "sky",
     "ankiCard": {
       "hasTheoryStep": true,
@@ -6812,7 +7228,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Обская губа: Карское море, гигантский эстуарий реки Обь (длина >800 км) (Северный Ледовитый океан)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_gulf_trondheim_fjord",
@@ -6847,7 +7264,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Тронхеймс-Фьорд: Норвежское море, побережье Норвегии (Тронхейм) (Северный Ледовитый океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_ungava_bay",
@@ -6863,7 +7281,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите залив: Залив Унгава",
     "geometryType": "point",
     "lat": 59.5,
-    "lng": -67.0,
+    "lng": -67,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "sky",
@@ -6882,7 +7300,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Залив Унгава: Гудзонов пролив, север полуострова Лабрадор (Северный Ледовитый океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_chesha_bay",
@@ -6898,7 +7317,7 @@ const MODULE3_ITEMS = [
     "mapPrompt": "Покажите залив: Чёшская губа",
     "geometryType": "point",
     "lat": 67.2,
-    "lng": 47.0,
+    "lng": 47,
     "hitRadiusKm": 220,
     "bounds": null,
     "badgeColor": "sky",
@@ -6917,7 +7336,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив Чёшская губа: Баренцево море, восточнее полуострова Канин (Северный Ледовитый океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_gulf_kara_bogaz_gol",
@@ -6952,7 +7372,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Залив-лагуна Каспийского моря с экстремальной солёностью (до 300‰)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_tr_puerto_rico",
@@ -6976,15 +7397,15 @@ const MODULE3_ITEMS = [
     "coords": [
       [
         19.2,
-        -64.0
+        -64
       ],
       [
         19.6,
         -68.33
       ],
       [
-        20.0,
-        -72.0
+        20,
+        -72
       ]
     ],
     "flowStyle": {
@@ -7022,7 +7443,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Желоб Пуэрто-Рико: максимальная глубина 8742 м, протяжённость 1070 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_tr_south_sandwich",
@@ -7045,20 +7467,20 @@ const MODULE3_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        -54.0,
-        -28.0
+        -54,
+        -28
       ],
       [
         -55.12,
         -26.8
       ],
       [
-        -58.0,
-        -25.0
+        -58,
+        -25
       ],
       [
-        -60.0,
-        -27.0
+        -60,
+        -27
       ]
     ],
     "flowStyle": {
@@ -7096,7 +7518,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Южно-Сандвичев желоб: максимальная глубина 8264 м, протяжённость 1380 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_tr_romanche",
@@ -7166,7 +7589,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Желоб Романш (впадина Романш): максимальная глубина 7856 м, протяжённость 230 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_tr_cayman",
@@ -7190,7 +7614,7 @@ const MODULE3_ITEMS = [
     "coords": [
       [
         18.5,
-        -77.0
+        -77
       ],
       [
         19.08,
@@ -7236,7 +7660,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Желоб Кайман: максимальная глубина 7090 м, протяжённость 790 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_tr_hellenic",
@@ -7259,7 +7684,7 @@ const MODULE3_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        36.0,
+        36,
         20.5
       ],
       [
@@ -7267,8 +7692,8 @@ const MODULE3_ITEMS = [
         21.08
       ],
       [
-        37.0,
-        22.0
+        37,
+        22
       ]
     ],
     "flowStyle": {
@@ -7306,7 +7731,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Гелленский желоб (впадина Гелла): максимальная глубина 5121 м, протяжённость 343 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_tr_sunda_trench",
@@ -7329,20 +7755,20 @@ const MODULE3_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        -4.0,
-        101.0
+        -4,
+        101
       ],
       [
-        -8.0,
-        107.0
+        -8,
+        107
       ],
       [
         -11.17,
         114.95
       ],
       [
-        -12.0,
-        119.0
+        -12,
+        119
       ]
     ],
     "flowStyle": {
@@ -7380,7 +7806,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Зондский (Яванский) желоб: максимальная глубина 7729 м, протяжённость 2900 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_tr_east_indian",
@@ -7401,15 +7828,15 @@ const MODULE3_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        -5.0,
-        89.0
+        -5,
+        89
       ],
       [
         -11.23,
         90.25
       ],
       [
-        -15.0,
+        -15,
         91.5
       ]
     ],
@@ -7448,7 +7875,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Восточно-Индийский желоб: максимальная глубина 6335 м, протяжённость 1244 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_tr_ob_trench",
@@ -7471,15 +7899,15 @@ const MODULE3_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        -30.0,
-        99.0
+        -30,
+        99
       ],
       [
         -32.87,
         100.08
       ],
       [
-        -35.0,
+        -35,
         101.5
       ]
     ],
@@ -7518,7 +7946,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Желоб Оби (Обь): максимальная глубина 5880 м, протяжённость 560 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_tr_amirante",
@@ -7539,16 +7968,16 @@ const MODULE3_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        -5.0,
-        53.0
+        -5,
+        53
       ],
       [
         -7.83,
         52.83
       ],
       [
-        -10.0,
-        52.0
+        -10,
+        52
       ]
     ],
     "flowStyle": {
@@ -7586,7 +8015,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Амирантский желоб: максимальная глубина 5477 м, протяжённость 630 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_tr_chagos",
@@ -7601,21 +8031,21 @@ const MODULE3_ITEMS = [
     "locationDesc": "Индийский океан (макс. глубина 5431 м)",
     "mapPrompt": "Покажите глубоководный желоб: Желоб Чагос",
     "geometryType": "polyline",
-    "lat": -6.0,
+    "lat": -6,
     "lng": 73.75,
     "hitRadiusKm": 180,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        -4.0,
-        73.0
+        -4,
+        73
       ],
       [
-        -6.0,
+        -6,
         73.75
       ],
       [
-        -8.0,
+        -8,
         74.5
       ]
     ],
@@ -7654,7 +8084,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Желоб Чагос: максимальная глубина 5431 м, протяжённость 510 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_tr_mariana",
@@ -7678,20 +8109,20 @@ const MODULE3_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        11.0,
-        142.0
+        11,
+        142
       ],
       [
         11.32,
         142.12
       ],
       [
-        14.0,
-        144.0
+        14,
+        144
       ],
       [
-        18.0,
-        145.0
+        18,
+        145
       ]
     ],
     "flowStyle": {
@@ -7729,7 +8160,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Марианский желоб (Бездна Челленджера): максимальная глубина 11022 м, протяжённость 1340 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_tr_tonga",
@@ -7753,15 +8185,15 @@ const MODULE3_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        -18.0,
-        -173.0
+        -18,
+        -173
       ],
       [
         -23.22,
         -174.7
       ],
       [
-        -26.0,
+        -26,
         -175.5
       ]
     ],
@@ -7800,7 +8232,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Желоб Тонга (впадина Горизонт): максимальная глубина 10882 м, протяжённость 860 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_tr_philippine_trench",
@@ -7823,16 +8256,16 @@ const MODULE3_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        6.0,
-        127.0
+        6,
+        127
       ],
       [
         10.4,
         126.67
       ],
       [
-        15.0,
-        124.0
+        15,
+        124
       ]
     ],
     "flowStyle": {
@@ -7870,7 +8303,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Филиппинский желоб: максимальная глубина 10265 м, протяжённость 1330 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_tr_kermadec",
@@ -7893,15 +8327,15 @@ const MODULE3_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        -28.0,
-        -176.0
+        -28,
+        -176
       ],
       [
         -31.97,
         -177.43
       ],
       [
-        -36.0,
+        -36,
         -178.5
       ]
     ],
@@ -7940,7 +8374,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Желоб Кермадек: максимальная глубина 10047 м, протяжённость 1270 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_tr_izu_bonin",
@@ -7963,7 +8398,7 @@ const MODULE3_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        26.0,
+        26,
         143.5
       ],
       [
@@ -7971,8 +8406,8 @@ const MODULE3_ITEMS = [
         142.9
       ],
       [
-        34.0,
-        142.0
+        34,
+        142
       ]
     ],
     "flowStyle": {
@@ -8010,7 +8445,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Идзу-Бонинский желоб: максимальная глубина 9810 м, протяжённость 1030 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_tr_kuril_kamchatka",
@@ -8037,12 +8473,12 @@ const MODULE3_ITEMS = [
         152.75
       ],
       [
-        47.0,
-        155.0
+        47,
+        155
       ],
       [
-        52.0,
-        160.0
+        52,
+        160
       ]
     ],
     "flowStyle": {
@@ -8080,7 +8516,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Курило-Камчатский желоб: максимальная глубина 9717 м, протяжённость 2170 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_tr_santa_cruz",
@@ -8101,16 +8538,16 @@ const MODULE3_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        -11.0,
-        165.0
+        -11,
+        165
       ],
       [
         -12.47,
         165.85
       ],
       [
-        -14.0,
-        167.0
+        -14,
+        167
       ]
     ],
     "flowStyle": {
@@ -8148,7 +8585,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Желоб Санта-Крус: максимальная глубина 9174 м, протяжённость 292 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_tr_volcano_trench",
@@ -8169,7 +8607,7 @@ const MODULE3_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        22.0,
+        22,
         143.8
       ],
       [
@@ -8177,8 +8615,8 @@ const MODULE3_ITEMS = [
         143.38
       ],
       [
-        26.0,
-        143.0
+        26,
+        143
       ]
     ],
     "flowStyle": {
@@ -8216,7 +8654,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Желоб Волкано: максимальная глубина 9157 м, протяжённость 820 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_tr_bougainville",
@@ -8237,7 +8676,7 @@ const MODULE3_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        -5.0,
+        -5,
         152.5
       ],
       [
@@ -8246,7 +8685,7 @@ const MODULE3_ITEMS = [
       ],
       [
         -7.5,
-        155.0
+        155
       ]
     ],
     "flowStyle": {
@@ -8284,7 +8723,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Бугенвильский желоб: максимальная глубина 9103 м, протяжённость 330 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_tr_yap_trench",
@@ -8307,16 +8747,16 @@ const MODULE3_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        7.0,
-        137.0
+        7,
+        137
       ],
       [
         8.42,
         137.93
       ],
       [
-        10.0,
-        139.0
+        10,
+        139
       ]
     ],
     "flowStyle": {
@@ -8354,7 +8794,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Желоб Яп: максимальная глубина 8850 м, протяжённость 460 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_tr_san_cristobal",
@@ -8375,8 +8816,8 @@ const MODULE3_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        -10.0,
-        161.0
+        -10,
+        161
       ],
       [
         -11.32,
@@ -8384,7 +8825,7 @@ const MODULE3_ITEMS = [
       ],
       [
         -12.5,
-        164.0
+        164
       ]
     ],
     "flowStyle": {
@@ -8422,7 +8863,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Желоб Сан-Кристобаль: максимальная глубина 8487 м, протяжённость 605 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_tr_japan_trench",
@@ -8443,16 +8885,16 @@ const MODULE3_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        34.0,
-        142.0
+        34,
+        142
       ],
       [
         36.07,
         142.68
       ],
       [
-        40.0,
-        144.0
+        40,
+        144
       ]
     ],
     "flowStyle": {
@@ -8490,7 +8932,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Японский желоб: максимальная глубина 8412 м, протяжённость 680 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_tr_new_britain",
@@ -8511,8 +8954,8 @@ const MODULE3_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        -5.0,
-        151.0
+        -5,
+        151
       ],
       [
         -5.87,
@@ -8520,7 +8963,7 @@ const MODULE3_ITEMS = [
       ],
       [
         -6.5,
-        154.0
+        154
       ]
     ],
     "flowStyle": {
@@ -8558,7 +9001,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Новобританский желоб: максимальная глубина 8320 м, протяжённость 510 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_tr_chile_trench",
@@ -8581,20 +9025,20 @@ const MODULE3_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        -18.0,
-        -71.0
+        -18,
+        -71
       ],
       [
         -23.47,
         -71.35
       ],
       [
-        -30.0,
-        -72.0
+        -30,
+        -72
       ],
       [
-        -38.0,
-        -74.0
+        -38,
+        -74
       ]
     ],
     "flowStyle": {
@@ -8632,7 +9076,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Чилийский желоб (Атакамский): максимальная глубина 8180 м, протяжённость 2690 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_tr_palau_trench",
@@ -8700,7 +9145,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Желоб Палау: максимальная глубина 8138 м, протяжённость 350 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_tr_aleutian_trench",
@@ -8723,8 +9169,8 @@ const MODULE3_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        52.0,
-        -170.0
+        52,
+        -170
       ],
       [
         51.57,
@@ -8732,7 +9178,7 @@ const MODULE3_ITEMS = [
       ],
       [
         52.5,
-        165.0
+        165
       ]
     ],
     "flowStyle": {
@@ -8770,7 +9216,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Алеутский желоб: максимальная глубина 7855 м, протяжённость 3570 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_tr_ryukyu_trench",
@@ -8793,16 +9240,16 @@ const MODULE3_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        23.0,
-        125.0
+        23,
+        125
       ],
       [
         24.48,
         127.33
       ],
       [
-        28.0,
-        130.0
+        28,
+        130
       ]
     ],
     "flowStyle": {
@@ -8840,7 +9287,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Желоб Рюкю (Нансей): максимальная глубина 7790 м, протяжённость 603 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_tr_new_hebrides",
@@ -8861,15 +9309,15 @@ const MODULE3_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        -16.0,
-        167.0
+        -16,
+        167
       ],
       [
         -22.33,
         169.9
       ],
       [
-        -24.0,
+        -24,
         170.5
       ]
     ],
@@ -8908,7 +9356,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Новогебридский желоб: максимальная глубина 7633 м, протяжённость 870 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_tr_weber_deep",
@@ -8931,15 +9380,15 @@ const MODULE3_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        -5.0,
-        130.0
+        -5,
+        130
       ],
       [
         -5.58,
         130.83
       ],
       [
-        -6.0,
+        -6,
         131.5
       ]
     ],
@@ -8978,7 +9427,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Впадина Вебер (желоб Банда): максимальная глубина 7440 м, протяжённость 430 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_tr_west_melanesian",
@@ -9000,15 +9450,15 @@ const MODULE3_ITEMS = [
     "coords": [
       [
         -0.2,
-        147.0
+        147
       ],
       [
         -0.47,
         149.32
       ],
       [
-        -1.0,
-        151.0
+        -1,
+        151
       ]
     ],
     "flowStyle": {
@@ -9046,7 +9496,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Западно-Меланезийский желоб: максимальная глубина 7030 м, протяжённость 800 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_tr_peru_trench",
@@ -9067,16 +9518,16 @@ const MODULE3_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        -6.0,
-        -81.0
+        -6,
+        -81
       ],
       [
         -11.17,
         -79.6
       ],
       [
-        -15.0,
-        -76.0
+        -15,
+        -76
       ]
     ],
     "flowStyle": {
@@ -9114,7 +9565,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Перуанский желоб: максимальная глубина 6601 м, протяжённость 1340 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_tr_middle_america",
@@ -9135,16 +9587,16 @@ const MODULE3_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        18.0,
-        -104.0
+        18,
+        -104
       ],
       [
         14.45,
         -94.42
       ],
       [
-        10.0,
-        -86.0
+        10,
+        -86
       ]
     ],
     "flowStyle": {
@@ -9182,7 +9634,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Центральноамериканский желоб: максимальная глубина 6639 м, протяжённость 2530 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_tr_vityaz_trench",
@@ -9203,16 +9656,16 @@ const MODULE3_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        -9.0,
-        168.0
+        -9,
+        168
       ],
       [
         -10.45,
         170.28
       ],
       [
-        -12.0,
-        172.0
+        -12,
+        172
       ]
     ],
     "flowStyle": {
@@ -9250,7 +9703,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Желоб Витязя (Восточно-Меланезийский): максимальная глубина 6150 м, протяжённость 870 км."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_tr_new_guinea_trench",
@@ -9272,15 +9726,15 @@ const MODULE3_ITEMS = [
     "coords": [
       [
         -0.5,
-        133.0
+        133
       ],
       [
         0.23,
         135.3
       ],
       [
-        1.0,
-        137.0
+        1,
+        137
       ]
     ],
     "flowStyle": {
@@ -9318,7 +9772,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Новогвинейский желоб: максимальная глубина 5310 м, протяжённость 600 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_tr_litke_deep",
@@ -9341,8 +9796,8 @@ const MODULE3_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        82.0,
-        18.0
+        82,
+        18
       ],
       [
         82.35,
@@ -9350,7 +9805,7 @@ const MODULE3_ITEMS = [
       ],
       [
         82.8,
-        22.0
+        22
       ]
     ],
     "flowStyle": {
@@ -9388,7 +9843,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Желоб Ущелье Литке (желоб Литке): максимальная глубина 5449 м, протяжённость 300 км."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_aleutian_cur",
@@ -9403,22 +9859,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Тихий океан (Нейтральное, Сточное, 15 см/с)",
     "mapPrompt": "Покажите течение: Алеутское течение",
     "geometryType": "polyline",
-    "lat": 51.0,
-    "lng": 180.0,
+    "lat": 51,
+    "lng": 180,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        50.0,
-        165.0
+        50,
+        165
       ],
       [
-        51.0,
-        180.0
+        51,
+        180
       ],
       [
         51.5,
-        -165.0
+        -165
       ]
     ],
     "flowStyle": {
@@ -9452,7 +9908,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Алеутское течение: Нейтральное, генезис Сточное, скорость 15 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_alaska_cur",
@@ -9467,26 +9924,26 @@ const MODULE3_ITEMS = [
     "locationDesc": "Тихий океан (Тёплое, Сточное, 15 см/с)",
     "mapPrompt": "Покажите течение: Аляскинское течение",
     "geometryType": "polyline",
-    "lat": 56.0,
-    "lng": -145.0,
+    "lat": 56,
+    "lng": -145,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        52.0,
-        -135.0
+        52,
+        -135
       ],
       [
-        56.0,
-        -145.0
+        56,
+        -145
       ],
       [
-        58.0,
-        -152.0
+        58,
+        -152
       ],
       [
-        55.0,
-        -160.0
+        55,
+        -160
       ]
     ],
     "flowStyle": {
@@ -9520,7 +9977,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Аляскинское течение: Тёплое, генезис Сточное, скорость 15 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_east_australian_cur",
@@ -9535,22 +9993,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Тихий океан (Тёплое, Сточное, 20 см/с)",
     "mapPrompt": "Покажите течение: Восточно-Австралийское течение",
     "geometryType": "polyline",
-    "lat": -28.0,
-    "lng": 155.0,
+    "lat": -28,
+    "lng": 155,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        -15.0,
-        152.0
+        -15,
+        152
       ],
       [
-        -25.0,
-        155.0
+        -25,
+        155
       ],
       [
-        -35.0,
-        154.0
+        -35,
+        154
       ]
     ],
     "flowStyle": {
@@ -9584,7 +10042,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Восточно-Австралийское течение: Тёплое, генезис Сточное, скорость 20 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_west_wind_drift_pac",
@@ -9601,26 +10060,26 @@ const MODULE3_ITEMS = [
     "locationDesc": "Тихий океан (Холодное, Дрейфовое (ветровое), 25-75 см/с)",
     "mapPrompt": "Покажите течение: Течение Западных ветров (Тихий океан)",
     "geometryType": "polyline",
-    "lat": -52.0,
-    "lng": -140.0,
+    "lat": -52,
+    "lng": -140,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        -50.0,
-        160.0
+        -50,
+        160
       ],
       [
-        -52.0,
-        -160.0
+        -52,
+        -160
       ],
       [
-        -54.0,
-        -120.0
+        -54,
+        -120
       ],
       [
-        -55.0,
-        -80.0
+        -55,
+        -80
       ]
     ],
     "flowStyle": {
@@ -9654,7 +10113,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Течение Западных ветров (Тихий океан): Холодное, генезис Дрейфовое (ветровое), скорость 25-75 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_california_cur",
@@ -9669,22 +10129,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Тихий океан (Холодное, Компенсационное, 12 см/с)",
     "mapPrompt": "Покажите течение: Калифорнийское течение",
     "geometryType": "polyline",
-    "lat": 32.0,
-    "lng": -122.0,
+    "lat": 32,
+    "lng": -122,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        42.0,
-        -126.0
+        42,
+        -126
       ],
       [
-        35.0,
-        -123.0
+        35,
+        -123
       ],
       [
-        25.0,
-        -115.0
+        25,
+        -115
       ]
     ],
     "flowStyle": {
@@ -9718,7 +10178,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Калифорнийское течение: Холодное, генезис Компенсационное, скорость 12 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_oyashio",
@@ -9735,22 +10196,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Тихий океан (Холодное, Компенсационное, 25 см/с)",
     "mapPrompt": "Покажите течение: Курило-Камчатское течение (Ойясио)",
     "geometryType": "polyline",
-    "lat": 46.0,
-    "lng": 152.0,
+    "lat": 46,
+    "lng": 152,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        52.0,
-        160.0
+        52,
+        160
       ],
       [
-        47.0,
-        153.0
+        47,
+        153
       ],
       [
-        40.0,
-        144.0
+        40,
+        144
       ]
     ],
     "flowStyle": {
@@ -9784,7 +10245,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Курило-Камчатское течение (Ойясио): Холодное, генезис Компенсационное, скорость 25 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_kuroshio",
@@ -9801,26 +10263,26 @@ const MODULE3_ITEMS = [
     "locationDesc": "Тихий океан (Тёплое, Сточное, 35 см/с)",
     "mapPrompt": "Покажите течение: Куросио",
     "geometryType": "polyline",
-    "lat": 30.0,
-    "lng": 135.0,
+    "lat": 30,
+    "lng": 135,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        22.0,
-        123.0
+        22,
+        123
       ],
       [
-        28.0,
-        130.0
+        28,
+        130
       ],
       [
-        35.0,
-        142.0
+        35,
+        142
       ],
       [
-        38.0,
-        150.0
+        38,
+        150
       ]
     ],
     "flowStyle": {
@@ -9854,7 +10316,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Куросио: Тёплое, генезис Сточное, скорость 35 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_inter_counter_pac",
@@ -9869,26 +10332,26 @@ const MODULE3_ITEMS = [
     "locationDesc": "Тихий океан (Нейтральное, Компенсационное, 50-130 см/с)",
     "mapPrompt": "Покажите течение: Межпассатное противотечение (Тихий океан)",
     "geometryType": "polyline",
-    "lat": 6.0,
-    "lng": -140.0,
+    "lat": 6,
+    "lng": -140,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        6.0,
-        130.0
+        6,
+        130
       ],
       [
-        6.0,
-        170.0
+        6,
+        170
       ],
       [
-        6.0,
-        -150.0
+        6,
+        -150
       ],
       [
-        6.0,
-        -110.0
+        6,
+        -110
       ]
     ],
     "flowStyle": {
@@ -9922,7 +10385,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Межпассатное противотечение (Тихий океан): Нейтральное, генезис Компенсационное, скорость 50-130 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_peru_cur",
@@ -9939,26 +10403,26 @@ const MODULE3_ITEMS = [
     "locationDesc": "Тихий океан (Холодное, Компенсационное, 10 см/с)",
     "mapPrompt": "Покажите течение: Перуанское течение (Гумбольдта)",
     "geometryType": "polyline",
-    "lat": -20.0,
-    "lng": -75.0,
+    "lat": -20,
+    "lng": -75,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        -40.0,
-        -75.0
+        -40,
+        -75
       ],
       [
-        -30.0,
-        -73.0
+        -30,
+        -73
       ],
       [
-        -15.0,
-        -77.0
+        -15,
+        -77
       ],
       [
-        -5.0,
-        -82.0
+        -5,
+        -82
       ]
     ],
     "flowStyle": {
@@ -9992,7 +10456,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Перуанское течение (Гумбольдта): Холодное, генезис Компенсационное, скорость 10 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_north_equatorial_pac",
@@ -10007,26 +10472,26 @@ const MODULE3_ITEMS = [
     "locationDesc": "Тихий океан (Нейтральное, Дрейфовое (ветровое), 80 см/с)",
     "mapPrompt": "Покажите течение: Северное Пассатное течение (Тихий океан)",
     "geometryType": "polyline",
-    "lat": 12.0,
-    "lng": -150.0,
+    "lat": 12,
+    "lng": -150,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        12.0,
-        -100.0
+        12,
+        -100
       ],
       [
-        12.0,
-        -140.0
+        12,
+        -140
       ],
       [
-        12.0,
-        180.0
+        12,
+        180
       ],
       [
-        12.0,
-        140.0
+        12,
+        140
       ]
     ],
     "flowStyle": {
@@ -10060,7 +10525,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Северное Пассатное течение (Тихий океан): Нейтральное, генезис Дрейфовое (ветровое), скорость 80 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_north_pacific_cur",
@@ -10075,26 +10541,26 @@ const MODULE3_ITEMS = [
     "locationDesc": "Тихий океан (Тёплое, Дрейфовое (ветровое), 35 см/с)",
     "mapPrompt": "Покажите течение: Северо-Тихоокеанское течение",
     "geometryType": "polyline",
-    "lat": 40.0,
-    "lng": 175.0,
+    "lat": 40,
+    "lng": 175,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        38.0,
-        145.0
+        38,
+        145
       ],
       [
-        40.0,
-        170.0
+        40,
+        170
       ],
       [
-        42.0,
-        -160.0
+        42,
+        -160
       ],
       [
-        45.0,
-        -135.0
+        45,
+        -135
       ]
     ],
     "flowStyle": {
@@ -10128,7 +10594,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Северо-Тихоокеанское течение: Тёплое, генезис Дрейфовое (ветровое), скорость 35 см/с."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_cur_el_nino",
@@ -10145,22 +10612,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Тихий океан (Тёплое, Сточное, до 100 см/с)",
     "mapPrompt": "Покажите течение: Эль-Ниньо (эпизодическое)",
     "geometryType": "polyline",
-    "lat": -4.0,
-    "lng": -85.0,
+    "lat": -4,
+    "lng": -85,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        -1.0,
-        -90.0
+        -1,
+        -90
       ],
       [
-        -4.0,
-        -85.0
+        -4,
+        -85
       ],
       [
-        -8.0,
-        -82.0
+        -8,
+        -82
       ]
     ],
     "flowStyle": {
@@ -10194,7 +10661,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Эль-Ниньо (эпизодическое): Тёплое, генезис Сточное, скорость до 100 см/с."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_cur_south_equatorial_pac",
@@ -10209,26 +10677,26 @@ const MODULE3_ITEMS = [
     "locationDesc": "Тихий океан (Нейтральное, Дрейфовое (ветровое), 95 см/с)",
     "mapPrompt": "Покажите течение: Южное Пассатное течение (Тихий океан)",
     "geometryType": "polyline",
-    "lat": -8.0,
-    "lng": -140.0,
+    "lat": -8,
+    "lng": -140,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        -8.0,
-        -90.0
+        -8,
+        -90
       ],
       [
-        -8.0,
-        -130.0
+        -8,
+        -130
       ],
       [
-        -8.0,
-        -170.0
+        -8,
+        -170
       ],
       [
-        -8.0,
-        160.0
+        -8,
+        160
       ]
     ],
     "flowStyle": {
@@ -10262,7 +10730,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Южное Пассатное течение (Тихий океан): Нейтральное, генезис Дрейфовое (ветровое), скорость 95 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_south_pacific_cur",
@@ -10277,22 +10746,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Тихий океан (Нейтральное, Дрейфовое (ветровое), 5 см/с)",
     "mapPrompt": "Покажите течение: Южно-Тихоокеанское течение",
     "geometryType": "polyline",
-    "lat": -40.0,
-    "lng": -130.0,
+    "lat": -40,
+    "lng": -130,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        -40.0,
-        170.0
+        -40,
+        170
       ],
       [
-        -42.0,
-        -150.0
+        -42,
+        -150
       ],
       [
-        -40.0,
-        -110.0
+        -40,
+        -110
       ]
     ],
     "flowStyle": {
@@ -10326,7 +10795,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Южно-Тихоокеанское течение: Нейтральное, генезис Дрейфовое (ветровое), скорость 5 см/с."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_cur_antilles_cur",
@@ -10341,22 +10811,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (Тёплое, Сточное, 30-50 см/с)",
     "mapPrompt": "Покажите течение: Антильское течение",
     "geometryType": "polyline",
-    "lat": 22.0,
-    "lng": -72.0,
+    "lat": 22,
+    "lng": -72,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        18.0,
-        -65.0
+        18,
+        -65
       ],
       [
-        22.0,
-        -72.0
+        22,
+        -72
       ],
       [
-        26.0,
-        -77.0
+        26,
+        -77
       ]
     ],
     "flowStyle": {
@@ -10390,7 +10860,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Антильское течение: Тёплое, генезис Сточное, скорость 30-50 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_benguela_cur",
@@ -10405,22 +10876,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (Холодное, Компенсационное, 25 см/с)",
     "mapPrompt": "Покажите течение: Бенгельское течение",
     "geometryType": "polyline",
-    "lat": -22.0,
-    "lng": 10.0,
+    "lat": -22,
+    "lng": 10,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        -34.0,
-        18.0
+        -34,
+        18
       ],
       [
-        -25.0,
-        12.0
+        -25,
+        12
       ],
       [
-        -15.0,
-        8.0
+        -15,
+        8
       ]
     ],
     "flowStyle": {
@@ -10454,7 +10925,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Бенгельское течение: Холодное, генезис Компенсационное, скорость 25 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_brazil_cur",
@@ -10469,22 +10941,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (Тёплое, Сточное, 25 см/с)",
     "mapPrompt": "Покажите течение: Бразильское течение",
     "geometryType": "polyline",
-    "lat": -20.0,
-    "lng": -38.0,
+    "lat": -20,
+    "lng": -38,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        -10.0,
-        -35.0
+        -10,
+        -35
       ],
       [
-        -20.0,
-        -38.0
+        -20,
+        -38
       ],
       [
-        -30.0,
-        -45.0
+        -30,
+        -45
       ]
     ],
     "flowStyle": {
@@ -10518,7 +10990,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Бразильское течение: Тёплое, генезис Сточное, скорость 25 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_guiana_cur",
@@ -10533,22 +11006,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (Тёплое, Сточное, 40-60 см/с)",
     "mapPrompt": "Покажите течение: Гвианское течение",
     "geometryType": "polyline",
-    "lat": 6.0,
-    "lng": -48.0,
+    "lat": 6,
+    "lng": -48,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        2.0,
-        -42.0
+        2,
+        -42
       ],
       [
-        6.0,
-        -48.0
+        6,
+        -48
       ],
       [
-        11.0,
-        -58.0
+        11,
+        -58
       ]
     ],
     "flowStyle": {
@@ -10582,7 +11055,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Гвианское течение: Тёплое, генезис Сточное, скорость 40-60 см/с."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_cur_guinea_cur",
@@ -10597,22 +11071,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (Тёплое, Компенсационное, 30-50 см/с)",
     "mapPrompt": "Покажите течение: Гвинейское течение",
     "geometryType": "polyline",
-    "lat": 4.0,
-    "lng": -2.0,
+    "lat": 4,
+    "lng": -2,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        4.0,
-        -12.0
+        4,
+        -12
       ],
       [
-        4.0,
-        -2.0
+        4,
+        -2
       ],
       [
-        3.0,
-        6.0
+        3,
+        6
       ]
     ],
     "flowStyle": {
@@ -10646,7 +11120,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Гвинейское течение: Тёплое, генезис Компенсационное, скорость 30-50 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_gulf_stream",
@@ -10663,26 +11138,26 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (Тёплое, Сточное, 75 см/с)",
     "mapPrompt": "Покажите течение: Гольфстрим (в т.ч. Флоридское)",
     "geometryType": "polyline",
-    "lat": 32.0,
-    "lng": -76.0,
+    "lat": 32,
+    "lng": -76,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        25.0,
-        -80.0
+        25,
+        -80
       ],
       [
-        30.0,
-        -78.0
+        30,
+        -78
       ],
       [
-        35.0,
-        -74.0
+        35,
+        -74
       ],
       [
-        39.0,
-        -65.0
+        39,
+        -65
       ]
     ],
     "flowStyle": {
@@ -10716,7 +11191,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Гольфстрим (в т.ч. Флоридское): Тёплое, генезис Сточное, скорость 75 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_west_wind_drift_atl",
@@ -10731,22 +11207,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (Холодное, Дрейфовое (ветровое), 25-75 см/с)",
     "mapPrompt": "Покажите течение: Течение Западных ветров (Атлантический океан)",
     "geometryType": "polyline",
-    "lat": -52.0,
-    "lng": -15.0,
+    "lat": -52,
+    "lng": -15,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        -52.0,
-        -40.0
+        -52,
+        -40
       ],
       [
-        -52.0,
-        -15.0
+        -52,
+        -15
       ],
       [
-        -50.0,
-        10.0
+        -50,
+        10
       ]
     ],
     "flowStyle": {
@@ -10780,7 +11256,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Течение Западных ветров (Атлантический океан): Холодное, генезис Дрейфовое (ветровое), скорость 25-75 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_irminger_cur",
@@ -10795,22 +11272,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (Тёплое, Сточное, 20-30 см/с)",
     "mapPrompt": "Покажите течение: Течение Ирмингера",
     "geometryType": "polyline",
-    "lat": 62.0,
-    "lng": -28.0,
+    "lat": 62,
+    "lng": -28,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        58.0,
-        -24.0
+        58,
+        -24
       ],
       [
-        62.0,
-        -28.0
+        62,
+        -28
       ],
       [
-        64.0,
-        -34.0
+        64,
+        -34
       ]
     ],
     "flowStyle": {
@@ -10844,7 +11321,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Течение Ирмингера: Тёплое, генезис Сточное, скорость 20-30 см/с."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_cur_canary_cur",
@@ -10859,22 +11337,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (Холодное, Компенсационное, 50 см/с)",
     "mapPrompt": "Покажите течение: Канарское течение",
     "geometryType": "polyline",
-    "lat": 24.0,
-    "lng": -20.0,
+    "lat": 24,
+    "lng": -20,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        34.0,
-        -14.0
+        34,
+        -14
       ],
       [
-        26.0,
-        -18.0
+        26,
+        -18
       ],
       [
-        18.0,
-        -22.0
+        18,
+        -22
       ]
     ],
     "flowStyle": {
@@ -10908,7 +11386,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Канарское течение: Холодное, генезис Компенсационное, скорость 50 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_labrador_cur",
@@ -10923,22 +11402,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (Холодное, Компенсационное, 75 см/с)",
     "mapPrompt": "Покажите течение: Лабрадорское течение",
     "geometryType": "polyline",
-    "lat": 52.0,
-    "lng": -52.0,
+    "lat": 52,
+    "lng": -52,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        60.0,
-        -60.0
+        60,
+        -60
       ],
       [
-        53.0,
-        -53.0
+        53,
+        -53
       ],
       [
-        44.0,
-        -50.0
+        44,
+        -50
       ]
     ],
     "flowStyle": {
@@ -10972,7 +11451,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Лабрадорское течение: Холодное, генезис Компенсационное, скорость 75 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_norwegian_cur",
@@ -10987,22 +11467,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (Тёплое, Сточное, 30-40 см/с)",
     "mapPrompt": "Покажите течение: Норвежское течение",
     "geometryType": "polyline",
-    "lat": 65.0,
-    "lng": 4.0,
+    "lat": 65,
+    "lng": 4,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        61.0,
-        1.0
+        61,
+        1
       ],
       [
-        66.0,
-        6.0
+        66,
+        6
       ],
       [
-        70.0,
-        15.0
+        70,
+        15
       ]
     ],
     "flowStyle": {
@@ -11036,7 +11516,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Норвежское течение: Тёплое, генезис Сточное, скорость 30-40 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_north_atlantic_cur",
@@ -11051,26 +11532,26 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (Тёплое, Дрейфовое (ветровое), 50 см/с)",
     "mapPrompt": "Покажите течение: Северо-Атлантическое течение",
     "geometryType": "polyline",
-    "lat": 48.0,
-    "lng": -30.0,
+    "lat": 48,
+    "lng": -30,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        40.0,
-        -50.0
+        40,
+        -50
       ],
       [
-        46.0,
-        -35.0
+        46,
+        -35
       ],
       [
-        52.0,
-        -20.0
+        52,
+        -20
       ],
       [
-        56.0,
-        -10.0
+        56,
+        -10
       ]
     ],
     "flowStyle": {
@@ -11104,7 +11585,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Северо-Атлантическое течение: Тёплое, генезис Дрейфовое (ветровое), скорость 50 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_north_equatorial_atl",
@@ -11119,22 +11601,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (Нейтральное, Дрейфовое (ветровое), 25 см/с)",
     "mapPrompt": "Покажите течение: Северное Пассатное течение (Атлантика)",
     "geometryType": "polyline",
-    "lat": 14.0,
-    "lng": -35.0,
+    "lat": 14,
+    "lng": -35,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        14.0,
-        -20.0
+        14,
+        -20
       ],
       [
-        14.0,
-        -35.0
+        14,
+        -35
       ],
       [
-        14.0,
-        -50.0
+        14,
+        -50
       ]
     ],
     "flowStyle": {
@@ -11168,7 +11650,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Северное Пассатное течение (Атлантика): Нейтральное, генезис Дрейфовое (ветровое), скорость 25 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_falkland_cur",
@@ -11185,22 +11668,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (Холодное, Компенсационное, 30-50 см/с)",
     "mapPrompt": "Покажите течение: Фолклендское течение (Мальвинское)",
     "geometryType": "polyline",
-    "lat": -48.0,
-    "lng": -58.0,
+    "lat": -48,
+    "lng": -58,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        -54.0,
-        -60.0
+        -54,
+        -60
       ],
       [
-        -48.0,
-        -58.0
+        -48,
+        -58
       ],
       [
-        -40.0,
-        -54.0
+        -40,
+        -54
       ]
     ],
     "flowStyle": {
@@ -11234,7 +11717,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Фолклендское течение (Мальвинское): Холодное, генезис Компенсационное, скорость 30-50 см/с."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_cur_inter_counter_atl",
@@ -11249,22 +11733,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (Нейтральное, Компенсационное, 75 см/с)",
     "mapPrompt": "Покажите течение: Межпассатное противотечение (Атлантика)",
     "geometryType": "polyline",
-    "lat": 6.0,
-    "lng": -25.0,
+    "lat": 6,
+    "lng": -25,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        6.0,
-        -40.0
+        6,
+        -40
       ],
       [
-        6.0,
-        -25.0
+        6,
+        -25
       ],
       [
-        5.0,
-        -10.0
+        5,
+        -10
       ]
     ],
     "flowStyle": {
@@ -11298,7 +11782,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Межпассатное противотечение (Атлантика): Нейтральное, генезис Компенсационное, скорость 75 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_south_atlantic_cur",
@@ -11313,22 +11798,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (Нейтральное, Дрейфовое (ветровое), 65 см/с)",
     "mapPrompt": "Покажите течение: Южно-Атлантическое течение",
     "geometryType": "polyline",
-    "lat": -38.0,
-    "lng": -15.0,
+    "lat": -38,
+    "lng": -15,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        -40.0,
-        -35.0
+        -40,
+        -35
       ],
       [
-        -38.0,
-        -15.0
+        -38,
+        -15
       ],
       [
-        -35.0,
-        5.0
+        -35,
+        5
       ]
     ],
     "flowStyle": {
@@ -11362,7 +11847,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Южно-Атлантическое течение: Нейтральное, генезис Дрейфовое (ветровое), скорость 65 см/с."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_cur_south_equatorial_atl",
@@ -11377,22 +11863,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Атлантический океан (Нейтральное, Дрейфовое (ветровое), 95 см/с)",
     "mapPrompt": "Покажите течение: Южное Пассатное течение (Атлантика)",
     "geometryType": "polyline",
-    "lat": -5.0,
-    "lng": -20.0,
+    "lat": -5,
+    "lng": -20,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        -5.0,
-        5.0
+        -5,
+        5
       ],
       [
-        -5.0,
-        -15.0
+        -5,
+        -15
       ],
       [
-        -5.0,
-        -32.0
+        -5,
+        -32
       ]
     ],
     "flowStyle": {
@@ -11426,7 +11912,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Южное Пассатное течение (Атлантика): Нейтральное, генезис Дрейфовое (ветровое), скорость 95 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_agulhas_cur",
@@ -11443,22 +11930,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Индийский океан (Тёплое, Сточное, 70 см/с)",
     "mapPrompt": "Покажите течение: Течение Мыса Игольного (Агульясское)",
     "geometryType": "polyline",
-    "lat": -32.0,
-    "lng": 29.0,
+    "lat": -32,
+    "lng": 29,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        -26.0,
-        34.0
+        -26,
+        34
       ],
       [
-        -32.0,
-        29.0
+        -32,
+        29
       ],
       [
-        -36.0,
-        22.0
+        -36,
+        22
       ]
     ],
     "flowStyle": {
@@ -11492,7 +11979,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Течение Мыса Игольного (Агульясское): Тёплое, генезис Сточное, скорость 70 см/с."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_cur_west_australian_cur",
@@ -11507,22 +11995,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Индийский океан (Холодное, Компенсационное, 20-30 см/с)",
     "mapPrompt": "Покажите течение: Западно-Австралийское течение",
     "geometryType": "polyline",
-    "lat": -24.0,
-    "lng": 110.0,
+    "lat": -24,
+    "lng": 110,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        -33.0,
-        113.0
+        -33,
+        113
       ],
       [
-        -25.0,
-        110.0
+        -25,
+        110
       ],
       [
-        -17.0,
-        108.0
+        -17,
+        108
       ]
     ],
     "flowStyle": {
@@ -11556,7 +12044,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Западно-Австралийское течение: Холодное, генезис Компенсационное, скорость 20-30 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_west_wind_drift_ind",
@@ -11571,22 +12060,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Индийский океан (Холодное, Дрейфовое (ветровое), 25-75 см/с)",
     "mapPrompt": "Покажите течение: Течение Западных ветров (Индийский океан)",
     "geometryType": "polyline",
-    "lat": -50.0,
-    "lng": 75.0,
+    "lat": -50,
+    "lng": 75,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        -50.0,
-        30.0
+        -50,
+        30
       ],
       [
-        -50.0,
-        75.0
+        -50,
+        75
       ],
       [
-        -50.0,
-        115.0
+        -50,
+        115
       ]
     ],
     "flowStyle": {
@@ -11620,7 +12109,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Течение Западных ветров (Индийский океан): Холодное, генезис Дрейфовое (ветровое), скорость 25-75 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_madagascar_cur",
@@ -11635,22 +12125,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Индийский океан (Тёплое, Сточное, 50-100 см/с)",
     "mapPrompt": "Покажите течение: Мадагаскарское течение",
     "geometryType": "polyline",
-    "lat": -20.0,
-    "lng": 50.0,
+    "lat": -20,
+    "lng": 50,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        -14.0,
-        52.0
+        -14,
+        52
       ],
       [
-        -20.0,
-        50.0
+        -20,
+        50
       ],
       [
-        -26.0,
-        48.0
+        -26,
+        48
       ]
     ],
     "flowStyle": {
@@ -11684,7 +12174,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Мадагаскарское течение: Тёплое, генезис Сточное, скорость 50-100 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_inter_counter_ind",
@@ -11699,22 +12190,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Индийский океан (Нейтральное, Компенсационное, 40-60 см/с)",
     "mapPrompt": "Покажите течение: Межпассатное противотечение (Индийский океан)",
     "geometryType": "polyline",
-    "lat": -3.0,
-    "lng": 70.0,
+    "lat": -3,
+    "lng": 70,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        -3.0,
-        55.0
+        -3,
+        55
       ],
       [
-        -3.0,
-        70.0
+        -3,
+        70
       ],
       [
-        -3.0,
-        85.0
+        -3,
+        85
       ]
     ],
     "flowStyle": {
@@ -11748,7 +12239,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Межпассатное противотечение (Индийский океан): Нейтральное, генезис Компенсационное, скорость 40-60 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_mozambique_cur",
@@ -11763,22 +12255,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Индийский океан (Тёплое, Сточное, 25-50 см/с)",
     "mapPrompt": "Покажите течение: Мозамбикское течение",
     "geometryType": "polyline",
-    "lat": -18.0,
-    "lng": 38.0,
+    "lat": -18,
+    "lng": 38,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        -12.0,
-        41.0
+        -12,
+        41
       ],
       [
-        -18.0,
-        38.0
+        -18,
+        38
       ],
       [
-        -24.0,
-        36.0
+        -24,
+        36
       ]
     ],
     "flowStyle": {
@@ -11812,7 +12304,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Мозамбикское течение: Тёплое, генезис Сточное, скорость 25-50 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_monsoon_cur",
@@ -11829,22 +12322,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Индийский океан (Нейтральное, Дрейфовое (ветровое), 40-70 см/с)",
     "mapPrompt": "Покажите течение: Муссонное течение (меняет направление по сезонам)",
     "geometryType": "polyline",
-    "lat": 8.0,
-    "lng": 75.0,
+    "lat": 8,
+    "lng": 75,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        8.0,
-        60.0
+        8,
+        60
       ],
       [
-        8.0,
-        75.0
+        8,
+        75
       ],
       [
-        8.0,
-        90.0
+        8,
+        90
       ]
     ],
     "flowStyle": {
@@ -11878,7 +12371,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Муссонное течение (меняет направление по сезонам): Нейтральное, генезис Дрейфовое (ветровое), скорость 40-70 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_somali_cur",
@@ -11893,22 +12387,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Индийский океан (Холодное, Компенсационное, 30-80 см/с)",
     "mapPrompt": "Покажите течение: Сомалийское течение (меняет направление по сезонам)",
     "geometryType": "polyline",
-    "lat": 5.0,
-    "lng": 50.0,
+    "lat": 5,
+    "lng": 50,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        -2.0,
-        44.0
+        -2,
+        44
       ],
       [
-        5.0,
-        50.0
+        5,
+        50
       ],
       [
-        11.0,
-        52.0
+        11,
+        52
       ]
     ],
     "flowStyle": {
@@ -11942,7 +12436,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Сомалийское течение (меняет направление по сезонам): Холодное, генезис Компенсационное, скорость 30-80 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_south_equatorial_ind",
@@ -11957,22 +12452,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Индийский океан (Нейтральное, Дрейфовое (ветровое), 60-80 см/с)",
     "mapPrompt": "Покажите течение: Южное Пассатное течение (Индийский океан)",
     "geometryType": "polyline",
-    "lat": -12.0,
-    "lng": 75.0,
+    "lat": -12,
+    "lng": 75,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        -12.0,
-        100.0
+        -12,
+        100
       ],
       [
-        -12.0,
-        75.0
+        -12,
+        75
       ],
       [
-        -12.0,
-        55.0
+        -12,
+        55
       ]
     ],
     "flowStyle": {
@@ -12006,7 +12501,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Южное Пассатное течение (Индийский океан): Нейтральное, генезис Дрейфовое (ветровое), скорость 60-80 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_east_greenland_cur",
@@ -12021,22 +12517,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Северный Ледовитый океан (Холодное, Компенсационное, 30 см/с)",
     "mapPrompt": "Покажите течение: Восточно-Гренландское течение",
     "geometryType": "polyline",
-    "lat": 73.0,
-    "lng": -18.0,
+    "lat": 73,
+    "lng": -18,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        80.0,
-        -10.0
+        80,
+        -10
       ],
       [
-        74.0,
-        -18.0
+        74,
+        -18
       ],
       [
-        66.0,
-        -28.0
+        66,
+        -28
       ]
     ],
     "flowStyle": {
@@ -12070,7 +12566,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Восточно-Гренландское течение: Холодное, генезис Компенсационное, скорость 30 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_west_greenland_cur",
@@ -12085,22 +12582,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Северный Ледовитый океан (Тёплое, Сточное, 30-50 см/с)",
     "mapPrompt": "Покажите течение: Западно-Гренландское течение",
     "geometryType": "polyline",
-    "lat": 64.0,
-    "lng": -54.0,
+    "lat": 64,
+    "lng": -54,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        60.0,
-        -46.0
+        60,
+        -46
       ],
       [
-        64.0,
-        -54.0
+        64,
+        -54
       ],
       [
-        68.0,
-        -56.0
+        68,
+        -56
       ]
     ],
     "flowStyle": {
@@ -12134,7 +12631,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Западно-Гренландское течение: Тёплое, генезис Сточное, скорость 30-50 см/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m3_cur_transpolar_drift",
@@ -12151,22 +12649,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Северный Ледовитый океан (Холодное, Дрейфовое (ветровое), 10-20 см/с)",
     "mapPrompt": "Покажите течение: Западное Арктическое (Трансарктическое) течение",
     "geometryType": "polyline",
-    "lat": 84.0,
-    "lng": 160.0,
+    "lat": 84,
+    "lng": 160,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        75.0,
-        175.0
+        75,
+        175
       ],
       [
-        82.0,
-        180.0
+        82,
+        180
       ],
       [
-        86.0,
-        40.0
+        86,
+        40
       ]
     ],
     "flowStyle": {
@@ -12200,7 +12698,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Западное Арктическое (Трансарктическое) течение: Холодное, генезис Дрейфовое (ветровое), скорость 10-20 см/с."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_cur_north_cape_cur",
@@ -12215,22 +12714,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Северный Ледовитый океан (Тёплое, Сточное, 20-30 см/с)",
     "mapPrompt": "Покажите течение: Нордкапское течение",
     "geometryType": "polyline",
-    "lat": 72.0,
-    "lng": 26.0,
+    "lat": 72,
+    "lng": 26,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
         70.5,
-        20.0
+        20
       ],
       [
-        72.0,
-        26.0
+        72,
+        26
       ],
       [
         72.5,
-        34.0
+        34
       ]
     ],
     "flowStyle": {
@@ -12264,7 +12763,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Нордкапское течение: Тёплое, генезис Сточное, скорость 20-30 см/с."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m3_cur_spitsbergen_cur",
@@ -12279,22 +12779,22 @@ const MODULE3_ITEMS = [
     "locationDesc": "Северный Ледовитый океан (Тёплое, Сточное, 20-30 см/с)",
     "mapPrompt": "Покажите течение: Шпицбергенское течение",
     "geometryType": "polyline",
-    "lat": 77.0,
-    "lng": 10.0,
+    "lat": 77,
+    "lng": 10,
     "hitRadiusKm": 250,
     "crossTrackBufferKm": 140,
     "coords": [
       [
-        74.0,
-        12.0
+        74,
+        12
       ],
       [
-        77.0,
-        10.0
+        77,
+        10
       ],
       [
-        80.0,
-        10.0
+        80,
+        10
       ]
     ],
     "flowStyle": {
@@ -12328,7 +12828,8 @@ const MODULE3_ITEMS = [
         }
       ],
       "backNote": "Течение Шпицбергенское течение: Тёплое, генезис Сточное, скорость 20-30 см/с."
-    }
+    },
+    "isCoreLandmark": false
   }
 ];
 

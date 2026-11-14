@@ -1,752 +1,319 @@
 <!DOCTYPE html>
-<html lang="ru" data-theme="paraplan">
+<html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>Номенклатура ОЗ — Интерактивный тренажёр физической географии</title>
-
-  <!-- PWA & Mobile Web App Meta Tags -->
   <meta name="theme-color" content="#09090b" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Номенклатура ОЗ" />
-  <link rel="icon" type="image/png" sizes="192x192" href="vendor/icon-192.png" />
+  <title>ГеоАтлас — Номенклатура Общего Землеведения</title>
+  <link rel="icon" type="image/png" href="vendor/icon-192.png" />
 
-  <!-- Telegram Mini Apps Native SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-  <!-- 100% Локальные библиотеки -->
-  <link rel="stylesheet" href="vendor/leaflet.css" onerror="this.remove()" />
-  <script src="vendor/leaflet.js"></script>
-  <script src="desktop_boost.js"></script>
-  <script src="vendor/confetti.js"></script>
-
-  <!-- Стили -->
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="vendor/leaflet.css" />
+  <link rel="stylesheet" href="css/01-tokens-daisy.css" />
+  <link rel="stylesheet" href="css/02-kokonut-hub.css" />
+  <link rel="stylesheet" href="css/03-map-hud.css" />
+  <link rel="stylesheet" href="css/04-flipcard-modals.css" />
 </head>
-<body class="map-experience-body">
-  <div id="app-root">
+<body>
 
-    <!-- ПОЛНОЭКРАННАЯ КАРТА МИРА (Немая контурная / Физическая / Спутник / Атлас / 100% Офлайн Вектор) -->
-    <div id="map"></div>
+  <!-- 1. HUB SCREEN -->
+  <main id="hubScreen" class="hub-screen">
+    <div class="hub-container">
+      <header class="hub-navbar">
+        <div class="hub-brand">
+          <div class="hub-logo">🌍</div>
+          <div>
+            <div class="hub-title">ГеоАтлас · Номенклатура ОЗ</div>
+            <div class="hub-subtitle">Интерактивный атлас и умный тренажёр к зачёту БГУ</div>
+          </div>
+        </div>
+        <div class="hub-nav-actions">
+          <button id="btnOpenAtlasGlobal" class="btn btn-sm" type="button">📖 Атлас</button>
+          <button id="btnOpenCheatsheet" class="btn btn-sm" type="button">📚 Конспект</button>
+          <button id="btnMuteToggle" class="btn btn-sm btn-ghost" type="button" title="Звук">🔊</button>
+        </div>
+      </header>
 
-    <!-- КНОПКИ УПРАВЛЕНИЯ ЗУМОМ И ВИДОМ (Плавающая панель справа снизу) -->
-    <div class="map-view-controls" id="mapViewControls">
-      <button class="map-ctrl-btn" id="toggleHudCollapseBtn" title="Свернуть / развернуть карточку вопроса (Клавиша H)" style="display: none;">▴</button>
-      <button class="map-ctrl-btn" id="zoomInBtn" title="Приблизить (+)">＋</button>
-      <button class="map-ctrl-btn" id="zoomOutBtn" title="Отдалить (−)">－</button>
-      <button class="map-ctrl-btn" id="resetViewBtn" title="Вид на весь мир (0)">⟲</button>
-    </div>
-
-    <!-- ========================================================
-         ГЛАВНЫЙ СТАРТОВЫЙ ЭКРАН (4 РАЗДЕЛА НОМЕНКЛАТУРЫ)
-         ======================================================== -->
-    <div class="hub-screen-overlay" id="hubScreen">
-      <div class="hub-container">
-
-        <!-- Верхняя шапка Хаба (стиль PARAplan) -->
-        <header class="hub-header">
-          <div class="hub-brand">
-            <div class="hub-logo-box">🧭</div>
-            <div>
-              <div class="hub-title-row">
-                <h1 class="hub-title">Номенклатура ОЗ</h1>
-              </div>
-              <p class="hub-subtitle">
-                <span class="pp-green-dot"></span>
-                <span id="hubProfileSummary">4 раздела • 1 039 объектов</span>
-              </p>
+      <section class="hub-controls-card">
+        <div class="control-groups">
+          <div class="control-row">
+            <span class="control-label">Объём</span>
+            <div class="seg-group" id="scopeSelector">
+              <button class="seg-btn" data-scope="landmarks" type="button">⭐ Главные ориентиры</button>
+              <button class="seg-btn" data-scope="full" type="button">🎓 Вся программа БГУ</button>
             </div>
           </div>
-
-          <div class="hub-header-actions">
-            <div class="hub-stat-pill streak-pill" title="Текущая серия точных попаданий подряд">
-              <span>🔥</span>
-              <span id="hubStreakSummary">Серия: 0</span>
+          <div class="control-row">
+            <span class="control-label">Вопросы</span>
+            <div class="seg-group" id="depthSelector">
+              <button class="seg-btn" data-depth="map_only" type="button">🗺️ Только карта</button>
+              <button class="seg-btn" data-depth="essentials" type="button">🧠 С теорией (Рекомендуем)</button>
+              <button class="seg-btn" data-depth="custom_full" type="button">⚙️ Настроить</button>
             </div>
-            <div class="pp-nav-dock">
-              <span class="pp-nav-circle active" title="Главный экран">🗺️</span>
-              <button class="pp-nav-circle" id="hubSoundBtn" title="Включить / выключить звук">
-                <span id="hubSoundIcon">🔔</span>
-              </button>
-            </div>
+            <button id="btnOpenCustomPreset" class="btn btn-sm btn-ghost" type="button" title="Выбрать типы вопросов по модулям">Параметры ⚙️</button>
           </div>
-        </header>
-
-        <!-- 4 больших раздела курса -->
-        <div class="hub-bento-modules-grid" id="hubModulesBentoGrid">
-          <!-- Генерируется динамически в MapApp.renderHub() для всех 4 разделов -->
         </div>
 
-        <div class="hub-footer-reset-row">
-          <button type="button" class="hub-reset-link-btn" id="hubResetAllBtn">Сбросить весь прогресс</button>
+        <div class="overall-stat-pill">
+          <div class="overall-stat-numbers">
+            <span id="overallPct" class="overall-pct">0%</span>
+            <span id="overallCount" class="overall-count">0 / 0 выучено</span>
+          </div>
+          <div class="progress-track">
+            <div id="overallBar" class="progress-fill" style="width: 0%;"></div>
+          </div>
+          <span id="overallWeakHint" class="hub-subtitle"></span>
         </div>
+      </section>
 
+      <section id="weakBanner" class="weak-banner hidden">
+        <div class="weak-banner-info">
+          <span style="font-size: 22px;">🩹</span>
+          <div>
+            <div class="weak-banner-title">Мои слабые места: <span id="weakCountBadge">0</span> объектов</div>
+            <div class="weak-banner-sub">Объекты, в которых вы промахнулись на карте или не вспомнили теорию</div>
+          </div>
+        </div>
+        <button id="btnStartWeak" class="btn btn-amber btn-sm" type="button">Повторить ошибки →</button>
+      </section>
+
+      <section id="bentoModulesGrid" class="bento-grid"></section>
+    </div>
+  </main>
+
+  <!-- 2. FULLSCREEN MAP STAGE -->
+  <section id="mapStage" class="map-stage hidden">
+    <div id="mapCanvas"></div>
+
+    <!-- Trainer HUD -->
+    <div id="trainerHud" class="trainer-hud hidden">
+      <div class="hud-card">
+        <div class="hud-top-row">
+          <div class="hud-meta">
+            <span id="hudModeBadge" class="badge badge-accent">Учить</span>
+            <span id="hudProgressBadge" class="badge">1 / 10</span>
+            <span id="hudCategoryBadge" class="badge badge-sky">Объект</span>
+          </div>
+          <button id="btnExitTrainer" class="btn btn-sm btn-ghost" type="button">✕ В меню</button>
+        </div>
+        <div id="hudTargetName" class="hud-target-name">Название объекта</div>
+        <div id="hudSubPrompt" class="hud-sub-prompt">Найдите и нажмите на объект на карте</div>
+        <div class="hud-bottom-row">
+          <div class="miss-dots" id="hudMissDots">
+            <span class="miss-dot"></span>
+            <span class="miss-dot"></span>
+            <span class="miss-dot"></span>
+          </div>
+          <div class="hud-actions">
+            <button id="btnHint" class="btn btn-sm" type="button" title="Подсказать регион (H)">💡 Подсказка</button>
+            <button id="btnSkip" class="btn btn-sm" type="button" title="Пропустить пока (K)">⏭ Пропуск</button>
+            <button id="btnReveal" class="btn btn-sm btn-danger" type="button" title="Показать ответ (R)">👁 Показать</button>
+          </div>
+        </div>
       </div>
+      <div id="compassBanner" class="compass-banner hidden">🧭 Ищите северо-восточнее</div>
     </div>
 
-    <!-- ========================================================
-         ЕДИНЫЙ ВЕРХНИЙ СТЕК HUD НА КАРТЕ (БЕЗ НАЛОЖЕНИЙ)
-         ======================================================== -->
-    <div class="map-top-hud-stack" id="mapTopHudStack">
-      <!-- ========================================================
-           ВЕРХНЯЯ НАВИГАЦИОННАЯ ПАНЕЛЬ ТРЕНАЖЁРА (HEADER ISLAND)
-           ======================================================== -->
-      <header class="app-header-island" id="statusIsland" style="display: none;">
-      <div class="header-left-col">
-        <button class="btn-back-hub" id="backToHubBtn" title="Вернуться в главное меню (Esc)">
-          <span class="back-arrow">←</span>
-          <span class="back-text">Меню</span>
-        </button>
-
-        <button class="batch-select-btn" id="openBatchSelectBtn" title="Сменить раздел или тему">
-          <span class="batch-icon" id="headerModeIcon">🧭</span>
-          <span class="batch-title" id="islandBatchTitle">Раздел</span>
-          <span class="batch-arrow">▾</span>
-        </button>
-
-        <!-- Переключатель: Обучение / Атлас -->
-        <div class="header-pmode-pills" id="headerPmodeSwitch" title="Режим работы с темой">
-          <button class="h-pmode-btn active" data-pmode="locate" title="Классическое обучение по карте">🎯 Обучение</button>
-          <button class="h-pmode-btn" data-pmode="atlas" title="Просмотр всех объектов темы на карте с поиском">📖 Атлас</button>
-        </div>
-      </div>
-
-      <!-- Центральная колонка: трекер прогресса по теме -->
-      <div class="header-center-col">
-        <div class="anki-deck-counters" id="ankiDeckCounters" title="Прогресс по текущей теме">
-          <div class="anki-stat-pill stat-new" title="Ещё не изучено">
-            <span class="stat-dot dot-new"></span>
-            <span class="stat-label">Новые</span>
-            <strong id="ankiNewCount">0</strong>
-          </div>
-          <div class="anki-stat-pill stat-learn" title="На повторении">
-            <span class="stat-dot dot-learn"></span>
-            <span class="stat-label">Повтор</span>
-            <strong id="ankiLearnCount">0</strong>
-          </div>
-          <div class="anki-stat-pill stat-review" title="Закрепляется">
-            <span class="stat-dot dot-review"></span>
-            <span class="stat-label">Закреп.</span>
-            <strong id="ankiReviewCount">0</strong>
-          </div>
-          <div class="anki-stat-pill stat-mastered" title="Уверенно выучено">
-            <span class="stat-dot dot-mastered"></span>
-            <span class="stat-label">Выучено</span>
-            <strong id="ankiMasteredCount">0</strong>
-          </div>
-        </div>
-      </div>
-
-      <!-- Правая группа: слои карты, серия, список, звук -->
-      <div class="header-right-col">
-        <div class="streak-mini-pill" id="headerStreakPill" title="Серия верных ответов">
-          <span>🔥</span>
-          <strong id="headerStreakNum">0</strong>
-        </div>
-
-        <!-- Переключатель слоёв карты: Спутник и Рельеф -->
-        <div class="map-segmented-control" id="mapModeSegmented">
-          <button class="seg-btn active" data-mode="esri_sat" title="Спутниковые снимки Земли">🛰️ Спутник</button>
-          <button class="seg-btn" data-mode="esri_phys" title="Физический рельеф">⛰️ Рельеф</button>
-        </div>
-
-        <button class="header-icon-btn" id="openRoadmapBtn" title="Список объектов темы">
-          <span class="btn-icon">📋</span>
-          <span class="btn-text-desktop">Список</span>
-        </button>
-
-        <button class="header-icon-btn pp-config-btn" id="headerConfigBtn" title="Настройка опроса и сложности">
-          <span>⚙️</span>
-        </button>
-
-        <button class="header-icon-btn" id="soundBtn" title="Включить / выключить звук">
-          <span id="soundIcon">🔔</span>
-        </button>
-
-        <button class="header-icon-btn hide-sm" id="fullscreenBtn" title="Полноэкранный режим">
-          <span>⛶</span>
-        </button>
-      </div>
-    </header>
-
-    <!-- ========================================================
-         ПАНЕЛЬ ИНТЕРАКТИВНОГО АТЛАСА (ПОИСК + ВСЕ ОБЪЕКТЫ ТЕМЫ)
-         ======================================================== -->
-    <div class="atlas-explore-bar" id="atlasExploreBar" style="display: none;">
-      <div class="atlas-bar-top">
-        <div class="atlas-title-group">
-          <span class="atlas-badge">📖 АТЛАС</span>
-          <span class="atlas-sub" id="atlasCountLabel">Показаны объекты темы — нажимайте на маркеры для изучения</span>
-        </div>
-        <div class="atlas-actions-group">
-          <div class="atlas-inline-search">
-            <span class="atlas-search-ico">🔍</span>
-            <input type="text" id="atlasSearchInput" class="atlas-search-input" placeholder="Поиск по названию..." autocomplete="off" />
-            <button type="button" id="atlasSearchClearBtn" class="atlas-search-clear" style="display: none;" title="Очистить">✕</button>
-          </div>
-          <label class="atlas-toggle-labels" title="Показать географические подписи на базовой карте">
-            <input type="checkbox" id="atlasShowMapLabelsToggle" />
-            <span>Подписи</span>
-          </label>
-          <button class="btn-primary-action small" id="atlasStartPracticeBtn">
-            <span>▶ Учить тему</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="atlas-filter-pills" id="atlasCategoryFilters">
-        <button class="atlas-pill active" data-cat="all">Все (267)</button>
-        <button class="atlas-pill" data-cat="Мысы"><span class="legend-dot dot-cape"></span>Мысы (21)</button>
-        <button class="atlas-pill" data-cat="Полуострова"><span class="legend-dot dot-pen"></span>Полуострова (60)</button>
-        <button class="atlas-pill" data-cat="Материковый остров"><span class="legend-dot dot-cont-isl"></span>Материковые о-ва (82)</button>
-        <button class="atlas-pill" data-cat="Вулканический остров"><span class="legend-dot dot-volc-isl"></span>Вулканические о-ва (50)</button>
-        <button class="atlas-pill" data-cat="Коралловый остров"><span class="legend-dot dot-coral-isl"></span>Коралловые о-ва (16)</button>
-        <button class="atlas-pill" data-cat="Пустыни"><span class="legend-dot dot-desert"></span>Пустыни (38)</button>
-        <button class="atlas-pill" data-cat="special"><span class="legend-dot dot-special"></span>Океания и Бермуды (4)</button>
-      </div>
-    </div>
-
-    <!-- ========================================================
-         ЦЕНТРАЛЬНЫЙ ОСТРОВ ЗАДАНИЯ НА КАРТЕ (COMPACT TOP HUD)
-         ======================================================== -->
-    <div class="task-hud-card" id="taskHudCard" style="display: none;">
-      <div class="task-hud-top-row">
-        <div class="task-meta-left">
-          <span class="task-category-tag" id="taskCategoryTag">📍 Полуостров</span>
-          <span class="task-continent-pill" id="taskContinentTag">🌍 Евразия</span>
-          <span class="anki-status-badge status-new" id="ankiCardStatusBadge">⚪ НОВОЕ</span>
-        </div>
-
-        <div class="attempts-indicator-box" id="taskAttemptsBox">
-          <span class="attempts-caption">Попытки:</span>
-          <div class="attempt-pill active" id="dot1" title="Попытка 1">1</div>
-          <div class="attempt-pill" id="dot2" title="Попытка 2">2</div>
-          <div class="attempt-pill" id="dot3" title="Попытка 3">3</div>
-        </div>
-      </div>
-
-      <!-- Главный вопрос задания -->
-      <h1 class="task-prompt-heading" id="taskPromptHeading">
-        Покажите на карте объект
-      </h1>
-
-      <!-- Варианты выбора прямо в HUD для режима «Узнать по точке» (Quiz Mode) -->
-      <div class="hud-quiz-options-grid" id="hudQuizOptionsGrid" style="display: none;"></div>
-
-      <!-- Плавающий динамический компас при промахе (Азимут 8 румбов + Расстояние + Теплее/Холоднее) -->
-      <div class="dynamic-compass-badge" id="dynamicCompassBadge" style="display: none;">
-        <div class="compass-dial">
-          <span class="compass-needle" id="compassNeedleIcon">↑</span>
-        </div>
-        <div class="compass-metrics">
-          <span class="compass-rhumb" id="compassRhumbText">↗ СВ</span>
-          <span class="compass-dist" id="compassDistText">~1 240 км</span>
-        </div>
-        <span class="compass-thermal-pill" id="compassThermalPill">🔥 Теплее</span>
-      </div>
-
-      <!-- Динамическая полоса обратной связи («Теплее / Холоднее» + Компас направления) -->
-      <div class="task-feedback-banner neutral" id="taskFeedbackBanner">
-        <span class="feedback-icon" id="feedbackIcon">🎯</span>
-        <div class="feedback-text" id="feedbackText">Кликните по карте в предполагаемое местоположение объекта.</div>
-        <div class="auto-advance-timer-fill" id="autoAdvanceTimerFill" style="display: none;"></div>
-      </div>
-
-      <!-- Нижняя строка быстрых действий -->
-      <div class="task-hud-actions-row" id="taskHudActionsRow">
-        <div class="task-hud-left-actions">
-          <button class="btn-skip-mastered" id="hudSkipBtn" title="Я отлично знаю этот объект — сразу перевести в Выучено (Клавиша K)">
-            <span>✓</span>
-            <span>Уже знаю</span>
-            <kbd class="kbd-pill">K</kbd>
-          </button>
-
-          <button class="btn-region-hint" id="hudHintRegionBtn" title="Плавный перелёт к региону поиска (Клавиша H)">
-            <span>💡</span>
-            <span>Регион</span>
-            <kbd class="kbd-pill">H</kbd>
-          </button>
-        </div>
-
-        <div class="task-hud-right-actions">
-          <button class="btn-ghost-reveal" id="hudRevealBtn" title="Показать правильное положение на карте (Клавиша R)">
-            <span>Показать на карте</span>
-            <kbd class="kbd-pill">R</kbd>
-          </button>
-
-          <button class="btn-primary-next" id="hudNextBtn" style="display: none;">
-            <span>Дальше</span>
-            <span>→</span>
-            <kbd class="kbd-pill">Enter / Space</kbd>
-          </button>
-        </div>
-      </div>
-    </div>
-    </div><!-- /#mapTopHudStack -->
-
-    <!-- Всплывающая карточка выбранного объекта в режиме Атласа -->
-    <div class="atlas-inspector-card" id="atlasInspectorCard" style="display: none;">
-      <div class="inspector-header">
-        <div class="inspector-badges">
-          <span class="task-category-tag" id="inspectorCategoryTag">Остров</span>
-          <span class="anki-status-badge status-new" id="inspectorAnkiBadge">⚪ Новое</span>
-        </div>
-        <button class="drawer-close-btn small" id="closeInspectorBtn" title="Закрыть карточку">✕</button>
-      </div>
-      <h3 class="inspector-title" id="inspectorTitle">Название объекта</h3>
-      <p class="inspector-desc" id="inspectorDesc">Описание объекта</p>
-      <div class="inspector-meta-grid" id="inspectorMetaGrid"></div>
-      <div class="inspector-actions">
-        <button class="btn-skip-mastered small" id="inspectorToggleMasteredBtn">✓ Отметить выученным</button>
-        <button class="btn-primary-action small" id="inspectorQuizThisBtn">🎯 Проверить на карте</button>
-      </div>
-    </div>
-
-    <!-- ========================================================
-         КАРТОЧКА ХАРАКТЕРИСТИК ОБЪЕКТА (ПОСЛЕ НАХОЖДЕНИЯ НА КАРТЕ)
-         ======================================================== -->
-    <div class="anki3d-overlay" id="anki3dOverlay" style="display: none;">
-      <div class="anki3d-modal-sheet">
-        <div class="anki3d-top-bar">
-          <div class="anki3d-badges">
-            <span class="anki3d-mod-pill" id="anki3dModulePill">Раздел 1</span>
-            <span class="anki3d-hit-pill" id="anki3dHitStatusPill">🎯 Точно на карте</span>
-          </div>
-          <button type="button" class="anki3d-peek-btn" id="anki3dPeekMapBtn" title="Посмотреть объект на карте">
-            <span>🗺️</span>
-            <span>Карта</span>
-          </button>
-        </div>
-
-        <!-- 3D Flip Container -->
-        <div class="anki3d-scene" id="anki3dScene">
-          <div class="anki3d-card-inner" id="anki3dCardInner">
-
-            <!-- ЛИЦЕВАЯ СТОРОНА (ВОПРОС ПО ХАРАКТЕРИСТИКАМ) -->
-            <div class="anki3d-face anki3d-front" id="anki3dFrontFace">
-              <div class="anki3d-face-kicker">
-                <span class="anki3d-step-tag">🧠 Характеристики объекта</span>
-                <span class="anki3d-flip-hint">Нажмите для переворота ↻</span>
-              </div>
-
-              <h2 class="anki3d-object-title" id="anki3dFrontTitle">Название объекта</h2>
-              <p class="anki3d-question-prompt" id="anki3dFrontQuestion">
-                Вспомните ключевые географические характеристики этого объекта:
-              </p>
-
-              <button type="button" class="anki3d-flip-cta kokonut-shine-btn" id="anki3dFlipBtn">
-                <span>🔄</span>
-                <span>Перевернуть карточку</span>
-              </button>
-            </div>
-
-            <!-- ОБОРОТНАЯ СТОРОНА (ХАРАКТЕРИСТИКИ + САМООЦЕНКА) -->
-            <div class="anki3d-face anki3d-back" id="anki3dBackFace">
-              <div class="anki3d-face-kicker">
-                <span class="anki3d-step-tag success">✅ Характеристики</span>
-                <button type="button" class="anki3d-back-to-q" id="anki3dFlipBackBtn">↻ К вопросу</button>
-              </div>
-
-              <h2 class="anki3d-object-title" id="anki3dBackTitle">Название объекта</h2>
-              <div class="anki3d-main-answer" id="anki3dBackMainAnswer">Характеристика</div>
-
-              <div class="anki3d-metrics-grid" id="anki3dBackMetricsGrid"></div>
-
-              <p class="anki3d-back-note" id="anki3dBackNote"></p>
-
-              <!-- САМООЦЕНКА -->
-              <div class="sm2-grade-caption">Насколько уверенно знаете этот объект?</div>
-              <div class="sm2-buttons-grid" id="anki3dSm2Buttons">
-                <button type="button" class="sm2-btn sm2-again" data-grade="1">
-                  <span class="sm2-key">1</span>
-                  <span class="sm2-label">Не помню</span>
-                </button>
-                <button type="button" class="sm2-btn sm2-hard" data-grade="2">
-                  <span class="sm2-key">2</span>
-                  <span class="sm2-label">Сложно</span>
-                </button>
-                <button type="button" class="sm2-btn sm2-good" data-grade="3">
-                  <span class="sm2-key">3</span>
-                  <span class="sm2-label">Хорошо</span>
-                </button>
-                <button type="button" class="sm2-btn sm2-easy" data-grade="4">
-                  <span class="sm2-key">4</span>
-                  <span class="sm2-label">Знаю</span>
-                </button>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ========================================================
-         МОДАЛЬНЫЙ ДИАЛОГ ПОДЭТАПОВ У КАРТЫ
-         (Мысы, Вершины + Высота, Впадины + Глубина, Бонус-вопрос)
-         ======================================================== -->
-    <div class="subtask-overlay" id="subtaskOverlay" style="display: none;">
-      <div class="subtask-modal-card" id="subtaskModalCard">
-        <div class="subtask-card-header">
-          <span class="subtask-step-badge" id="subtaskStepBadge">Устный опрос у карты</span>
-          <span class="subtask-status-text" id="subtaskStatusText">Точка найдена 🎯</span>
-        </div>
-
-        <h2 class="subtask-question-title" id="subtaskQuestionTitle">
-          Как называется этот географический объект?
-        </h2>
-
-        <!-- Двусторонняя обучающая карточка-флешкарта для мысов (CSS Grid 3D Flip без обрезки высоты!) -->
-        <div class="subtask-cape-flashcard" id="subtaskCapeFlashcard" style="display: none;">
-          <div class="cape-flashcard-header">
-            <span class="cape-flashcard-dir-pill" id="capeCardDirectionPill">🧭 Крайняя точка</span>
-            <span class="cape-flashcard-cont-pill" id="capeCardContinentPill">🌍 Евразия</span>
-            <span class="cape-flashcard-side-indicator" id="capeCardSideIndicator">Вопрос</span>
-          </div>
-
-          <!-- 3D Grid-контейнер переворота (обе грани определяют естественную высоту!) -->
-          <div class="cape-flip-card-container" id="capeFlipCardContainer">
-            <div class="cape-flip-card-inner" id="capeFlipCardInner">
-
-              <!-- СТОРОНА 1: ВОПРОС (Выбор из 4 мысов ИЛИ самопроверка переворотом) -->
-              <div class="cape-card-face cape-card-front" id="capeCardFrontFace">
-                <div class="cape-face-badge-row">
-                  <span class="cape-face-badge question-badge">❓ Название крайнего мыса</span>
-                  <span class="cape-flip-hint">Выберите вариант 1–4 или переверните ↻</span>
-                </div>
-
-                <div class="cape-question-box compact">
-                  <h3 class="cape-question-compact-title" id="capeFrontQuestionText">
-                    Назовите эту крайнюю точку материка:
-                  </h3>
-                </div>
-
-                <!-- 4 быстрых варианта мысов прямо на лицевой стороне (объективная проверка!) -->
-                <div class="cape-choices-grid" id="capeFrontChoicesGrid"></div>
-
-                <div class="cape-front-action-row">
-                  <button type="button" class="btn-flip-card" id="capeFlipBtn">
-                    <span>Или перевернуть карточку-эталон</span>
-                    <span>↻</span>
-                    <kbd class="kbd-pill">F</kbd>
-                  </button>
-                </div>
-              </div>
-
-              <!-- СТОРОНА 2: ЭТАЛОННЫЙ ОТВЕТ (Оборотная) -->
-              <div class="cape-card-face cape-card-back" id="capeCardBackFace">
-                <div class="cape-face-badge-row">
-                  <span class="cape-face-badge answer-badge" id="capeAnswerBadge">✅ Эталонный ответ</span>
-                  <span class="cape-flip-back-hint" id="capeFlipBackHint">↻ К вопросу</span>
-                </div>
-
-                <div class="cape-flashcard-body">
-                  <div class="cape-flashcard-caption">Точное название мыса:</div>
-                  <div class="cape-flashcard-name" id="capeCardName">мыс Челюскин</div>
-                  <div class="cape-flashcard-meta" id="capeCardMeta">
-                    <div class="cape-meta-item">
-                      <span class="cape-meta-icon">📍</span>
-                      <span class="cape-meta-text" id="capeCardCoords">77°43′ с. ш., 104°18′ в. д.</span>
-                    </div>
-                  </div>
-                  <div class="cape-flashcard-desc" id="capeCardDesc">
-                    Крайняя северная точка материка Евразия.
-                  </div>
-                </div>
-
-                <!-- Блок самооценки (показывается только если перевернули вручную при найденной карте) -->
-                <div class="cape-self-assess-box" id="capeSelfAssessBox">
-                  <div class="cape-self-assess-title">Вспомнили название без подсказки?</div>
-                  <div class="cape-self-assess-actions">
-                    <button type="button" class="btn-self-assess fail" id="capeAssessFailBtn">
-                      <span>❌</span>
-                      <span>Повторить ещё</span>
-                      <kbd class="kbd-pill">1</kbd>
-                    </button>
-                    <button type="button" class="btn-self-assess success" id="capeAssessSuccessBtn">
-                      <span>✅</span>
-                      <span>Да, назвал верно</span>
-                      <kbd class="kbd-pill">Enter / 2</kbd>
-                    </button>
-                  </div>
-                </div>
-
-                <div class="cape-flashcard-anki" id="capeCardAnkiNotice">
-                  <span class="cape-anki-icon" id="capeCardAnkiIcon">🔄</span>
-                  <span class="cape-anki-text" id="capeCardAnkiText">Прогресс мысов сохраняется автоматически.</span>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-        <!-- 4 варианта выбора (для названия вершины/впадины) -->
-        <div class="subtask-chips-grid" id="subtaskChipsGrid"></div>
-
-        <!-- Числовой ввод высоты / глубины в метрах (Шаг 2 после выбора названия!) -->
-        <div class="subtask-metric-input-wrap" id="subtaskMetricInputWrap" style="display: none;">
-          <label class="metric-input-label" id="subtaskMetricLabel" for="subtaskMetricInput">
-            Укажите абсолютную отметку в метрах:
-          </label>
-          <div class="metric-input-row">
-            <input
-              type="text"
-              inputmode="text"
-              class="subtask-metric-input"
-              id="subtaskMetricInput"
-              placeholder="Например: 8848 или -430"
-              autocomplete="off"
-            />
-            <button class="btn-primary-action" id="subtaskMetricSubmitBtn">
-              Проверить ↵
-            </button>
-          </div>
-          <div class="metric-quick-chips" id="subtaskMetricQuickChips"></div>
-          <div class="metric-hint-sub" id="subtaskMetricHint">Введите точное значение и нажмите Enter (или выберите вариант ниже)</div>
-        </div>
-
-        <!-- Результат и эталонная справка -->
-        <div class="subtask-result-banner" id="subtaskResultBanner" style="display: none;">
-          <div class="result-banner-header" id="subtaskResultHeader">✅ Точный эталон:</div>
-          <div class="result-banner-content" id="subtaskResultContent"></div>
-        </div>
-
-        <div class="subtask-card-footer" id="subtaskCardFooter">
-          <button class="btn-skip-mastered small" id="subtaskSkipBtn">
-            <span>✓</span>
-            <span>Уже знаю</span>
-            <kbd class="kbd-pill">K</kbd>
-          </button>
-          <button class="btn-primary-action" id="subtaskContinueBtn" style="display: none;">
-            <span>Дальше</span>
-            <span>→</span>
-            <kbd class="kbd-pill">Enter / Space</kbd>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- ========================================================
-         БРИФИНГ ТЕОРИИ И ТЕСТОВЫХ ВОПРОСОВ РАЗДЕЛА 1
-         (Площадь материка, Шубаев, Земля, Океания, Типы пустынь)
-         ======================================================== -->
-    <div class="briefing-overlay" id="briefingOverlay" style="display: none;">
-      <div class="briefing-card" id="briefingCard">
-        <div class="briefing-badge-row">
-          <span class="briefing-tag" id="briefingTag">Теоретический вопрос</span>
-          <span class="briefing-continent" id="briefingContinentTitle">🌍 Евразия</span>
-        </div>
-
-        <h2 class="briefing-heading" id="briefingHeading">Общая площадь материка</h2>
-        <p class="briefing-desc" id="briefingDesc">
-          Выберите точный ответ:
-        </p>
-
-        <div class="briefing-chips-grid" id="briefingChipsGrid"></div>
-
-        <div class="briefing-answer-box" id="briefingAnswerBox" style="display: none;">
-          <div class="briefing-answer-label">📚 Пояснение:</div>
-          <div class="briefing-answer-text" id="briefingAnswerText"></div>
-        </div>
-
-        <div class="briefing-actions-row">
-          <button class="btn-skip-mastered" id="briefingSkipBtn" title="Отметить как уверенно выученное (Клавиша K)">
-            <span>✓</span>
-            <span>Уже знаю</span>
-            <kbd class="kbd-pill">K</kbd>
-          </button>
-
-          <button class="btn-primary-action" id="briefingContinueBtn" style="display: none;">
-            <span>Дальше</span>
-            <span>→</span>
-            <kbd class="kbd-pill">Enter / Space</kbd>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- ========================================================
-         ВЫЕЗЖАЮЩАЯ ШТОРКА НОМЕНКЛАТУРЫ С ПОИСКОМ (DRAWER)
-         ======================================================== -->
-    <aside class="roadmap-drawer" id="roadmapDrawer">
-      <div class="drawer-header">
+    <!-- Cluster 5-Object Preview Bar ("Учить с нуля") -->
+    <div id="clusterBar" class="cluster-bar hidden">
+      <div class="cluster-head">
         <div>
-          <h3 id="drawerMainTitle">📋 Номенклатура объектов</h3>
-          <p id="drawerSubTitle">Поиск, статусы памяти и быстрый переход</p>
+          <strong id="clusterTitle">Запоминание кластера (5 соседних объектов)</strong>
+          <div id="clusterSubtitle" class="hub-subtitle">Нажмите на чип или точку на карте, чтобы рассмотреть расположение. Потом названия скроются для проверки.</div>
         </div>
-        <div class="drawer-header-actions">
-          <button class="pp-inline-pill-btn" id="drawerOpenConfigBtn" title="Настроить что спрашивать в опросе">⚙️ Опрос</button>
-          <button class="drawer-close-btn" id="closeRoadmapBtn" title="Закрыть">✕</button>
-        </div>
+        <button id="btnClusterReady" class="btn btn-primary btn-sm btn-shine" type="button">Я запомнил, проверить →</button>
       </div>
+      <div id="clusterChips" class="cluster-chips"></div>
+    </div>
 
-      <!-- Строка мгновенного поиска -->
-      <div class="drawer-search-box">
-        <span class="search-icon">🔍</span>
-        <input
-          type="text"
-          id="drawerSearchInput"
-          class="drawer-search-input"
-          placeholder="Найти мыс, остров, полуостров, пустыню..."
-          autocomplete="off"
-        />
-        <button class="drawer-search-clear" id="drawerSearchClearBtn" style="display: none;" title="Очистить">✕</button>
+    <!-- Quiz 4-Option Bar ("Узнать по точке") -->
+    <div id="quizBar" class="quiz-bar hidden"></div>
+
+    <!-- Atlas Exploration HUD -->
+    <div id="atlasHud" class="atlas-hud hidden">
+      <div class="atlas-bar">
+        <button id="btnExitAtlas" class="btn btn-sm" type="button">← Меню</button>
+        <input id="atlasSearchInput" class="atlas-input" type="search" placeholder="Поиск по названию, региону, эпохе..." />
+        <select id="atlasModuleFilter" class="atlas-select">
+          <option value="all">Все модули</option>
+          <option value="module1">Модуль 1 · Берега и Земля</option>
+          <option value="module2">Модуль 2 · Рельеф</option>
+          <option value="module3">Модуль 3 · Океан</option>
+          <option value="module4">Модуль 4 · Воды суши</option>
+        </select>
+        <button id="btnAtlasLabelsToggle" class="btn btn-sm" type="button">🏷 Подписи: ВКЛ</button>
+        <button id="btnAtlasCheatsheet" class="btn btn-sm" type="button">📚 Конспект</button>
       </div>
+    </div>
 
-      <!-- Вкладки фильтра объектов -->
-      <div class="drawer-filter-tabs">
-        <button class="drawer-tab active" data-filter="all" id="drawerTabAll">Все</button>
-        <button class="drawer-tab" data-filter="new">⚪ Новые</button>
-        <button class="drawer-tab" data-filter="learning">🔴 Повтор</button>
-        <button class="drawer-tab" data-filter="review">🟡 Закреп.</button>
-        <button class="drawer-tab" data-filter="mastered">🟢 Выучено</button>
+    <!-- Atlas Inspector Drawer -->
+    <aside id="atlasInspector" class="atlas-inspector hidden">
+      <div class="hud-top-row">
+        <span id="inspBadge" class="badge badge-accent">Категория</span>
+        <button id="btnCloseInspector" class="btn btn-sm btn-ghost" type="button">✕</button>
       </div>
-
-      <!-- Общий прогресс темы -->
-      <div class="drawer-summary">
-        <div class="summary-line">
-          <span id="drawerSummaryTitle">Освоено в теме:</span>
-          <strong id="drawerPercentLabel">0%</strong>
-        </div>
-        <div class="summary-track">
-          <div class="summary-fill" id="drawerFillBar" style="width: 0%;"></div>
-        </div>
-      </div>
-
-      <!-- Список объектов -->
-      <div class="drawer-steps-list" id="drawerStepsList"></div>
+      <h3 id="inspTitle" class="flip-item-title">Название</h3>
+      <div id="inspDetails" class="flip-facts"></div>
     </aside>
 
-    <!-- ========================================================
-         МОДАЛЬНОЕ ОКНО ВЫБОРА РАЗДЕЛА И ТЕМЫ
-         ======================================================== -->
-    <div class="modal-overlay" id="batchSelectModal">
-      <div class="modal-card modal-wide">
-        <div class="modal-header-row">
-          <div>
-            <h3 id="batchModalHeading">📦 Выберите раздел и тему обучения</h3>
-            <p class="modal-sub-caption" id="batchModalSub">Прогресс сохраняется автоматически после каждого ответа</p>
-          </div>
-          <button class="drawer-close-btn" id="closeBatchSelectModalBtn">✕</button>
-        </div>
-
-        <!-- Вкладки группировки по 4 разделам -->
-        <div class="deck-group-tabs" id="deckGroupTabs">
-          <button class="deck-group-tab active" data-group="module1">🌍 1. Материки и Острова</button>
-          <button class="deck-group-tab" data-group="module2">⛰️ 2. Горы и Равнины</button>
-          <button class="deck-group-tab" data-group="module3">🌊 3. Океан и Течения</button>
-          <button class="deck-group-tab" data-group="module4">💧 4. Реки и Озёра</button>
-        </div>
-
-        <div class="batch-list-container" id="batchListContainer"></div>
+    <!-- Map Layer & Zoom Controls -->
+    <div class="map-controls">
+      <div class="map-zoom-stack">
+        <button id="btnZoomIn" class="map-ctrl-btn" type="button" title="Приблизить">+</button>
+        <button id="btnZoomOut" class="map-ctrl-btn" type="button" title="Отдалить">−</button>
+        <button id="btnZoomReset" class="map-ctrl-btn" type="button" title="Весь мир">🌐</button>
+      </div>
+      <div class="map-layer-pills" id="mapLayerPills">
+        <button class="seg-btn" data-layer="esri_phys" type="button">🗺 Физ</button>
+        <button class="seg-btn" data-layer="esri_sat" type="button">🛰 Спутник</button>
+        <button class="seg-btn" data-layer="vector_offline" type="button">📐 Вектор</button>
       </div>
     </div>
+  </section>
 
-    <!-- ========================================================
-         НАСТРОЙКА ОПРОСА (ИНДИВИДУАЛЬНО ДЛЯ КАЖДОГО РАЗДЕЛА)
-         ======================================================== -->
-    <div class="modal-overlay" id="surveyConfigModal">
-      <div class="modal-card pp-settings-card">
-        <div class="pp-settings-header">
-          <div class="pp-settings-title-wrap">
-            <div class="pp-logo-sq" id="cfgModalIcon">🧭</div>
-            <div>
-              <div class="pp-settings-heading-row">
-                <h3 id="cfgModalTitle">Настройка опроса</h3>
-                <span class="pp-section-badge" id="cfgModuleBadge">Раздел 1</span>
-              </div>
-              <p class="pp-settings-sub"><span class="pp-green-dot"></span> <span id="cfgModalSub">Материки, острова, пустыни</span></p>
-            </div>
+  <!-- 3. BINARY 3D FLIP CARD OVERLAY -->
+  <div id="flipOverlay" class="flip-overlay hidden">
+    <div class="flip-scene">
+      <div id="flipCard" class="flip-card">
+        <!-- Front -->
+        <div class="flip-face flip-face-front">
+          <div class="hud-top-row">
+            <span id="flipBadgeFront" class="badge badge-accent">Теория</span>
+            <span id="flipStepFront" class="badge">Карточка</span>
           </div>
-          <button class="drawer-close-btn" id="closeSurveyConfigModalBtn" title="Закрыть">✕</button>
+          <div id="flipItemTitleFront" class="flip-item-title">Объект</div>
+          <p id="flipPromptFront" class="flip-prompt">Вспомните ключевой факт</p>
+          <button id="btnFlipShowAnswer" class="btn btn-primary btn-lg btn-shine" type="button">Показать ответ (Пробел)</button>
         </div>
 
-        <div class="pp-settings-body">
-          <!-- Блок 1: Сложность опроса -->
-          <div class="pp-setting-section">
-            <div class="pp-label-row">
-              <span class="pp-section-label">СЛОЖНОСТЬ ОПРОСА</span>
-              <span class="pp-section-hint">Быстрый выбор или своя настройка</span>
-            </div>
-            <div class="pp-choice-grid cols-4" id="cfgPresetRow">
-              <button type="button" class="pp-choice-btn" data-preset="map_only">Только карта</button>
-              <button type="button" class="pp-choice-btn active" data-preset="balanced">Основной</button>
-              <button type="button" class="pp-choice-btn" data-preset="full">Максимум</button>
-              <button type="button" class="pp-choice-btn" data-preset="custom">Своя</button>
-            </div>
+        <!-- Back -->
+        <div class="flip-face flip-face-back">
+          <div class="hud-top-row">
+            <span id="flipBadgeBack" class="badge badge-sky">Ответ</span>
+            <span id="flipMapResultBadge" class="badge">Карта</span>
           </div>
+          <div id="flipItemTitleBack" class="flip-item-title">Объект</div>
+          <div id="flipAnswerBox" class="flip-answer-box">Ответ</div>
+          <div id="flipFactsList" class="flip-facts"></div>
 
-          <!-- Блок 2: Охват объектов на карте -->
-          <div class="pp-setting-section">
-            <div class="pp-label-row">
-              <span class="pp-section-label">ОХВАТ ОБЪЕКТОВ</span>
-              <span class="pp-section-hint" id="cfgScopeHint">Сколько объектов спрашивать на карте</span>
-            </div>
-            <div class="pp-choice-grid cols-3" id="cfgScopeRow">
-              <button type="button" class="pp-choice-btn" data-scope="core">Ключевые</button>
-              <button type="button" class="pp-choice-btn active" data-scope="extended">Расширенный</button>
-              <button type="button" class="pp-choice-btn" data-scope="all">Все объекты</button>
-            </div>
+          <div id="flipBinaryActions" class="flip-binary-actions">
+            <button id="btnFlipForgot" class="btn btn-danger btn-lg" type="button">❌ Не назвал</button>
+            <button id="btnFlipRemembered" class="btn btn-primary btn-lg" type="button">✅ Вспомнил</button>
           </div>
-
-          <!-- Блок 3: Характеристика объекта -->
-          <div class="pp-setting-section">
-            <div class="pp-label-row">
-              <span class="pp-section-label">ХАРАКТЕРИСТИКА ОБЪЕКТА</span>
-              <span class="pp-section-hint">Для каких объектов спрашивать теорию</span>
-            </div>
-            <div class="pp-choice-grid cols-3" id="cfgCardModeRow">
-              <button type="button" class="pp-choice-btn" data-cardmode="never">Никогда</button>
-              <button type="button" class="pp-choice-btn active" data-cardmode="smart">Важные</button>
-              <button type="button" class="pp-choice-btn" data-cardmode="always">Для всех</button>
-            </div>
+          <div id="flipContinueAction" class="hidden">
+            <button id="btnFlipContinue" class="btn btn-primary btn-lg" style="width: 100%;" type="button">Понятно, дальше →</button>
           </div>
-
-          <!-- Блок 4: Что спрашивать именно в этом разделе -->
-          <div class="pp-setting-section" id="cfgTopicsSection">
-            <div class="pp-label-row">
-              <span class="pp-section-label" id="cfgTopicsLabel">ЧТО СПРАШИВАТЬ В ЭТОМ РАЗДЕЛЕ</span>
-            </div>
-            <div class="pp-choice-grid cols-1" id="cfgTopicsGrid">
-              <!-- Генерируется динамически для каждого раздела -->
-            </div>
-          </div>
-        </div>
-
-        <button type="button" class="pp-apply-btn" id="saveSurveyConfigBtn">
-          🎯 Начать опрос
-        </button>
-      </div>
-    </div>
-
-    <!-- ========================================================
-         ОКНО ЗАВЕРШЕНИЯ ТЕМЫ
-         ======================================================== -->
-    <div class="modal-overlay" id="resultsModal">
-      <div class="modal-card celebration">
-        <div class="celebration-trophy" id="resultsTrophy">🏆</div>
-        <h2 id="resultsTitle">Тема успешно освоена!</h2>
-        <div class="results-score-badge" id="resultsScoreBadge">Освоено: 100%</div>
-        <p class="celebration-desc" id="resultsDesc">
-          Все объекты и характеристики в выбранной теме выучены!
-        </p>
-        <div class="results-actions-row">
-          <button class="btn-primary-action" id="resultsNextBtn">Следующая тема →</button>
-          <button class="btn-ghost-tool" id="resultsRepeatBtn">Повторить ещё ⟲</button>
-          <button class="btn-ghost-tool" id="resultsBackHubBtn">← В главное меню</button>
         </div>
       </div>
     </div>
-
   </div>
 
-  <!-- Модульная база пространственных данных -->
+  <!-- 4. CUSTOM PRESET SETTINGS MODAL -->
+  <div id="customPresetModal" class="modal-backdrop hidden">
+    <div class="modal-panel">
+      <div class="modal-header">
+        <div class="modal-title">⚙️ Настройка вопросов теории по модулям</div>
+        <button id="btnClosePresetModal" class="btn btn-sm btn-ghost" type="button">✕</button>
+      </div>
+      <div id="customPresetBody" class="modal-body"></div>
+      <div class="modal-footer">
+        <button id="btnResetProgressPrompt" class="btn btn-danger btn-sm" type="button">🗑 Сбросить весь прогресс</button>
+        <button id="btnSavePresetModal" class="btn btn-primary btn-sm" type="button">Готово</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. CHEATSHEET MODAL ("Конспект-шпаргалка") -->
+  <div id="cheatsheetModal" class="modal-backdrop hidden">
+    <div class="modal-panel is-wide">
+      <div class="modal-header">
+        <div class="modal-title">📚 Конспект-шпаргалка по программе БГУ</div>
+        <button id="btnCloseCheatsheet" class="btn btn-sm btn-ghost" type="button">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="hud-top-row" style="flex-wrap: wrap;">
+          <div id="cheatsheetTabs" class="cheatsheet-tabs">
+            <button class="seg-btn is-active" data-tab="module1" type="button">1 · Берега и Земля</button>
+            <button class="seg-btn" data-tab="module2" type="button">2 · Рельеф</button>
+            <button class="seg-btn" data-tab="module3" type="button">3 · Океан</button>
+            <button class="seg-btn" data-tab="module4" type="button">4 · Воды суши</button>
+          </div>
+          <input id="cheatsheetSearch" class="atlas-input" type="search" placeholder="Быстрый поиск по шпаргалке..." style="max-width: 280px;" />
+        </div>
+        <div class="cheatsheet-table-wrap">
+          <table class="cheatsheet-table">
+            <thead id="cheatsheetThead"></thead>
+            <tbody id="cheatsheetTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. SESSION RESULTS MODAL -->
+  <div id="resultsModal" class="modal-backdrop hidden">
+    <div class="modal-panel">
+      <div class="modal-header">
+        <div id="resultsTitle" class="modal-title">Сессия завершена</div>
+        <button id="btnCloseResults" class="btn btn-sm btn-ghost" type="button">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="results-grid">
+          <div class="result-stat">
+            <div id="resCleanCount" class="result-val" style="color: #34d399;">0</div>
+            <div class="result-lbl">Уверенно</div>
+          </div>
+          <div class="result-stat">
+            <div id="resWeakCount" class="result-val" style="color: #fbbf24;">0</div>
+            <div class="result-lbl">В слабые места</div>
+          </div>
+          <div class="result-stat">
+            <div id="resTotalCount" class="result-val">0</div>
+            <div class="result-lbl">Всего пройдено</div>
+          </div>
+        </div>
+        <div id="resultsUpsellFull" class="weak-banner hidden">
+          <div class="weak-banner-info">
+            <span style="font-size: 20px;">🎓</span>
+            <div>
+              <div class="weak-banner-title">Главные ориентиры закрыты!</div>
+              <div class="weak-banner-sub">Можно переключиться на «Всю программу БГУ», чтобы доучить мелкие объекты для ответа на 10.</div>
+            </div>
+          </div>
+          <button id="btnSwitchToFull" class="btn btn-primary btn-sm" type="button">Открыть полный список</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="btnResultsWeak" class="btn btn-amber btn-sm hidden" type="button">🩹 Закрепить ошибки</button>
+        <button id="btnResultsMenu" class="btn btn-primary btn-sm" type="button">В главное меню</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toastPill" class="toast-pill hidden">
+    <span id="toastText">Сообщение</span>
+    <button id="toastUndoBtn" class="btn btn-sm btn-amber hidden" type="button">Вернуть</button>
+  </div>
+
+  <!-- Scripts: Vendor + Data + Desktop Boost + Core & UI -->
+  <script src="vendor/leaflet.js"></script>
+  <script src="vendor/confetti.js"></script>
+  <script src="vendor/world_vector.js"></script>
+  <script src="desktop_boost.js"></script>
+
   <script src="data/data_module1.js"></script>
   <script src="data/data_module2.js"></script>
   <script src="data/data_module3.js"></script>
   <script src="data/data_module4.js"></script>
-  <script src="app.js"></script>
+
+  <script defer src="js/01-motion-audio.js"></script>
+  <script defer src="js/02-storage.js"></script>
+  <script defer src="js/03-geo-math.js"></script>
+  <script defer src="js/04-map-engine.js"></script>
+  <script defer src="js/05-learning-engine.js"></script>
+  <script defer src="js/06-ui-hub.js"></script>
+  <script defer src="js/07-ui-trainer.js"></script>
+  <script defer src="js/08-ui-atlas-cheatsheet.js"></script>
 </body>
 </html>

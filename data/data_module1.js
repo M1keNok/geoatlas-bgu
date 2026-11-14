@@ -6803,7 +6803,851 @@ const MODULE1_LEGACY_DATA = {
 };;
 
 // Маппинг всех объектов Модуля 1 в единую схему UnifiedGeoItemSchema
-const MODULE1_UNIFIED_ITEMS = (MODULE1_LEGACY_DATA.all_map_items || []).map((item, idx) => {
+const M1_BOUNDS_DICT = {
+  "Аляска": [
+    54,
+    -166,
+    60.5,
+    -151
+  ],
+  "Антарктический": [
+    -75,
+    -75,
+    -62.5,
+    -55
+  ],
+  "Апеннинский": [
+    37.5,
+    9.5,
+    44.5,
+    18.5
+  ],
+  "Апшеронский": [
+    40.1,
+    49.6,
+    40.7,
+    50.5
+  ],
+  "Аравийский": [
+    12,
+    34,
+    32.5,
+    60
+  ],
+  "Арнемленд": [
+    -15.5,
+    131.5,
+    -11,
+    137
+  ],
+  "Балканский": [
+    36,
+    18,
+    46,
+    29.5
+  ],
+  "Бретань": [
+    47.2,
+    -4.8,
+    48.9,
+    -1
+  ],
+  "Бузачи": [
+    44,
+    50.8,
+    45.6,
+    52.8
+  ],
+  "Бутия": [
+    69,
+    -97,
+    72,
+    -91.5
+  ],
+  "Вальдес": [
+    -43,
+    -64.8,
+    -42,
+    -63.3
+  ],
+  "Галлипольский": [
+    40,
+    26,
+    40.7,
+    27
+  ],
+  "Гуахира": [
+    11.3,
+    -73,
+    12.6,
+    -71
+  ],
+  "Гыданский": [
+    68.5,
+    74,
+    73.5,
+    82
+  ],
+  "Индокитай": [
+    8.5,
+    92,
+    23.5,
+    110
+  ],
+  "Индостан": [
+    8,
+    68,
+    25.5,
+    89
+  ],
+  "Истрия": [
+    44.7,
+    13.5,
+    45.6,
+    14.3
+  ],
+  "Йорк (Кейп-Йорк)": [
+    -17.5,
+    141,
+    -10.5,
+    145.5
+  ],
+  "Калабрия": [
+    37.9,
+    15.5,
+    40.1,
+    17.2
+  ],
+  "Калифорния (Нижняя)": [
+    22.8,
+    -117.5,
+    32.7,
+    -109
+  ],
+  "Камчатка": [
+    50.5,
+    155,
+    61,
+    164.5
+  ],
+  "Канин": [
+    66.5,
+    43,
+    68.7,
+    46
+  ],
+  "Катхиявар": [
+    20.5,
+    69,
+    23.5,
+    72.5
+  ],
+  "Кенай": [
+    59.1,
+    -152,
+    61.1,
+    -148.5
+  ],
+  "Керченский": [
+    45,
+    35.3,
+    45.5,
+    36.7
+  ],
+  "Кольский": [
+    66,
+    31,
+    69.8,
+    41.5
+  ],
+  "Корея": [
+    34,
+    124.5,
+    43,
+    131
+  ],
+  "Корнуолл": [
+    49.9,
+    -5.8,
+    50.9,
+    -4.1
+  ],
+  "Котантен": [
+    49.1,
+    -2,
+    49.8,
+    -1
+  ],
+  "Красноводский": [
+    39.5,
+    52,
+    40.5,
+    54
+  ],
+  "Крымский": [
+    44.3,
+    32.3,
+    46.3,
+    36.7
+  ],
+  "Лабрадор": [
+    50,
+    -80,
+    63,
+    -55
+  ],
+  "Ляодунский": [
+    38.7,
+    121,
+    41,
+    124
+  ],
+  "Малакка": [
+    1,
+    98,
+    13.5,
+    105
+  ],
+  "Малая Азия (Анатолия)": [
+    36,
+    26,
+    42.1,
+    44
+  ],
+  "pen_35": [
+    42.8,
+    50,
+    45.2,
+    54
+  ],
+  "Мелвилл": [
+    66,
+    -87,
+    70,
+    -81
+  ],
+  "Новая Шотландия": [
+    43.3,
+    -66.5,
+    47.1,
+    -59.8
+  ],
+  "Пелопоннес": [
+    36.3,
+    21.2,
+    38.4,
+    23.4
+  ],
+  "Пиренейский (Иберийский)": [
+    35.8,
+    -9.8,
+    43.8,
+    3.5
+  ],
+  "Салентина": [
+    39.8,
+    17.5,
+    40.6,
+    18.6
+  ],
+  "Святой Нос": [
+    68,
+    39.5,
+    68.3,
+    40.1
+  ],
+  "Синайский": [
+    27.7,
+    32.2,
+    31.3,
+    35
+  ],
+  "Скандинавский": [
+    55,
+    4,
+    71.5,
+    31.5
+  ],
+  "Сконе": [
+    55.3,
+    12.5,
+    56.5,
+    14.6
+  ],
+  "Сомали (Африканский Рог)": [
+    1,
+    41,
+    12.5,
+    51.5
+  ],
+  "Сьюард": [
+    64.3,
+    -168.2,
+    66.5,
+    -160.8
+  ],
+  "Таймыр": [
+    70,
+    85,
+    78,
+    115
+  ],
+  "Таманский": [
+    45,
+    36.6,
+    45.4,
+    37.4
+  ],
+  "Унгава": [
+    57,
+    -78,
+    62.5,
+    -69
+  ],
+  "Уэльс": [
+    51.3,
+    -5.4,
+    53.5,
+    -2.6
+  ],
+  "Флорида": [
+    24.5,
+    -87.8,
+    31,
+    -79.8
+  ],
+  "Халкидики": [
+    39.9,
+    23.1,
+    40.7,
+    24.4
+  ],
+  "Чукотский": [
+    64,
+    171.5,
+    67.6,
+    -168.5
+  ],
+  "Шаньдунский": [
+    35,
+    119,
+    38,
+    123
+  ],
+  "Эйр": [
+    -35.5,
+    134.5,
+    -32.5,
+    137.8
+  ],
+  "Юкатан": [
+    17.5,
+    -92.5,
+    21.8,
+    -86.5
+  ],
+  "Ютландия": [
+    54.5,
+    8,
+    57.8,
+    11
+  ],
+  "Ямал": [
+    67.5,
+    66,
+    73.5,
+    74
+  ],
+  "cont_isl_0": [
+    51,
+    172,
+    55.5,
+    -163
+  ],
+  "volc_isl_0": [
+    51,
+    172,
+    55.5,
+    -163
+  ],
+  "cont_isl_2": [
+    54.5,
+    -137,
+    58.5,
+    -132.5
+  ],
+  "cont_isl_3": [
+    38.6,
+    1.1,
+    40.2,
+    4.4
+  ],
+  "cont_isl_4": [
+    17.5,
+    -85,
+    23.5,
+    -65.2
+  ],
+  "cont_isl_5": [
+    -9,
+    95,
+    7.5,
+    126
+  ],
+  "cont_isl_7": [
+    49.8,
+    -10.8,
+    61,
+    1.9
+  ],
+  "cont_isl_10": [
+    48.3,
+    -128.5,
+    51,
+    -123
+  ],
+  "cont_isl_13": [
+    59.7,
+    -73,
+    83.6,
+    -11.5
+  ],
+  "cont_isl_17": [
+    79.7,
+    44,
+    81.9,
+    65.5
+  ],
+  "cont_isl_20": [
+    61.5,
+    -126,
+    83.2,
+    -61
+  ],
+  "cont_isl_32": [
+    -25.6,
+    43.2,
+    -11.9,
+    50.5
+  ],
+  "cont_isl_34": [
+    10,
+    -62.5,
+    18,
+    -59
+  ],
+  "volc_isl_25": [
+    11.8,
+    -70.2,
+    18.8,
+    -64
+  ],
+  "cont_isl_35": [
+    -11,
+    114.4,
+    -8,
+    127.5
+  ],
+  "cont_isl_39": [
+    -4.5,
+    124,
+    2.5,
+    131.5
+  ],
+  "cont_isl_40": [
+    -10.7,
+    130.8,
+    -0.3,
+    150.8
+  ],
+  "cont_isl_41": [
+    -47.3,
+    166.3,
+    -34.3,
+    178.6
+  ],
+  "cont_isl_42": [
+    70.5,
+    51.5,
+    77,
+    69.2
+  ],
+  "cont_isl_43": [
+    -22.8,
+    163.8,
+    -19.5,
+    167.6
+  ],
+  "cont_isl_44": [
+    73,
+    135,
+    76.8,
+    158
+  ],
+  "cont_isl_46": [
+    46.6,
+    -59.5,
+    51.6,
+    -52.6
+  ],
+  "cont_isl_47": [
+    -55.2,
+    -72,
+    -52.5,
+    -65
+  ],
+  "cont_isl_56": [
+    45.9,
+    141.6,
+    54.5,
+    144.8
+  ],
+  "cont_isl_57": [
+    77.8,
+    90,
+    81.3,
+    107
+  ],
+  "cont_isl_64": [
+    -43.7,
+    144.5,
+    -40.5,
+    148.5
+  ],
+  "cont_isl_67": [
+    -52.5,
+    -61.5,
+    -51,
+    -57.5
+  ],
+  "cont_isl_68": [
+    5,
+    117,
+    19.2,
+    126.8
+  ],
+  "cont_isl_75": [
+    76.5,
+    10.5,
+    80.8,
+    28.5
+  ],
+  "cont_isl_76": [
+    5.9,
+    79.6,
+    9.9,
+    81.9
+  ],
+  "cont_isl_81": [
+    24.2,
+    123.5,
+    45.6,
+    145.8
+  ],
+  "volc_isl_4": [
+    -6.5,
+    146.5,
+    -1.5,
+    153.5
+  ],
+  "volc_isl_7": [
+    18.9,
+    -160.3,
+    22.3,
+    -154.7
+  ],
+  "volc_isl_8": [
+    -1.5,
+    -92,
+    0.7,
+    -89.2
+  ],
+  "volc_isl_11": [
+    63.3,
+    -24.6,
+    66.6,
+    -13.4
+  ],
+  "volc_isl_12": [
+    27.6,
+    -18.2,
+    29.5,
+    -13.3
+  ],
+  "volc_isl_13": [
+    5,
+    137,
+    10,
+    163.5
+  ],
+  "coral_isl_5": [
+    5,
+    137,
+    10,
+    163.5
+  ],
+  "volc_isl_21": [
+    43.3,
+    145.4,
+    51,
+    156.6
+  ],
+  "volc_isl_26": [
+    13.1,
+    144.5,
+    20.6,
+    146.1
+  ],
+  "volc_isl_28": [
+    -21.5,
+    55.1,
+    -19.5,
+    63.6
+  ],
+  "volc_isl_30": [
+    -20.3,
+    166.5,
+    -13,
+    170.3
+  ],
+  "volc_isl_34": [
+    24,
+    123,
+    31,
+    131.2
+  ],
+  "volc_isl_40": [
+    -11,
+    155.5,
+    -5,
+    163
+  ],
+  "coral_isl_2": [
+    20.9,
+    -79.5,
+    27.3,
+    -72.5
+  ],
+  "coral_isl_3": [
+    -24.5,
+    142.5,
+    -10.5,
+    153
+  ],
+  "coral_isl_4": [
+    -3,
+    172,
+    3.5,
+    177
+  ],
+  "coral_isl_6": [
+    -4,
+    -162.5,
+    6.5,
+    -154.5
+  ],
+  "coral_isl_8": [
+    -0.8,
+    72.5,
+    7.2,
+    74
+  ],
+  "coral_isl_9": [
+    4.5,
+    165,
+    12.5,
+    172.5
+  ],
+  "coral_isl_11": [
+    -23.5,
+    -149,
+    -14,
+    -134.5
+  ],
+  "desert_0": [
+    37.5,
+    99.5,
+    42,
+    106
+  ],
+  "desert_1": [
+    44.8,
+    67,
+    47.5,
+    74.5
+  ],
+  "desert_2": [
+    26.8,
+    38.5,
+    30,
+    43.5
+  ],
+  "desert_4": [
+    40,
+    96,
+    46.5,
+    112.5
+  ],
+  "desert_6": [
+    33,
+    51.5,
+    36,
+    57.5
+  ],
+  "desert_7": [
+    28.8,
+    57,
+    32.8,
+    60.8
+  ],
+  "desert_8": [
+    37.2,
+    55.5,
+    42,
+    64
+  ],
+  "desert_9": [
+    40,
+    60.5,
+    45.2,
+    67.5
+  ],
+  "desert_15": [
+    17,
+    45,
+    24,
+    56
+  ],
+  "desert_17": [
+    30,
+    36.5,
+    35.5,
+    43
+  ],
+  "desert_18": [
+    36.8,
+    77,
+    41.2,
+    88.5
+  ],
+  "desert_19": [
+    24.5,
+    68.5,
+    29.5,
+    74
+  ],
+  "desert_20": [
+    -27.5,
+    18.5,
+    -19,
+    26.5
+  ],
+  "desert_21": [
+    -33.8,
+    19.5,
+    -30.5,
+    25.5
+  ],
+  "desert_22": [
+    -28.5,
+    13.8,
+    -17.5,
+    16.5
+  ],
+  "desert_23": [
+    15.5,
+    -16.5,
+    33,
+    34.5
+  ],
+  "desert_24": [
+    24,
+    31,
+    29.8,
+    34.8
+  ],
+  "desert_25": [
+    20,
+    20,
+    30.5,
+    30.5
+  ],
+  "desert_26": [
+    17.5,
+    31.5,
+    23,
+    36.8
+  ],
+  "desert_27": [
+    28.5,
+    5,
+    33.5,
+    10
+  ],
+  "desert_28": [
+    28.5,
+    -2,
+    32.5,
+    3
+  ],
+  "desert_29": [
+    -22.5,
+    120,
+    -18.5,
+    128.5
+  ],
+  "desert_30": [
+    -31,
+    123,
+    -26.8,
+    134.5
+  ],
+  "desert_31": [
+    -25.5,
+    123,
+    -22,
+    128.5
+  ],
+  "desert_32": [
+    -27.2,
+    134.5,
+    -23,
+    139
+  ],
+  "desert_33": [
+    33.8,
+    -117.8,
+    36.8,
+    -114.2
+  ],
+  "desert_34": [
+    27.5,
+    -115,
+    33.8,
+    -109.5
+  ],
+  "desert_35": [
+    25,
+    -107.5,
+    33,
+    -101.5
+  ],
+  "desert_36": [
+    -27.5,
+    -71,
+    -18.5,
+    -68
+  ],
+  "desert_37": [
+    -7.5,
+    -81.3,
+    -4.8,
+    -79.8
+  ]
+};
+const M1_CORE_PATTERNS = ["челюскин","пиай","рока","дежнёв","бен-секка","игольный","альмади","рас-хафун","мёрчисон","марьято","принца уэльского","сент-чарльз","гальинас","фроуард","париньяс","кабу-бранку","йорк","юго-восточный","стип-пойнт","байрон","сифре","скандинавск","пиренейск","апеннинск","балканск","кольск","крымск","малая азия","аравийск","индостан","индокитай","малакк","корея","камчатк","чукотск","таймыр","ямал","сомали","лабрадор","флорида","юкатан","калифорния","аляска","антарктическ","гренланд","мадагаскар","калимантан","новая гвинея","суматра","великобритан","новая зеландия","шри-ланка","куба","сахалин","тасмания","новая земля","огненная земля","исланд","гавайск","курильск","алеутск","японск","филиппинск","канарск","большой барьерный","мальдивск","багамск","сахара","гоби","атакама","намиб","калахари","виктория","каракум","кызылкум","руб-эль-хали","такл","тар","мохаве","большая песчаная"];
+
+const MODULE1_BASE_ITEMS = (MODULE1_LEGACY_DATA.all_map_items || []).map((item, idx) => {
   const subId = item.category === "extreme_point" ? "m1_capes" :
                 item.category === "peninsula" ? "m1_peninsulas" :
                 (item.category.includes("island") || item.category === "archipelago") ? "m1_islands" :
@@ -6816,6 +7660,14 @@ const MODULE1_UNIFIED_ITEMS = (MODULE1_LEGACY_DATA.all_map_items || []).map((ite
   if (item.short_name && item.short_name !== item.name) {
     metrics.unshift({ label: "Краткое название", value: item.short_name });
   }
+  if (item.origin) metrics.push({ label: "Происхождение", value: item.origin });
+  if (item.surface_type) metrics.push({ label: "Тип грунта", value: item.surface_type });
+  if (item.thermal_desc) metrics.push({ label: "Термический пояс", value: item.thermal_desc });
+  if (item.area) metrics.push({ label: "Площадь", value: `${item.area} тыс. км²` });
+
+  const itemBounds = item.bounds || M1_BOUNDS_DICT[item.uid] || M1_BOUNDS_DICT[item.name] || null;
+  const hay = `${item.name || ''} ${item.short_name || ''}`.toLowerCase();
+  const isCoreLandmark = item.category === "extreme_point" || M1_CORE_PATTERNS.some((p) => hay.includes(p));
 
   return {
     id: item.uid ? `m1_${item.uid}` : `m1_item_${idx}`,
@@ -6825,6 +7677,7 @@ const MODULE1_UNIFIED_ITEMS = (MODULE1_LEGACY_DATA.all_map_items || []).map((ite
     category: item.category,
     categoryRu: item.category_ru || "Объект номенклатуры",
     difficulty: item.difficulty || "Стандартный",
+    isCoreLandmark,
     name: item.name,
     shortName: item.short_name || item.name,
     aliases: item.short_name && item.short_name !== item.name ? [item.short_name] : [],
@@ -6835,18 +7688,301 @@ const MODULE1_UNIFIED_ITEMS = (MODULE1_LEGACY_DATA.all_map_items || []).map((ite
     lat: item.lat,
     lng: item.lng,
     hitRadiusKm: item.hit_radius_km || 250,
-    bounds: item.bounds || null,
+    bounds: itemBounds,
     badgeColor: item.badge_color || "emerald",
     mainCategory: item.main_category || "",
     ankiCard: {
       hasTheoryStep: true,
-      frontQuestion: `К какому региону относится ${item.name} и каковы его ключевые географические характеристики?`,
+      frontQuestion: `К какому региону относится ${item.name} и каковы его ключевые характеристики?`,
       backMainAnswer: `${item.name} (${item.region || "Мир"})`,
       backMetrics: metrics,
       backNote: item.desc || ""
     }
   };
 });
+
+// Интеграция теоретических билетных карточек Раздела 1 (Материки, Земля, Океания, Типы пустынь)
+const MODULE1_THEORY_ITEMS = [];
+(MODULE1_LEGACY_DATA.continents || []).forEach((cont) => {
+  MODULE1_THEORY_ITEMS.push({
+    id: `m1_cont_${cont.id}_area`,
+    moduleId: "module1",
+    submoduleId: "m1_continents_earth",
+    category: "continent_theory",
+    categoryRu: "Площади материков",
+    isCoreLandmark: true,
+    name: `Площадь материка: ${cont.name}`,
+    shortName: `${cont.name} (площадь)`,
+    region: cont.name,
+    focusContinent: cont.name,
+    locationDesc: `Общая площадь материка ${cont.name}`,
+    mapPrompt: `Вспомните общую площадь материка ${cont.name}`,
+    geometryType: "region_focus",
+    lat: (cont.center && cont.center[0]) || 0,
+    lng: (cont.center && cont.center[1]) || 0,
+    ankiCard: {
+      hasTheoryStep: true,
+      frontQuestion: `Какова общая площадь материка ${cont.name} (и соотношение с островами/частями света)?`,
+      backMainAnswer: cont.area_total,
+      backMetrics: [
+        { label: "Общая площадь", value: cont.area_total },
+        ...(cont.area_detail ? [{ label: "Уточнение", value: cont.area_detail }] : [])
+      ],
+      backNote: `Материк ${cont.name}.`
+    }
+  });
+
+  MODULE1_THEORY_ITEMS.push({
+    id: `m1_cont_${cont.id}_shubaev`,
+    moduleId: "module1",
+    submoduleId: "m1_continents_earth",
+    category: "continent_theory",
+    categoryRu: "Средние высоты (Шубаев)",
+    isCoreLandmark: true,
+    name: `Средняя высота: ${cont.name}`,
+    shortName: `${cont.name} (ср. высота)`,
+    region: cont.name,
+    focusContinent: cont.name,
+    locationDesc: `Средняя высота материка ${cont.name} по Л.П. Шубаеву`,
+    mapPrompt: `Вспомните среднюю высоту материка ${cont.name}`,
+    geometryType: "region_focus",
+    lat: (cont.center && cont.center[0]) || 0,
+    lng: (cont.center && cont.center[1]) || 0,
+    ankiCard: {
+      hasTheoryStep: true,
+      frontQuestion: `Какова средняя высота материка ${cont.name} над уровнем моря (по Л.П. Шубаеву / А.М. Рябчикову)?`,
+      backMainAnswer: cont.mean_height,
+      backMetrics: [{ label: "Средняя высота", value: cont.mean_height }],
+      backNote: `Эталон программы ОЗ БГУ.`
+    }
+  });
+
+  if (cont.max_height) {
+    MODULE1_THEORY_ITEMS.push({
+      id: `m1_cont_${cont.id}_peak`,
+      moduleId: "module1",
+      submoduleId: "m1_continents_earth",
+      category: "continent_peak",
+      categoryRu: "Высшая точка материка",
+      isCoreLandmark: true,
+      name: `Высшая точка (${cont.name}): ${cont.max_height.point}`,
+      shortName: cont.max_height.point,
+      region: cont.name,
+      locationDesc: `Высочайшая вершина материка ${cont.name}`,
+      mapPrompt: `Покажите на карте высочайшую вершину материка ${cont.name}`,
+      geometryType: "point",
+      lat: cont.max_height.lat,
+      lng: cont.max_height.lng,
+      hitRadiusKm: 320,
+      ankiCard: {
+        hasTheoryStep: true,
+        frontQuestion: `Назовите высочайшую вершину материка ${cont.name} и её абсолютную высоту (м):`,
+        backMainAnswer: `${cont.max_height.point} — ${cont.max_height.height}`,
+        backMetrics: [
+          { label: "Вершина", value: cont.max_height.point },
+          { label: "Абсолютная высота", value: cont.max_height.height }
+        ],
+        backNote: `Крайняя верхняя отметка рельефа ${cont.name}.`
+      }
+    });
+  }
+
+  if (cont.min_height) {
+    MODULE1_THEORY_ITEMS.push({
+      id: `m1_cont_${cont.id}_depr`,
+      moduleId: "module1",
+      submoduleId: "m1_continents_earth",
+      category: "continent_depr",
+      categoryRu: "Низшая точка материка",
+      isCoreLandmark: true,
+      name: `Низшая точка (${cont.name}): ${cont.min_height.point}`,
+      shortName: cont.min_height.point,
+      region: cont.name,
+      locationDesc: `Глубочайшая впадина материка ${cont.name}`,
+      mapPrompt: `Покажите на карте глубочайшую впадину материка ${cont.name}`,
+      geometryType: "point",
+      lat: cont.min_height.lat,
+      lng: cont.min_height.lng,
+      hitRadiusKm: 320,
+      ankiCard: {
+        hasTheoryStep: true,
+        frontQuestion: `Назовите глубочайшую впадину материка ${cont.name} и её отметку (м):`,
+        backMainAnswer: `${cont.min_height.point} — ${cont.min_height.height}`,
+        backMetrics: [
+          { label: "Впадина", value: cont.min_height.point },
+          { label: "Абсолютная отметка", value: cont.min_height.height }
+        ],
+        backNote: `Крайняя нижняя отметка рельефа ${cont.name}.`
+      }
+    });
+  }
+});
+
+const EXTRA_THEORY_ITEMS = [
+  {
+    id: "m1_earth_total_area",
+    name: "Общая площадь поверхности Земли",
+    shortName: "Площадь Земли",
+    region: "Мир",
+    lat: 15, lng: 0,
+    frontQuestion: "Какова общая площадь поверхности Земли (океан + суша)?",
+    backMainAnswer: "510,2 млн км² (океан 361,1 млн км² / 70,8%, суша 149,1 млн км² / 29,2%)",
+    metrics: [
+      { label: "Поверхность Земли", value: "510,2 млн км²" },
+      { label: "Мировой океан", value: "361,1 млн км² (70,8%)" },
+      { label: "Суша", value: "149,1 млн км² (29,2%)" }
+    ]
+  },
+  {
+    id: "m1_earth_land_area",
+    name: "Площадь суши Земли и доля в %",
+    shortName: "Площадь суши",
+    region: "Мир",
+    lat: 25, lng: 20,
+    frontQuestion: "Какова площадь суши Земли со всеми островами и её доля от площади планеты?",
+    backMainAnswer: "149,1 млн км² (29,2% поверхности Земли)",
+    metrics: [
+      { label: "Площадь суши", value: "149,1 млн км²" },
+      { label: "Доля от Земли", value: "29,2%" }
+    ]
+  },
+  {
+    id: "m1_oceania_melanesia",
+    name: "Меланезия (Океания)",
+    shortName: "Меланезия",
+    region: "Австралия и Океания",
+    specialRender: "oceania",
+    lat: -10, lng: 155,
+    frontQuestion: "Что означает «Меланезия», где расположена и какие архипелаги включает?",
+    backMainAnswer: "«Черноостровье» (юго-запад Океании к югу от экватора)",
+    metrics: [
+      { label: "Этимология", value: "«Черноостровье» (греч. mélas + nēsos)" },
+      { label: "Состав", value: "Новая Гвинея, арх. Бисмарка, Соломоновы, Новые Гебриды, Новая Каледония, Фиджи" }
+    ]
+  },
+  {
+    id: "m1_oceania_micronesia",
+    name: "Микронезия (Океания)",
+    shortName: "Микронезия",
+    region: "Австралия и Океания",
+    specialRender: "oceania",
+    lat: 10, lng: 152,
+    frontQuestion: "Что означает «Микронезия» и какие архипелаги в неё входят?",
+    backMainAnswer: "«Мелкоостровье» (~1500 мелких островов к северу от экватора)",
+    metrics: [
+      { label: "Этимология", value: "«Мелкоостровье» (греч. mikros + nēsos)" },
+      { label: "Состав", value: "Марианские, Каролинские, Маршалловы, о-ва Гилберта, Науру, Банаба" }
+    ]
+  },
+  {
+    id: "m1_oceania_polynesia",
+    name: "Полинезия (Полинезийский треугольник)",
+    shortName: "Полинезия",
+    region: "Австралия и Океания",
+    specialRender: "oceania",
+    lat: -15, lng: -150,
+    frontQuestion: "Назовите 3 вершины Полинезийского треугольника и ключевые архипелаги Полинезии:",
+    backMainAnswer: "Гавайские о-ва — Новая Зеландия — о. Пасхи (Рапануи)",
+    metrics: [
+      { label: "Вершины треугольника", value: "Гавайи — Новая Зеландия — о. Пасхи" },
+      { label: "Архипелаги", value: "Самоа, Тонга, Туамоту, Общества (Таити), Маркизские, Кука, Лайн" }
+    ]
+  },
+  {
+    id: "m1_bermuda_triangle",
+    name: "Бермудский треугольник",
+    shortName: "Бермудский треугольник",
+    region: "Северная Америка",
+    specialRender: "bermuda",
+    lat: 25.5, lng: -71.0,
+    frontQuestion: "Какие три географические точки образуют вершины Бермудского треугольника?",
+    backMainAnswer: "Бермудские о-ва — юг п-ова Флорида (Майами) — о. Пуэрто-Рико",
+    metrics: [
+      { label: "Море", value: "Запад Саргассова моря (Атлантика)" },
+      { label: "Вершины", value: "Бермуды — Флорида — Пуэрто-Рико" }
+    ]
+  },
+  {
+    id: "m1_desert_hamada",
+    name: "Гамада (хамада)",
+    shortName: "Гамада",
+    region: "Типы пустынь",
+    lat: 26, lng: 12,
+    frontQuestion: "Что представляет собой пустыня типа «гамада (хамада)»?",
+    backMainAnswer: "Каменистая пустыня с обнажёнными скальными породами и щебнем",
+    metrics: [{ label: "Характер покрова", value: "Коренные скалы, щебень без почв" }]
+  },
+  {
+    id: "m1_desert_serir_reg",
+    name: "Серир и Рег",
+    shortName: "Серир и Рег",
+    region: "Типы пустынь",
+    lat: 24, lng: 18,
+    frontQuestion: "В чём различие пустынь типа «серир» и «рег»?",
+    backMainAnswer: "Серир — глинистая с галечниковым покровом; Рег — песчано-гравийная после дефляции (выдувания)",
+    metrics: [
+      { label: "Серир", value: "Глинистая поверхность с плотной галькой (Ливия, Египет)" },
+      { label: "Рег", value: "Гравийно-галечниковый панцирь после выдувания песка" }
+    ]
+  },
+  {
+    id: "m1_desert_erg_kum_nefud",
+    name: "Эрги, кумы и нефуды",
+    shortName: "Эрги / Кумы / Нефуды",
+    region: "Типы пустынь",
+    lat: 35, lng: 45,
+    frontQuestion: "К каким регионам мира относятся песчаные пустыни «эрги», «кумы» и «нефуды»?",
+    backMainAnswer: "Кумы — Ср. Азия, Эрги — Сев. Африка (Сахара), Нефуды — Аравийский п-ов",
+    metrics: [
+      { label: "Кумы", value: "Средняя Азия (Каракумы, Кызылкум)" },
+      { label: "Эрги", value: "Сахара (Большой Восточный и Западный Эрг)" },
+      { label: "Нефуды", value: "Аравия (Большой и Малый Нефуд)" }
+    ]
+  },
+  {
+    id: "m1_desert_shor_takyr",
+    name: "Шоры (кевиры) и такыры",
+    shortName: "Шоры и такыры",
+    region: "Типы пустынь",
+    lat: 38, lng: 56,
+    frontQuestion: "Чем отличаются «такыры» от «шоров (кевиров)» в аридных областях?",
+    backMainAnswer: "Такыры — гладкие глинистые днища в многоугольных трещинах; Шоры (кевиры) — солончаковые пустыни с коркой соли",
+    metrics: [
+      { label: "Такыр", value: "Плоский глинистый «паркет» в замкнутом понижении" },
+      { label: "Шор / Кевир", value: "Глинистый солончак с коркой соли (Деште-Кевир)" }
+    ]
+  }
+];
+
+EXTRA_THEORY_ITEMS.forEach((et) => {
+  MODULE1_THEORY_ITEMS.push({
+    id: et.id,
+    moduleId: "module1",
+    submoduleId: "m1_continents_earth",
+    category: "continent_theory",
+    categoryRu: et.region === "Типы пустынь" ? "Глоссарий пустынь" : "Метрики Земли и Океании",
+    isCoreLandmark: true,
+    name: et.name,
+    shortName: et.shortName,
+    region: et.region,
+    focusContinent: et.region,
+    specialRender: et.specialRender || null,
+    locationDesc: et.backMainAnswer,
+    mapPrompt: et.frontQuestion,
+    geometryType: "region_focus",
+    lat: et.lat,
+    lng: et.lng,
+    ankiCard: {
+      hasTheoryStep: true,
+      frontQuestion: et.frontQuestion,
+      backMainAnswer: et.backMainAnswer,
+      backMetrics: et.metrics,
+      backNote: ""
+    }
+  });
+});
+
+const MODULE1_UNIFIED_ITEMS = [...MODULE1_THEORY_ITEMS, ...MODULE1_BASE_ITEMS];
 
 window.GEO_MODULES_REGISTRY.module1 = {
   id: "module1",
@@ -6856,11 +7992,12 @@ window.GEO_MODULES_REGISTRY.module1 = {
   badge: "Раздел 1",
   color: "emerald",
   decks: [
-    { id: "m1_all", title: "Весь Раздел 1 (267 объектов)", count: MODULE1_UNIFIED_ITEMS.length },
-    { id: "m1_capes", title: "Крайние мысы материков", count: MODULE1_UNIFIED_ITEMS.filter(i => i.submoduleId === "m1_capes").length },
-    { id: "m1_peninsulas", title: "Полуострова", count: MODULE1_UNIFIED_ITEMS.filter(i => i.submoduleId === "m1_peninsulas").length },
-    { id: "m1_islands", title: "Острова (материковые, вулкан., коралловые)", count: MODULE1_UNIFIED_ITEMS.filter(i => i.submoduleId === "m1_islands").length },
-    { id: "m1_deserts", title: "Пустыни мира", count: MODULE1_UNIFIED_ITEMS.filter(i => i.submoduleId === "m1_deserts").length }
+    { id: "m1_all", title: `Весь Раздел 1 (${MODULE1_UNIFIED_ITEMS.length} объектов)`, count: MODULE1_UNIFIED_ITEMS.length },
+    { id: "m1_continents_earth", title: "Материки, Земля, Океания и типы пустынь", count: MODULE1_THEORY_ITEMS.length },
+    { id: "m1_capes", title: "Крайние мысы материков", count: MODULE1_BASE_ITEMS.filter(i => i.submoduleId === "m1_capes").length },
+    { id: "m1_peninsulas", title: "Полуострова", count: MODULE1_BASE_ITEMS.filter(i => i.submoduleId === "m1_peninsulas").length },
+    { id: "m1_islands", title: "Острова (материковые, вулкан., коралловые)", count: MODULE1_BASE_ITEMS.filter(i => i.submoduleId === "m1_islands").length },
+    { id: "m1_deserts", title: "Пустыни мира", count: MODULE1_BASE_ITEMS.filter(i => i.submoduleId === "m1_deserts").length }
   ],
   legacyData: MODULE1_LEGACY_DATA,
   items: MODULE1_UNIFIED_ITEMS

@@ -19,22 +19,22 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Памир ➔ Аральское море)",
     "mapPrompt": "Покажите реку: Амударья (с Пянджем)",
     "geometryType": "polyline",
-    "lat": 39.0,
-    "lng": 64.0,
+    "lat": 39,
+    "lng": 64,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        37.0,
+        37,
         71.5
       ],
       [
         37.5,
-        68.0
+        68
       ],
       [
         39.5,
-        63.0
+        63
       ],
       [
         42.5,
@@ -78,7 +78,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Амударья (с Пянджем): Памир ➔ Аральское море."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_amur",
@@ -97,7 +98,7 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Амур",
     "geometryType": "polyline",
     "lat": 50.5,
-    "lng": 130.0,
+    "lng": 130,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -106,19 +107,19 @@ const MODULE4_ITEMS = [
         121.5
       ],
       [
-        50.0,
+        50,
         127.5
       ],
       [
-        48.0,
+        48,
         132.5
       ],
       [
         48.5,
-        135.0
+        135
       ],
       [
-        53.0,
+        53,
         140.7
       ]
     ],
@@ -160,7 +161,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Амур: Слияние Шилки и Аргуни ➔ Амурский лиман (Охотское море)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_shilka",
@@ -181,7 +183,7 @@ const MODULE4_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        52.0,
+        52,
         115.5
       ],
       [
@@ -224,7 +226,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Шилка: Забайкалье ➔ исток Амура."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_argun",
@@ -239,14 +242,14 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Большой Хинган ➔ исток Амура)",
     "mapPrompt": "Покажите реку: Аргунь",
     "geometryType": "polyline",
-    "lat": 51.0,
-    "lng": 120.0,
+    "lat": 51,
+    "lng": 120,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        49.0,
-        120.0
+        49,
+        120
       ],
       [
         51.5,
@@ -291,7 +294,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Аргунь: Большой Хинган ➔ исток Амура."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_amgun",
@@ -313,7 +317,7 @@ const MODULE4_ITEMS = [
     "coords": [
       [
         51.5,
-        134.0
+        134
       ],
       [
         52.8,
@@ -352,7 +356,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Амгунь: Буреинский хребет ➔ Амур (нижнее течение)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_bureya",
@@ -368,13 +373,13 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Бурея",
     "geometryType": "polyline",
     "lat": 50.5,
-    "lng": 131.0,
+    "lng": 131,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
         51.5,
-        133.0
+        133
       ],
       [
         49.4,
@@ -413,7 +418,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Бурея: Хребет Дуссе-Алинь ➔ Амур."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_zeya",
@@ -428,14 +434,14 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Хребет Токинский Становик ➔ Амур (Благовещенск))",
     "mapPrompt": "Покажите реку: Зея",
     "geometryType": "polyline",
-    "lat": 53.0,
-    "lng": 128.0,
+    "lat": 53,
+    "lng": 128,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        55.0,
-        130.0
+        55,
+        130
       ],
       [
         53.7,
@@ -481,7 +487,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Зея: Хребет Токинский Становик ➔ Амур (Благовещенск)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_sungari",
@@ -497,17 +504,17 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Сунгари",
     "geometryType": "polyline",
     "lat": 45.5,
-    "lng": 128.0,
+    "lng": 128,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        42.0,
-        128.0
+        42,
+        128
       ],
       [
-        44.0,
-        125.0
+        44,
+        125
       ],
       [
         45.8,
@@ -550,7 +557,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Сунгари: Вулкан Пэктусан ➔ Амур (крупнейший приток Амура)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_ussuri",
@@ -566,7 +574,7 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Уссури",
     "geometryType": "polyline",
     "lat": 46.5,
-    "lng": 134.0,
+    "lng": 134,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -580,7 +588,7 @@ const MODULE4_ITEMS = [
       ],
       [
         48.4,
-        135.0
+        135
       ]
     ],
     "flowStyle": {
@@ -615,7 +623,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Уссури: Сихотэ-Алинь ➔ Амур (Хабаровск)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_brahmaputra",
@@ -631,28 +640,28 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Брахмапутра",
     "geometryType": "polyline",
     "lat": 27.5,
-    "lng": 92.0,
+    "lng": 92,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        30.0,
+        30,
         82.5
       ],
       [
         29.2,
-        91.0
+        91
       ],
       [
-        28.0,
-        95.0
+        28,
+        95
       ],
       [
-        26.0,
+        26,
         91.5
       ],
       [
-        24.0,
+        24,
         89.8
       ]
     ],
@@ -691,7 +700,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Брахмапутра: Гималаи (Тибет, Мацанг) ➔ Бенгальский залив (общая дельта с Гангом)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_vistula",
@@ -706,22 +716,22 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Западные Карпаты ➔ Балтийское море (Гданьский залив))",
     "mapPrompt": "Покажите реку: Висла",
     "geometryType": "polyline",
-    "lat": 52.0,
-    "lng": 21.0,
+    "lat": 52,
+    "lng": 21,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
         49.6,
-        19.0
+        19
       ],
       [
-        50.0,
-        20.0
+        50,
+        20
       ],
       [
         52.2,
-        21.0
+        21
       ],
       [
         54.3,
@@ -764,7 +774,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Висла: Западные Карпаты ➔ Балтийское море (Гданьский залив)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_bug_river",
@@ -829,7 +840,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Западный Буг: Подольская возвышенность ➔ Нарев (бассейн Вислы)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_volga",
@@ -844,8 +856,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Валдайская возвышенность ➔ Каспийское море (длиннейшая река Европы))",
     "mapPrompt": "Покажите реку: Волга",
     "geometryType": "polyline",
-    "lat": 54.0,
-    "lng": 48.0,
+    "lat": 54,
+    "lng": 48,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -859,7 +871,7 @@ const MODULE4_ITEMS = [
       ],
       [
         56.3,
-        44.0
+        44
       ],
       [
         55.8,
@@ -875,7 +887,7 @@ const MODULE4_ITEMS = [
       ],
       [
         45.7,
-        48.0
+        48
       ]
     ],
     "flowStyle": {
@@ -916,7 +928,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Волга: Валдайская возвышенность ➔ Каспийское море (длиннейшая река Европы)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_kama",
@@ -941,11 +954,11 @@ const MODULE4_ITEMS = [
         53.3
       ],
       [
-        60.0,
+        60,
         55.5
       ],
       [
-        58.0,
+        58,
         56.2
       ],
       [
@@ -990,7 +1003,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Кама: Верхнекамская возвышенность ➔ Волга (Куйбышевское водохранилище)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_oka",
@@ -1064,7 +1078,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Ока: Среднерусская возвышенность ➔ Волга (Нижний Новгород)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_ganges",
@@ -1079,14 +1094,14 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Западные Гималаи (ледник Ганготри) ➔ Бенгальский залив)",
     "mapPrompt": "Покажите реку: Ганг",
     "geometryType": "polyline",
-    "lat": 26.0,
-    "lng": 83.0,
+    "lat": 26,
+    "lng": 83,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        31.0,
-        79.0
+        31,
+        79
       ],
       [
         26.5,
@@ -1094,11 +1109,11 @@ const MODULE4_ITEMS = [
       ],
       [
         25.5,
-        85.0
+        85
       ],
       [
-        23.0,
-        89.0
+        23,
+        89
       ]
     ],
     "flowStyle": {
@@ -1139,7 +1154,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Ганг: Западные Гималаи (ледник Ганготри) ➔ Бенгальский залив."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_garonne",
@@ -1155,7 +1171,7 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Гаронна",
     "geometryType": "polyline",
     "lat": 43.8,
-    "lng": 1.0,
+    "lng": 1,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -1207,7 +1223,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Гаронна: Пиренеи (Испания) ➔ Жиронда (Бискайский залив, Атлантика)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_guadalquivir",
@@ -1223,7 +1240,7 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Гвадалквивир",
     "geometryType": "polyline",
     "lat": 37.5,
-    "lng": -5.0,
+    "lng": -5,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -1237,7 +1254,7 @@ const MODULE4_ITEMS = [
       ],
       [
         37.4,
-        -6.0
+        -6
       ],
       [
         36.8,
@@ -1278,7 +1295,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Гвадалквивир: Андалусские горы ➔ Кадисский залив (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_guadiana",
@@ -1299,8 +1317,8 @@ const MODULE4_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        39.0,
-        -3.0
+        39,
+        -3
       ],
       [
         38.9,
@@ -1343,7 +1361,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Гвадиана: Плато Ла-Манча (Испания) ➔ Кадисский залив (граница Испании и Португалии)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_godavari",
@@ -1369,7 +1388,7 @@ const MODULE4_ITEMS = [
       ],
       [
         18.8,
-        79.0
+        79
       ],
       [
         16.7,
@@ -1411,7 +1430,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Годавари (Годи): Западные Гаты ➔ Бенгальский залив (Индия)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_helmand",
@@ -1436,11 +1456,11 @@ const MODULE4_ITEMS = [
         68.7
       ],
       [
-        32.0,
+        32,
         64.5
       ],
       [
-        31.0,
+        31,
         61.8
       ]
     ],
@@ -1478,7 +1498,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Гильменд: Гиндукуш (Афганистан) ➔ бессточные озёра Хамун (Иран)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_dnieper",
@@ -1493,8 +1514,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Валдайская возвышенность ➔ Чёрное море (Днепровский лиман))",
     "mapPrompt": "Покажите реку: Днепр",
     "geometryType": "polyline",
-    "lat": 51.0,
-    "lng": 31.0,
+    "lat": 51,
+    "lng": 31,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -1507,7 +1528,7 @@ const MODULE4_ITEMS = [
         31.8
       ],
       [
-        52.0,
+        52,
         30.5
       ],
       [
@@ -1516,7 +1537,7 @@ const MODULE4_ITEMS = [
       ],
       [
         48.4,
-        35.0
+        35
       ],
       [
         46.6,
@@ -1562,7 +1583,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Днепр: Валдайская возвышенность ➔ Чёрное море (Днепровский лиман)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_berezina",
@@ -1631,7 +1653,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Березина: Минская возвышенность (Беларусь) ➔ Днепр (правый приток)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_pripyat",
@@ -1646,8 +1669,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Волынская возвышенность ➔ Днепр (Киевское водохранилище))",
     "mapPrompt": "Покажите реку: Припять",
     "geometryType": "polyline",
-    "lat": 52.0,
-    "lng": 27.0,
+    "lat": 52,
+    "lng": 27,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -1657,11 +1680,11 @@ const MODULE4_ITEMS = [
       ],
       [
         52.1,
-        26.0
+        26
       ],
       [
         52.1,
-        28.0
+        28
       ],
       [
         51.2,
@@ -1704,7 +1727,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Припять: Волынская возвышенность ➔ Днепр (Киевское водохранилище)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_sozh",
@@ -1719,14 +1743,14 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Смоленско-Московская возвышенность ➔ Днепр (Лоев))",
     "mapPrompt": "Покажите реку: Сож",
     "geometryType": "polyline",
-    "lat": 53.0,
+    "lat": 53,
     "lng": 31.2,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
         54.6,
-        32.0
+        32
       ],
       [
         53.5,
@@ -1734,7 +1758,7 @@ const MODULE4_ITEMS = [
       ],
       [
         52.4,
-        31.0
+        31
       ],
       [
         51.9,
@@ -1773,7 +1797,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Сож: Смоленско-Московская возвышенность ➔ Днепр (Лоев)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_desna",
@@ -1789,7 +1814,7 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Десна",
     "geometryType": "polyline",
     "lat": 52.5,
-    "lng": 33.0,
+    "lng": 33,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -1844,7 +1869,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Десна: Смоленская возвышенность ➔ Днепр (Киев)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_dniester",
@@ -1859,7 +1885,7 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Карпаты (Украина) ➔ Чёрное море (Днестровский лиман))",
     "mapPrompt": "Покажите реку: Днестр",
     "geometryType": "polyline",
-    "lat": 48.0,
+    "lat": 48,
     "lng": 27.5,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
@@ -1873,7 +1899,7 @@ const MODULE4_ITEMS = [
         26.5
       ],
       [
-        47.0,
+        47,
         29.5
       ],
       [
@@ -1913,7 +1939,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Днестр: Карпаты (Украина) ➔ Чёрное море (Днестровский лиман)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_don",
@@ -1928,13 +1955,13 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Среднерусская возвышенность (Новомосковск) ➔ Таганрогский залив (Азовское море))",
     "mapPrompt": "Покажите реку: Дон",
     "geometryType": "polyline",
-    "lat": 50.0,
+    "lat": 50,
     "lng": 40.5,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        54.0,
+        54,
         38.3
       ],
       [
@@ -1943,11 +1970,11 @@ const MODULE4_ITEMS = [
       ],
       [
         49.5,
-        41.0
+        41
       ],
       [
         47.5,
-        41.0
+        41
       ],
       [
         47.1,
@@ -1991,7 +2018,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Дон: Среднерусская возвышенность (Новомосковск) ➔ Таганрогский залив (Азовское море)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_seversky_donets",
@@ -2006,14 +2034,14 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Среднерусская возвышенность ➔ Дон (крупнейший правый приток))",
     "mapPrompt": "Покажите реку: Северский Донец",
     "geometryType": "polyline",
-    "lat": 49.0,
+    "lat": 49,
     "lng": 38.5,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        51.0,
-        37.0
+        51,
+        37
       ],
       [
         49.5,
@@ -2060,7 +2088,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Северский Донец: Среднерусская возвышенность ➔ Дон (крупнейший правый приток)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_danube",
@@ -2076,12 +2105,12 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Дунай",
     "geometryType": "polyline",
     "lat": 46.5,
-    "lng": 20.0,
+    "lng": 20,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        48.0,
+        48,
         8.2
       ],
       [
@@ -2094,7 +2123,7 @@ const MODULE4_ITEMS = [
       ],
       [
         47.5,
-        19.0
+        19
       ],
       [
         44.8,
@@ -2149,7 +2178,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Дунай: Шварцвальд (Германия) ➔ Чёрное море (вторая по длине река Европы)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_prut",
@@ -2164,7 +2194,7 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Карпаты (Говерла) ➔ Дунай (граница Румынии и Молдовы))",
     "mapPrompt": "Покажите реку: Прут",
     "geometryType": "polyline",
-    "lat": 47.0,
+    "lat": 47,
     "lng": 27.5,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
@@ -2175,7 +2205,7 @@ const MODULE4_ITEMS = [
       ],
       [
         48.3,
-        26.0
+        26
       ],
       [
         46.5,
@@ -2218,7 +2248,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Прут: Карпаты (Говерла) ➔ Дунай (граница Румынии и Молдовы)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_siret",
@@ -2239,16 +2270,16 @@ const MODULE4_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        48.0,
+        48,
         25.3
       ],
       [
         46.5,
-        27.0
+        27
       ],
       [
         45.4,
-        28.0
+        28
       ]
     ],
     "flowStyle": {
@@ -2283,7 +2314,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Сирет: Карпаты (Буковина) ➔ Дунай (Галац)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_tisza",
@@ -2298,8 +2330,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Восточные Карпаты ➔ Дунай (Воеводина, Сербия))",
     "mapPrompt": "Покажите реку: Тиса",
     "geometryType": "polyline",
-    "lat": 47.0,
-    "lng": 21.0,
+    "lat": 47,
+    "lng": 21,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -2308,7 +2340,7 @@ const MODULE4_ITEMS = [
         24.2
       ],
       [
-        48.0,
+        48,
         21.5
       ],
       [
@@ -2352,7 +2384,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Тиса: Восточные Карпаты ➔ Дунай (Воеводина, Сербия)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_morava_river",
@@ -2370,8 +2403,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Чехия/Австрия (приток Дуная) и Сербия (Южная/Великая Морава))",
     "mapPrompt": "Покажите реку: Морава (2 реки: чешская и сербская)",
     "geometryType": "polyline",
-    "lat": 49.0,
-    "lng": 17.0,
+    "lat": 49,
+    "lng": 17,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -2381,7 +2414,7 @@ const MODULE4_ITEMS = [
       ],
       [
         48.2,
-        17.0
+        17
       ]
     ],
     "flowStyle": {
@@ -2416,7 +2449,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Морава (2 реки: чешская и сербская): Чехия/Австрия (приток Дуная) и Сербия (Южная/Великая Морава)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_sava",
@@ -2442,7 +2476,7 @@ const MODULE4_ITEMS = [
       ],
       [
         45.8,
-        16.0
+        16
       ],
       [
         45.1,
@@ -2485,7 +2519,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Сава: Юлийские Альпы (Словения) ➔ Дунай (Белград)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_drava",
@@ -2501,7 +2536,7 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Драва",
     "geometryType": "polyline",
     "lat": 46.2,
-    "lng": 16.0,
+    "lng": 16,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -2554,7 +2589,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Драва: Карнийские Альпы (Италия) ➔ Дунай (Хорватия/Сербия)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_douro",
@@ -2622,7 +2658,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Дуэро (Дору): Иберийские горы (Испания) ➔ Атлантический океан (Порту)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_yenisey",
@@ -2637,8 +2674,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Слияние Большого и Малого Енисея (Кызыл) ➔ Карское море (Енисейский залив))",
     "mapPrompt": "Покажите реку: Енисей",
     "geometryType": "polyline",
-    "lat": 61.0,
-    "lng": 91.0,
+    "lat": 61,
+    "lng": 91,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -2647,8 +2684,8 @@ const MODULE4_ITEMS = [
         94.4
       ],
       [
-        56.0,
-        93.0
+        56,
+        93
       ],
       [
         58.5,
@@ -2705,7 +2742,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Енисей: Слияние Большого и Малого Енисея (Кызыл) ➔ Карское море (Енисейский залив)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_angara",
@@ -2721,7 +2759,7 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Ангара",
     "geometryType": "polyline",
     "lat": 56.5,
-    "lng": 100.0,
+    "lng": 100,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -2739,7 +2777,7 @@ const MODULE4_ITEMS = [
       ],
       [
         58.1,
-        93.0
+        93
       ]
     ],
     "flowStyle": {
@@ -2780,7 +2818,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Ангара: Единственная река, вытекающая из оз. Байкал ➔ Енисей."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_podkamennaya_tunguska",
@@ -2796,17 +2835,17 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Подкаменная Тунгуска",
     "geometryType": "polyline",
     "lat": 60.5,
-    "lng": 98.0,
+    "lng": 98,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        58.0,
-        105.0
+        58,
+        105
       ],
       [
         60.5,
-        101.0
+        101
       ],
       [
         61.6,
@@ -2845,7 +2884,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Подкаменная Тунгуска: Ангарский кряж ➔ Енисей (район Тунгусского метеорита 1908 г.)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_nizhnyaya_tunguska",
@@ -2860,26 +2900,26 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Среднесибирское плоскогорье ➔ Енисей (Туруханск))",
     "mapPrompt": "Покажите реку: Нижняя Тунгуска",
     "geometryType": "polyline",
-    "lat": 63.0,
-    "lng": 98.0,
+    "lat": 63,
+    "lng": 98,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        57.0,
-        106.0
+        57,
+        106
       ],
       [
-        62.0,
-        102.0
+        62,
+        102
       ],
       [
-        64.0,
-        95.0
+        64,
+        95
       ],
       [
         65.8,
-        88.0
+        88
       ]
     ],
     "flowStyle": {
@@ -2916,7 +2956,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Нижняя Тунгуска: Среднесибирское плоскогорье ➔ Енисей (Туруханск)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_daugava",
@@ -2931,8 +2972,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Валдайская возвышенность ➔ Рижский залив (Балтийское море))",
     "mapPrompt": "Покажите реку: Западная Двина (Даугава)",
     "geometryType": "polyline",
-    "lat": 56.0,
-    "lng": 28.0,
+    "lat": 56,
+    "lng": 28,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -2950,7 +2991,7 @@ const MODULE4_ITEMS = [
       ],
       [
         56.9,
-        24.0
+        24
       ]
     ],
     "flowStyle": {
@@ -2985,7 +3026,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Западная Двина (Даугава): Валдайская возвышенность ➔ Рижский залив (Балтийское море)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_ili_river",
@@ -3001,16 +3043,16 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Или",
     "geometryType": "polyline",
     "lat": 44.2,
-    "lng": 78.0,
+    "lng": 78,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
         43.5,
-        82.0
+        82
       ],
       [
-        44.0,
+        44,
         79.5
       ],
       [
@@ -3057,7 +3099,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Или: Тянь-Шань (Китай) ➔ озеро Балхаш (Казахстан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_indus",
@@ -3072,7 +3115,7 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Тибетское нагорье (около оз. Манасаровар) ➔ Аравийское море)",
     "mapPrompt": "Покажите реку: Инд",
     "geometryType": "polyline",
-    "lat": 31.0,
+    "lat": 31,
     "lng": 71.5,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
@@ -3082,19 +3125,19 @@ const MODULE4_ITEMS = [
         81.5
       ],
       [
-        35.0,
-        75.0
+        35,
+        75
       ],
       [
         33.5,
-        72.0
+        72
       ],
       [
-        29.0,
+        29,
         70.5
       ],
       [
-        24.0,
+        24,
         67.5
       ]
     ],
@@ -3136,7 +3179,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Инд: Тибетское нагорье (около оз. Манасаровар) ➔ Аравийское море."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_indigirka",
@@ -3151,26 +3195,26 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Халканский хребет ➔ Восточно-Сибирское море (район Оймякона))",
     "mapPrompt": "Покажите реку: Индигирка",
     "geometryType": "polyline",
-    "lat": 67.0,
-    "lng": 145.0,
+    "lat": 67,
+    "lng": 145,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        63.0,
-        143.0
+        63,
+        143
       ],
       [
-        65.0,
+        65,
         143.5
       ],
       [
-        68.0,
-        146.0
+        68,
+        146
       ],
       [
         71.3,
-        150.0
+        150
       ]
     ],
     "flowStyle": {
@@ -3208,7 +3252,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Индигирка: Халканский хребет ➔ Восточно-Сибирское море (район Оймякона)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_jordan_river",
@@ -3275,7 +3320,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Иордан: Гора Хермон ➔ Мёртвое море (через Тивериадское озеро)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_irrawaddy",
@@ -3290,7 +3336,7 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Север Мьянмы ➔ Андаманское море (Индийский океан))",
     "mapPrompt": "Покажите реку: Иравади",
     "geometryType": "polyline",
-    "lat": 21.0,
+    "lat": 21,
     "lng": 95.5,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
@@ -3300,12 +3346,12 @@ const MODULE4_ITEMS = [
         97.5
       ],
       [
-        22.0,
-        96.0
+        22,
+        96
       ],
       [
-        17.0,
-        95.0
+        17,
+        95
       ],
       [
         15.8,
@@ -3346,7 +3392,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Иравади: Север Мьянмы ➔ Андаманское море (Индийский океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_kamchatka_river",
@@ -3368,11 +3415,11 @@ const MODULE4_ITEMS = [
     "coords": [
       [
         54.5,
-        158.0
+        158
       ],
       [
-        56.0,
-        160.0
+        56,
+        160
       ],
       [
         56.2,
@@ -3411,7 +3458,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Камчатка: Срединный хребет ➔ Камчатский залив (Тихий океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_kolyma",
@@ -3426,22 +3474,22 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Слияние Аян-Юрях и Кулу ➔ Восточно-Сибирское море (Колымский залив))",
     "mapPrompt": "Покажите реку: Колыма",
     "geometryType": "polyline",
-    "lat": 66.0,
+    "lat": 66,
     "lng": 152.5,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
         62.5,
-        148.0
+        148
       ],
       [
-        64.0,
-        152.0
+        64,
+        152
       ],
       [
         67.5,
-        154.0
+        154
       ],
       [
         69.5,
@@ -3483,7 +3531,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Колыма: Слияние Аян-Юрях и Кулу ➔ Восточно-Сибирское море (Колымский залив)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_krishna_river",
@@ -3499,17 +3548,17 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Кришна",
     "geometryType": "polyline",
     "lat": 16.5,
-    "lng": 78.0,
+    "lng": 78,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        18.0,
+        18,
         73.7
       ],
       [
         16.5,
-        77.0
+        77
       ],
       [
         15.8,
@@ -3551,7 +3600,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Кришна: Западные Гаты ➔ Бенгальский залив (Индостан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_kuban",
@@ -3566,7 +3616,7 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Склоны Эльбруса ➔ Темрюкский залив (Азовское море))",
     "mapPrompt": "Покажите реку: Кубань",
     "geometryType": "polyline",
-    "lat": 45.0,
+    "lat": 45,
     "lng": 39.5,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
@@ -3581,7 +3631,7 @@ const MODULE4_ITEMS = [
       ],
       [
         45.1,
-        39.0
+        39
       ],
       [
         45.3,
@@ -3623,7 +3673,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Кубань: Склоны Эльбруса ➔ Темрюкский залив (Азовское море)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_kuma_river",
@@ -3639,7 +3690,7 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Кума",
     "geometryType": "polyline",
     "lat": 44.6,
-    "lng": 44.0,
+    "lng": 44,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -3652,7 +3703,7 @@ const MODULE4_ITEMS = [
         44.5
       ],
       [
-        45.0,
+        45,
         46.5
       ]
     ],
@@ -3690,7 +3741,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Кума: Северные склоны Скалистого хребта ➔ Каспийское море (теряется в песках)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_kura",
@@ -3705,13 +3757,13 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Армянское нагорье (Турция) ➔ Каспийское море (Закавказье))",
     "mapPrompt": "Покажите реку: Кура",
     "geometryType": "polyline",
-    "lat": 41.0,
-    "lng": 46.0,
+    "lat": 41,
+    "lng": 46,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        41.0,
+        41,
         42.5
       ],
       [
@@ -3720,7 +3772,7 @@ const MODULE4_ITEMS = [
       ],
       [
         40.5,
-        47.0
+        47
       ],
       [
         39.4,
@@ -3764,7 +3816,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Кура: Армянское нагорье (Турция) ➔ Каспийское море (Закавказье)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_araks",
@@ -3780,7 +3833,7 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Аракс",
     "geometryType": "polyline",
     "lat": 39.5,
-    "lng": 45.0,
+    "lng": 45,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -3790,14 +3843,14 @@ const MODULE4_ITEMS = [
       ],
       [
         39.9,
-        44.0
+        44
       ],
       [
-        39.0,
+        39,
         46.5
       ],
       [
-        40.0,
+        40,
         48.4
       ]
     ],
@@ -3836,7 +3889,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Аракс: Бингёльский хребет ➔ Кура (крупнейший правый приток)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_lena",
@@ -3851,34 +3905,34 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Байкальский хребет ➔ море Лаптевых (гигантская дельта))",
     "mapPrompt": "Покажите реку: Лена",
     "geometryType": "polyline",
-    "lat": 62.0,
-    "lng": 125.0,
+    "lat": 62,
+    "lng": 125,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        54.0,
-        108.0
+        54,
+        108
       ],
       [
-        58.0,
-        114.0
+        58,
+        114
       ],
       [
         60.4,
         120.4
       ],
       [
-        62.0,
+        62,
         129.7
       ],
       [
-        67.0,
+        67,
         123.5
       ],
       [
         72.5,
-        127.0
+        127
       ]
     ],
     "flowStyle": {
@@ -3919,7 +3973,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Лена: Байкальский хребет ➔ море Лаптевых (гигантская дельта)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_aldan",
@@ -3934,22 +3989,22 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Становой хребет ➔ Лена (крупнейший правый приток))",
     "mapPrompt": "Покажите реку: Алдан",
     "geometryType": "polyline",
-    "lat": 60.0,
-    "lng": 131.0,
+    "lat": 60,
+    "lng": 131,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
         56.5,
-        124.0
+        124
       ],
       [
         58.5,
-        128.0
+        128
       ],
       [
-        62.0,
-        134.0
+        62,
+        134
       ],
       [
         63.4,
@@ -3993,7 +4048,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Алдан: Становой хребет ➔ Лена (крупнейший правый приток)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_vitim",
@@ -4009,17 +4065,17 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Витим",
     "geometryType": "polyline",
     "lat": 56.5,
-    "lng": 115.0,
+    "lng": 115,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        54.0,
+        54,
         112.5
       ],
       [
-        56.0,
-        116.0
+        56,
+        116
       ],
       [
         59.4,
@@ -4058,7 +4114,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Витим: Слияние Витимкана и Чины ➔ Лена."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_vilyuy",
@@ -4074,17 +4131,17 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Вилюй",
     "geometryType": "polyline",
     "lat": 63.5,
-    "lng": 117.0,
+    "lng": 117,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        64.0,
-        106.0
+        64,
+        106
       ],
       [
         62.5,
-        114.0
+        114
       ],
       [
         63.8,
@@ -4130,7 +4187,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Вилюй: Вилюйское плато ➔ Лена (крупнейший левый приток)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_loire",
@@ -4146,7 +4204,7 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Луара",
     "geometryType": "polyline",
     "lat": 47.3,
-    "lng": 1.0,
+    "lng": 1,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -4155,8 +4213,8 @@ const MODULE4_ITEMS = [
         4.2
       ],
       [
-        47.0,
-        3.0
+        47,
+        3
       ],
       [
         47.5,
@@ -4203,7 +4261,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Луара: Центральный массив (Франция) ➔ Бискайский залив (длиннейшая река Франции)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_manych",
@@ -4219,7 +4278,7 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Маныч (Западный и Восточный)",
     "geometryType": "polyline",
     "lat": 46.5,
-    "lng": 42.0,
+    "lng": 42,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -4270,7 +4329,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Маныч (Западный и Восточный): Кумо-Манычская впадина (граница Европы и Азии) ➔ Дон."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_maritsa",
@@ -4304,7 +4364,7 @@ const MODULE4_ITEMS = [
       ],
       [
         40.8,
-        26.0
+        26
       ]
     ],
     "flowStyle": {
@@ -4342,7 +4402,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Марица (Эврос): Рила (Балканы, Болгария) ➔ Эгейское море."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_mekong",
@@ -4357,25 +4418,25 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Тибетское нагорье ➔ Южно-Китайское море (крупнейшая река Индокитая))",
     "mapPrompt": "Покажите реку: Меконг",
     "geometryType": "polyline",
-    "lat": 18.0,
-    "lng": 103.0,
+    "lat": 18,
+    "lng": 103,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        33.0,
-        94.0
+        33,
+        94
       ],
       [
-        28.0,
-        99.0
+        28,
+        99
       ],
       [
-        20.0,
-        101.0
+        20,
+        101
       ],
       [
-        15.0,
+        15,
         105.5
       ],
       [
@@ -4418,7 +4479,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Меконг: Тибетское нагорье ➔ Южно-Китайское море (крупнейшая река Индокитая)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_nadym",
@@ -4433,14 +4495,14 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Сибирские Увалы ➔ Обская губа (Карское море))",
     "mapPrompt": "Покажите реку: Надым",
     "geometryType": "polyline",
-    "lat": 65.0,
+    "lat": 65,
     "lng": 72.8,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
         63.8,
-        73.0
+        73
       ],
       [
         65.5,
@@ -4483,7 +4545,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Надым: Сибирские Увалы ➔ Обская губа (Карское море)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_narmada",
@@ -4498,8 +4561,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Плато Амаркантак (Индия) ➔ Аравийский море (Камбейский залив))",
     "mapPrompt": "Покажите реку: Нармада",
     "geometryType": "polyline",
-    "lat": 22.0,
-    "lng": 77.0,
+    "lat": 22,
+    "lng": 77,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -4508,8 +4571,8 @@ const MODULE4_ITEMS = [
         81.7
       ],
       [
-        22.0,
-        78.0
+        22,
+        78
       ],
       [
         21.7,
@@ -4548,7 +4611,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Нармада: Плато Амаркантак (Индия) ➔ Аравийский море (Камбейский залив)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_neva",
@@ -4613,7 +4677,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Нева: Ладожское озеро ➔ Финский залив (Балтийское море, Санкт-Петербург)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_neman",
@@ -4628,8 +4693,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Минская возвышенность (Беларусь) ➔ Куршский залив (Балтийское море))",
     "mapPrompt": "Покажите реку: Неман",
     "geometryType": "polyline",
-    "lat": 54.0,
-    "lng": 24.0,
+    "lat": 54,
+    "lng": 24,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -4685,7 +4750,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Неман: Минская возвышенность (Беларусь) ➔ Куршский залив (Балтийское море)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_ob",
@@ -4703,25 +4769,25 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Слияние Бии и Катуни (Алтай) ➔ Обская губа (Карское море))",
     "mapPrompt": "Покажите реку: Обь",
     "geometryType": "polyline",
-    "lat": 58.0,
-    "lng": 76.0,
+    "lat": 58,
+    "lng": 76,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
         52.4,
-        85.0
+        85
       ],
       [
         53.4,
         83.8
       ],
       [
-        55.0,
+        55,
         82.9
       ],
       [
-        61.0,
+        61,
         69.1
       ],
       [
@@ -4767,7 +4833,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Обь: Слияние Бии и Катуни (Алтай) ➔ Обская губа (Карское море)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_biya",
@@ -4783,7 +4850,7 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Бия",
     "geometryType": "polyline",
     "lat": 52.2,
-    "lng": 86.0,
+    "lng": 86,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -4793,7 +4860,7 @@ const MODULE4_ITEMS = [
       ],
       [
         52.4,
-        85.0
+        85
       ]
     ],
     "flowStyle": {
@@ -4828,7 +4895,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Бия: Телецкое озеро (Алтай) ➔ исток Оби."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_katun",
@@ -4843,7 +4911,7 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Ледник Геблера (гора Белуха, Алтай) ➔ исток Оби)",
     "mapPrompt": "Покажите реку: Катунь",
     "geometryType": "polyline",
-    "lat": 51.0,
+    "lat": 51,
     "lng": 86.2,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
@@ -4854,11 +4922,11 @@ const MODULE4_ITEMS = [
       ],
       [
         51.5,
-        86.0
+        86
       ],
       [
         52.4,
-        85.0
+        85
       ]
     ],
     "flowStyle": {
@@ -4893,7 +4961,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Катунь: Ледник Геблера (гора Белуха, Алтай) ➔ исток Оби."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_irtysh",
@@ -4908,8 +4977,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Монгольский Алтай (Чёрный Иртыш) ➔ Обь (Ханты-Мансийск, главный приток Оби))",
     "mapPrompt": "Покажите реку: Иртыш",
     "geometryType": "polyline",
-    "lat": 54.0,
-    "lng": 75.0,
+    "lat": 54,
+    "lng": 75,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -4918,15 +4987,15 @@ const MODULE4_ITEMS = [
         89.5
       ],
       [
-        48.0,
-        84.0
+        48,
+        84
       ],
       [
         50.4,
         80.2
       ],
       [
-        55.0,
+        55,
         73.4
       ],
       [
@@ -4934,7 +5003,7 @@ const MODULE4_ITEMS = [
         68.2
       ],
       [
-        61.0,
+        61,
         69.1
       ]
     ],
@@ -4975,7 +5044,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Иртыш: Монгольский Алтай (Чёрный Иртыш) ➔ Обь (Ханты-Мансийск, главный приток Оби)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_ishim",
@@ -4990,14 +5060,14 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Казахский мелкосопочник (Нияз) ➔ Иртыш (Усть-Ишим))",
     "mapPrompt": "Покажите реку: Ишим",
     "geometryType": "polyline",
-    "lat": 53.0,
-    "lng": 70.0,
+    "lat": 53,
+    "lng": 70,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
         50.3,
-        73.0
+        73
       ],
       [
         51.2,
@@ -5044,7 +5114,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Ишим: Казахский мелкосопочник (Нияз) ➔ Иртыш (Усть-Ишим)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_tobol",
@@ -5059,17 +5130,17 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Южный Урал / Тургайское плато ➔ Иртыш (Тобольск))",
     "mapPrompt": "Покажите реку: Тобол",
     "geometryType": "polyline",
-    "lat": 55.0,
+    "lat": 55,
     "lng": 64.5,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
         51.5,
-        61.0
+        61
       ],
       [
-        54.0,
+        54,
         63.5
       ],
       [
@@ -5118,7 +5189,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Тобол: Южный Урал / Тургайское плато ➔ Иртыш (Тобольск)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_oder",
@@ -5133,8 +5205,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Судеты (Чехия) ➔ Щецинский залив (Балтийское море))",
     "mapPrompt": "Покажите реку: Одра (Одер)",
     "geometryType": "polyline",
-    "lat": 52.0,
-    "lng": 15.0,
+    "lat": 52,
+    "lng": 15,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -5144,7 +5216,7 @@ const MODULE4_ITEMS = [
       ],
       [
         51.1,
-        17.0
+        17
       ],
       [
         52.4,
@@ -5190,7 +5262,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Одра (Одер): Судеты (Чехия) ➔ Щецинский залив (Балтийское море)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_olenyok",
@@ -5205,26 +5278,26 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Вилюйское плато ➔ Оленёкский залив (море Лаптевых))",
     "mapPrompt": "Покажите реку: Оленёк",
     "geometryType": "polyline",
-    "lat": 70.0,
-    "lng": 118.0,
+    "lat": 70,
+    "lng": 118,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        67.0,
-        105.0
+        67,
+        105
       ],
       [
         68.5,
-        114.0
+        114
       ],
       [
-        72.0,
-        121.0
+        72,
+        121
       ],
       [
-        73.0,
-        119.0
+        73,
+        119
       ]
     ],
     "flowStyle": {
@@ -5259,7 +5332,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Оленёк: Вилюйское плато ➔ Оленёкский залив (море Лаптевых)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_pechora",
@@ -5274,8 +5348,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Северный Урал ➔ Печорская губа (Баренцево море))",
     "mapPrompt": "Покажите реку: Печора",
     "geometryType": "polyline",
-    "lat": 65.0,
-    "lng": 55.0,
+    "lat": 65,
+    "lng": 55,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -5284,8 +5358,8 @@ const MODULE4_ITEMS = [
         59.4
       ],
       [
-        64.0,
-        57.0
+        64,
+        57
       ],
       [
         65.4,
@@ -5332,7 +5406,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Печора: Северный Урал ➔ Печорская губа (Баренцево море)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_po_river",
@@ -5347,8 +5422,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Коттские Альпы (Монте-Визо) ➔ Адриатическое море (длиннейшая река Италии))",
     "mapPrompt": "Покажите реку: По",
     "geometryType": "polyline",
-    "lat": 45.0,
-    "lng": 10.0,
+    "lat": 45,
+    "lng": 10,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -5361,7 +5436,7 @@ const MODULE4_ITEMS = [
         9.5
       ],
       [
-        45.0,
+        45,
         11.5
       ],
       [
@@ -5405,7 +5480,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река По: Коттские Альпы (Монте-Визо) ➔ Адриатическое море (длиннейшая река Италии)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_pur_river",
@@ -5421,20 +5497,20 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Пур",
     "geometryType": "polyline",
     "lat": 65.5,
-    "lng": 78.0,
+    "lng": 78,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        64.0,
-        78.0
+        64,
+        78
       ],
       [
         65.5,
         78.2
       ],
       [
-        67.0,
+        67,
         77.8
       ]
     ],
@@ -5470,7 +5546,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Пур: Слияние Пякупура и Айваседапура ➔ Тазовская губа (Карское море)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_rhine",
@@ -5485,8 +5562,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Альпы (Швейцария) ➔ Северное море (дельта в Нидерландах))",
     "mapPrompt": "Покажите реку: Рейн",
     "geometryType": "polyline",
-    "lat": 50.0,
-    "lng": 8.0,
+    "lat": 50,
+    "lng": 8,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -5500,7 +5577,7 @@ const MODULE4_ITEMS = [
       ],
       [
         48.6,
-        8.0
+        8
       ],
       [
         50.1,
@@ -5553,7 +5630,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Рейн: Альпы (Швейцария) ➔ Северное море (дельта в Нидерландах)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_rioni",
@@ -5618,7 +5696,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Риони: Большой Кавказ ➔ Чёрное море (Поти, Грузия)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_rhone",
@@ -5633,7 +5712,7 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Ронский ледник (Лепонтинские Альпы, Швейцария) ➔ Лионский залив (Средиземное море))",
     "mapPrompt": "Покажите реку: Рона",
     "geometryType": "polyline",
-    "lat": 45.0,
+    "lat": 45,
     "lng": 4.8,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
@@ -5691,7 +5770,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Рона: Ронский ледник (Лепонтинские Альпы, Швейцария) ➔ Лионский залив (Средиземное море)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_salween",
@@ -5706,21 +5786,21 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Тибетское нагорье (Тангла) ➔ Андаманское море (Мьянма))",
     "mapPrompt": "Покажите реку: Салуин",
     "geometryType": "polyline",
-    "lat": 22.0,
+    "lat": 22,
     "lng": 98.5,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        32.0,
+        32,
         91.5
       ],
       [
-        26.0,
+        26,
         98.8
       ],
       [
-        19.0,
+        19,
         97.5
       ],
       [
@@ -5760,7 +5840,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Салуин: Тибетское нагорье (Тангла) ➔ Андаманское море (Мьянма)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_seine",
@@ -5786,7 +5867,7 @@ const MODULE4_ITEMS = [
       ],
       [
         48.5,
-        3.0
+        3
       ],
       [
         48.8,
@@ -5833,7 +5914,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Сена: Плато Лангр (Бургундия) ➔ пролив Ла-Манш (Гавр, Франция)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_severnaya_dvina",
@@ -5848,8 +5930,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Слияние Сухоны и Юга (Великий Устюг) ➔ Белое море (Двинская губа))",
     "mapPrompt": "Покажите реку: Северная Двина",
     "geometryType": "polyline",
-    "lat": 63.0,
-    "lng": 43.0,
+    "lat": 63,
+    "lng": 43,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -5902,7 +5984,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Северная Двина: Слияние Сухоны и Юга (Великий Устюг) ➔ Белое море (Двинская губа)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_pearl_river",
@@ -5918,17 +6001,17 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Сицзян (Жемчужная река)",
     "geometryType": "polyline",
     "lat": 23.5,
-    "lng": 110.0,
+    "lng": 110,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        25.0,
-        104.0
+        25,
+        104
       ],
       [
         23.5,
-        108.0
+        108
       ],
       [
         23.1,
@@ -5973,7 +6056,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Сицзян (Жемчужная река): Юньнань-Гуйчжоуское нагорье ➔ Южно-Китайское море (Гуанчжоу/Гонконг)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_syrdarya",
@@ -5988,17 +6072,17 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Центральный Тянь-Шань ➔ Малое Аральское море)",
     "mapPrompt": "Покажите реку: Сырдарья (с Нарыном)",
     "geometryType": "polyline",
-    "lat": 43.0,
-    "lng": 67.0,
+    "lat": 43,
+    "lng": 67,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
         41.8,
-        77.0
+        77
       ],
       [
-        41.0,
+        41,
         71.5
       ],
       [
@@ -6011,7 +6095,7 @@ const MODULE4_ITEMS = [
       ],
       [
         46.1,
-        61.0
+        61
       ]
     ],
     "flowStyle": {
@@ -6050,7 +6134,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Сырдарья (с Нарыном): Центральный Тянь-Шань ➔ Малое Аральское море."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_taz_river",
@@ -6065,8 +6150,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Сибирские Увалы ➔ Тазовская губа (Карское море))",
     "mapPrompt": "Покажите реку: Таз",
     "geometryType": "polyline",
-    "lat": 65.0,
-    "lng": 80.0,
+    "lat": 65,
+    "lng": 80,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -6075,8 +6160,8 @@ const MODULE4_ITEMS = [
         83.5
       ],
       [
-        64.0,
-        81.0
+        64,
+        81
       ],
       [
         67.5,
@@ -6115,7 +6200,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Таз: Сибирские Увалы ➔ Тазовская губа (Карское море)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_tarim",
@@ -6130,8 +6216,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Слияние Аксу и Яркенда ➔ бессточное озеро Лобнор (пустыня Такла-Макан))",
     "mapPrompt": "Покажите реку: Тарим",
     "geometryType": "polyline",
-    "lat": 41.0,
-    "lng": 84.0,
+    "lat": 41,
+    "lng": 84,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -6140,16 +6226,16 @@ const MODULE4_ITEMS = [
         80.5
       ],
       [
-        41.0,
-        84.0
+        41,
+        84
       ],
       [
-        41.0,
-        87.0
+        41,
+        87
       ],
       [
         40.5,
-        90.0
+        90
       ]
     ],
     "flowStyle": {
@@ -6188,7 +6274,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Тарим: Слияние Аксу и Яркенда ➔ бессточное озеро Лобнор (пустыня Такла-Макан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_tagus",
@@ -6214,7 +6301,7 @@ const MODULE4_ITEMS = [
       ],
       [
         39.8,
-        -4.0
+        -4
       ],
       [
         39.5,
@@ -6259,7 +6346,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Тахо (Тежу): Универсальные горы (Испания) ➔ Атлантический океан (Лиссабон, длиннейшая на Пиренеях)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_thames",
@@ -6281,7 +6369,7 @@ const MODULE4_ITEMS = [
     "coords": [
       [
         51.7,
-        -2.0
+        -2
       ],
       [
         51.5,
@@ -6324,7 +6412,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Темза: Котсуолд-Хилс ➔ Северное море (Лондон, Великобритания)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_terek",
@@ -6340,7 +6429,7 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Терек",
     "geometryType": "polyline",
     "lat": 43.5,
-    "lng": 45.0,
+    "lng": 45,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -6397,7 +6486,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Терек: Ледник Зилга-Хох (Главный Кавказский хребет) ➔ Каспийское море (Аграханский залив)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_tiber",
@@ -6468,7 +6558,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Тибр: Тосканские Апеннины ➔ Тирренское море (Рим, Италия)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_ural_river",
@@ -6486,7 +6577,7 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Урал",
     "geometryType": "polyline",
     "lat": 51.5,
-    "lng": 55.0,
+    "lng": 55,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -6542,7 +6633,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Урал: Хребет Уралтау ➔ Каспийское море (граница Европы и Азии)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_khatanga",
@@ -6557,22 +6649,22 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Плато Путорана ➔ Хатангский залив (море Лаптевых))",
     "mapPrompt": "Покажите реку: Хатанга (с Котуем)",
     "geometryType": "polyline",
-    "lat": 71.0,
-    "lng": 102.0,
+    "lat": 71,
+    "lng": 102,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
         67.5,
-        98.0
+        98
       ],
       [
         71.5,
-        102.0
+        102
       ],
       [
-        73.0,
-        106.0
+        73,
+        106
       ]
     ],
     "flowStyle": {
@@ -6610,7 +6702,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Хатанга (с Котуем): Плато Путорана ➔ Хатангский залив (море Лаптевых)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_yellow_river",
@@ -6625,30 +6718,30 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Тибетское нагорье (хр. Баян-Хара-Ула) ➔ Бохайский залив (Жёлтое море))",
     "mapPrompt": "Покажите реку: Хуанхэ (Жёлтая река)",
     "geometryType": "polyline",
-    "lat": 37.0,
-    "lng": 110.0,
+    "lat": 37,
+    "lng": 110,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        35.0,
-        96.0
+        35,
+        96
       ],
       [
-        38.0,
-        102.0
+        38,
+        102
       ],
       [
         40.5,
-        110.0
+        110
       ],
       [
-        35.0,
-        111.0
+        35,
+        111
       ],
       [
         37.8,
-        119.0
+        119
       ]
     ],
     "flowStyle": {
@@ -6686,7 +6779,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Хуанхэ (Жёлтая река): Тибетское нагорье (хр. Баян-Хара-Ула) ➔ Бохайский залив (Жёлтое море)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_chu_river",
@@ -6701,14 +6795,14 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Ледники Терскей-Алатау ➔ пустыня Муюнкум (теряется в песках))",
     "mapPrompt": "Покажите реку: Чу",
     "geometryType": "polyline",
-    "lat": 43.0,
-    "lng": 73.0,
+    "lat": 43,
+    "lng": 73,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
         42.2,
-        76.0
+        76
       ],
       [
         42.8,
@@ -6716,7 +6810,7 @@ const MODULE4_ITEMS = [
       ],
       [
         43.5,
-        71.0
+        71
       ],
       [
         44.8,
@@ -6755,7 +6849,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Чу: Ледники Терскей-Алатау ➔ пустыня Муюнкум (теряется в песках)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_shatt_al_arab",
@@ -6771,12 +6866,12 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Шатт-эль-Араб (Тигр и Евфрат)",
     "geometryType": "polyline",
     "lat": 30.5,
-    "lng": 48.0,
+    "lng": 48,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        31.0,
+        31,
         47.4
       ],
       [
@@ -6820,7 +6915,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Шатт-эль-Араб (Тигр и Евфрат): Слияние Тигра и Евфрата ➔ Персидский залив (Месопотамия)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_tigris",
@@ -6835,7 +6931,7 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Армянское нагорье (оз. Хазар, Турция) ➔ Шатт-эль-Араб)",
     "mapPrompt": "Покажите реку: Тигр",
     "geometryType": "polyline",
-    "lat": 35.0,
+    "lat": 35,
     "lng": 43.5,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
@@ -6845,15 +6941,15 @@ const MODULE4_ITEMS = [
         39.5
       ],
       [
-        37.0,
-        42.0
+        37,
+        42
       ],
       [
         33.3,
         44.4
       ],
       [
-        31.0,
+        31,
         47.4
       ]
     ],
@@ -6893,7 +6989,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Тигр: Армянское нагорье (оз. Хазар, Турция) ➔ Шатт-эль-Араб."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_euphrates",
@@ -6909,7 +7006,7 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Евфрат (с Муратом)",
     "geometryType": "polyline",
     "lat": 35.5,
-    "lng": 40.0,
+    "lng": 40,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -6918,15 +7015,15 @@ const MODULE4_ITEMS = [
         41.5
       ],
       [
-        37.0,
-        38.0
+        37,
+        38
       ],
       [
-        34.0,
-        42.0
+        34,
+        42
       ],
       [
-        31.0,
+        31,
         47.4
       ]
     ],
@@ -6966,7 +7063,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Евфрат (с Муратом): Армянское нагорье (слияние Карасу и Мурата) ➔ Шатт-эль-Араб."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_elbe",
@@ -6981,8 +7079,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Исполинские горы (Крконоше, Чехия) ➔ Северное море (Гамбург))",
     "mapPrompt": "Покажите реку: Эльба (Лаба)",
     "geometryType": "polyline",
-    "lat": 52.0,
-    "lng": 12.0,
+    "lat": 52,
+    "lng": 12,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -6991,7 +7089,7 @@ const MODULE4_ITEMS = [
         15.5
       ],
       [
-        51.0,
+        51,
         13.7
       ],
       [
@@ -7043,7 +7141,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Эльба (Лаба): Исполинские горы (Крконоше, Чехия) ➔ Северное море (Гамбург)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_emba",
@@ -7059,17 +7158,17 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Эмба",
     "geometryType": "polyline",
     "lat": 47.5,
-    "lng": 55.0,
+    "lng": 55,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        49.0,
+        49,
         58.5
       ],
       [
         47.5,
-        55.0
+        55
       ],
       [
         46.8,
@@ -7108,7 +7207,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Эмба: Подуральское плато (Мугоджары) ➔ Каспийское море (Казахстан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_yana_river",
@@ -7123,8 +7223,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Слияние Сартанга и Дулгалаха (Верхоянский хр.) ➔ Янский залив (море Лаптевых))",
     "mapPrompt": "Покажите реку: Яна",
     "geometryType": "polyline",
-    "lat": 69.0,
-    "lng": 134.0,
+    "lat": 69,
+    "lng": 134,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -7138,7 +7238,7 @@ const MODULE4_ITEMS = [
       ],
       [
         71.5,
-        136.0
+        136
       ]
     ],
     "flowStyle": {
@@ -7173,7 +7273,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Яна: Слияние Сартанга и Дулгалаха (Верхоянский хр.) ➔ Янский залив (море Лаптевых)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_yangtze",
@@ -7191,17 +7292,17 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Янцзы (Голубая река)",
     "geometryType": "polyline",
     "lat": 30.5,
-    "lng": 112.0,
+    "lng": 112,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
         33.5,
-        91.0
+        91
       ],
       [
-        28.0,
-        102.0
+        28,
+        102
       ],
       [
         29.5,
@@ -7253,7 +7354,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Янцзы (Голубая река): Тибетское нагорье (ледник Геладандун) ➔ Восточно-Китайское море (длиннейшая в Евразии)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_zambezi",
@@ -7268,8 +7370,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Африка (Плато Лунда (Замбия) ➔ Индийский океан (Мозамбикский пролив, водопад Виктория))",
     "mapPrompt": "Покажите реку: Замбези",
     "geometryType": "polyline",
-    "lat": -16.0,
-    "lng": 28.0,
+    "lat": -16,
+    "lng": 28,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -7326,7 +7428,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Замбези: Плато Лунда (Замбия) ➔ Индийский океан (Мозамбикский пролив, водопад Виктория)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_congo",
@@ -7343,33 +7446,33 @@ const MODULE4_ITEMS = [
     "locationDesc": "Африка (Слияние Луалабы и Луапулы ➔ Атлантический океан (самая глубокая и 2-я по водоносности))",
     "mapPrompt": "Покажите реку: Конго (Заир)",
     "geometryType": "polyline",
-    "lat": 0.0,
-    "lng": 22.0,
+    "lat": 0,
+    "lng": 22,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        -11.0,
+        -11,
         26.5
       ],
       [
         0.5,
-        25.0
+        25
       ],
       [
-        2.0,
-        22.0
+        2,
+        22
       ],
       [
-        -1.0,
-        17.0
+        -1,
+        17
       ],
       [
         -4.3,
         15.3
       ],
       [
-        -6.0,
+        -6,
         12.4
       ]
     ],
@@ -7411,7 +7514,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Конго (Заир): Слияние Луалабы и Луапулы ➔ Атлантический океан (самая глубокая и 2-я по водоносности)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_lualaba",
@@ -7426,18 +7530,18 @@ const MODULE4_ITEMS = [
     "locationDesc": "Африка (Плато Катанга ➔ река Конго (до водопадов Бойома/Стэнли))",
     "mapPrompt": "Покажите реку: Луалаба (исток Конго)",
     "geometryType": "polyline",
-    "lat": -5.0,
+    "lat": -5,
     "lng": 26.5,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
         -11.5,
-        26.0
+        26
       ],
       [
-        -8.0,
-        27.0
+        -8,
+        27
       ],
       [
         0.5,
@@ -7476,7 +7580,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Луалаба (исток Конго): Плато Катанга ➔ река Конго (до водопадов Бойома/Стэнли)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_ubangi",
@@ -7492,12 +7597,12 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Убанги",
     "geometryType": "polyline",
     "lat": 2.5,
-    "lng": 19.0,
+    "lng": 19,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        4.0,
+        4,
         22.5
       ],
       [
@@ -7541,7 +7646,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Убанги: Слияние Мбому и Уэле ➔ Конго (крупнейший правый приток)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_kasai_kwa",
@@ -7556,22 +7662,22 @@ const MODULE4_ITEMS = [
     "locationDesc": "Африка (Плато Лунда (Ангола) ➔ Конго (крупнейший левый приток))",
     "mapPrompt": "Покажите реку: Ква (Касаи)",
     "geometryType": "polyline",
-    "lat": -6.0,
-    "lng": 20.0,
+    "lat": -6,
+    "lng": 20,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        -11.0,
-        19.0
+        -11,
+        19
       ],
       [
-        -5.0,
-        21.0
+        -5,
+        21
       ],
       [
-        -3.0,
-        17.0
+        -3,
+        17
       ]
     ],
     "flowStyle": {
@@ -7608,7 +7714,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Ква (Касаи): Плато Лунда (Ангола) ➔ Конго (крупнейший левый приток)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_limpopo",
@@ -7624,12 +7731,12 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Лимпопо (Крокодиловая)",
     "geometryType": "polyline",
     "lat": -23.5,
-    "lng": 31.0,
+    "lng": 31,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        -26.0,
+        -26,
         27.5
       ],
       [
@@ -7676,7 +7783,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Лимпопо (Крокодиловая): Хребет Витватерсранд (ЮАР) ➔ Индийский океан."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_niger_river",
@@ -7691,8 +7799,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Африка (Леоно-Либерийская возвышенность ➔ Гвинейский залив (Атлантический океан))",
     "mapPrompt": "Покажите реку: Нигер",
     "geometryType": "polyline",
-    "lat": 14.0,
-    "lng": 0.0,
+    "lat": 14,
+    "lng": 0,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -7701,20 +7809,20 @@ const MODULE4_ITEMS = [
         -10.5
       ],
       [
-        14.0,
-        -4.0
+        14,
+        -4
       ],
       [
-        17.0,
-        -3.0
+        17,
+        -3
       ],
       [
-        13.0,
-        3.0
+        13,
+        3
       ],
       [
-        5.0,
-        6.0
+        5,
+        6
       ]
     ],
     "flowStyle": {
@@ -7751,7 +7859,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Нигер: Леоно-Либерийская возвышенность ➔ Гвинейский залив (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_nile",
@@ -7766,7 +7875,7 @@ const MODULE4_ITEMS = [
     "locationDesc": "Африка (Восточно-Африканское плоскогорье ➔ Средиземное море (длиннейшая река Африки))",
     "mapPrompt": "Покажите реку: Нил (с Кагерой)",
     "geometryType": "polyline",
-    "lat": 15.0,
+    "lat": 15,
     "lng": 32.5,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
@@ -7776,7 +7885,7 @@ const MODULE4_ITEMS = [
         29.5
       ],
       [
-        2.0,
+        2,
         31.5
       ],
       [
@@ -7788,7 +7897,7 @@ const MODULE4_ITEMS = [
         32.5
       ],
       [
-        24.0,
+        24,
         32.9
       ],
       [
@@ -7833,7 +7942,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Нил (с Кагерой): Восточно-Африканское плоскогорье ➔ Средиземное море (длиннейшая река Африки)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_bahr_el_jebel",
@@ -7848,7 +7958,7 @@ const MODULE4_ITEMS = [
     "locationDesc": "Африка (Озеро Альберт ➔ болота Сэдд (Южный Судан))",
     "mapPrompt": "Покажите реку: Бахр-эль-Джебель (Горный Нил)",
     "geometryType": "polyline",
-    "lat": 6.0,
+    "lat": 6,
     "lng": 31.5,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
@@ -7858,7 +7968,7 @@ const MODULE4_ITEMS = [
         31.5
       ],
       [
-        5.0,
+        5,
         31.5
       ],
       [
@@ -7898,7 +8008,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Бахр-эль-Джебель (Горный Нил): Озеро Альберт ➔ болота Сэдд (Южный Судан)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_white_nile",
@@ -7913,7 +8024,7 @@ const MODULE4_ITEMS = [
     "locationDesc": "Африка (Озеро Но (слияние Бахр-эль-Джебель и Бахр-эль-Газаль) ➔ Хартум)",
     "mapPrompt": "Покажите реку: Белый Нил (Бахр-эль-Абьяд)",
     "geometryType": "polyline",
-    "lat": 12.0,
+    "lat": 12,
     "lng": 32.5,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
@@ -7923,7 +8034,7 @@ const MODULE4_ITEMS = [
         31.5
       ],
       [
-        12.0,
+        12,
         32.5
       ],
       [
@@ -7963,7 +8074,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Белый Нил (Бахр-эль-Абьяд): Озеро Но (слияние Бахр-эль-Джебель и Бахр-эль-Газаль) ➔ Хартум."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_blue_nile",
@@ -7978,18 +8090,18 @@ const MODULE4_ITEMS = [
     "locationDesc": "Африка (Озеро Тана (Эфиопское нагорье) ➔ Хартум (слияние с Белым Нилом))",
     "mapPrompt": "Покажите реку: Голубой Нил (Бахр-эль-Азрак)",
     "geometryType": "polyline",
-    "lat": 13.0,
-    "lng": 35.0,
+    "lat": 13,
+    "lng": 35,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        12.0,
+        12,
         37.3
       ],
       [
-        11.0,
-        35.0
+        11,
+        35
       ],
       [
         15.6,
@@ -8028,7 +8140,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Голубой Нил (Бахр-эль-Азрак): Озеро Тана (Эфиопское нагорье) ➔ Хартум (слияние с Белым Нилом)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_okavango",
@@ -8043,22 +8156,22 @@ const MODULE4_ITEMS = [
     "locationDesc": "Африка (Плато Бие (Ангола) ➔ бессточная внутренняя дельта Окаванго (пустыня Калахари))",
     "mapPrompt": "Покажите реку: Окаванго (Кубанго)",
     "geometryType": "polyline",
-    "lat": -18.0,
-    "lng": 21.0,
+    "lat": -18,
+    "lng": 21,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
         -12.7,
-        16.0
+        16
       ],
       [
-        -18.0,
+        -18,
         21.5
       ],
       [
         -19.5,
-        23.0
+        23
       ]
     ],
     "flowStyle": {
@@ -8093,7 +8206,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Окаванго (Кубанго): Плато Бие (Ангола) ➔ бессточная внутренняя дельта Окаванго (пустыня Калахари)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_orange_river",
@@ -8108,18 +8222,18 @@ const MODULE4_ITEMS = [
     "locationDesc": "Африка (Драконовы горы (Лесото) ➔ Атлантический океан)",
     "mapPrompt": "Покажите реку: Оранжевая (Гарип)",
     "geometryType": "polyline",
-    "lat": -29.0,
-    "lng": 22.0,
+    "lat": -29,
+    "lng": 22,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        -29.0,
-        29.0
+        -29,
+        29
       ],
       [
-        -30.0,
-        25.0
+        -30,
+        25
       ],
       [
         -28.5,
@@ -8160,7 +8274,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Оранжевая (Гарип): Драконовы горы (Лесото) ➔ Атлантический океан."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_rufiji",
@@ -8175,18 +8290,18 @@ const MODULE4_ITEMS = [
     "locationDesc": "Африка (Горы к востоку от озера Ньяса ➔ Индийский океан (Танзания))",
     "mapPrompt": "Покажите реку: Руфиджи",
     "geometryType": "polyline",
-    "lat": -8.0,
-    "lng": 38.0,
+    "lat": -8,
+    "lng": 38,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        -9.0,
-        36.0
+        -9,
+        36
       ],
       [
-        -8.0,
-        38.0
+        -8,
+        38
       ],
       [
         -7.8,
@@ -8225,7 +8340,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Руфиджи: Горы к востоку от озера Ньяса ➔ Индийский океан (Танзания)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_senegal_river",
@@ -8241,7 +8357,7 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Сенегал",
     "geometryType": "polyline",
     "lat": 15.5,
-    "lng": -13.0,
+    "lng": -13,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -8250,15 +8366,15 @@ const MODULE4_ITEMS = [
         -10.8
       ],
       [
-        15.0,
+        15,
         -12.5
       ],
       [
         16.5,
-        -15.0
+        -15
       ],
       [
-        16.0,
+        16,
         -16.5
       ]
     ],
@@ -8294,7 +8410,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Сенегал: Плато Фута-Джаллон (слияние Бафинга и Бакоя) ➔ Атлантический океан."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_chari_river",
@@ -8310,16 +8427,16 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Шари",
     "geometryType": "polyline",
     "lat": 10.5,
-    "lng": 17.0,
+    "lng": 17,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        8.0,
-        19.0
+        8,
+        19
       ],
       [
-        10.0,
+        10,
         17.5
       ],
       [
@@ -8361,7 +8478,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Шари: Центральноафриканское плато ➔ озеро Чад (главный приток)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_hudson_na",
@@ -8376,14 +8494,14 @@ const MODULE4_ITEMS = [
     "locationDesc": "Северная Америка (Горы Адирондак ➔ Атлантический океан (Нью-Йорк))",
     "mapPrompt": "Покажите реку: Гудзон",
     "geometryType": "polyline",
-    "lat": 42.0,
+    "lat": 42,
     "lng": -73.8,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        44.0,
-        -74.0
+        44,
+        -74
       ],
       [
         42.5,
@@ -8391,7 +8509,7 @@ const MODULE4_ITEMS = [
       ],
       [
         40.7,
-        -74.0
+        -74
       ]
     ],
     "flowStyle": {
@@ -8428,7 +8546,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Гудзон: Горы Адирондак ➔ Атлантический океан (Нью-Йорк)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_colorado_river",
@@ -8443,8 +8562,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Северная Америка (Скалистые горы (Колорадо) ➔ Калифорнийский залив (Тихий океан))",
     "mapPrompt": "Покажите реку: Колорадо (река Гранд-Каньона)",
     "geometryType": "polyline",
-    "lat": 36.0,
-    "lng": -112.0,
+    "lat": 36,
+    "lng": -112,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -8453,11 +8572,11 @@ const MODULE4_ITEMS = [
         -105.8
       ],
       [
-        36.0,
+        36,
         -112.5
       ],
       [
-        32.0,
+        32,
         -114.8
       ]
     ],
@@ -8496,7 +8615,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Колорадо (река Гранд-Каньона): Скалистые горы (Колорадо) ➔ Калифорнийский залив (Тихий океан)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_colorado_texas",
@@ -8511,14 +8631,14 @@ const MODULE4_ITEMS = [
     "locationDesc": "Северная Америка (Плато Ллано-Эстакадо ➔ Мексиканский залив)",
     "mapPrompt": "Покажите реку: Колорадо (Техас)",
     "geometryType": "polyline",
-    "lat": 31.0,
+    "lat": 31,
     "lng": -98.5,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
         32.5,
-        -102.0
+        -102
       ],
       [
         30.3,
@@ -8561,7 +8681,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Колорадо (Техас): Плато Ллано-Эстакадо ➔ Мексиканский залив."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_columbia_river",
@@ -8576,8 +8697,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Северная Америка (Скалистые горы (Канада) ➔ Тихий океан (штаты Вашингтон/Орегон))",
     "mapPrompt": "Покажите реку: Колумбия",
     "geometryType": "polyline",
-    "lat": 47.0,
-    "lng": -120.0,
+    "lat": 47,
+    "lng": -120,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -8586,12 +8707,12 @@ const MODULE4_ITEMS = [
         -115.8
       ],
       [
-        48.0,
-        -119.0
+        48,
+        -119
       ],
       [
         46.2,
-        -124.0
+        -124
       ]
     ],
     "flowStyle": {
@@ -8630,7 +8751,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Колумбия: Скалистые горы (Канада) ➔ Тихий океан (штаты Вашингтон/Орегон)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_mackenzie_river",
@@ -8645,8 +8767,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Северная Америка (Большое Невольничье озеро ➔ море Бофорта (Северный Ледовитый океан))",
     "mapPrompt": "Покажите реку: Маккензи",
     "geometryType": "polyline",
-    "lat": 65.0,
-    "lng": -125.0,
+    "lat": 65,
+    "lng": -125,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -8659,8 +8781,8 @@ const MODULE4_ITEMS = [
         -126.8
       ],
       [
-        69.0,
-        -134.0
+        69,
+        -134
       ]
     ],
     "flowStyle": {
@@ -8699,7 +8821,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Маккензи: Большое Невольничье озеро ➔ море Бофорта (Северный Ледовитый океан)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_athabasca_river",
@@ -8714,8 +8837,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Северная Америка (Колумбийское ледниковое поле (Скалистые горы) ➔ озеро Атабаска)",
     "mapPrompt": "Покажите реку: Атабаска",
     "geometryType": "polyline",
-    "lat": 55.0,
-    "lng": -114.0,
+    "lat": 55,
+    "lng": -114,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -8729,7 +8852,7 @@ const MODULE4_ITEMS = [
       ],
       [
         58.7,
-        -111.0
+        -111
       ]
     ],
     "flowStyle": {
@@ -8764,7 +8887,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Атабаска: Колумбийское ледниковое поле (Скалистые горы) ➔ озеро Атабаска."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_slave_river",
@@ -8779,7 +8903,7 @@ const MODULE4_ITEMS = [
     "locationDesc": "Северная Америка (Озеро Атабаска ➔ Большое Невольничье озеро)",
     "mapPrompt": "Покажите реку: Невольничья",
     "geometryType": "polyline",
-    "lat": 60.0,
+    "lat": 60,
     "lng": -112.5,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
@@ -8827,7 +8951,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Невольничья: Озеро Атабаска ➔ Большое Невольничье озеро."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_peace_river",
@@ -8842,21 +8967,21 @@ const MODULE4_ITEMS = [
     "locationDesc": "Северная Америка (Скалистые горы (Британская Колумбия) ➔ река Невольничья)",
     "mapPrompt": "Покажите реку: Пис-Ривер",
     "geometryType": "polyline",
-    "lat": 57.0,
-    "lng": -116.0,
+    "lat": 57,
+    "lng": -116,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        56.0,
-        -124.0
+        56,
+        -124
       ],
       [
         56.2,
         -117.5
       ],
       [
-        59.0,
+        59,
         -111.5
       ]
     ],
@@ -8892,7 +9017,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Пис-Ривер: Скалистые горы (Британская Колумбия) ➔ река Невольничья."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_mississippi",
@@ -8907,8 +9033,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Северная Америка (Озеро Айтаска (Миннесота) ➔ Мексиканский залив (главная река США))",
     "mapPrompt": "Покажите реку: Миссисипи",
     "geometryType": "polyline",
-    "lat": 37.0,
-    "lng": -90.0,
+    "lat": 37,
+    "lng": -90,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -8921,12 +9047,12 @@ const MODULE4_ITEMS = [
         -90.5
       ],
       [
-        37.0,
+        37,
         -89.1
       ],
       [
         33.5,
-        -91.0
+        -91
       ],
       [
         29.2,
@@ -8970,7 +9096,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Миссисипи: Озеро Айтаска (Миннесота) ➔ Мексиканский залив (главная река США)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_arkansas_river",
@@ -8985,8 +9112,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Северная Америка (Скалистые горы (Колорадо) ➔ Миссисипи)",
     "mapPrompt": "Покажите реку: Арканзас",
     "geometryType": "polyline",
-    "lat": 37.0,
-    "lng": -97.0,
+    "lat": 37,
+    "lng": -97,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -9035,7 +9162,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Арканзас: Скалистые горы (Колорадо) ➔ Миссисипи."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_missouri",
@@ -9050,8 +9178,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Северная Америка (Скалистые горы (слияние Джефферсон, Мадисон, Галлатин) ➔ Миссисипи (длиннейший приток))",
     "mapPrompt": "Покажите реку: Миссури",
     "geometryType": "polyline",
-    "lat": 44.0,
-    "lng": -100.0,
+    "lat": 44,
+    "lng": -100,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -9061,11 +9189,11 @@ const MODULE4_ITEMS = [
       ],
       [
         47.5,
-        -101.0
+        -101
       ],
       [
-        42.0,
-        -96.0
+        42,
+        -96
       ],
       [
         38.8,
@@ -9108,7 +9236,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Миссури: Скалистые горы (слияние Джефферсон, Мадисон, Галлатин) ➔ Миссисипи (длиннейший приток)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_ohio_river",
@@ -9124,20 +9253,20 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Огайо",
     "geometryType": "polyline",
     "lat": 38.5,
-    "lng": -85.0,
+    "lng": -85,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
         40.4,
-        -80.0
+        -80
       ],
       [
         38.5,
-        -83.0
+        -83
       ],
       [
-        37.0,
+        37,
         -89.1
       ]
     ],
@@ -9177,7 +9306,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Огайо: Слияние Аллегейни и Мононгахила (Питтсбург) ➔ Миссисипи (самый полноводный приток)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_nelson_river",
@@ -9193,20 +9323,20 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Нельсон (с Саскачеваном)",
     "geometryType": "polyline",
     "lat": 55.5,
-    "lng": -96.0,
+    "lng": -96,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        53.0,
-        -98.0
+        53,
+        -98
       ],
       [
-        56.0,
-        -94.0
+        56,
+        -94
       ],
       [
-        57.0,
+        57,
         -92.5
       ]
     ],
@@ -9245,7 +9375,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Нельсон (с Саскачеваном): Озеро Виннипег ➔ Гудзонов залив."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_niagara_river",
@@ -9261,7 +9392,7 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Ниагара",
     "geometryType": "polyline",
     "lat": 43.1,
-    "lng": -79.0,
+    "lng": -79,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -9271,11 +9402,11 @@ const MODULE4_ITEMS = [
       ],
       [
         43.1,
-        -79.0
+        -79
       ],
       [
         43.3,
-        -79.0
+        -79
       ]
     ],
     "flowStyle": {
@@ -9310,7 +9441,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Ниагара: Озеро Эри ➔ озеро Онтарио (Ниагарский водопад, граница США и Канады)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_rio_grande",
@@ -9325,25 +9457,25 @@ const MODULE4_ITEMS = [
     "locationDesc": "Северная Америка (Горы Сан-Хуан (Колорадо) ➔ Мексиканский залив (граница США и Мексики))",
     "mapPrompt": "Покажите реку: Рио-Гранде (Рио-Браво-дель-Норте)",
     "geometryType": "polyline",
-    "lat": 30.0,
-    "lng": -103.0,
+    "lat": 30,
+    "lng": -103,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
         37.8,
-        -107.0
+        -107
       ],
       [
-        32.0,
+        32,
         -106.5
       ],
       [
-        29.0,
+        29,
         -103.5
       ],
       [
-        26.0,
+        26,
         -97.1
       ]
     ],
@@ -9379,7 +9511,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Рио-Гранде (Рио-Браво-дель-Норте): Горы Сан-Хуан (Колорадо) ➔ Мексиканский залив (граница США и Мексики)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_sacramento_river",
@@ -9446,7 +9579,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Сакраменто: Хребет Кламат (гора Шаста) ➔ залив Сан-Франциско (Калифорния)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_st_lawrence_river",
@@ -9462,7 +9596,7 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Святого Лаврентия",
     "geometryType": "polyline",
     "lat": 46.5,
-    "lng": -72.0,
+    "lng": -72,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -9475,12 +9609,12 @@ const MODULE4_ITEMS = [
         -73.5
       ],
       [
-        47.0,
+        47,
         -70.5
       ],
       [
         49.5,
-        -67.0
+        -67
       ]
     ],
     "flowStyle": {
@@ -9518,7 +9652,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Святого Лаврентия: Озеро Онтарио ➔ залив Святого Лаврентия (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_fraser_river",
@@ -9534,20 +9669,20 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Фрейзер",
     "geometryType": "polyline",
     "lat": 51.5,
-    "lng": -122.0,
+    "lng": -122,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        53.0,
+        53,
         -119.2
       ],
       [
-        54.0,
+        54,
         -122.7
       ],
       [
-        50.0,
+        50,
         -121.5
       ],
       [
@@ -9589,7 +9724,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Фрейзер: Скалистые горы (гора Робсон) ➔ пролив Джорджия (Тихий океан, Ванкувер)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_yukon_river",
@@ -9604,26 +9740,26 @@ const MODULE4_ITEMS = [
     "locationDesc": "Северная Америка (Береговой хребет (Канада) ➔ Берингово море (Аляска, США))",
     "mapPrompt": "Покажите реку: Юкон",
     "geometryType": "polyline",
-    "lat": 64.0,
-    "lng": -145.0,
+    "lat": 64,
+    "lng": -145,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        60.0,
+        60,
         -134.5
       ],
       [
-        64.0,
+        64,
         -139.5
       ],
       [
-        66.0,
-        -145.0
+        66,
+        -145
       ],
       [
         62.5,
-        -164.0
+        -164
       ]
     ],
     "flowStyle": {
@@ -9662,7 +9798,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Юкон: Береговой хребет (Канада) ➔ Берингово море (Аляска, США)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_amazon",
@@ -9678,7 +9815,7 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Амазонка (Мараньон и Укаяли)",
     "geometryType": "polyline",
     "lat": -2.5,
-    "lng": -58.0,
+    "lng": -58,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -9688,11 +9825,11 @@ const MODULE4_ITEMS = [
       ],
       [
         -3.1,
-        -60.0
+        -60
       ],
       [
-        -2.0,
-        -54.0
+        -2,
+        -54
       ],
       [
         -0.1,
@@ -9743,7 +9880,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Амазонка (Мараньон и Укаяли): Анды (Перу) ➔ Атлантический океан (длиннейшая и самая полноводная река мира)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_maranon",
@@ -9768,8 +9906,8 @@ const MODULE4_ITEMS = [
         -76.8
       ],
       [
-        -5.0,
-        -78.0
+        -5,
+        -78
       ],
       [
         -4.5,
@@ -9808,7 +9946,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Мараньон: Западные Кордильеры Перу ➔ исток Амазонки (слияние с Укаяли)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_ucayali",
@@ -9823,7 +9962,7 @@ const MODULE4_ITEMS = [
     "locationDesc": "Южная Америка (Анды Перу (слияние Тамбо и Урубамбы) ➔ исток Амазонки)",
     "mapPrompt": "Покажите реку: Укаяли",
     "geometryType": "polyline",
-    "lat": -8.0,
+    "lat": -8,
     "lng": -74.5,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
@@ -9833,7 +9972,7 @@ const MODULE4_ITEMS = [
         -74.2
       ],
       [
-        -8.0,
+        -8,
         -74.5
       ],
       [
@@ -9873,7 +10012,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Укаяли: Анды Перу (слияние Тамбо и Урубамбы) ➔ исток Амазонки."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_japura",
@@ -9888,8 +10028,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Южная Америка (Центральная Кордильера Колумбии ➔ Амазонка (левый приток))",
     "mapPrompt": "Покажите реку: Жапура (Какета)",
     "geometryType": "polyline",
-    "lat": -1.0,
-    "lng": -70.0,
+    "lat": -1,
+    "lng": -70,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -9898,12 +10038,12 @@ const MODULE4_ITEMS = [
         -76.5
       ],
       [
-        0.0,
-        -72.0
+        0,
+        -72
       ],
       [
-        -2.0,
-        -66.0
+        -2,
+        -66
       ],
       [
         -3.1,
@@ -9942,7 +10082,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Жапура (Какета): Центральная Кордильера Колумбии ➔ Амазонка (левый приток)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_rio_negro_amz",
@@ -9957,22 +10098,22 @@ const MODULE4_ITEMS = [
     "locationDesc": "Южная Америка (Водораздел Ориноко и Амазонки (Касикъяре) ➔ Амазонка (Манаус, чёрные воды))",
     "mapPrompt": "Покажите реку: Риу-Негру",
     "geometryType": "polyline",
-    "lat": 0.0,
-    "lng": -63.0,
+    "lat": 0,
+    "lng": -63,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        2.0,
-        -67.0
+        2,
+        -67
       ],
       [
-        0.0,
-        -64.0
+        0,
+        -64
       ],
       [
         -3.1,
-        -60.0
+        -60
       ]
     ],
     "flowStyle": {
@@ -10007,7 +10148,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Риу-Негру: Водораздел Ориноко и Амазонки (Касикъяре) ➔ Амазонка (Манаус, чёрные воды)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_trombetas",
@@ -10022,14 +10164,14 @@ const MODULE4_ITEMS = [
     "locationDesc": "Южная Америка (Гвианское плоскогорье ➔ Амазонка (левый приток))",
     "mapPrompt": "Покажите реку: Тромбетас",
     "geometryType": "polyline",
-    "lat": 0.0,
+    "lat": 0,
     "lng": -56.5,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
         1.5,
-        -57.0
+        -57
       ],
       [
         -1.9,
@@ -10068,7 +10210,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Тромбетас: Гвианское плоскогорье ➔ Амазонка (левый приток)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_jurua",
@@ -10083,13 +10226,13 @@ const MODULE4_ITEMS = [
     "locationDesc": "Южная Америка (Предгорья Перуанских Анд ➔ Амазонка (правый приток))",
     "mapPrompt": "Покажите реку: Журуа",
     "geometryType": "polyline",
-    "lat": -6.0,
-    "lng": -69.0,
+    "lat": -6,
+    "lng": -69,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        -10.0,
+        -10,
         -72.5
       ],
       [
@@ -10133,7 +10276,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Журуа: Предгорья Перуанских Анд ➔ Амазонка (правый приток)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_purus",
@@ -10148,18 +10292,18 @@ const MODULE4_ITEMS = [
     "locationDesc": "Южная Америка (Анды Перу ➔ Амазонка (правый приток))",
     "mapPrompt": "Покажите реку: Пурус",
     "geometryType": "polyline",
-    "lat": -7.0,
-    "lng": -65.0,
+    "lat": -7,
+    "lng": -65,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
         -10.8,
-        -71.0
+        -71
       ],
       [
-        -7.0,
-        -65.0
+        -7,
+        -65
       ],
       [
         -3.7,
@@ -10198,7 +10342,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Пурус: Анды Перу ➔ Амазонка (правый приток)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_madeira",
@@ -10214,7 +10359,7 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Мадейра",
     "geometryType": "polyline",
     "lat": -6.5,
-    "lng": -61.0,
+    "lng": -61,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -10263,7 +10408,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Мадейра: Слияние Маморе и Бени (Боливия/Бразилия) ➔ Амазонка (крупнейший приток)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_tapajos",
@@ -10278,8 +10424,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Южная Америка (Плато Мату-Гросу (слияние Журуэны и Телис-Пирис) ➔ Амазонка (Сантарен))",
     "mapPrompt": "Покажите реку: Тапажос",
     "geometryType": "polyline",
-    "lat": -5.0,
-    "lng": -56.0,
+    "lat": -5,
+    "lng": -56,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -10288,8 +10434,8 @@ const MODULE4_ITEMS = [
         -58.2
       ],
       [
-        -4.0,
-        -56.0
+        -4,
+        -56
       ],
       [
         -2.4,
@@ -10328,7 +10474,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Тапажос: Плато Мату-Гросу (слияние Журуэны и Телис-Пирис) ➔ Амазонка (Сантарен)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_xingu",
@@ -10343,17 +10490,17 @@ const MODULE4_ITEMS = [
     "locationDesc": "Южная Америка (Плато Мату-Гросу ➔ Амазонка (Алтамира, ГЭС Белу-Монти))",
     "mapPrompt": "Покажите реку: Шингу",
     "geometryType": "polyline",
-    "lat": -7.0,
+    "lat": -7,
     "lng": -52.5,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        -12.0,
+        -12,
         -53.5
       ],
       [
-        -7.0,
+        -7,
         -52.5
       ],
       [
@@ -10393,7 +10540,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Шингу: Плато Мату-Гросу ➔ Амазонка (Алтамира, ГЭС Белу-Монти)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_magdalena",
@@ -10418,7 +10566,7 @@ const MODULE4_ITEMS = [
         -76.5
       ],
       [
-        6.0,
+        6,
         -74.5
       ],
       [
@@ -10460,7 +10608,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Магдалена: Анды Колумбии ➔ Карибское море (главная река Колумбии)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_tocantins",
@@ -10475,22 +10624,22 @@ const MODULE4_ITEMS = [
     "locationDesc": "Южная Америка (Бразильское плоскогорье ➔ залив Маражо (Атлантический океан))",
     "mapPrompt": "Покажите реку: Токантинс",
     "geometryType": "polyline",
-    "lat": -8.0,
+    "lat": -8,
     "lng": -48.5,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        -14.0,
-        -49.0
+        -14,
+        -49
       ],
       [
-        -8.0,
-        -48.0
+        -8,
+        -48
       ],
       [
-        -2.0,
-        -49.0
+        -2,
+        -49
       ]
     ],
     "flowStyle": {
@@ -10527,7 +10676,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Токантинс: Бразильское плоскогорье ➔ залив Маражо (Атлантический океан)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_orinoco",
@@ -10542,8 +10692,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Южная Америка (Горы Парима (Гвианское плоскогорье) ➔ Атлантический океан (дельта))",
     "mapPrompt": "Покажите реку: Ориноко",
     "geometryType": "polyline",
-    "lat": 6.0,
-    "lng": -66.0,
+    "lat": 6,
+    "lng": -66,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -10552,7 +10702,7 @@ const MODULE4_ITEMS = [
         -63.4
       ],
       [
-        4.0,
+        4,
         -67.5
       ],
       [
@@ -10561,11 +10711,11 @@ const MODULE4_ITEMS = [
       ],
       [
         8.5,
-        -62.0
+        -62
       ],
       [
         9.5,
-        -61.0
+        -61
       ]
     ],
     "flowStyle": {
@@ -10606,7 +10756,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Ориноко: Горы Парима (Гвианское плоскогорье) ➔ Атлантический океан (дельта)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_caroni",
@@ -10627,8 +10778,8 @@ const MODULE4_ITEMS = [
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        5.0,
-        -62.0
+        5,
+        -62
       ],
       [
         8.3,
@@ -10669,7 +10820,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Карони: Гвианское плоскогорье (гора Рорайма) ➔ Ориноко (ГЭС Гури, приток Чурун с водопадом Анхель)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_parana",
@@ -10684,14 +10836,14 @@ const MODULE4_ITEMS = [
     "locationDesc": "Южная Америка (Бразильское плоскогорье (слияние Паранаибы и Риу-Гранди) ➔ залив Ла-Плата)",
     "mapPrompt": "Покажите реку: Парана",
     "geometryType": "polyline",
-    "lat": -27.0,
-    "lng": -58.0,
+    "lat": -27,
+    "lng": -58,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        -20.0,
-        -51.0
+        -20,
+        -51
       ],
       [
         -25.5,
@@ -10702,11 +10854,11 @@ const MODULE4_ITEMS = [
         -58.8
       ],
       [
-        -32.0,
+        -32,
         -60.6
       ],
       [
-        -34.0,
+        -34,
         -58.5
       ]
     ],
@@ -10747,7 +10899,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Парана: Бразильское плоскогорье (слияние Паранаибы и Риу-Гранди) ➔ залив Ла-Плата."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_iguazu_river",
@@ -10763,7 +10916,7 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите реку: Игуасу",
     "geometryType": "polyline",
     "lat": -25.6,
-    "lng": -52.0,
+    "lng": -52,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -10808,7 +10961,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Игуасу: Бразильское плоскогорье (Серра-ду-Мар) ➔ Парана (водопады Игуасу)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_paraguay_river",
@@ -10823,7 +10977,7 @@ const MODULE4_ITEMS = [
     "locationDesc": "Южная Америка (Плато Мату-Гросу (болота Пантанал) ➔ Парана)",
     "mapPrompt": "Покажите реку: Парагвай",
     "geometryType": "polyline",
-    "lat": -22.0,
+    "lat": -22,
     "lng": -57.8,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
@@ -10833,7 +10987,7 @@ const MODULE4_ITEMS = [
         -56.5
       ],
       [
-        -19.0,
+        -19,
         -57.5
       ],
       [
@@ -10880,7 +11034,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Парагвай: Плато Мату-Гросу (болота Пантанал) ➔ Парана."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_rio_negro_arg",
@@ -10895,21 +11050,21 @@ const MODULE4_ITEMS = [
     "locationDesc": "Южная Америка (Патагония (слияние Лимай и Неукен) ➔ Атлантический океан)",
     "mapPrompt": "Покажите реку: Рио-Негро (Аргентина)",
     "geometryType": "polyline",
-    "lat": -40.0,
-    "lng": -65.0,
+    "lat": -40,
+    "lng": -65,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
         -38.9,
-        -68.0
+        -68
       ],
       [
-        -40.0,
+        -40,
         -64.5
       ],
       [
-        -41.0,
+        -41,
         -62.8
       ]
     ],
@@ -10945,7 +11100,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Рио-Негро (Аргентина): Патагония (слияние Лимай и Неукен) ➔ Атлантический океан."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_sao_francisco",
@@ -10960,18 +11116,18 @@ const MODULE4_ITEMS = [
     "locationDesc": "Южная Америка (Бразильское плоскогорье (Серра-да-Канастра) ➔ Атлантический океан)",
     "mapPrompt": "Покажите реку: Сан-Франсиску",
     "geometryType": "polyline",
-    "lat": -13.0,
-    "lng": -43.0,
+    "lat": -13,
+    "lng": -43,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        -20.0,
+        -20,
         -46.5
       ],
       [
-        -12.0,
-        -43.0
+        -12,
+        -43
       ],
       [
         -9.4,
@@ -11014,7 +11170,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Сан-Франсиску: Бразильское плоскогорье (Серра-да-Канастра) ➔ Атлантический океан."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_uruguay_river",
@@ -11029,8 +11186,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Южная Америка (Бразильское плоскогорье (Серра-ду-Мар) ➔ залив Ла-Плата)",
     "mapPrompt": "Покажите реку: Уругвай",
     "geometryType": "polyline",
-    "lat": -30.0,
-    "lng": -57.0,
+    "lat": -30,
+    "lng": -57,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -11039,7 +11196,7 @@ const MODULE4_ITEMS = [
         -51.5
       ],
       [
-        -29.0,
+        -29,
         -56.5
       ],
       [
@@ -11081,7 +11238,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Уругвай: Бразильское плоскогорье (Серра-ду-Мар) ➔ залив Ла-Плата."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_coopers_creek",
@@ -11096,22 +11254,22 @@ const MODULE4_ITEMS = [
     "locationDesc": "Австралия (Большой Водораздельный хребет ➔ бессточное озеро Эйр (крик, пересыхающая река))",
     "mapPrompt": "Покажите реку: Куперс-Крик (Барку)",
     "geometryType": "polyline",
-    "lat": -26.0,
-    "lng": 141.0,
+    "lat": -26,
+    "lng": 141,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
-        -23.0,
-        145.0
+        -23,
+        145
       ],
       [
-        -27.0,
-        142.0
+        -27,
+        142
       ],
       [
         -28.5,
-        138.0
+        138
       ]
     ],
     "flowStyle": {
@@ -11149,7 +11307,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Куперс-Крик (Барку): Большой Водораздельный хребет ➔ бессточное озеро Эйр (крик, пересыхающая река)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_riv_murray",
@@ -11166,14 +11325,14 @@ const MODULE4_ITEMS = [
     "locationDesc": "Австралия (Австралийские Альпы (г. Косцюшко) ➔ залив Энкантер (Индийский океан, главная река Австралии))",
     "mapPrompt": "Покажите реку: Муррей (Марри)",
     "geometryType": "polyline",
-    "lat": -35.0,
-    "lng": 142.0,
+    "lat": -35,
+    "lng": 142,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
         -36.5,
-        148.0
+        148
       ],
       [
         -35.8,
@@ -11181,11 +11340,11 @@ const MODULE4_ITEMS = [
       ],
       [
         -34.1,
-        141.0
+        141
       ],
       [
         -35.5,
-        139.0
+        139
       ]
     ],
     "flowStyle": {
@@ -11224,7 +11383,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Муррей (Марри): Австралийские Альпы (г. Косцюшко) ➔ залив Энкантер (Индийский океан, главная река Австралии)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_darling",
@@ -11239,21 +11399,21 @@ const MODULE4_ITEMS = [
     "locationDesc": "Австралия (Большой Водораздельный хребет ➔ Муррей (Уэнтворт, длиннейший приток))",
     "mapPrompt": "Покажите реку: Дарлинг",
     "geometryType": "polyline",
-    "lat": -31.0,
-    "lng": 144.0,
+    "lat": -31,
+    "lng": 144,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
       [
         -28.5,
-        151.0
+        151
       ],
       [
-        -30.0,
-        146.0
+        -30,
+        146
       ],
       [
-        -32.0,
+        -32,
         142.5
       ],
       [
@@ -11293,7 +11453,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Дарлинг: Большой Водораздельный хребет ➔ Муррей (Уэнтворт, длиннейший приток)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_riv_murrumbidgee",
@@ -11308,8 +11469,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Австралия (Снежные горы (Австралийские Альпы) ➔ Муррей (протекает через Канберру))",
     "mapPrompt": "Покажите реку: Маррамбиджи",
     "geometryType": "polyline",
-    "lat": -35.0,
-    "lng": 146.0,
+    "lat": -35,
+    "lng": 146,
     "hitRadiusKm": 220,
     "crossTrackBufferKm": 130,
     "coords": [
@@ -11318,8 +11479,8 @@ const MODULE4_ITEMS = [
         148.5
       ],
       [
-        -35.0,
-        146.0
+        -35,
+        146
       ],
       [
         -34.7,
@@ -11360,7 +11521,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Река Маррамбиджи: Снежные горы (Австралийские Альпы) ➔ Муррей (протекает через Канберру)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_wf_ilya_muromets",
@@ -11401,7 +11563,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Водопад Илья Муромец: высота падения 141 м (Северо-восточная окраина о. Итуруп (Курильские острова, Россия))."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_wf_kivach",
@@ -11442,7 +11605,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Водопад Кивач: высота падения 11 м (Река Суна, Карелия (Россия), северо-западнее Онежского озера)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_wf_utigard",
@@ -11485,7 +11649,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Водопад Утигард (Рамнефьеллсфоссен): высота падения 818 м (Норвегия, западнее г. Гальхёпигген (ледник Йостедалсбреен))."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_wf_victoria_falls",
@@ -11528,7 +11693,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Водопад Виктория: высота падения 120 м (Река Замбези, граница Замбии и Зимбабве ('Гремящий дым' Моси-оа-Тунья))."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_wf_kabarega",
@@ -11571,7 +11737,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Водопад Кабарега (Мерчисон): высота падения 40 м (Река Виктория-Нил, Уганда (национальный парк Мерчисон-Фоллс))."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_wf_livingstone_falls",
@@ -11612,7 +11779,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Водопад Водопады Ливингстона: высота падения 270 м (Нижнее течение р. Конго, ДР Конго (серия порогов с падением 270 м))."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_wf_mutarazi",
@@ -11653,7 +11821,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Водопад Мутарази: высота падения 762 м (Восток Зимбабве, парк Ньянга (второй по высоте в Африке))."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_wf_yellowstone_falls",
@@ -11694,7 +11863,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Водопад Йеллоустон (каскад): высота падения 93 м (Река Йеллоустон, США, Вайоминг (Верхний 33 м и Нижний 94 м водопады))."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_wf_yosemite_falls",
@@ -11735,7 +11905,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Водопад Йосемитский водопад: высота падения 739 м (Горы Сьерра-Невада, США, Калифорния (Йосемитский национальный парк))."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_wf_niagara_falls",
@@ -11778,7 +11949,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Водопад Ниагарский водопад: высота падения 51 м (Река Ниагара, граница США и Канады (водопады Подкова и Американский))."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_wf_shoshone_falls",
@@ -11821,7 +11993,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Водопад Шошони (Шошоне): высота падения 59 м (Река Снейк, США, Айдахо ('Ниагара Запада'))."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_wf_kukenan",
@@ -11862,7 +12035,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Водопад Кукенан: высота падения 610 м (Венесуэла, тепуи Кукенан рядом с горой Рорайма)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_wf_yumbilla",
@@ -11905,7 +12079,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Водопад Умбилла (Юмбилья): высота падения 895 м (Северо-запад Перу, регион Амасонас (многокаскадный водопад))."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_wf_oloupena",
@@ -11946,7 +12121,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Водопад Олоупена: высота падения 900 м (Северо-восток острова Молокаи, Гавайские острова (с высочайших морских утесов))."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_wf_sutherland_falls",
@@ -11987,7 +12163,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Водопад Сатерленд: высота падения 580 м (Новая Зеландия, юго-запад острова Южный (Милфорд-Саунд))."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_wf_angel_falls",
@@ -12031,7 +12208,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Высочайший водопад в мире (1 054 м, высота непрерывного падения 807 м). Назван в честь лётчика Джеймса Эйнджела."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_wf_tugela_falls",
@@ -12072,7 +12250,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Второй по высоте водопад мира (933 м, 5 каскадов)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_wf_tres_hermanas",
@@ -12115,7 +12294,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Третий по высоте водопад мира (914 м)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_wf_khone_falls",
@@ -12158,7 +12338,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Самый широкий водопад в мире (12-13 км вдоль русла Меконга). Расход воды до 11 000 м³/с."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_wf_iguazu_falls",
@@ -12201,7 +12382,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Самый мощный водопад в мире: расход воды в паводок до 13 000 м³/с (рекорд 45 700 м³/с в июне 2014 г.)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_lk_alakol",
@@ -12248,7 +12430,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Алаколь: котловина Тектоническое (солёное), макс. глубина 54 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_aral_sea",
@@ -12266,10 +12449,15 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Реликтовое тектоническое (остаточное), глубина 68 м)",
     "mapPrompt": "Покажите озеро: Аральское море",
     "geometryType": "point",
-    "lat": 45.0,
-    "lng": 60.0,
+    "lat": 45,
+    "lng": 60,
     "hitRadiusKm": 200,
-    "bounds": null,
+    "bounds": [
+      43.5,
+      58,
+      46.8,
+      62
+    ],
     "badgeColor": "blue",
     "continent": "eurasia",
     "basinGenesis": "Реликтовое тектоническое (остаточное)",
@@ -12298,7 +12486,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Аральское море: котловина Реликтовое тектоническое (остаточное), макс. глубина 68 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_lk_baikal",
@@ -12314,9 +12503,14 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите озеро: Байкал",
     "geometryType": "point",
     "lat": 53.5,
-    "lng": 108.0,
+    "lng": 108,
     "hitRadiusKm": 300,
-    "bounds": null,
+    "bounds": [
+      51.4,
+      103.6,
+      55.8,
+      109.9
+    ],
     "badgeColor": "blue",
     "continent": "eurasia",
     "basinGenesis": "Тектонический грабен (рифтовое)",
@@ -12345,7 +12539,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Глубочайшее озеро мира (1 642 м), древнейшее (25-30 млн лет) и самое чистое. 20% мировых запасов незамёрзшей пресной воды."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_lk_balaton",
@@ -12392,7 +12587,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Балатон: котловина Тектоническое ('Венгерское море'), макс. глубина 12 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_lk_balkhash",
@@ -12410,7 +12606,12 @@ const MODULE4_ITEMS = [
     "lat": 46.5,
     "lng": 74.5,
     "hitRadiusKm": 280,
-    "bounds": null,
+    "bounds": [
+      44.7,
+      73.2,
+      46.9,
+      79.3
+    ],
     "badgeColor": "blue",
     "continent": "eurasia",
     "basinGenesis": "Тектоническое полубессточное",
@@ -12439,7 +12640,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Уникальное озеро: западная половина пресная (питается р. Или), восточная — солоноватая."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_lk_baskunchak",
@@ -12486,7 +12688,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Крупнейшее самосадочное соляное озеро России (солёность до 300‰)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_lake_constance",
@@ -12533,7 +12736,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Боденское озеро: котловина Ледниково-тектоническое (Альпы, Рейн), макс. глубина 254 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_lake_van",
@@ -12580,7 +12784,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Крупнейшее содовое озеро в мире (Армянское нагорье, Турция)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_vanern",
@@ -12627,7 +12832,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Венерн: котловина Ледниково-тектоническое (крупнейшее в ЕС), макс. глубина 106 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_vattern",
@@ -12674,7 +12880,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Веттерн: котловина Тектонический грабен (Швеция), макс. глубина 128 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_dongting",
@@ -12721,7 +12928,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Дунтинху: котловина Пойменно-тектоническое (бассейн Янцзы, Китай), макс. глубина 31 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_lake_geneva",
@@ -12770,7 +12978,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Женевское озеро (Леман): котловина Ледниково-тектоническое (Альпы, Рона), макс. глубина 310 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_lk_zaysan",
@@ -12785,8 +12994,8 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Тектоническое (бассейн Иртыша, Казахстан), глубина 15 м)",
     "mapPrompt": "Покажите озеро: Зайсан",
     "geometryType": "point",
-    "lat": 48.0,
-    "lng": 84.0,
+    "lat": 48,
+    "lng": 84,
     "hitRadiusKm": 200,
     "bounds": null,
     "badgeColor": "blue",
@@ -12817,7 +13026,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Зайсан: котловина Тектоническое (бассейн Иртыша, Казахстан), макс. глубина 15 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_issyk_kul",
@@ -12864,7 +13074,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Глубочайшее горное озеро мира (702 м, горы Тянь-Шань, 'горячее озеро' — не замерзает)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_lk_caspian_sea",
@@ -12879,10 +13090,15 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Остаточное реликтовое (океан Тетис), глубина 1025 м)",
     "mapPrompt": "Покажите озеро: Каспийское море-озеро",
     "geometryType": "point",
-    "lat": 42.0,
-    "lng": 51.0,
+    "lat": 42,
+    "lng": 51,
     "hitRadiusKm": 500,
-    "bounds": null,
+    "bounds": [
+      36.5,
+      46.5,
+      47,
+      54.5
+    ],
     "badgeColor": "blue",
     "continent": "eurasia",
     "basinGenesis": "Остаточное реликтовое (океан Тетис)",
@@ -12911,7 +13127,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Крупнейшее по площади озеро мира (371 тыс. км²). Самое длинное озеро Земли (~1 200 км)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_lk_qinghai_lake",
@@ -12960,7 +13177,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Кукунор (Цинхай): котловина Тектоническое горное бессточное, макс. глубина 33 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_ladoga",
@@ -12975,10 +13193,15 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Ледниково-тектоническое (крупнейшее в Европе), глубина 230 м)",
     "mapPrompt": "Покажите озеро: Ладожское озеро",
     "geometryType": "point",
-    "lat": 61.0,
+    "lat": 61,
     "lng": 31.5,
     "hitRadiusKm": 250,
-    "bounds": null,
+    "bounds": [
+      59.9,
+      29.8,
+      61.8,
+      32.9
+    ],
     "badgeColor": "blue",
     "continent": "eurasia",
     "basinGenesis": "Ледниково-тектоническое (крупнейшее в Европе)",
@@ -13007,7 +13230,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Крупнейшее пресноводное озеро Европы (бассейн р. Нева)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_lk_lop_nor",
@@ -13054,7 +13278,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Блуждающее озеро в пустыне Такла-Макан, принимает р. Тарим."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_dead_sea",
@@ -13101,7 +13326,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Лежит в глубочайшей впадине суши (-430 м), самое солёное из больших озёр (до 270-340‰)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_lk_onega",
@@ -13119,7 +13345,12 @@ const MODULE4_ITEMS = [
     "lat": 61.7,
     "lng": 35.4,
     "hitRadiusKm": 220,
-    "bounds": null,
+    "bounds": [
+      60.9,
+      34.1,
+      62.9,
+      36.5
+    ],
     "badgeColor": "blue",
     "continent": "eurasia",
     "basinGenesis": "Ледниково-тектоническое (второе в Европе)",
@@ -13148,7 +13379,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Онежское озеро: котловина Ледниково-тектоническое (второе в Европе), макс. глубина 127 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_lk_poyang_lake",
@@ -13195,7 +13427,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Поянху: котловина Тектоническое пойменное (крупнейшее пресноводное Китая), макс. глубина 25 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_lk_saimaa",
@@ -13242,7 +13475,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Сайма: котловина Ледниково-подпрудное (озерная система Финляндии), макс. глубина 82 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_sarez_lake",
@@ -13289,7 +13523,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Глубочайшее высокогорное озеро мира (Памир, h=3263 м, глубина до 505 м). Возникло в 1911 г."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_sevan",
@@ -13336,7 +13571,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Севан: котловина Вулканическо-тектоническое (Кавказ, Армения), макс. глубина 83 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_teletskoye",
@@ -13385,7 +13621,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Телецкое озеро (Алтын-Кёль): котловина Тектонический грабен (Алтай, исток р. Бия), макс. глубина 325 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_tengiz",
@@ -13432,7 +13669,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Тенгиз: котловина Тектоническое горько-солёное (Казахстан), макс. глубина 8 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_lake_tuz",
@@ -13479,7 +13717,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Туз: котловина Тектоническое соляное бессточное (Анатолия, Турция), макс. глубина 2 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_lake_tai",
@@ -13526,7 +13765,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Тайху: котловина Дельтовое пойменное (Китай, дельта Янцзы), макс. глубина 5 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_taymyr_lake",
@@ -13573,7 +13813,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Самое крупное озеро мира, расположенное за Полярным кругом (74° с.ш.)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_tonle_sap",
@@ -13622,7 +13863,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Тонлесап (Сап): котловина Пойменное пульсирующее ('Большое озеро' Камбоджи), макс. глубина 12 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_uvs_lake",
@@ -13669,7 +13911,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Убсу-Нур (Увс-Нуур): котловина Тектоническое бессточное солёное (Монголия/Тува), макс. глубина 20 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_lake_urmia",
@@ -13718,7 +13961,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Урмия (Резайе): котловина Тектоническое бессточное гиперсолёное (Иран), макс. глубина 16 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_khanka",
@@ -13733,7 +13977,7 @@ const MODULE4_ITEMS = [
     "locationDesc": "Евразия (Тектоническое (Россия, Приморский край / Китай), глубина 11 м)",
     "mapPrompt": "Покажите озеро: Ханка",
     "geometryType": "point",
-    "lat": 45.0,
+    "lat": 45,
     "lng": 132.4,
     "hitRadiusKm": 200,
     "bounds": null,
@@ -13765,7 +14009,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Ханка: котловина Тектоническое (Россия, Приморский край / Китай), макс. глубина 11 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_khovsgol",
@@ -13812,7 +14057,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Хубсугул: котловина Тектонический рифт ('младший брат Байкала', Монголия), макс. глубина 262 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_chany_lake",
@@ -13859,7 +14105,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Чаны: котловина Суффозионно-тектоническое бессточное (Барабинская низменность), макс. глубина 7 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_peipus",
@@ -13906,7 +14153,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Чудско-Псковское озеро: котловина Ледниково-тектоническое реликтовое (Эстония/Россия), макс. глубина 15 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_elton",
@@ -13953,7 +14201,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Крупнейшее соляное озеро Европы (рапа, целебная грязь)."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_bangweulu",
@@ -14000,7 +14249,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Бангвеулу: котловина Тектоническое мелководное болотное (Замбия), макс. глубина 4 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_lake_victoria",
@@ -14017,10 +14267,15 @@ const MODULE4_ITEMS = [
     "locationDesc": "Африка (Тектонический прогиб платформы (крупнейшее в Африке), глубина 84 м)",
     "mapPrompt": "Покажите озеро: Виктория (Укереве)",
     "geometryType": "point",
-    "lat": -1.0,
-    "lng": 33.0,
+    "lat": -1,
+    "lng": 33,
     "hitRadiusKm": 350,
-    "bounds": null,
+    "bounds": [
+      -3,
+      31.6,
+      0.5,
+      34.8
+    ],
     "badgeColor": "blue",
     "continent": "africa",
     "basinGenesis": "Тектонический прогиб платформы (крупнейшее в Африке)",
@@ -14049,7 +14304,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Крупнейшее по площади озеро Африки (68,8 тыс. км²) и 2-е пресноводное озеро Земли. Исток Белого Нила."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_lk_lake_edward",
@@ -14098,7 +14354,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Иди-Амин-Дада (Эдуард): котловина Тектонический рифт (Восточно-Африканский рифт), макс. глубина 112 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_lake_kivu",
@@ -14113,7 +14370,7 @@ const MODULE4_ITEMS = [
     "locationDesc": "Африка (Тектонический рифт (запружено лавой Вирунга), глубина 480 м)",
     "mapPrompt": "Покажите озеро: Киву",
     "geometryType": "point",
-    "lat": -2.0,
+    "lat": -2,
     "lng": 29.2,
     "hitRadiusKm": 180,
     "bounds": null,
@@ -14145,7 +14402,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро со слоями растворенного метана и углекислого газа."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_lake_kyoga",
@@ -14161,7 +14419,7 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите озеро: Кьога",
     "geometryType": "point",
     "lat": 1.5,
-    "lng": 33.0,
+    "lng": 33,
     "hitRadiusKm": 200,
     "bounds": null,
     "badgeColor": "blue",
@@ -14192,7 +14450,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Кьога: котловина Тектоническое мелководное озерно-болотное (Уганда, р. Нил), макс. глубина 5 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_lake_mweru",
@@ -14239,7 +14498,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Мверу: котловина Тектонический грабен (бассейн Конго, Замбия/ДРК), макс. глубина 27 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_lake_albert",
@@ -14257,7 +14517,7 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите озеро: Мобуту-Сесе-Секо (Альберт)",
     "geometryType": "point",
     "lat": 1.7,
-    "lng": 31.0,
+    "lng": 31,
     "hitRadiusKm": 200,
     "bounds": null,
     "badgeColor": "blue",
@@ -14288,7 +14548,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Мобуту-Сесе-Секо (Альберт): котловина Тектонический рифт (Западный рифт), макс. глубина 58 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_lake_malawi",
@@ -14305,7 +14566,7 @@ const MODULE4_ITEMS = [
     "locationDesc": "Африка (Тектонический рифтовый грабен, глубина 706 м)",
     "mapPrompt": "Покажите озеро: Ньяса (Малави)",
     "geometryType": "point",
-    "lat": -12.0,
+    "lat": -12,
     "lng": 34.5,
     "hitRadiusKm": 280,
     "bounds": null,
@@ -14337,7 +14598,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "3-е по глубине озеро мира (706 м). Богатейшая эндемичная ихтиофауна (цихлиды)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_lk_lake_turkana",
@@ -14355,7 +14617,7 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите озеро: Рудольф (Туркана)",
     "geometryType": "point",
     "lat": 3.5,
-    "lng": 36.0,
+    "lng": 36,
     "hitRadiusKm": 200,
     "bounds": null,
     "badgeColor": "blue",
@@ -14386,7 +14648,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Рудольф (Туркана): котловина Тектонический рифт ('Нефритовое море', Кения), макс. глубина 73 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_lake_tana",
@@ -14404,7 +14667,7 @@ const MODULE4_ITEMS = [
     "locationDesc": "Африка (Вулканическое подпрудное (Эфиопское нагорье, исток Голубого Нила), глубина 15 м)",
     "mapPrompt": "Покажите озеро: Тана (Цана, Дамбеа)",
     "geometryType": "point",
-    "lat": 12.0,
+    "lat": 12,
     "lng": 37.3,
     "hitRadiusKm": 200,
     "bounds": null,
@@ -14436,7 +14699,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Тана (Цана, Дамбеа): котловина Вулканическое подпрудное (Эфиопское нагорье, исток Голубого Нила), макс. глубина 15 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_tanganyika",
@@ -14451,10 +14715,15 @@ const MODULE4_ITEMS = [
     "locationDesc": "Африка (Тектонический рифтовый грабен (Восточно-Африканский рифт), глубина 1470 м)",
     "mapPrompt": "Покажите озеро: Танганьика",
     "geometryType": "point",
-    "lat": -6.0,
+    "lat": -6,
     "lng": 29.5,
     "hitRadiusKm": 300,
-    "bounds": null,
+    "bounds": [
+      -8.8,
+      29,
+      -3.3,
+      31.2
+    ],
     "badgeColor": "blue",
     "continent": "africa",
     "basinGenesis": "Тектонический рифтовый грабен (Восточно-Африканский рифт)",
@@ -14483,7 +14752,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Самое длинное пресноводное озеро мира (650 км) и 2-е по глубине (1 470 м) после Байкала."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_lk_lake_chad",
@@ -14498,10 +14768,15 @@ const MODULE4_ITEMS = [
     "locationDesc": "Африка (Реликтовое тектоническое бессточное (Сахель), глубина 11 м)",
     "mapPrompt": "Покажите озеро: Чад",
     "geometryType": "point",
-    "lat": 13.0,
+    "lat": 13,
     "lng": 14.5,
     "hitRadiusKm": 250,
-    "bounds": null,
+    "bounds": [
+      12.3,
+      13,
+      14.5,
+      15.3
+    ],
     "badgeColor": "blue",
     "continent": "africa",
     "basinGenesis": "Реликтовое тектоническое бессточное (Сахель)",
@@ -14530,7 +14805,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Остаток древнего водоёма Мега-Чад, пульсирующая площадь."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_lk_lake_athabasca",
@@ -14577,7 +14853,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Атабаска: котловина Ледниково-тектоническое (Канада, Канадский щит), макс. глубина 124 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_great_bear_lake",
@@ -14592,10 +14869,15 @@ const MODULE4_ITEMS = [
     "locationDesc": "Северная Америка (Ледниково-тектоническое (крупнейшее целиком в Канаде), глубина 446 м)",
     "mapPrompt": "Покажите озеро: Большое Медвежье озеро",
     "geometryType": "point",
-    "lat": 66.0,
-    "lng": -121.0,
+    "lat": 66,
+    "lng": -121,
     "hitRadiusKm": 280,
-    "bounds": null,
+    "bounds": [
+      64.7,
+      -125,
+      67.1,
+      -117.5
+    ],
     "badgeColor": "blue",
     "continent": "north_america",
     "basinGenesis": "Ледниково-тектоническое (крупнейшее целиком в Канаде)",
@@ -14624,7 +14906,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Большое Медвежье озеро: котловина Ледниково-тектоническое (крупнейшее целиком в Канаде), макс. глубина 446 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_lk_great_slave_lake",
@@ -14640,9 +14923,14 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите озеро: Большое Невольничье озеро",
     "geometryType": "point",
     "lat": 61.5,
-    "lng": -114.0,
+    "lng": -114,
     "hitRadiusKm": 280,
-    "bounds": null,
+    "bounds": [
+      60.8,
+      -117.5,
+      63,
+      -109
+    ],
     "badgeColor": "blue",
     "continent": "north_america",
     "basinGenesis": "Ледниково-тектоническое (глубочайшее в Сев. Америке)",
@@ -14671,7 +14959,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Глубочайшее озеро Северной Америки (614 м). Исток реки Маккензи."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_lk_great_salt_lake",
@@ -14718,7 +15007,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Большое Солёное озеро: котловина Реликтовое бессточное (остаток древнего оз. Бонневилль), макс. глубина 10 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_lake_superior",
@@ -14736,7 +15026,12 @@ const MODULE4_ITEMS = [
     "lat": 47.7,
     "lng": -87.5,
     "hitRadiusKm": 350,
-    "bounds": null,
+    "bounds": [
+      46.4,
+      -92.2,
+      49,
+      -84.4
+    ],
     "badgeColor": "blue",
     "continent": "north_america",
     "basinGenesis": "Ледниково-тектоническое (Великие озёра)",
@@ -14765,7 +15060,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Крупнейшее по площади пресноводное озеро мира (82,4 тыс. км²). Часть системы Великих озёр."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_lk_lake_winnipeg",
@@ -14780,10 +15076,15 @@ const MODULE4_ITEMS = [
     "locationDesc": "Северная Америка (Ледниковое реликтовое (остаток ледникового оз. Агассис), глубина 18 м)",
     "mapPrompt": "Покажите озеро: Виннипег",
     "geometryType": "point",
-    "lat": 52.0,
-    "lng": -97.0,
+    "lat": 52,
+    "lng": -97,
     "hitRadiusKm": 280,
-    "bounds": null,
+    "bounds": [
+      50.3,
+      -99.3,
+      53.9,
+      -96.2
+    ],
     "badgeColor": "blue",
     "continent": "north_america",
     "basinGenesis": "Ледниковое реликтовое (остаток ледникового оз. Агассис)",
@@ -14812,7 +15113,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Виннипег: котловина Ледниковое реликтовое (остаток ледникового оз. Агассис), макс. глубина 18 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_lk_lake_winnipegosis",
@@ -14828,7 +15130,7 @@ const MODULE4_ITEMS = [
     "mapPrompt": "Покажите озеро: Виннипегосис",
     "geometryType": "point",
     "lat": 52.5,
-    "lng": -100.0,
+    "lng": -100,
     "hitRadiusKm": 200,
     "bounds": null,
     "badgeColor": "blue",
@@ -14859,7 +15161,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Виннипегосис: котловина Ледниковое реликтовое (остаток оз. Агассис), макс. глубина 12 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_lk_lake_huron",
@@ -14877,7 +15180,12 @@ const MODULE4_ITEMS = [
     "lat": 44.8,
     "lng": -82.4,
     "hitRadiusKm": 300,
-    "bounds": null,
+    "bounds": [
+      43,
+      -84.8,
+      46.3,
+      -79.8
+    ],
     "badgeColor": "blue",
     "continent": "north_america",
     "basinGenesis": "Ледниково-тектоническое (Великие озёра, о. Манитулин)",
@@ -14906,7 +15214,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Гурон: котловина Ледниково-тектоническое (Великие озёра, о. Манитулин), макс. глубина 229 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_lk_lake_manitoba",
@@ -14921,7 +15230,7 @@ const MODULE4_ITEMS = [
     "locationDesc": "Северная Америка (Ледниковое реликтовое (остаток оз. Агассис), глубина 7 м)",
     "mapPrompt": "Покажите озеро: Манитоба",
     "geometryType": "point",
-    "lat": 51.0,
+    "lat": 51,
     "lng": -98.5,
     "hitRadiusKm": 200,
     "bounds": null,
@@ -14953,7 +15262,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Манитоба: котловина Ледниковое реликтовое (остаток оз. Агассис), макс. глубина 7 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_lake_michigan",
@@ -14968,10 +15278,15 @@ const MODULE4_ITEMS = [
     "locationDesc": "Северная Америка (Ледниково-тектоническое (Великие озёра, целиком в США), глубина 281 м)",
     "mapPrompt": "Покажите озеро: Мичиган",
     "geometryType": "point",
-    "lat": 44.0,
-    "lng": -87.0,
+    "lat": 44,
+    "lng": -87,
     "hitRadiusKm": 300,
-    "bounds": null,
+    "bounds": [
+      41.6,
+      -87.9,
+      46.1,
+      -84.8
+    ],
     "badgeColor": "blue",
     "continent": "north_america",
     "basinGenesis": "Ледниково-тектоническое (Великие озёра, целиком в США)",
@@ -15000,7 +15315,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Мичиган: котловина Ледниково-тектоническое (Великие озёра, целиком в США), макс. глубина 281 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_lk_lake_nicaragua",
@@ -15049,7 +15365,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Никарагуа (Косиболька): котловина Тектоническое (крупнейшее в Центр. Америке, пресноводные акулы), макс. глубина 70 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_reindeer_lake",
@@ -15096,7 +15413,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Оленье озеро (Рейндир): котловина Ледниково-тектоническое (метеоритный кратер Дип-Бей), макс. глубина 219 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_lk_lake_ontario",
@@ -15114,7 +15432,12 @@ const MODULE4_ITEMS = [
     "lat": 43.7,
     "lng": -77.9,
     "hitRadiusKm": 250,
-    "bounds": null,
+    "bounds": [
+      43.2,
+      -79.8,
+      44.3,
+      -76
+    ],
     "badgeColor": "blue",
     "continent": "north_america",
     "basinGenesis": "Ледниково-тектоническое (Великие озёра, исток р. Св. Лаврентия)",
@@ -15143,7 +15466,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Онтарио: котловина Ледниково-тектоническое (Великие озёра, исток р. Св. Лаврентия), макс. глубина 244 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_lk_lake_erie",
@@ -15161,7 +15485,12 @@ const MODULE4_ITEMS = [
     "lat": 42.2,
     "lng": -81.2,
     "hitRadiusKm": 250,
-    "bounds": null,
+    "bounds": [
+      41.4,
+      -83.5,
+      42.9,
+      -78.8
+    ],
     "badgeColor": "blue",
     "continent": "north_america",
     "basinGenesis": "Ледниково-тектоническое (самое южное и мелкое из Великих озёр)",
@@ -15190,7 +15519,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Эри: котловина Ледниково-тектоническое (самое южное и мелкое из Великих озёр), макс. глубина 64 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_lk_lagoa_mirim",
@@ -15237,7 +15567,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Лагоа-Мирин: котловина Лагунное реликтовое (Бразилия/Уругвай), макс. глубина 30 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_lake_maracaibo",
@@ -15284,7 +15615,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Крупнейшее озеро Южной Америки, соединено проливом с Венесуэльским заливом."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_lk_lagoa_dos_patos",
@@ -15333,7 +15665,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Патус (лагуна Патус): котловина Лагунное реликтовое (крупнейшая лагуна Земли, Бразилия), макс. глубина 7 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_lake_poopo",
@@ -15380,7 +15713,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Поопо: котловина Тектоническое бессточное соленое (плато Альтиплано, Боливия), макс. глубина 3 м."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_lk_lake_titicaca",
@@ -15427,7 +15761,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Крупнейшее высокогорное и судоходное озеро мира (высота 3 812 м, площадь 8,3 тыс. км²)."
-    }
+    },
+    "isCoreLandmark": true
   },
   {
     "id": "m4_lk_lake_torrens",
@@ -15442,7 +15777,7 @@ const MODULE4_ITEMS = [
     "locationDesc": "Австралия (Тектоническое бессточное соляное рифтовое, глубина 1 м)",
     "mapPrompt": "Покажите озеро: Торренс",
     "geometryType": "point",
-    "lat": -31.0,
+    "lat": -31,
     "lng": 137.8,
     "hitRadiusKm": 200,
     "bounds": null,
@@ -15474,7 +15809,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Торренс: котловина Тектоническое бессточное соляное рифтовое, макс. глубина 1 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_lake_frome",
@@ -15521,7 +15857,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Озеро Фром: котловина Тектоническое бессточное соляное (Южная Австралия), макс. глубина 1 м."
-    }
+    },
+    "isCoreLandmark": false
   },
   {
     "id": "m4_lk_lake_eyre",
@@ -15541,7 +15878,12 @@ const MODULE4_ITEMS = [
     "lat": -28.4,
     "lng": 137.4,
     "hitRadiusKm": 250,
-    "bounds": null,
+    "bounds": [
+      -29.6,
+      136.8,
+      -27.8,
+      138
+    ],
     "badgeColor": "blue",
     "continent": "australia",
     "basinGenesis": "Тектоническое бессточное соляное (низшая точка Австралии -16 м)",
@@ -15570,7 +15912,8 @@ const MODULE4_ITEMS = [
         }
       ],
       "backNote": "Крупнейшее озеро Австралии (периодически пересыхающее соляное плато в центре Большого Артезианского бассейна)."
-    }
+    },
+    "isCoreLandmark": true
   }
 ];
 
