@@ -242,8 +242,12 @@ function run() {
   const m2NonCoreDep = m2Deps.find((d) => !d.isCoreLandmark);
   assert(m2NonCoreDep && !QuizConfig.buildCardSpec(m2NonCoreDep, 'essentials', LearningEngine.meta.customModules).requiresFlipCard, 'Non-core depression skips flip card in essentials');
   const m2NonCoreMt = reg.module2.items.find((i) => i.category === 'mountains' && !i.isCoreLandmark);
+  assert.strictEqual(m2NonCoreMt.categoryLabel, 'Горы', 'Mountain categoryLabel must not spoil folding epoch');
   const m2MtSpec = QuizConfig.buildCardSpec(m2NonCoreMt, 'essentials', LearningEngine.meta.customModules);
+  assert.strictEqual(m2MtSpec.badge, 'Горы', 'Mountain flip card badge must not spoil folding epoch');
   assert(m2MtSpec.requiresFlipCard && /складчатост/i.test(m2MtSpec.prompt) && !/вершин/i.test(m2MtSpec.prompt), 'Non-core mountain asks epoch without peak');
+  const m3Current = reg.module3.items.find((i) => i.category === 'currents');
+  assert.strictEqual(m3Current.categoryLabel, 'Океаническое течение', 'Current categoryLabel must not spoil thermal type');
   const m2OrdinaryPlain = reg.module2.items.find((i) => i.category === 'plains' && !i.isCoreLandmark && i.submoduleId !== 'm2_depressions');
   assert(m2OrdinaryPlain && !QuizConfig.buildCardSpec(m2OrdinaryPlain, 'essentials', LearningEngine.meta.customModules).requiresFlipCard, 'Ordinary plain is map-only in essentials');
 
@@ -273,6 +277,16 @@ function run() {
   assert(baikalSpec.requiresFlipCard && baikalSpec.answer.includes('Байкал'), 'Baikal blind record card reveals Байкал');
   const nile = reg.module4.items.find((i) => i.id === 'm4_riv_nile');
   const nileSpec = QuizConfig.buildCardSpec(nile, 'essentials', LearningEngine.meta.customModules);
+  assert(nileSpec.requiresFlipCard && nileSpec.answer.includes('Нил'), 'Nile blind record card reveals Нил');
+
+  // Verify progress persists immediately after 1 clean answer and queue continues with unvisited items
+  const islandBefore = LearningEngine.buildSessionQueue({ mode: 'learn', moduleId: 'module1', submoduleId: 'm1_islands' });
+  const firstIsland = islandBefore[0];
+  LearningEngine.recordCompositeResult(firstIsland.id, { mapMistakes: 0, theoryRecalled: true, hadFlipCard: false });
+  const islandStatsAfter = LearningEngine.getSubmoduleStats('module1', 'm1_islands', 'full');
+  assert(islandStatsAfter.practiced >= 1, 'Cleanly answered island increments practiced count immediately');
+  const islandAfter = LearningEngine.buildSessionQueue({ mode: 'learn', moduleId: 'module1', submoduleId: 'm1_islands' });
+  assert.notStrictEqual(islandAfter[0].id, firstIsland.id, 'Re-entering m1_islands continues with unvisited items first');
   assert(nileSpec.requiresFlipCard && nileSpec.answer.includes('Нил'), 'Nile blind record card reveals Нил');
 
   // SRS transitions

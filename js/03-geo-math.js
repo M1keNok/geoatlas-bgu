@@ -269,20 +269,25 @@
     return 3;
   }
 
+  function getReviewTier(state) {
+    if (!state) return 1;
+    if (state.weakSpot) return 0;
+    const reps = state.reps || 0;
+    if (state.status === 'mastered' && reps >= 2) return 3;
+    if (reps >= 1) return 2;
+    return 1;
+  }
+
   function sortItemsBasicToNiche(items, getStateFn = null) {
     if (!Array.isArray(items)) return [];
     return items.slice().sort((a, b) => {
       const sa = getStateFn ? getStateFn(a.id) : null;
       const sb = getStateFn ? getStateFn(b.id) : null;
 
-      // Priority 1: Weak/unmastered ahead of already mastered
-      const aWeak = sa && sa.weakSpot ? 0 : 1;
-      const bWeak = sb && sb.weakSpot ? 0 : 1;
-      if (aWeak !== bWeak) return aWeak - bWeak;
-
-      const aMast = sa && sa.status === 'mastered' && (sa.reps || 0) >= 2 ? 1 : 0;
-      const bMast = sb && sb.status === 'mastered' && (sb.reps || 0) >= 2 ? 1 : 0;
-      if (aMast !== bMast) return aMast - bMast;
+      // Priority 1: Weak -> New (unvisited) -> Practiced once -> Mastered
+      const tierA = getReviewTier(sa);
+      const tierB = getReviewTier(sb);
+      if (tierA !== tierB) return tierA - tierB;
 
       // Priority 2: Board-exam opening order (Capes -> Continent Extremes -> Rest)
       const bpA = getBoardPriority(a);

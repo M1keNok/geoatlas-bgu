@@ -39,6 +39,8 @@
     if (!item) return 'Объект';
     if (item.id && /^m3_sea_[a-z_]+_ocean$/.test(item.id)) return 'Океан';
     if (item.submoduleId === 'm2_depressions') return 'Впадина';
+    if (item.category === 'mountains') return 'Горы';
+    if (item.category === 'currents') return 'Океаническое течение';
     if (item.categoryRu) return item.categoryRu;
     if (item.mainCategory) {
       const singularMap = {
@@ -346,17 +348,23 @@
 
     getStatsForItems(items) {
       let mastered = 0;
+      let practiced = 0;
       let learning = 0;
       let weakSpots = 0;
       items.forEach((it) => {
         const s = this.getState(it.id);
-        if (this.isMastered(s)) mastered++;
-        else if (s.status === 'learning' || s.status === 'review') learning++;
+        if (this.isMastered(s)) {
+          mastered++;
+          practiced++;
+        } else {
+          if ((s.reps || 0) >= 1 && !s.weakSpot) practiced++;
+          if (s.status === 'learning' || s.status === 'review') learning++;
+        }
         if (s.weakSpot || (s.lapses > 0 && !this.isMastered(s))) weakSpots++;
       });
       const total = items.length;
-      const pct = total > 0 ? Math.round((mastered / total) * 100) : 0;
-      return { total, mastered, learning, weakSpots, pct };
+      const pct = total > 0 ? Math.round((practiced / total) * 100) : 0;
+      return { total, mastered, practiced, learning, weakSpots, pct };
     },
 
     getModuleStats(moduleId, scope) {
