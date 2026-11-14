@@ -190,7 +190,12 @@
       const weakHintEl = document.getElementById('overallWeakHint');
 
       if (pctEl) pctEl.textContent = `${overall.pct}%`;
-      if (cntEl) cntEl.textContent = `${overall.practiced} / ${overall.total} пройдено`;
+      if (cntEl) {
+        cntEl.textContent =
+          overall.learning > 0
+            ? `${overall.mastered} / ${overall.total} выучено · ${overall.learning} в работе`
+            : `${overall.mastered} / ${overall.total} выучено`;
+      }
       if (barEl) barEl.style.width = `${overall.pct}%`;
 
       const weakCount = GeoAtlas.LearningEngine.getWeakSpotsItems().length;
@@ -241,7 +246,7 @@
                 ${hint ? `<span class="subdeck-btn-sub">${hint}</span>` : ''}
               </span>
               <span class="subdeck-btn-right">
-                <span>${ds.practiced}/${ds.total}</span>
+                <span>${ds.mastered}/${ds.total}${ds.learning > 0 ? ` (+${ds.learning})` : ''}</span>
                 <span class="subdeck-play-icon" aria-hidden="true">
                   <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor"><path d="M4.5 3.2v9.6l8-4.8-8-4.8z"/></svg>
                 </span>
@@ -266,7 +271,7 @@
           </div>
           <div>
             <div class="module-stats-row">
-              <span>${progressLabel}: <strong>${stats.practiced}</strong> из ${stats.total}</span>
+              <span>${progressLabel}: <strong>${stats.mastered}</strong> из ${stats.total}${stats.learning > 0 ? ` (в работе: ${stats.learning})` : ''}</span>
               ${stats.weakSpots > 0 ? `<span class="badge badge-amber">🩹 ${stats.weakSpots}</span>` : '<span></span>'}
             </div>
             <div class="progress-track" style="margin-top: 6px;">

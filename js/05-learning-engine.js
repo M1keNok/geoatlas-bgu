@@ -363,7 +363,7 @@
         if (s.weakSpot || (s.lapses > 0 && !this.isMastered(s))) weakSpots++;
       });
       const total = items.length;
-      const pct = total > 0 ? Math.round((practiced / total) * 100) : 0;
+      const pct = total > 0 ? Math.round((mastered / total) * 100) : 0;
       return { total, mastered, practiced, learning, weakSpots, pct };
     },
 
@@ -400,15 +400,16 @@
 
     buildSessionQueue({ mode = 'learn', moduleId = null, submoduleId = null, limit = null } = {}) {
       const scope = (this.meta && this.meta.scope) || 'full';
+      const step = (this.meta && this.meta.sessionStep) || 0;
 
       if (mode === 'theory') {
         const theory = this.getModuleTheoryItems(moduleId, scope);
-        return GeoAtlas.GeoMath.sortItemsBasicToNiche(theory, (id) => this.getState(id));
+        return GeoAtlas.GeoMath.sortItemsBasicToNiche(theory, (id) => this.getState(id), step);
       }
 
       if (mode === 'weak') {
         const weak = this.getWeakSpotsItems(moduleId);
-        return GeoAtlas.GeoMath.sortItemsBasicToNiche(weak, (id) => this.getState(id));
+        return GeoAtlas.GeoMath.sortItemsBasicToNiche(weak, (id) => this.getState(id), step);
       }
 
       const includeM1Theory =
@@ -419,7 +420,7 @@
       if (pool.length === 0) return [];
 
       if (mode === 'learn') {
-        const ordered = GeoAtlas.GeoMath.sortItemsBasicToNiche(pool, (id) => this.getState(id));
+        const ordered = GeoAtlas.GeoMath.sortItemsBasicToNiche(pool, (id) => this.getState(id), step);
         return limit ? ordered.slice(0, limit) : ordered;
       }
 
@@ -511,7 +512,7 @@
         reps += 1;
         weakSpot = null;
         status = reps >= 2 ? 'mastered' : 'learning';
-        dueOffset = 8 + reps * 5;
+        dueOffset = reps === 1 ? 6 : 8 + reps * 5;
       }
 
       const next = {
@@ -529,7 +530,7 @@
         GeoAtlas.StorageAdapter.saveMeta(this.meta);
       }
 
-      return { grade, state: next };
+      return { grade, state: next, dueOffset };
     }
   };
 

@@ -279,15 +279,19 @@ function run() {
   const nileSpec = QuizConfig.buildCardSpec(nile, 'essentials', LearningEngine.meta.customModules);
   assert(nileSpec.requiresFlipCard && nileSpec.answer.includes('Нил'), 'Nile blind record card reveals Нил');
 
-  // Verify progress persists immediately after 1 clean answer and queue continues with unvisited items
+  // Verify Anki learning stage (reps=1 -> learning, dueOffset=6) & dueStep resurfacing
   const islandBefore = LearningEngine.buildSessionQueue({ mode: 'learn', moduleId: 'module1', submoduleId: 'm1_islands' });
   const firstIsland = islandBefore[0];
-  LearningEngine.recordCompositeResult(firstIsland.id, { mapMistakes: 0, theoryRecalled: true, hadFlipCard: false });
+  const islandRes = LearningEngine.recordCompositeResult(firstIsland.id, { mapMistakes: 0, theoryRecalled: true, hadFlipCard: false });
+  assert.strictEqual(islandRes.state.status, 'learning', '1 clean answer keeps item in Anki learning stage');
+  assert.strictEqual(islandRes.dueOffset, 6, '1st clean answer schedules Anki repeat after 6 steps');
   const islandStatsAfter = LearningEngine.getSubmoduleStats('module1', 'm1_islands', 'full');
-  assert(islandStatsAfter.practiced >= 1, 'Cleanly answered island increments practiced count immediately');
+  assert(islandStatsAfter.learning >= 1 && islandStatsAfter.mastered === 0, '1 clean answer counts as in-progress learning, not yet mastered');
   const islandAfter = LearningEngine.buildSessionQueue({ mode: 'learn', moduleId: 'module1', submoduleId: 'm1_islands' });
-  assert.notStrictEqual(islandAfter[0].id, firstIsland.id, 'Re-entering m1_islands continues with unvisited items first');
-  assert(nileSpec.requiresFlipCard && nileSpec.answer.includes('Нил'), 'Nile blind record card reveals Нил');
+  assert.notStrictEqual(islandAfter[0].id, firstIsland.id, 'Re-entering before dueStep continues with unvisited items first');
+  LearningEngine.meta.sessionStep = islandRes.state.dueStep;
+  const islandWhenDue = LearningEngine.buildSessionQueue({ mode: 'learn', moduleId: 'module1', submoduleId: 'm1_islands' });
+  assert.strictEqual(islandWhenDue[0].id, firstIsland.id, 'When Anki dueStep arrives, learning item resurfaces at front of queue');
 
   // SRS transitions
   let r1 = LearningEngine.recordCompositeResult('m2_mtn_ural_mountains', { mapMistakes: 0, mapRevealed: false, theoryRecalled: true, hadFlipCard: true });

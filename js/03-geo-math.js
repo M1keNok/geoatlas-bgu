@@ -269,25 +269,33 @@
     return 3;
   }
 
-  function getReviewTier(state) {
-    if (!state) return 1;
+  function getReviewTier(state, currentStep = 0) {
+    if (!state) return 2;
     if (state.weakSpot) return 0;
     const reps = state.reps || 0;
-    if (state.status === 'mastered' && reps >= 2) return 3;
-    if (reps >= 1) return 2;
-    return 1;
+    const isMastered = state.status === 'mastered' && reps >= 2;
+    if (state.status && state.status !== 'new' && (state.dueStep || 0) <= currentStep) {
+      return 1; // Anki due item whose interval has elapsed
+    }
+    if (!state.status || state.status === 'new' || reps === 0) return 2;
+    if (!isMastered && reps >= 1) return 3; // In-progress learning item not yet due
+    return 4; // Mastered item not yet due
   }
 
-  function sortItemsBasicToNiche(items, getStateFn = null) {
+  function sortItemsBasicToNiche(items, getStateFn = null, currentStep = 0) {
     if (!Array.isArray(items)) return [];
     return items.slice().sort((a, b) => {
       const sa = getStateFn ? getStateFn(a.id) : null;
       const sb = getStateFn ? getStateFn(b.id) : null;
 
-      // Priority 1: Weak -> New (unvisited) -> Practiced once -> Mastered
-      const tierA = getReviewTier(sa);
-      const tierB = getReviewTier(sb);
+      // Priority 1: Weak -> Anki Due -> New -> Learning (not yet due) -> Mastered (not yet due)
+      const tierA = getReviewTier(sa, currentStep);
+      const tierB = getReviewTier(sb, currentStep);
       if (tierA !== tierB) return tierA - tierB;
+      if (tierA === 1) {
+        const dueDiff = (sa.dueStep || 0) - (sb.dueStep || 0);
+        if (dueDiff !== 0) return dueDiff;
+      }
 
       // Priority 2: Board-exam opening order (Capes -> Continent Extremes -> Rest)
       const bpA = getBoardPriority(a);

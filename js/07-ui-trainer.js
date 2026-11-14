@@ -121,6 +121,7 @@
       this.currentIndex = 0;
       this.sessionClean = 0;
       this.sessionWeak = 0;
+      this._sessionRepeats = {};
       this._exploreReturnIndex = null;
 
       GeoAtlas.UIHub.hide();
@@ -471,6 +472,7 @@
           hadFlipCard: false
         });
         this._tallyGrade(res.grade);
+        this._scheduleAnkiRepeat(item, res);
         this._advanceCursor();
         return;
       }
@@ -560,6 +562,7 @@
         hadFlipCard: !!(ctx.cardSpec && ctx.cardSpec.requiresFlipCard)
       });
       this._tallyGrade(res.grade);
+      this._scheduleAnkiRepeat(ctx.item, res);
       this._currentCardSpec = null;
       this._advanceCursor();
     },
@@ -587,6 +590,20 @@
     _tallyGrade(grade) {
       if (grade === 'STRONG') this.sessionClean += 1;
       else this.sessionWeak += 1;
+    },
+
+    _scheduleAnkiRepeat(item, res) {
+      if (!item || !res || !res.state || res.state.status === 'mastered') return;
+      if (this.mode !== 'learn' && this.mode !== 'theory' && this.mode !== 'weak') return;
+      this._sessionRepeats = this._sessionRepeats || {};
+      const repeats = this._sessionRepeats[item.id] || 0;
+      if (repeats >= 3) return;
+      const alreadyAhead = this.queue.slice(this.currentIndex + 1).some((x) => x.id === item.id);
+      if (alreadyAhead) return;
+      const offset = Math.max(1, res.dueOffset || 4);
+      const insertAt = Math.min(this.queue.length, this.currentIndex + 1 + offset);
+      this.queue.splice(insertAt, 0, item);
+      this._sessionRepeats[item.id] = repeats + 1;
     },
 
     _advanceCursor() {
