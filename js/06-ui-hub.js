@@ -127,6 +127,10 @@
         this._confirmResetArm = false;
         btn.textContent = defaultLabel;
         GeoAtlas.StorageAdapter.clearStates(GeoAtlas.LearningEngine.states);
+        if (GeoAtlas.LearningEngine.meta) {
+          GeoAtlas.LearningEngine.meta.exploredSections = {};
+          GeoAtlas.StorageAdapter.saveMeta(GeoAtlas.LearningEngine.meta);
+        }
         this.closePresetModal();
         this.render();
         if (GeoAtlas.App && GeoAtlas.App.showToast) {

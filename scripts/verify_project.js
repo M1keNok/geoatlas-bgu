@@ -168,6 +168,7 @@ function run() {
   assert(loadedData.states.m1_bermuda_triangle, 'Migrated bermuda_triangle_quiz -> m1_bermuda_triangle');
 
   assert.strictEqual(StorageAdapter.defaultMeta().scope, 'full', 'Default scope must be full');
+  assert.deepStrictEqual(StorageAdapter.defaultMeta().exploredSections, {}, 'Default exploredSections must be empty object');
   LearningEngine.init({}, StorageAdapter.defaultMeta());
 
   // Verify oral theory cards ONLY on non-map items (M1=22 theory cards, M3=5 whole oceans; 12 peaks/depressions are on M1 map!)

@@ -87,6 +87,7 @@
       muted: false,
       showLabelsInAtlas: true,
       sessionStep: 0,
+      exploredSections: {},
       customModules: {
         module1: { capes: true, continentsEarth: true, islands: false, peninsulas: false },
         module2: { mountainAge: true, volcanoType: true, depressionSign: true, plains: true },
@@ -209,6 +210,11 @@
         if (typeof srcMeta.muted === 'boolean') meta.muted = srcMeta.muted;
         if (typeof srcMeta.showLabelsInAtlas === 'boolean') meta.showLabelsInAtlas = srcMeta.showLabelsInAtlas;
         if (typeof srcMeta.sessionStep === 'number') meta.sessionStep = srcMeta.sessionStep;
+        if (srcMeta.exploredSections && typeof srcMeta.exploredSections === 'object') {
+          Object.keys(srcMeta.exploredSections).forEach((k) => {
+            if (srcMeta.exploredSections[k]) meta.exploredSections[k] = true;
+          });
+        }
         if (srcMeta.customModules && typeof srcMeta.customModules === 'object') {
           ['module1', 'module2', 'module3', 'module4'].forEach((m) => {
             if (srcMeta.customModules[m]) {
@@ -259,6 +265,11 @@
             }
           });
           const mergedMeta = Object.assign({}, local.meta, cloudMeta || {});
+          mergedMeta.exploredSections = Object.assign(
+            {},
+            local.meta.exploredSections || {},
+            (cloudMeta && cloudMeta.exploredSections) || {}
+          );
           callback({ states: mergedStates, meta: mergedMeta });
         });
       } catch (_) {

@@ -27,6 +27,7 @@
     sessionClean: 0,
     sessionWeak: 0,
     _currentCardSpec: null,
+    _exploreReturnIndex: null,
 
     init() {
       this._bindControls();
@@ -36,6 +37,11 @@
       const byId = (id) => document.getElementById(id);
 
       byId('btnExitTrainer')?.addEventListener('click', () => this.exitToHub());
+      byId('btnReopenExplore')?.addEventListener('click', () => {
+        if (!this.active || this.mode === 'theory' || !this.pool.length) return;
+        this._exploreReturnIndex = this.currentIndex;
+        this._openExploreStage();
+      });
       byId('btnExploreExit')?.addEventListener('click', () => this.exitToHub());
       byId('btnFlipExitToMenu')?.addEventListener('click', () => this.exitToHub());
       byId('btnExploreStartRecall')?.addEventListener('click', () => this._startRecallFromExplore());
@@ -115,6 +121,7 @@
       this.currentIndex = 0;
       this.sessionClean = 0;
       this.sessionWeak = 0;
+      this._exploreReturnIndex = null;
 
       GeoAtlas.UIHub.hide();
       GeoAtlas.UIAtlas.hideHud();
@@ -129,7 +136,13 @@
         GeoAtlas.TelegramBridge.showBackButton(() => this.exitToHub());
       }
 
-      if (mode === 'learn') {
+      const exploreKey = this._getExploreKey();
+      const exploredMap = (engine.meta.exploredSections = engine.meta.exploredSections || {});
+      const shouldShowInitialExplore = mode === 'learn' && this.pool.length > 0 && !exploredMap[exploreKey];
+
+      if (shouldShowInitialExplore) {
+        exploredMap[exploreKey] = true;
+        GeoAtlas.StorageAdapter.saveMeta(engine.meta);
         this._openExploreStage();
       } else {
         this._drawClickablePoolSilhouettes();
@@ -137,9 +150,14 @@
       }
     },
 
+    _getExploreKey() {
+      return this.submoduleId ? `${this.moduleId || 'all'}:${this.submoduleId}` : this.moduleId || 'all';
+    },
+
     exitToHub() {
       this.active = false;
       this.inExploreStage = false;
+      this._exploreReturnIndex = null;
       this._hideAllSubBars();
       document.getElementById('trainerHud')?.classList.add('hidden');
       document.getElementById('flipOverlay')?.classList.add('hidden');
@@ -169,9 +187,16 @@
       const mod = GeoAtlas.LearningEngine.modules.find((m) => m.id === this.moduleId);
       const deck = mod && this.submoduleId ? mod.decks.find((d) => d.id === this.submoduleId) : null;
       const sectionTitle = (deck && deck.title) || (mod && mod.shortTitle) || 'Раздел карты';
-      if (titleEl) titleEl.textContent = `${sectionTitle} · ${this.queue.length} объектов`;
+      const inspectList = this.pool.length ? this.pool : this.queue;
+      if (titleEl) titleEl.textContent = `${sectionTitle} · ${inspectList.length} объектов`;
 
-      let selectedId = this.queue[0]?.id || null;
+      const startBtn = document.getElementById('btnExploreStartRecall');
+      if (startBtn) {
+        startBtn.textContent =
+          typeof this._exploreReturnIndex === 'number' ? 'Вернуться к проверке →' : 'Перейти к запоминанию →';
+      }
+
+      let selectedId = inspectList[0]?.id || null;
 
       const showInspectInfo = (it) => {
         if (!infoEl || !it) return;
@@ -184,7 +209,7 @@
       };
 
       const renderExplore = () => {
-        GeoAtlas.MapEngine.drawPoolShapes(this.queue, {
+        GeoAtlas.MapEngine.drawPoolShapes(inspectList, {
           selectedId,
           showLabels: true,
           hoverLabel: true,
@@ -196,7 +221,7 @@
           }
         });
 
-        chipsEl.innerHTML = this.queue
+        chipsEl.innerHTML = inspectList
           .map((it) => {
             const star = it.isCoreLandmark ? '⭐ ' : '';
             return `<button class="cluster-chip ${it.id === selectedId ? 'is-selected' : ''}" data-chip-id="${it.id}" type="button">${star}${it.name}</button>`;
@@ -207,7 +232,7 @@
       chipsEl.onclick = (e) => {
         const btn = e.target.closest('[data-chip-id]');
         if (!btn) return;
-        const found = this.queue.find((x) => x.id === btn.getAttribute('data-chip-id'));
+        const found = inspectList.find((x) => x.id === btn.getAttribute('data-chip-id'));
         if (found) {
           selectedId = found.id;
           GeoAtlas.MapEngine.fitItem(found, 5);
@@ -217,19 +242,20 @@
       };
 
       GeoAtlas.MapEngine.setMapClickHandler(null);
-      if (this.queue[0]) showInspectInfo(this.queue[0]);
+      if (inspectList[0]) showInspectInfo(inspectList[0]);
       renderExplore();
-      GeoAtlas.MapEngine.fitBatch(this.queue, 4);
+      GeoAtlas.MapEngine.fitBatch(inspectList, 4);
       bar.classList.remove('hidden');
       GeoAtlas.MotionFX?.reveal(bar);
     },
 
     _startRecallFromExplore() {
       this.inExploreStage = false;
-      this.currentIndex = 0;
+      this.currentIndex = typeof this._exploreReturnIndex === 'number' ? this._exploreReturnIndex : 0;
+      this._exploreReturnIndex = null;
       document.getElementById('exploreBar')?.classList.add('hidden');
       this._drawClickablePoolSilhouettes();
-      this._presentItem(this.queue[0]);
+      this._presentItem(this.queue[this.currentIndex]);
     },
 
     _drawClickablePoolSilhouettes() {
@@ -294,6 +320,7 @@
       if (dotsEl) dotsEl.classList.remove('hidden');
       document.getElementById('btnHint')?.classList.remove('hidden');
       document.getElementById('btnReveal')?.classList.remove('hidden');
+      document.getElementById('btnReopenExplore')?.classList.toggle('hidden', this.mode === 'theory' || !this.pool.length);
 
       if (this.mode === 'theory' || GeoAtlas.GeoMath.isOralTheoryItem(item)) {
         targetNameEl.textContent = item.name;
