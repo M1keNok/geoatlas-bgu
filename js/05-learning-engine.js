@@ -55,7 +55,7 @@
   function isModuleOralCardCandidate(item) {
     if (!item) return false;
     if (item.moduleId === 'module1') {
-      return item.submoduleId === 'm1_continents_earth';
+      return item.submoduleId === 'm1_continents_earth' && item.category === 'continent_theory';
     }
     if (item.moduleId === 'module3') {
       return Boolean(item.id && /^m3_sea_[a-z_]+_ocean$/.test(item.id));
@@ -147,6 +147,24 @@
         prompt = `${clue} — как называется этот мыс?`;
         answer = item.shortName || item.name;
         if (item.locationDesc) facts.push({ label: 'Справка', val: item.locationDesc });
+        return {
+          requiresFlipCard: true,
+          badge,
+          prompt,
+          answer,
+          facts
+        };
+      }
+
+      if ((item.category === 'continent_peak' || item.category === 'continent_depr') && !forceTheory) {
+        const metrics = Array.isArray(card.backMetrics) ? card.backMetrics : [];
+        const heightMetric = metrics.find((m) => /высот|отметк/i.test(m.label || ''));
+        prompt = 'Вспомните абсолютную высоту (отметку) этого объекта:';
+        answer = (heightMetric && heightMetric.value) || card.backMainAnswer || answer;
+        metrics.forEach((m) => {
+          if (m && m.label && m.value) facts.push({ label: m.label, val: m.value });
+        });
+        if (card.backNote) facts.push({ label: 'Справка', val: card.backNote });
         return {
           requiresFlipCard: true,
           badge,

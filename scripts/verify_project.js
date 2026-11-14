@@ -167,11 +167,24 @@ function run() {
 
   LearningEngine.init({}, StorageAdapter.defaultMeta());
 
-  // Verify oral theory cards ONLY on modules with non-map items (M1 continents/Earth, M3 whole oceans)
-  assert(LearningEngine.getModuleTheoryItems('module1', 'full').length === 34, 'M1 oral theory has 34 continent/Earth cards');
-  assert(LearningEngine.getModuleTheoryItems('module3', 'full').length === 5, 'M3 oral theory has 5 whole oceans');
-  assert(LearningEngine.getModuleTheoryItems('module2', 'full').length === 0, 'M2 has no standalone non-map card deck');
-  assert(LearningEngine.getModuleTheoryItems('module4', 'full').length === 0, 'M4 has no standalone non-map card deck');
+  // Verify oral theory cards ONLY on non-map items (M1=22 theory cards, M3=5 whole oceans; 12 peaks/depressions are on M1 map!)
+  assert.strictEqual(LearningEngine.getModuleTheoryItems('module1', 'full').length, 22, 'M1 oral theory has 22 continent/Earth cards');
+  assert.strictEqual(LearningEngine.getModuleTheoryItems('module3', 'full').length, 5, 'M3 oral theory has 5 whole oceans');
+  assert.strictEqual(LearningEngine.getModuleTheoryItems('module2', 'full').length, 0, 'M2 has no standalone non-map card deck');
+  assert.strictEqual(LearningEngine.getModuleTheoryItems('module4', 'full').length, 0, 'M4 has no standalone non-map card deck');
+
+  // Verify M1 map queue starts with Capes -> Continent Peaks/Depressions -> Rest, and Peak card asks height
+  const m1MapQueue = LearningEngine.buildSessionQueue({ mode: 'learn', moduleId: 'module1' });
+  const firstNonCapeIdx = m1MapQueue.findIndex((i) => i.category !== 'extreme_point');
+  assert(firstNonCapeIdx === 21, `All 21 capes must come first in M1 queue (got ${firstNonCapeIdx})`);
+  assert(
+    m1MapQueue[21].category === 'continent_peak' || m1MapQueue[21].category === 'continent_depr',
+    'Continent peaks/depressions immediately follow capes in M1 queue'
+  );
+  const everest = reg.module1.items.find((i) => i.id === 'm1_cont_eurasia_peak');
+  assert(!GeoMath.isOralTheoryItem(everest), 'Continent peaks are on the map, not oral-only');
+  const everestSpec = QuizConfig.buildCardSpec(everest, 'essentials', LearningEngine.meta.customModules);
+  assert(everestSpec.requiresFlipCard && /высоту/i.test(everestSpec.prompt) && everestSpec.answer.includes('8848'), 'Everest map card asks height (8848 м)');
 
   // Verify blind cape prompt does not leak cape name and card reveals it
   const capeWest = reg.module1.items.find((i) => i.id === 'm1_cape_africa_west');

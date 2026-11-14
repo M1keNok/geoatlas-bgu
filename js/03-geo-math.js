@@ -85,7 +85,6 @@
     return (
       item.geometryType === 'none' ||
       item.geometryType === 'region_focus' ||
-      item.submoduleId === 'm1_continents_earth' ||
       Boolean(item.id && /^m3_sea_[a-z_]+_ocean$/.test(item.id))
     );
   }
@@ -262,6 +261,13 @@
     return 'antarctica_oceans';
   }
 
+  function getBoardPriority(item) {
+    if (!item) return 2;
+    if (item.category === 'extreme_point' || item.category === 'capes') return 0;
+    if (item.category === 'continent_peak' || item.category === 'continent_depr') return 1;
+    return 2;
+  }
+
   function sortItemsBasicToNiche(items, getStateFn = null) {
     if (!Array.isArray(items)) return [];
     return items.slice().sort((a, b) => {
@@ -277,12 +283,17 @@
       const bMast = sb && sb.status === 'mastered' && (sb.reps || 0) >= 2 ? 1 : 0;
       if (aMast !== bMast) return aMast - bMast;
 
-      // Priority 2: Core landmarks (basic) first, niche objects progressively later
+      // Priority 2: Board-exam opening order (Capes -> Continent Extremes -> Rest)
+      const bpA = getBoardPriority(a);
+      const bpB = getBoardPriority(b);
+      if (bpA !== bpB) return bpA - bpB;
+
+      // Priority 3: Core landmarks (basic) first, niche objects progressively later
       const aCore = a.isCoreLandmark ? 0 : 1;
       const bCore = b.isCoreLandmark ? 0 : 1;
       if (aCore !== bCore) return aCore - bCore;
 
-      // Priority 3: Keep objects grouped neatly by macroregion
+      // Priority 4: Keep objects grouped neatly by macroregion
       const ma = getMacroregion(a);
       const mb = getMacroregion(b);
       if (ma !== mb) return ma.localeCompare(mb);

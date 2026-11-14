@@ -50,7 +50,7 @@
   ];
 
   const MODULE_THEORY_DESCS = {
-    module1: 'Площади и высоты материков, цифры Земли, Океания, типы пустынь',
+    module1: 'Площади и средние высоты материков, цифры Земли, Океания, типы пустынь',
     module3: '5 океанов мира (площади, границы и характеристики)'
   };
 
@@ -207,13 +207,13 @@
         card.style.setProperty('--mod-color', mod.color || '#10b981');
 
         const deckRows = (mod.decks || [])
-          .filter((d) => d.id !== 'm1_continents_earth')
           .map((deck) => {
             const ds = engine.getSubmoduleStats(mod.id, deck.id, scope);
             if (ds.total === 0) return '';
+            const deckTitle = deck.id === 'm1_continents_earth' ? 'Высшие и низшие точки материков' : deck.title;
             return `
               <div class="subdeck-row">
-                <span class="subdeck-name" title="${deck.title}">${deck.title}</span>
+                <span class="subdeck-name" title="${deckTitle}">${deckTitle}</span>
                 <div class="subdeck-right">
                   <span class="subdeck-count">${ds.mastered}/${ds.total}</span>
                   <button class="btn btn-sm btn-ghost" data-sub-learn="${mod.id}:${deck.id}" type="button" title="Учить тему">▶</button>
