@@ -284,7 +284,7 @@ function run() {
   const firstIsland = islandBefore[0];
   const islandRes = LearningEngine.recordCompositeResult(firstIsland.id, { mapMistakes: 0, theoryRecalled: true, hadFlipCard: false });
   assert.strictEqual(islandRes.state.status, 'learning', '1 clean answer keeps item in Anki learning stage');
-  assert.strictEqual(islandRes.dueOffset, 6, '1st clean answer schedules Anki repeat after 6 steps');
+  assert.strictEqual(islandRes.dueOffset, 18, '1st clean answer schedules calm Anki repeat after 18 steps');
   const islandStatsAfter = LearningEngine.getSubmoduleStats('module1', 'm1_islands', 'full');
   assert(islandStatsAfter.learning >= 1 && islandStatsAfter.mastered === 0, '1 clean answer counts as in-progress learning, not yet mastered');
   const islandAfter = LearningEngine.buildSessionQueue({ mode: 'learn', moduleId: 'module1', submoduleId: 'm1_islands' });

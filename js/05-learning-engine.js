@@ -488,31 +488,31 @@
         lapses += 1;
         status = 'learning';
         weakSpot = theoryMissed ? 'both' : 'map';
-        dueOffset = 1;
+        dueOffset = 3;
       } else if (mapMistakes >= 2 || (mapMistakes === 1 && theoryMissed)) {
         grade = 'WEAK';
         reps = 0;
         lapses += 1;
         status = 'learning';
         weakSpot = theoryMissed ? 'both' : 'map';
-        dueOffset = 2;
+        dueOffset = 5;
       } else if (mapMistakes === 0 && theoryMissed) {
         grade = 'MEDIUM_THEORY';
         lapses += 1;
         status = 'learning';
         weakSpot = 'theory';
-        dueOffset = 3;
+        dueOffset = 7;
       } else if (mapMistakes === 1 && !theoryMissed) {
         grade = 'MEDIUM_MAP';
         status = 'learning';
         weakSpot = 'map';
-        dueOffset = 4;
+        dueOffset = 10;
       } else {
         grade = 'STRONG';
         reps += 1;
         weakSpot = null;
         status = reps >= 2 ? 'mastered' : 'learning';
-        dueOffset = reps === 1 ? 6 : 8 + reps * 5;
+        dueOffset = reps === 1 ? 18 : 20 + reps * 12;
       }
 
       const next = {

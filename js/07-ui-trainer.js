@@ -597,10 +597,13 @@
       if (this.mode !== 'learn' && this.mode !== 'theory' && this.mode !== 'weak') return;
       this._sessionRepeats = this._sessionRepeats || {};
       const repeats = this._sessionRepeats[item.id] || 0;
-      if (repeats >= 3) return;
+      if (repeats >= 2) return;
+      const remaining = this.queue.length - (this.currentIndex + 1);
+      const offset = Math.max(1, res.dueOffset || 6);
+      // If located cleanly on the 1st try, don't force an immediate end-of-session repeat in short decks
+      if (res.grade === 'STRONG' && remaining < offset) return;
       const alreadyAhead = this.queue.slice(this.currentIndex + 1).some((x) => x.id === item.id);
       if (alreadyAhead) return;
-      const offset = Math.max(1, res.dueOffset || 4);
       const insertAt = Math.min(this.queue.length, this.currentIndex + 1 + offset);
       this.queue.splice(insertAt, 0, item);
       this._sessionRepeats[item.id] = repeats + 1;

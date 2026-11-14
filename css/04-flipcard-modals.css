@@ -300,8 +300,36 @@
 }
 
 @media (max-width: 540px) {
+  .modal-backdrop {
+    padding: calc(10px + var(--safe-top)) 10px calc(10px + var(--safe-bottom));
+  }
+  .modal-panel {
+    max-height: calc(100dvh - 20px - var(--safe-top) - var(--safe-bottom));
+  }
+  .modal-header,
+  .modal-body,
+  .modal-footer {
+    padding: 12px 14px;
+  }
+  .flip-overlay {
+    padding: calc(12px + var(--safe-top)) 10px calc(12px + var(--safe-bottom));
+  }
+  .flip-exit-btn {
+    top: calc(10px + var(--safe-top));
+    right: 10px;
+    min-height: 38px;
+  }
+  .flip-face {
+    padding: 16px;
+    max-height: calc(100dvh - 84px - var(--safe-top) - var(--safe-bottom));
+    overflow-y: auto;
+  }
   .flip-binary-actions {
     grid-template-columns: 1fr;
+  }
+  .flip-binary-actions .btn,
+  .flip-face .btn {
+    min-height: 44px;
   }
   .results-grid {
     grid-template-columns: 1fr;
