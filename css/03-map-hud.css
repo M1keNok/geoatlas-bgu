@@ -403,56 +403,107 @@
 
 @media (max-width: 640px) {
   .trainer-hud {
-    top: calc(8px + var(--safe-top));
-    left: 8px;
-    right: 8px;
-    gap: 6px;
+    top: calc(6px + var(--safe-top));
+    left: 6px;
+    right: 6px;
+    gap: 5px;
   }
   .hud-card {
-    padding: 10px 12px;
-    gap: 6px;
+    padding: 8px 10px;
+    gap: 5px;
     border-radius: var(--radius-md);
   }
-  .hud-target-name {
-    font-size: 16.5px;
-    line-height: 1.25;
+  .hud-top-row {
+    gap: 6px;
+    flex-wrap: wrap;
   }
+  .hud-meta {
+    gap: 5px;
+  }
+  #hudModeBadge,
   .hud-sub-prompt {
-    font-size: 12px;
+    display: none;
+  }
+  .hud-target-name {
+    font-size: 15.5px;
+    line-height: 1.25;
   }
   .hud-bottom-row {
     gap: 6px;
   }
   .hud-actions {
+    gap: 5px;
+  }
+  .hud-bottom-row .hud-actions {
     width: 100%;
     justify-content: space-between;
   }
   .hud-actions .btn-sm {
-    flex: 1 1 auto;
-    min-height: 38px;
+    min-height: 32px;
     padding: 0 8px;
-    font-size: 12.5px;
+    font-size: 12px;
+  }
+  .hud-bottom-row .hud-actions .btn-sm {
+    flex: 1 1 auto;
   }
   .compass-banner {
-    font-size: 12.5px;
-    padding: 6px 12px;
+    font-size: 12px;
+    padding: 5px 10px;
     text-align: center;
   }
   .explore-bar {
-    bottom: calc(8px + var(--safe-bottom));
-    left: 8px;
-    right: 8px;
-    padding: 10px 12px;
-    gap: 8px;
-    max-height: 40dvh;
+    bottom: calc(6px + var(--safe-bottom));
+    left: 6px;
+    right: 6px;
+    padding: 8px 10px;
+    gap: 6px;
+    max-height: 36dvh;
     overflow-y: auto;
   }
+  #exploreSubtitle {
+    display: none;
+  }
   .atlas-hud {
-    top: calc(8px + var(--safe-top));
-    left: 8px;
-    right: 8px;
+    top: calc(6px + var(--safe-top));
+    left: 6px;
+    right: 6px;
   }
   .quiz-bar {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .trainer-hud {
+    top: calc(6px + var(--safe-top));
+    left: 8px;
+    right: 8px;
+    max-width: 540px;
+    gap: 4px;
+  }
+  .hud-card {
+    padding: 6px 10px;
+    gap: 4px;
+    border-radius: var(--radius-md);
+  }
+  #hudModeBadge,
+  .hud-sub-prompt,
+  #exploreSubtitle {
+    display: none;
+  }
+  .hud-target-name {
+    font-size: 14.5px;
+    line-height: 1.2;
+  }
+  .hud-actions .btn-sm {
+    min-height: 30px;
+    padding: 0 8px;
+    font-size: 11.5px;
+  }
+  .explore-bar {
+    bottom: calc(6px + var(--safe-bottom));
+    padding: 7px 10px;
+    max-height: 34dvh;
+    overflow-y: auto;
   }
 }

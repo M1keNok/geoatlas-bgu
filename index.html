@@ -43,15 +43,6 @@
               <button class="seg-btn" data-scope="landmarks" type="button">⭐ Базовый минимум</button>
             </div>
           </div>
-          <div class="control-row">
-            <span class="control-label">Вопросы</span>
-            <div class="seg-group" id="depthSelector">
-              <button class="seg-btn" data-depth="map_only" type="button">🗺️ Только карта</button>
-              <button class="seg-btn" data-depth="essentials" type="button">🧠 С теорией (Рекомендуем)</button>
-              <button class="seg-btn" data-depth="custom_full" type="button">⚙️ Настроить</button>
-            </div>
-            <button id="btnOpenCustomPreset" class="btn btn-sm btn-ghost" type="button" title="Выбрать типы вопросов по модулям">Параметры ⚙️</button>
-          </div>
         </div>
 
         <div class="overall-stat-pill">
@@ -224,22 +215,7 @@
     </div>
   </div>
 
-  <!-- 4. CUSTOM PRESET SETTINGS MODAL -->
-  <div id="customPresetModal" class="modal-backdrop hidden">
-    <div class="modal-panel">
-      <div class="modal-header">
-        <div class="modal-title">⚙️ Настройка вопросов теории по модулям</div>
-        <button id="btnClosePresetModal" class="btn btn-sm btn-ghost" type="button">✕</button>
-      </div>
-      <div id="customPresetBody" class="modal-body"></div>
-      <div class="modal-footer">
-        <button id="btnResetProgressPrompt" class="btn btn-danger btn-sm" type="button">🗑 Сбросить весь прогресс</button>
-        <button id="btnSavePresetModal" class="btn btn-primary btn-sm" type="button">Готово</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 5. CHEATSHEET MODAL ("Конспект-шпаргалка") -->
+  <!-- 4. CHEATSHEET MODAL ("Конспект-шпаргалка") -->
   <div id="cheatsheetModal" class="modal-backdrop hidden">
     <div class="modal-panel is-wide">
       <div class="modal-header">

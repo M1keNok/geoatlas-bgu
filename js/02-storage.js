@@ -201,9 +201,7 @@
       const srcMeta = v10Meta || v9Meta;
       if (srcMeta && typeof srcMeta === 'object') {
         if (srcMeta.scope === 'landmarks' || srcMeta.scope === 'full') meta.scope = srcMeta.scope;
-        if (['map_only', 'essentials', 'custom_full'].includes(srcMeta.depthPreset)) {
-          meta.depthPreset = srcMeta.depthPreset;
-        }
+        meta.depthPreset = 'essentials';
         if (['esri_phys', 'esri_sat', 'vector_offline'].includes(srcMeta.layerId)) {
           meta.layerId = srcMeta.layerId;
         }

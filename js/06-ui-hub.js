@@ -6,49 +6,6 @@
 
   const GeoAtlas = (global.GeoAtlas = global.GeoAtlas || {});
 
-  const PRESET_SCHEMA = [
-    {
-      moduleId: 'module1',
-      title: 'Модуль 1 · Берега, острова, мысы и пустыни',
-      checks: [
-        { key: 'capes', label: 'Крайние точки (материк и сторона света)' },
-        { key: 'continentsEarth', label: 'Устная теория: материки, Земля, Океания' },
-        { key: 'islands', label: 'Острова (океан / регион)' },
-        { key: 'peninsulas', label: 'Полуострова (регион)' }
-      ]
-    },
-    {
-      moduleId: 'module2',
-      title: 'Модуль 2 · Рельеф и тектоника',
-      checks: [
-        { key: 'mountainAge', label: 'Горы: эпоха складчатости и пики' },
-        { key: 'volcanoType', label: 'Вулканы: состояние и высота' },
-        { key: 'depressionSign', label: 'Впадины: отрицательные отметки' },
-        { key: 'plains', label: 'Равнины и плоскогорья: тип и регион' }
-      ]
-    },
-    {
-      moduleId: 'module3',
-      title: 'Модуль 3 · Мировой океан',
-      checks: [
-        { key: 'seaType', label: 'Моря: тип (окраинное/внутреннее) и океан' },
-        { key: 'straitConnects', label: 'Проливы: что соединяют и разделяют' },
-        { key: 'gulfOcean', label: 'Заливы: бассейн океана' },
-        { key: 'trenchDepth', label: 'Жёлоба: океан и глубина' },
-        { key: 'currentTemp', label: 'Течения: тёплое или холодное' }
-      ]
-    },
-    {
-      moduleId: 'module4',
-      title: 'Модуль 4 · Воды суши',
-      checks: [
-        { key: 'riverBasin', label: 'Реки: бассейн океана / куда впадает' },
-        { key: 'lakeOrigin', label: 'Озёра: тип котловины и солёность' },
-        { key: 'waterfallHeight', label: 'Водопады: река и высота' }
-      ]
-    }
-  ];
-
   const SUBDECK_HINTS = {
     m1_continents_earth: 'Мысы, высшие/низшие точки, площади, ср. высоты и Океания',
     m1_peninsulas: 'Определение полуостровов на карте',
@@ -102,26 +59,6 @@
         });
       }
 
-      const depthSel = document.getElementById('depthSelector');
-      if (depthSel) {
-        depthSel.addEventListener('click', (e) => {
-          const btn = e.target.closest('[data-depth]');
-          if (!btn) return;
-          const depth = btn.getAttribute('data-depth');
-          GeoAtlas.LearningEngine.meta.depthPreset = depth;
-          GeoAtlas.StorageAdapter.saveMeta(GeoAtlas.LearningEngine.meta);
-          GeoAtlas.AudioEngine.playClick();
-          this.render();
-          if (depth === 'custom_full') {
-            this.openPresetModal();
-          }
-        });
-      }
-
-      document.getElementById('btnOpenCustomPreset')?.addEventListener('click', () => this.openPresetModal());
-      document.getElementById('btnClosePresetModal')?.addEventListener('click', () => this.closePresetModal());
-      document.getElementById('btnSavePresetModal')?.addEventListener('click', () => this.closePresetModal());
-
       const handleResetClick = (btn, defaultLabel) => {
         if (!this._confirmResetArm) {
           this._confirmResetArm = true;
@@ -139,17 +76,11 @@
           GeoAtlas.LearningEngine.meta.exploredSections = {};
           GeoAtlas.StorageAdapter.saveMeta(GeoAtlas.LearningEngine.meta);
         }
-        this.closePresetModal();
         this.render();
         if (GeoAtlas.App && GeoAtlas.App.showToast) {
           GeoAtlas.App.showToast('Весь прогресс сброшен');
         }
       };
-
-      const btnReset = document.getElementById('btnResetProgressPrompt');
-      if (btnReset) {
-        btnReset.addEventListener('click', () => handleResetClick(btnReset, '🗑 Сбросить весь прогресс'));
-      }
 
       const btnHubReset = document.getElementById('btnHubResetProgress');
       if (btnHubReset) {
@@ -176,9 +107,6 @@
       const meta = GeoAtlas.LearningEngine.meta;
       document.querySelectorAll('#scopeSelector [data-scope]').forEach((b) => {
         b.classList.toggle('is-active-emerald', b.getAttribute('data-scope') === meta.scope);
-      });
-      document.querySelectorAll('#depthSelector [data-depth]').forEach((b) => {
-        b.classList.toggle('is-active', b.getAttribute('data-depth') === meta.depthPreset);
       });
       const btnMute = document.getElementById('btnMuteToggle');
       if (btnMute) btnMute.textContent = meta.muted ? '🔇' : '🔊';
@@ -309,55 +237,6 @@
       if (GeoAtlas.MotionFX) {
         GeoAtlas.MotionFX.staggerChildren(grid, '.module-card', 55);
       }
-    },
-
-    openPresetModal() {
-      const modal = document.getElementById('customPresetModal');
-      const body = document.getElementById('customPresetBody');
-      if (!modal || !body) return;
-
-      const meta = GeoAtlas.LearningEngine.meta;
-      meta.depthPreset = 'custom_full';
-      GeoAtlas.StorageAdapter.saveMeta(meta);
-      this._renderControlStates();
-
-      body.innerHTML = PRESET_SCHEMA.map((group) => {
-        const modCfg = (meta.customModules && meta.customModules[group.moduleId]) || {};
-        const checksHtml = group.checks
-          .map((c) => {
-            const checked = modCfg[c.key] ? 'checked' : '';
-            return `
-              <label class="check-item">
-                <input type="checkbox" data-mod="${group.moduleId}" data-key="${c.key}" ${checked} />
-                <span>${c.label}</span>
-              </label>
-            `;
-          })
-          .join('');
-        return `
-          <div class="settings-module-block">
-            <strong>${group.title}</strong>
-            <div class="settings-checks">${checksHtml}</div>
-          </div>
-        `;
-      }).join('');
-
-      body.onchange = (e) => {
-        const inp = e.target.closest('input[type="checkbox"]');
-        if (!inp) return;
-        const m = inp.getAttribute('data-mod');
-        const k = inp.getAttribute('data-key');
-        meta.customModules[m] = meta.customModules[m] || {};
-        meta.customModules[m][k] = inp.checked;
-        GeoAtlas.StorageAdapter.saveMeta(meta);
-      };
-
-      modal.classList.remove('hidden');
-    },
-
-    closePresetModal() {
-      const modal = document.getElementById('customPresetModal');
-      if (modal) modal.classList.add('hidden');
     }
   };
 
