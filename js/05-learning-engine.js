@@ -1,5 +1,5 @@
 /**
- * ГеоАтлас / Тренажер ОЗК — QuizConfig & LearningEngine (Explicit Type Badges, Oral Theory Split, AutoCompositeSRS)
+ * Тренажёр ОЗ — QuizConfig & LearningEngine (Per-Module Oral Theory Cards, ankiCard Extractor, AutoCompositeSRS)
  */
 (function (global) {
   'use strict';
@@ -52,171 +52,118 @@
     return CATEGORY_LABELS[item.category] || item.categoryLabel || 'Объект';
   }
 
-  function cleanValue(val) {
-    if (val === undefined || val === null) return '';
-    return String(val).trim();
+  function isModuleOralCardCandidate(item) {
+    if (!item) return false;
+    const mod = item.moduleId;
+    if (mod === 'module1') return item.submoduleId === 'm1_continents_earth';
+    if (mod === 'module2') {
+      return (
+        item.category === 'mountains' ||
+        item.category === 'volcanoes' ||
+        item.submoduleId === 'm2_depressions'
+      );
+    }
+    if (mod === 'module3') {
+      return (
+        item.category === 'seas' ||
+        item.category === 'straits' ||
+        item.category === 'currents' ||
+        item.category === 'trenches'
+      );
+    }
+    if (mod === 'module4') {
+      return (
+        item.category === 'rivers' ||
+        item.category === 'lakes' ||
+        item.category === 'waterfalls'
+      );
+    }
+    return false;
   }
 
   const QuizConfig = {
-    buildCardSpec(item, depthPreset = 'essentials', customModules = {}) {
+    buildCardSpec(item, depthPreset = 'essentials', customModules = {}, opts = {}) {
       if (!item) return { requiresFlipCard: false };
-      const isOral = GeoAtlas.GeoMath.isOralTheoryItem(item);
+      const forceTheory = !!opts.forceTheory;
+      const isOralOnly = GeoAtlas.GeoMath.isOralTheoryItem(item);
 
-      if (depthPreset === 'map_only' && !isOral) {
+      if (!forceTheory && depthPreset === 'map_only' && !isOralOnly) {
         return { requiresFlipCard: false };
       }
 
       const modKey = item.moduleId || 'module1';
       const modCfg = (customModules && customModules[modKey]) || {};
-      const useCustom = depthPreset === 'custom_full';
+      const useCustom = !forceTheory && depthPreset === 'custom_full';
 
-      const facts = [];
-      let prompt = '';
-      let answer = '';
-      const badge = item.categoryLabel || getCategoryLabel(item);
       let enabled = false;
-
-      if (isOral && item.ankiCard && item.ankiCard.backMainAnswer) {
+      if (forceTheory || isOralOnly) {
+        enabled = true;
+      } else if (item.submoduleId === 'm1_continents_earth') {
         enabled = !useCustom || modCfg.continentsEarth !== false;
-        prompt = item.ankiCard.frontQuestion || item.mapPrompt || item.name;
-        answer = item.ankiCard.backMainAnswer;
-        if (Array.isArray(item.ankiCard.backMetrics)) {
-          item.ankiCard.backMetrics.forEach((m) => {
-            if (m && m.label && m.value) facts.push({ label: m.label, val: m.value });
-          });
-        }
-        if (item.ankiCard.backNote) facts.push({ label: 'Справка', val: item.ankiCard.backNote });
       } else if (item.category === 'extreme_point' || item.category === 'capes') {
         enabled = !useCustom || modCfg.capes !== false;
-        prompt = (item.ankiCard && item.ankiCard.frontQuestion) || 'Крайняя точка: назовите материк и сторону света';
-        answer =
-          (item.ankiCard && item.ankiCard.backMainAnswer) ||
-          [item.region || item.continent, item.hint || item.locationDesc].filter(Boolean).join(' · ');
-        if (item.ankiCard && item.ankiCard.backNote) facts.push({ label: 'Координаты / Заметка', val: item.ankiCard.backNote });
+      } else if (item.category === 'peninsula') {
+        enabled = useCustom ? !!modCfg.peninsulas : false;
       } else if (
-        item.category === 'peninsula' ||
         item.category === 'continental_island' ||
         item.category === 'volcanic_island' ||
         item.category === 'coral_island' ||
         item.category === 'desert'
       ) {
-        if (useCustom) {
-          enabled = item.category === 'peninsula' ? !!modCfg.peninsulas : !!modCfg.islands;
-        } else {
-          enabled = false;
-        }
-        prompt = (item.ankiCard && item.ankiCard.frontQuestion) || 'Где расположен объект и чем примечателен?';
-        answer =
-          (item.ankiCard && item.ankiCard.backMainAnswer) ||
-          [item.region || item.continent, item.ocean, item.locationDesc].filter(Boolean).join(' · ');
-        if (item.ankiCard && item.ankiCard.backNote) facts.push({ label: 'Факт', val: item.ankiCard.backNote });
+        enabled = useCustom ? !!modCfg.islands : false;
       } else if (item.category === 'mountains') {
         enabled = !useCustom || modCfg.mountainAge !== false;
-        const age = cleanValue(item.foldingAge || item.age || item.epoch);
-        const peak = cleanValue(item.highestPeak || item.maxHeight);
-        if (age) {
-          prompt = 'К какой эпохе складчатости относятся эти горы?';
-          answer = age;
-          if (peak) facts.push({ label: 'Высшая точка', val: peak });
-          if (item.continent || item.region) facts.push({ label: 'Регион', val: item.continent || item.region });
-        }
       } else if (item.category === 'volcanoes') {
         enabled = !useCustom || modCfg.volcanoType !== false;
-        const vType = cleanValue(item.volcanoType || item.status || item.activity);
-        const h = cleanValue(item.height || item.elevation || item.maxHeight);
-        if (vType || h) {
-          prompt = 'Назовите состояние (тип) и примерную высоту вулкана';
-          answer = [vType, h].filter(Boolean).join(' · ');
-        }
       } else if (item.submoduleId === 'm2_depressions' || item.category === 'depressions') {
         enabled = !useCustom || modCfg.depressionSign !== false || modCfg.plains !== false;
-        const elev = cleanValue(item.elevation || item.depth || item.minHeight);
-        prompt = 'В чём особенность отметки высоты этой впадины?';
-        answer = [elev ? `${elev} (ниже уровня моря)` : 'Ниже уровня Мирового океана', item.region || item.continent]
-          .filter(Boolean)
-          .join(' · ');
       } else if (item.category === 'plains') {
         enabled = !useCustom || modCfg.plains !== false;
-        const typeStr = cleanValue(item.plainType || item.elevationType || item.categoryLabel);
-        if (typeStr || item.region || item.continent) {
-          prompt = 'Назовите тип равнины (низменность / возвышенность / плоскогорье) и регион';
-          answer = [typeStr, item.region || item.continent].filter(Boolean).join(' · ');
-        }
       } else if (item.category === 'seas') {
         enabled = !useCustom || modCfg.seaType !== false;
-        const seaType = cleanValue(item.seaType || item.type);
-        if (seaType || item.ocean) {
-          prompt =
-            badge === 'Океан'
-              ? 'К каким полушариям относится и какие ключевые характеристики океана?'
-              : 'К какому типу морей (окраинное / внутреннее / межостровное) и океану относится?';
-          answer = [seaType, item.ocean, item.region].filter(Boolean).join(' · ');
-        }
       } else if (item.category === 'straits') {
         enabled = !useCustom || modCfg.straitConnects !== false;
-        const conn = cleanValue(item.connects);
-        const sep = cleanValue(item.separates);
-        if (conn || sep) {
-          prompt = 'Какие водные объекты соединяет или какие суши разделяет пролив?';
-          answer = [conn ? `Соединяет: ${conn}` : '', sep ? `Разделяет: ${sep}` : ''].filter(Boolean).join(' | ');
-        }
       } else if (item.category === 'gulfs') {
         enabled = !useCustom || modCfg.gulfOcean !== false;
-        if (item.ocean || item.region) {
-          prompt = 'К бассейну какого океана относится залив?';
-          answer = [item.ocean, item.region].filter(Boolean).join(' · ');
-        }
       } else if (item.category === 'trenches') {
         enabled = !useCustom || modCfg.trenchDepth !== false;
-        const depth = cleanValue(item.maxDepth || item.depth);
-        if (depth || item.ocean) {
-          prompt = 'К какому океану относится жёлоб и какова его глубина?';
-          answer = [item.ocean, depth].filter(Boolean).join(' · ');
-        }
       } else if (item.category === 'currents') {
         enabled = !useCustom || modCfg.currentTemp !== false;
-        const temp = cleanValue(item.currentType || item.temperature || item.temp);
-        if (temp || item.ocean) {
-          prompt = 'Это течение тёплое или холодное? В каком океане?';
-          answer = [temp, item.ocean].filter(Boolean).join(' · ');
-        }
       } else if (item.category === 'rivers') {
         enabled = !useCustom || modCfg.riverBasin !== false;
-        const basin = cleanValue(item.basin || item.flowsInto || item.mouth);
-        if (basin || item.ocean) {
-          prompt = 'К бассейну какого океана (или области внутреннего стока) относится река и куда впадает?';
-          answer = [basin, item.ocean].filter(Boolean).join(' · ');
-          if (item.length) facts.push({ label: 'Длина', val: item.length });
-        }
-      } else if (item.category === 'waterfalls') {
-        enabled = useCustom ? modCfg.waterfallHeight !== false : false;
-        const h = cleanValue(item.height);
-        const river = cleanValue(item.river);
-        prompt = 'На какой реке / материке находится водопад?';
-        answer = [river ? `р. ${river}` : '', item.continent || item.region, h].filter(Boolean).join(' · ');
       } else if (item.category === 'lakes') {
         enabled = !useCustom || modCfg.lakeOrigin !== false;
-        const orig = cleanValue(item.origin || item.basinOrigin || item.type);
-        const sal = cleanValue(item.salinity);
-        if (orig || sal) {
-          prompt = 'Каково происхождение котловины озера и солёность воды?';
-          answer = [orig, sal].filter(Boolean).join(' · ');
-          if (item.maxDepth) facts.push({ label: 'Глубина', val: item.maxDepth });
-        }
+      } else if (item.category === 'waterfalls') {
+        enabled = useCustom ? modCfg.waterfallHeight !== false : false;
       }
 
-      if (isOral && !answer) {
-        answer = item.answerText || item.description || item.locationDesc || item.hint || '';
-        prompt = item.quizPrompt || item.mapPrompt || item.name;
-        enabled = true;
-      }
-
-      if (!enabled || !answer) {
+      if (!enabled) {
         return { requiresFlipCard: false };
       }
 
-      if (item.description && facts.length < 2 && !answer.includes(item.description)) {
-        facts.push({ label: 'Заметка', val: item.description });
+      const badge = item.categoryLabel || getCategoryLabel(item);
+      const card = item.ankiCard || {};
+      const facts = [];
+
+      const prompt = card.frontQuestion || item.mapPrompt || 'Вспомните ключевые характеристики объекта';
+      const answer =
+        card.backMainAnswer ||
+        [item.region || item.continent, item.locationDesc].filter(Boolean).join(' · ') ||
+        '';
+
+      if (Array.isArray(card.backMetrics)) {
+        card.backMetrics.forEach((m) => {
+          if (m && m.label && m.value) {
+            facts.push({ label: m.label, val: m.value });
+          }
+        });
+      }
+      if (card.backNote && !facts.some((f) => f.val === card.backNote)) {
+        facts.push({ label: 'Примечание', val: card.backNote });
+      }
+
+      if (!answer) {
+        return { requiresFlipCard: false };
       }
 
       return {
@@ -286,15 +233,15 @@
       return !!(s && s.status === 'mastered' && (s.reps || 0) >= 2);
     },
 
-    filterItems({ moduleId = null, submoduleId = null, scope = null, mapOnly = false, oralOnly = false } = {}) {
+    filterItems({ moduleId = null, submoduleId = null, scope = null, mapOnly = false, theoryOnly = false } = {}) {
       const activeScope = scope || (this.meta && this.meta.scope) || 'landmarks';
       return this.allItems.filter((it) => {
         if (moduleId && it.moduleId !== moduleId) return false;
         if (submoduleId && it.submoduleId !== submoduleId) return false;
         if (activeScope === 'landmarks' && !it.isCoreLandmark) return false;
-        const isOral = GeoAtlas.GeoMath.isOralTheoryItem(it);
-        if (mapOnly && isOral) return false;
-        if (oralOnly && !isOral) return false;
+        const isPureOral = GeoAtlas.GeoMath.isOralTheoryItem(it);
+        if (mapOnly && isPureOral) return false;
+        if (theoryOnly && !isModuleOralCardCandidate(it)) return false;
         return true;
       });
     },
@@ -322,8 +269,12 @@
       return this.getStatsForItems(this.filterItems({ moduleId, submoduleId, scope, mapOnly: true }));
     },
 
-    getOralTheoryStats(scope) {
-      return this.getStatsForItems(this.filterItems({ scope, oralOnly: true }));
+    getModuleTheoryItems(moduleId, scope) {
+      return this.filterItems({ moduleId, scope, theoryOnly: true });
+    },
+
+    getModuleTheoryStats(moduleId, scope) {
+      return this.getStatsForItems(this.getModuleTheoryItems(moduleId, scope));
     },
 
     getOverallStats(scope) {
@@ -342,8 +293,8 @@
       const scope = (this.meta && this.meta.scope) || 'landmarks';
 
       if (mode === 'theory') {
-        const oral = this.filterItems({ scope, oralOnly: true });
-        return GeoAtlas.GeoMath.sortItemsBasicToNiche(oral, (id) => this.getState(id));
+        const theory = this.getModuleTheoryItems(moduleId, scope);
+        return GeoAtlas.GeoMath.sortItemsBasicToNiche(theory, (id) => this.getState(id));
       }
 
       if (mode === 'weak') {
@@ -359,7 +310,6 @@
         return limit ? ordered.slice(0, limit) : ordered;
       }
 
-      // exam / quiz
       const shuffled = pool.slice();
       for (let i = shuffled.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));

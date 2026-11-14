@@ -50,6 +50,8 @@
       byId('btnFlipForgot')?.addEventListener('click', () => this._finishFlip(false));
       byId('btnFlipRemembered')?.addEventListener('click', () => this._finishFlip(true));
       byId('btnFlipContinue')?.addEventListener('click', () => this._finishFlip(false));
+      byId('btnFlipSkipFront')?.addEventListener('click', () => this._skipFlipCard());
+      byId('btnFlipSkipBack')?.addEventListener('click', () => this._skipFlipCard());
 
       byId('btnCloseResults')?.addEventListener('click', () => this.exitToHub());
       byId('btnResultsMenu')?.addEventListener('click', () => this.exitToHub());
@@ -315,7 +317,7 @@
       document.getElementById('btnHint')?.classList.remove('hidden');
       document.getElementById('btnReveal')?.classList.remove('hidden');
 
-      if (GeoAtlas.GeoMath.isOralTheoryItem(item)) {
+      if (this.mode === 'theory' || GeoAtlas.GeoMath.isOralTheoryItem(item)) {
         targetNameEl.textContent = item.name;
         subPromptEl.textContent = 'Устная теоретическая карточка';
         this._openFlipCard(item, { mapMistakes: 0, mapRevealed: false });
@@ -506,7 +508,9 @@
 
     _openFlipCard(item, { mapMistakes, mapRevealed, spec } = {}) {
       const meta = GeoAtlas.LearningEngine.meta;
-      const cardSpec = spec || GeoAtlas.QuizConfig.buildCardSpec(item, meta.depthPreset, meta.customModules);
+      const forceTheory = this.mode === 'theory';
+      const cardSpec =
+        spec || GeoAtlas.QuizConfig.buildCardSpec(item, meta.depthPreset, meta.customModules, { forceTheory });
       const overlay = document.getElementById('flipOverlay');
       const card = document.getElementById('flipCard');
       if (!overlay || !card) return;
@@ -514,7 +518,7 @@
       this._currentCardSpec = { item, mapMistakes, mapRevealed, cardSpec };
       card.classList.remove('is-flipped');
 
-      const isOral = GeoAtlas.GeoMath.isOralTheoryItem(item);
+      const isOral = forceTheory || GeoAtlas.GeoMath.isOralTheoryItem(item);
       const badgeText = cardSpec.badge || item.categoryLabel || 'Справка';
 
       document.getElementById('flipBadgeFront').textContent = badgeText;
@@ -585,6 +589,26 @@
       });
       this._tallyGrade(res.grade);
       this._currentCardSpec = null;
+      this._advanceCursor();
+    },
+
+    _skipFlipCard() {
+      const ctx = this._currentCardSpec;
+      document.getElementById('flipOverlay')?.classList.add('hidden');
+      this._currentCardSpec = null;
+
+      if (ctx && this.mode !== 'theory' && !ctx.mapRevealed) {
+        const res = GeoAtlas.LearningEngine.recordCompositeResult(ctx.item.id, {
+          mapMistakes: ctx.mapMistakes || 0,
+          mapRevealed: false,
+          theoryRecalled: true,
+          hadFlipCard: false
+        });
+        this._tallyGrade(res.grade);
+      }
+
+      GeoAtlas.AudioEngine.playClick();
+      GeoAtlas.App?.showToast('Карточка пропущена (не добавлено в ошибки)');
       this._advanceCursor();
     },
 

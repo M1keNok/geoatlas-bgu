@@ -49,6 +49,13 @@
     }
   ];
 
+  const MODULE_THEORY_DESCS = {
+    module1: 'Материки (площади, высоты, рекорды), Земля, Океания, пустыни',
+    module2: '6 эпох складчатости гор, пояса вулканов и отметки впадин',
+    module3: '5 океанов, типы морей, связи проливов, течения, глубины жёлобов',
+    module4: 'Бассейны и притоки рек, генезис котловин озёр, водопады'
+  };
+
   const UIHub = {
     _openSubdecks: new Set(),
     _confirmResetArm: false,
@@ -144,10 +151,6 @@
         GeoAtlas.UITrainer.start({ mode: 'weak' });
       });
 
-      document.getElementById('btnStartOralTheory')?.addEventListener('click', () => {
-        GeoAtlas.UITrainer.start({ mode: 'theory' });
-      });
-
       document.getElementById('btnOpenAtlasGlobal')?.addEventListener('click', () => GeoAtlas.UIAtlas.open());
       document.getElementById('btnOpenCheatsheet')?.addEventListener('click', () => GeoAtlas.UICheatsheet.open());
     },
@@ -178,13 +181,7 @@
         weakHintEl.textContent =
           meta.scope === 'landmarks'
             ? 'Показывается прогресс по ключевым ориентирам'
-            : 'Показывается прогресс по полной программе ОЗК';
-      }
-
-      const oralStats = GeoAtlas.LearningEngine.getOralTheoryStats(meta.scope);
-      const oralStatsEl = document.getElementById('oralTheoryStats');
-      if (oralStatsEl) {
-        oralStatsEl.textContent = `Площади, высоты, рекорды материков, Океания и пустыни · выучено ${oralStats.mastered} из ${oralStats.total}`;
+            : 'Показывается прогресс по полной программе ОЗ';
       }
 
       const weakBanner = document.getElementById('weakBanner');
@@ -230,6 +227,8 @@
 
         const displayTitle = mod.id === 'module1' ? 'Берега, острова и мысы' : mod.shortTitle || mod.title;
         const displayDesc = mod.id === 'module1' ? 'Крайние точки, полуострова, острова и пустыни на карте' : mod.title;
+        const theoryStats = engine.getModuleTheoryStats(mod.id, scope);
+        const theoryDesc = MODULE_THEORY_DESCS[mod.id] || 'Ключевые вопросы раздела';
 
         card.innerHTML = `
           <div class="module-head">
@@ -241,7 +240,7 @@
           </div>
           <div>
             <div class="module-stats-row">
-              <span>Выучено: <strong>${stats.mastered}</strong> из ${stats.total}</span>
+              <span>На карте: <strong>${stats.mastered}</strong> из ${stats.total}</span>
               ${stats.weakSpots > 0 ? `<span class="badge badge-amber">🩹 ${stats.weakSpots}</span>` : '<span></span>'}
             </div>
             <div class="progress-track" style="margin-top: 6px;">
@@ -249,10 +248,23 @@
             </div>
           </div>
           <div class="module-actions">
-            <button class="btn btn-primary btn-shine" data-start-mode="learn:${mod.id}" type="button">🎓 Учить</button>
+            <button class="btn btn-primary btn-shine" data-start-mode="learn:${mod.id}" type="button">🎓 Учить карту</button>
             <button class="btn" data-start-mode="exam:${mod.id}" type="button">🎯 Экзамен</button>
             <button class="btn" data-start-mode="quiz:${mod.id}" type="button">⚡ Квиз</button>
           </div>
+          ${
+            theoryStats.total > 0
+              ? `
+            <div class="module-theory-row">
+              <div class="module-theory-meta">
+                <span class="module-theory-title">📖 Устная теория · ${theoryStats.mastered}/${theoryStats.total}</span>
+                <span class="module-theory-sub">${theoryDesc}</span>
+              </div>
+              <button class="btn btn-sm" data-start-mode="theory:${mod.id}" type="button">Карточки →</button>
+            </div>
+          `
+              : ''
+          }
           ${
             deckRows
               ? `

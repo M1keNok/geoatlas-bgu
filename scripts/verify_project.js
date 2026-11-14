@@ -67,6 +67,8 @@ function run() {
   });
   const brandingCheck = [html, read('README.md'), read('ИНСТРУКЦИЯ.txt'), ...jsFiles.map(read)].join('\n');
   assert(!brandingCheck.includes('БГУ'), 'All mentions of БГУ must be removed');
+  assert(html.includes('Тренажёр ОЗ'), 'Site renamed to Тренажёр ОЗ');
+  assert(!html.includes('oralTheoryBanner'), 'Global oralTheoryBanner removed in favor of per-module theory cards');
 
   const htmlIds = new Set(Array.from(html.matchAll(/\bid="([^"]+)"/g)).map((m) => m[1]));
   const uiCode = ['js/06-ui-hub.js', 'js/07-ui-trainer.js', 'js/08-ui-atlas-cheatsheet.js'].map(read).join('\n');
@@ -152,6 +154,16 @@ function run() {
   assert(loadedData.states.m1_bermuda_triangle, 'Migrated bermuda_triangle_quiz -> m1_bermuda_triangle');
 
   LearningEngine.init({}, StorageAdapter.defaultMeta());
+
+  // Verify all 4 modules have per-module oral theory items and QuizConfig extracts rich ankiCard
+  ['module1', 'module2', 'module3', 'module4'].forEach((m) => {
+    const tItems = LearningEngine.getModuleTheoryItems(m, 'full');
+    assert(tItems.length > 0, `${m} must have oral theory items`);
+    const q = LearningEngine.buildSessionQueue({ mode: 'theory', moduleId: m });
+    assert(q.length > 0, `${m} theory queue populated`);
+    const spec = QuizConfig.buildCardSpec(q[0], 'map_only', LearningEngine.meta.customModules, { forceTheory: true });
+    assert(spec.requiresFlipCard && spec.answer.length > 0, `${m} forced theory card builds answer`);
+  });
 
   // Verify all 16 m2_depressions produce flip cards in essentials mode
   const m2Deps = reg.module2.items.filter((i) => i.submoduleId === 'm2_depressions');

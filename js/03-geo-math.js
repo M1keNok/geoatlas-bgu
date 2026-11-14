@@ -69,7 +69,8 @@
     return (
       item.geometryType === 'none' ||
       item.geometryType === 'region_focus' ||
-      item.submoduleId === 'm1_continents_earth'
+      item.submoduleId === 'm1_continents_earth' ||
+      Boolean(item.id && /^m3_sea_[a-z_]+_ocean$/.test(item.id))
     );
   }
 

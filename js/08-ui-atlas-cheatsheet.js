@@ -127,16 +127,16 @@
       document.getElementById('inspBadge').textContent = item.categoryLabel || item.continent || 'Объект';
       document.getElementById('inspTitle').textContent = item.name;
 
-      const rows = [
-        ['Материк / Регион', item.continent || item.region],
-        ['Океан / Бассейн', item.ocean || item.basin || item.flowsInto],
-        ['Эпоха складчатости', item.foldingAge],
-        ['Высшая точка / Высота', item.highestPeak || item.height || item.elevation],
-        ['Глубина / Длина', item.maxDepth || item.length],
-        ['Тип / Происхождение', item.seaType || item.currentType || item.volcanoType || item.origin],
-        ['Соединяет / Разделяет', [item.connects, item.separates].filter(Boolean).join(' · ')],
-        ['Примечание', item.answerText || item.description]
-      ].filter(([, v]) => v);
+      const card = item.ankiCard || {};
+      const rows = [];
+      if (item.region || item.continent) rows.push(['Регион / Материк', item.region || item.continent]);
+      if (Array.isArray(card.backMetrics)) {
+        card.backMetrics.forEach((m) => {
+          if (m && m.label && m.value) rows.push([m.label, m.value]);
+        });
+      }
+      if (card.backMainAnswer && rows.length < 2) rows.push(['Сводка', card.backMainAnswer]);
+      if (card.backNote || item.locationDesc) rows.push(['Описание', card.backNote || item.locationDesc]);
 
       document.getElementById('inspDetails').innerHTML = rows
         .map(([k, v]) => `<div class="flip-fact-row"><strong>${k}:</strong> ${v}</div>`)
@@ -186,17 +186,9 @@
 
       const items = mod.items.filter((it) => {
         if (!this.query) return true;
-        const hay = [
-          it.name,
-          it.categoryLabel,
-          it.continent,
-          it.region,
-          it.ocean,
-          it.foldingAge,
-          it.answerText,
-          it.description,
-          it.connects
-        ]
+        const card = it.ankiCard || {};
+        const metricsStr = Array.isArray(card.backMetrics) ? card.backMetrics.map((m) => m.value).join(' ') : '';
+        const hay = [it.name, it.categoryLabel, it.continent, it.region, it.locationDesc, card.backMainAnswer, metricsStr]
           .filter(Boolean)
           .join(' ')
           .toLowerCase();
@@ -204,10 +196,10 @@
       });
 
       const colsByMod = {
-        module1: ['Объект / Показатель', 'Раздел', 'Ключевые данные', 'Карта'],
-        module2: ['Объект рельефа', 'Тип', 'Складчатость / Отметка', 'Регион', 'Карта'],
-        module3: ['Водный объект', 'Тип / Т°', 'Океан / Связи', 'Глубина', 'Карта'],
-        module4: ['Объект', 'Тип', 'Бассейн / Котловина', 'Регион / Характеристика', 'Карта']
+        module1: ['Объект / Показатель', 'Тип', 'Ключевые данные', 'Карта'],
+        module2: ['Объект рельефа', 'Тип', 'Характеристики / Эпоха', 'Регион', 'Карта'],
+        module3: ['Водный объект', 'Тип', 'Характеристики / Связи', 'Регион', 'Карта'],
+        module4: ['Объект', 'Тип', 'Бассейн / Генезис / Высота', 'Регион', 'Карта']
       };
 
       const cols = colsByMod[this.activeTab] || colsByMod.module1;
@@ -218,23 +210,13 @@
           const mapBtn = !GeoAtlas.GeoMath.isOralTheoryItem(it)
             ? `<button class="btn btn-sm btn-ghost" data-jump-id="${it.id}" type="button">🎯</button>`
             : '—';
+          const card = it.ankiCard || {};
+          const summary = card.backMainAnswer || it.locationDesc || '—';
 
           if (this.activeTab === 'module1') {
-            const info = (it.ankiCard && it.ankiCard.backMainAnswer) || it.answerText || it.hint || it.description || it.ocean || '';
-            return `<tr><td><strong>${it.name}</strong></td><td>${it.categoryLabel || ''}</td><td>${info}</td><td>${mapBtn}</td></tr>`;
+            return `<tr><td><strong>${it.name}</strong></td><td>${it.categoryLabel || ''}</td><td>${summary}</td><td>${mapBtn}</td></tr>`;
           }
-          if (this.activeTab === 'module2') {
-            const spec = [it.foldingAge, it.elevation || it.height, it.volcanoType].filter(Boolean).join(' · ');
-            return `<tr><td><strong>${it.name}</strong></td><td>${it.categoryLabel || ''}</td><td>${spec || '—'}</td><td>${it.continent || it.region || ''}</td><td>${mapBtn}</td></tr>`;
-          }
-          if (this.activeTab === 'module3') {
-            const typ = it.seaType || it.currentType || it.categoryLabel || '';
-            const rel = [it.ocean, it.connects].filter(Boolean).join(' · ');
-            return `<tr><td><strong>${it.name}</strong></td><td>${typ}</td><td>${rel || '—'}</td><td>${it.maxDepth || '—'}</td><td>${mapBtn}</td></tr>`;
-          }
-          const orig = [it.basin || it.flowsInto, it.origin, it.salinity].filter(Boolean).join(' · ');
-          const extra = [it.continent || it.region, it.length || it.height || it.maxDepth].filter(Boolean).join(' · ');
-          return `<tr><td><strong>${it.name}</strong></td><td>${it.categoryLabel || ''}</td><td>${orig || '—'}</td><td>${extra}</td><td>${mapBtn}</td></tr>`;
+          return `<tr><td><strong>${it.name}</strong></td><td>${it.categoryLabel || ''}</td><td>${summary}</td><td>${it.region || it.continent || '—'}</td><td>${mapBtn}</td></tr>`;
         })
         .join('');
 

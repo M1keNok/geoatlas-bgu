@@ -296,6 +296,36 @@
   gap: 8px;
 }
 
+.module-theory-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.28);
+  flex-wrap: wrap;
+}
+
+.module-theory-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.module-theory-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #bae6fd;
+}
+
+.module-theory-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
 .btn-shine {
   position: relative;
   overflow: hidden;

@@ -150,11 +150,33 @@
   background: var(--bg-app);
 }
 
+.flip-front-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+}
+
 .flip-binary-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
   margin-top: 4px;
+}
+
+.flip-skip-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-strong);
+  color: var(--text-secondary);
+}
+
+.flip-skip-btn:hover {
+  background: rgba(255, 255, 255, 0.11);
+  color: var(--text-main);
+}
+
+.flip-skip-wide {
+  grid-column: 1 / -1;
 }
 
 /* Custom Preset Settings Grid */
