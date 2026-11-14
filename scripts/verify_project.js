@@ -118,12 +118,13 @@ function run() {
 
   const m1Cont = reg.module1.items.filter((i) => i.submoduleId === 'm1_continents_earth');
   assert.strictEqual(m1Cont.length, 46, `Expected 46 items in m1_continents_earth (21 capes + 12 extremes + 13 theory), got ${m1Cont.length}`);
-  assert.strictEqual(reg.module1.decks.length, 3, 'Module 1 must have 3 clean subdecks');
+  assert.strictEqual(reg.module1.decks.length, 4, 'Module 1 must have 4 subdecks');
   assert(!reg.module1.items.some((i) => i.id === 'm1_earth_total_area' || i.id === 'm1_earth_land_area'), 'Earth total area & land % removed');
   assert(!reg.module1.items.some((i) => ['m1_desert_hamada', 'm1_desert_serir_reg', 'm1_desert_erg_kum_nefud', 'm1_desert_shor_takyr'].includes(i.id)), 'Desert glossary cards removed');
   assert(!reg.module1.items.some((i) => i.id === 'm1_bermuda_triangle'), 'Bermuda triangle removed');
-  const m1IslandsPens = reg.module1.items.filter((i) => i.submoduleId === 'm1_islands_peninsulas');
-  assert.strictEqual(m1IslandsPens.length, 208, `Expected 208 items in m1_islands_peninsulas, got ${m1IslandsPens.length}`);
+  assert.strictEqual(reg.module1.items.filter((i) => i.submoduleId === 'm1_peninsulas').length, 60, 'Expected 60 items in m1_peninsulas');
+  assert.strictEqual(reg.module1.items.filter((i) => i.submoduleId === 'm1_islands').length, 148, 'Expected 148 items in m1_islands');
+  assert.strictEqual(reg.module1.items.filter((i) => i.submoduleId === 'm1_deserts').length, 38, 'Expected 38 items in m1_deserts');
   assert.strictEqual(reg.module1.items.filter((i) => i.askConstituentIslands).length, 12, 'Exactly 12 key archipelagos ask constituent islands');
 
   const andes = reg.module2.items.find((i) => i.id === 'm2_mtn_andes');
@@ -194,6 +195,9 @@ function run() {
 
   const aDesert = reg.module1.items.find((i) => i.category === 'desert');
   assert(aDesert && !QuizConfig.buildCardSpec(aDesert, 'custom_full', { module1: { islands: true } }).requiresFlipCard, 'Desert items do not prompt characteristic cards');
+  assert.strictEqual(LearningEngine.getSubmoduleStats('module3', 'm3_seas', 'full').total, 57, 'M3 seas deck matches all 57 map seas');
+  assert.strictEqual(LearningEngine.getSubmoduleStats('module4', 'm4_lakes', 'full').total, 71, 'M4 lakes deck matches all 71 lakes');
+  assert.strictEqual(LearningEngine.getSubmoduleStats('module2', 'm2_orogeny', 'full').total, 117, 'M2 orogeny deck matches all 117 mountains');
   assert.strictEqual(LearningEngine.getModuleTheoryItems('module3', 'full').length, 5, 'M3 oral theory has 5 whole oceans');
   assert.strictEqual(LearningEngine.getModuleTheoryItems('module2', 'full').length, 0, 'M2 has no standalone non-map card deck');
   assert.strictEqual(LearningEngine.getModuleTheoryItems('module4', 'full').length, 0, 'M4 has no standalone non-map card deck');

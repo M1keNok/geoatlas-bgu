@@ -60,6 +60,19 @@
     return false;
   }
 
+  function matchesDeck(it, deckId) {
+    if (!deckId) return true;
+    if (it.submoduleId === deckId) return true;
+    if (deckId === 'm2_orogeny') return it.category === 'mountains';
+    if (deckId === 'm3_seas') return it.category === 'seas';
+    if (deckId === 'm3_straits') return it.category === 'straits';
+    if (deckId === 'm3_gulfs') return it.category === 'gulfs';
+    if (deckId === 'm3_currents') return it.category === 'currents';
+    if (deckId === 'm4_rivers') return it.category === 'rivers';
+    if (deckId === 'm4_lakes') return it.category === 'lakes';
+    return false;
+  }
+
   function extractCapePrompt(item) {
     const desc = String(item.locationDesc || '');
     const idx = desc.indexOf(':');
@@ -275,7 +288,7 @@
       const activeScope = scope || (this.meta && this.meta.scope) || 'full';
       return this.allItems.filter((it) => {
         if (moduleId && it.moduleId !== moduleId) return false;
-        if (submoduleId && it.submoduleId !== submoduleId) return false;
+        if (submoduleId && !matchesDeck(it, submoduleId)) return false;
         if (activeScope === 'landmarks' && !it.isCoreLandmark) return false;
         const isPureOral = GeoAtlas.GeoMath.isOralTheoryItem(it);
         if (mapOnly && isPureOral) return false;

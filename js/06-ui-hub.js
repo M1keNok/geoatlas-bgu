@@ -53,8 +53,29 @@
     module3: '5 океанов мира (площади, границы и характеристики)'
   };
 
+  const SECONDARY_DECK_IDS = new Set([
+    'm2_precambrian',
+    'm2_baikal',
+    'm2_caledonian',
+    'm2_hercynian',
+    'm2_cimmerian',
+    'm2_alpine',
+    'm4_rivers_eurasia',
+    'm4_rivers_africa',
+    'm4_rivers_north_america',
+    'm4_rivers_south_america',
+    'm4_rivers_australia'
+  ]);
+
+  const SUBDECK_HINTS = {
+    m1_continents_earth: 'Мысы, высшие/низшие точки, площади, ср. высоты и Океания',
+    m1_peninsulas: 'Определение полуостровов на карте',
+    m1_islands: 'На карте + карточки состава 12 ключевых архипелагов',
+    m1_deserts: 'Пустыни мира на карте'
+  };
+
   const UIHub = {
-    _openSubdecks: new Set(['module1']),
+    _openSubdecks: new Set(),
     _confirmResetArm: false,
 
     init() {
@@ -216,28 +237,51 @@
         card.className = 'module-card stagger-item';
         card.style.setProperty('--mod-color', mod.color || '#10b981');
 
-        const deckRows = (mod.decks || [])
+        const visibleDecks = (mod.decks || []).filter((d) => !/^m[1234]_all$/.test(d.id));
+        const primaryDecks = visibleDecks.filter((d) => !SECONDARY_DECK_IDS.has(d.id));
+        const secondaryDecks = visibleDecks.filter((d) => SECONDARY_DECK_IDS.has(d.id));
+
+        const renderBigDeckBtn = (deck) => {
+          const ds = engine.getSubmoduleStats(mod.id, deck.id, scope);
+          if (ds.total === 0) return '';
+          const hint = SUBDECK_HINTS[deck.id];
+          return `
+            <button class="subdeck-btn btn-shine" data-sub-learn="${mod.id}:${deck.id}" type="button">
+              <span class="subdeck-btn-main">
+                <span class="subdeck-btn-title">${deck.title}</span>
+                ${hint ? `<span class="subdeck-btn-sub">${hint}</span>` : ''}
+              </span>
+              <span class="subdeck-btn-right">
+                <span>${ds.mastered}/${ds.total}</span>
+                <span class="subdeck-btn-arrow">→</span>
+              </span>
+            </button>
+          `;
+        };
+
+        const primaryHtml = primaryDecks.map(renderBigDeckBtn).join('');
+        const secondaryHtml = secondaryDecks
           .map((deck) => {
             const ds = engine.getSubmoduleStats(mod.id, deck.id, scope);
             if (ds.total === 0) return '';
-            const deckTitle = deck.title;
             return `
-              <div class="subdeck-row">
-                <span class="subdeck-name" title="${deckTitle}">${deckTitle}</span>
-                <div class="subdeck-right">
+              <button class="subdeck-row" data-sub-learn="${mod.id}:${deck.id}" type="button">
+                <span class="subdeck-name" title="${deck.title}">${deck.title}</span>
+                <span class="subdeck-right">
                   <span class="subdeck-count">${ds.mastered}/${ds.total}</span>
-                  <button class="btn btn-sm btn-ghost" data-sub-learn="${mod.id}:${deck.id}" type="button" title="Учить тему">▶</button>
-                </div>
-              </div>
+                  <span>→</span>
+                </span>
+              </button>
             `;
           })
           .join('');
 
         const displayTitle = mod.id === 'module1' ? 'Материки, острова и пустыни' : mod.shortTitle || mod.title;
-        const displayDesc = mod.id === 'module1' ? 'Общие сведения о материках, острова и полуострова, пустыни мира' : mod.title;
+        const displayDesc = mod.id === 'module1' ? 'Выберите подраздел для изучения' : mod.title;
         const theoryStats = engine.getModuleTheoryStats(mod.id, scope);
         const theoryDesc = MODULE_THEORY_DESCS[mod.id] || 'Ключевые вопросы раздела';
         const progressLabel = mod.id === 'module1' ? 'Изучено' : 'На карте';
+        const secToggleLabel = mod.id === 'module2' ? 'Горы по эпохам складчатости' : 'Реки по материкам';
 
         card.innerHTML = `
           <div class="module-head">
@@ -256,9 +300,7 @@
               <div class="progress-fill" style="width: ${stats.pct}%;"></div>
             </div>
           </div>
-          <div class="module-actions">
-            <button class="btn btn-primary btn-shine" data-start-mode="learn:${mod.id}" type="button">🗺️ Учить по карте</button>
-          </div>
+          ${primaryHtml ? `<div class="subdeck-btn-list">${primaryHtml}</div>` : ''}
           ${
             theoryStats.total > 0
               ? `
@@ -273,13 +315,13 @@
               : ''
           }
           ${
-            deckRows
+            secondaryHtml
               ? `
             <button class="subdecks-toggle" data-toggle-decks="${mod.id}" type="button">
-              <span>Темы модуля</span>
+              <span>${secToggleLabel}</span>
               <span>${isOpen ? '▲' : '▼'}</span>
             </button>
-            <div class="subdecks-list ${isOpen ? '' : 'hidden'}">${deckRows}</div>
+            <div class="subdecks-list ${isOpen ? '' : 'hidden'}">${secondaryHtml}</div>
           `
               : ''
           }

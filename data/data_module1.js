@@ -7665,7 +7665,8 @@ const CORE_ARCHIPELAGO_UIDS = new Set([
 const MODULE1_BASE_ITEMS = (MODULE1_LEGACY_DATA.all_map_items || []).map((item, idx) => {
   const isIslandCat = item.category.includes("island") || item.category === "archipelago";
   const subId = item.category === "extreme_point" ? "m1_continents_earth" :
-                (item.category === "peninsula" || isIslandCat) ? "m1_islands_peninsulas" :
+                item.category === "peninsula" ? "m1_peninsulas" :
+                isIslandCat ? "m1_islands" :
                 item.category === "desert" ? "m1_deserts" : "m1_other";
 
   const rawName = String(item.name || "");
@@ -7914,7 +7915,8 @@ window.GEO_MODULES_REGISTRY.module1 = {
   color: "emerald",
   decks: [
     { id: "m1_continents_earth", title: "Общие сведения о материках", count: MODULE1_UNIFIED_ITEMS.filter(i => i.submoduleId === "m1_continents_earth").length },
-    { id: "m1_islands_peninsulas", title: "Острова и полуострова", count: MODULE1_UNIFIED_ITEMS.filter(i => i.submoduleId === "m1_islands_peninsulas").length },
+    { id: "m1_peninsulas", title: "Полуострова", count: MODULE1_UNIFIED_ITEMS.filter(i => i.submoduleId === "m1_peninsulas").length },
+    { id: "m1_islands", title: "Острова и архипелаги", count: MODULE1_UNIFIED_ITEMS.filter(i => i.submoduleId === "m1_islands").length },
     { id: "m1_deserts", title: "Пустыни мира", count: MODULE1_UNIFIED_ITEMS.filter(i => i.submoduleId === "m1_deserts").length }
   ],
   legacyData: MODULE1_LEGACY_DATA,
