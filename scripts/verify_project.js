@@ -117,9 +117,14 @@ function run() {
   });
 
   const m1Cont = reg.module1.items.filter((i) => i.submoduleId === 'm1_continents_earth');
-  assert.strictEqual(m1Cont.length, 28, `Expected 28 items in m1_continents_earth, got ${m1Cont.length}`);
+  assert.strictEqual(m1Cont.length, 46, `Expected 46 items in m1_continents_earth (21 capes + 12 extremes + 13 theory), got ${m1Cont.length}`);
+  assert.strictEqual(reg.module1.decks.length, 3, 'Module 1 must have 3 clean subdecks');
   assert(!reg.module1.items.some((i) => i.id === 'm1_earth_total_area' || i.id === 'm1_earth_land_area'), 'Earth total area & land % removed');
   assert(!reg.module1.items.some((i) => ['m1_desert_hamada', 'm1_desert_serir_reg', 'm1_desert_erg_kum_nefud', 'm1_desert_shor_takyr'].includes(i.id)), 'Desert glossary cards removed');
+  assert(!reg.module1.items.some((i) => i.id === 'm1_bermuda_triangle'), 'Bermuda triangle removed');
+  const m1IslandsPens = reg.module1.items.filter((i) => i.submoduleId === 'm1_islands_peninsulas');
+  assert.strictEqual(m1IslandsPens.length, 208, `Expected 208 items in m1_islands_peninsulas, got ${m1IslandsPens.length}`);
+  assert.strictEqual(reg.module1.items.filter((i) => i.askConstituentIslands).length, 12, 'Exactly 12 key archipelagos ask constituent islands');
 
   const andes = reg.module2.items.find((i) => i.id === 'm2_mtn_andes');
   const ural = reg.module2.items.find((i) => i.id === 'm2_mtn_ural_mountains');
@@ -173,8 +178,20 @@ function run() {
   assert.deepStrictEqual(StorageAdapter.defaultMeta().exploredSections, {}, 'Default exploredSections must be empty object');
   LearningEngine.init({}, StorageAdapter.defaultMeta());
 
-  // Verify oral theory cards ONLY on non-map items (M1=16 theory cards, M3=5 whole oceans; 12 peaks/depressions are on M1 map!)
-  assert.strictEqual(LearningEngine.getModuleTheoryItems('module1', 'full').length, 16, 'M1 oral theory has 16 continent/Oceania cards');
+  // Verify M1 oral cards live inside m1_continents_earth (standalone M1 theory bar hidden), M3 keeps 5 whole oceans
+  assert.strictEqual(LearningEngine.getModuleTheoryItems('module1', 'full').length, 0, 'M1 standalone theory bar hidden (integrated into m1_continents_earth)');
+  const m1GeneralQueue = LearningEngine.buildSessionQueue({ mode: 'learn', moduleId: 'module1', submoduleId: 'm1_continents_earth' });
+  assert.strictEqual(m1GeneralQueue.length, 46, `m1_continents_earth queue has 46 items (got ${m1GeneralQueue.length})`);
+  assert.strictEqual(m1GeneralQueue[m1GeneralQueue.length - 1].category, 'continent_theory', 'Continent area/height/Oceania cards follow map items');
+
+  // Verify archipelago constituent islands card ONLY on 12 key archipelagos & no name spoiler
+  const brit = reg.module1.items.find((i) => i.id === 'm1_cont_isl_7');
+  assert(brit && !brit.name.includes(':') && brit.askConstituentIslands, 'British Isles prompt does not spoil constituent list');
+  const britSpec = QuizConfig.buildCardSpec(brit, 'essentials', LearningEngine.meta.customModules);
+  assert(britSpec.requiresFlipCard && britSpec.answer.includes('Великобритания'), 'British Isles opens constituent islands flip card');
+  const frJ = reg.module1.items.find((i) => i.id === 'm1_cont_isl_17');
+  assert(frJ && !frJ.name.includes(':') && !frJ.askConstituentIslands && !QuizConfig.buildCardSpec(frJ, 'essentials', LearningEngine.meta.customModules).requiresFlipCard, 'Non-key archipelago does not open constituent card');
+
   const aDesert = reg.module1.items.find((i) => i.category === 'desert');
   assert(aDesert && !QuizConfig.buildCardSpec(aDesert, 'custom_full', { module1: { islands: true } }).requiresFlipCard, 'Desert items do not prompt characteristic cards');
   assert.strictEqual(LearningEngine.getModuleTheoryItems('module3', 'full').length, 5, 'M3 oral theory has 5 whole oceans');

@@ -50,12 +50,11 @@
   ];
 
   const MODULE_THEORY_DESCS = {
-    module1: 'Площади и средние высоты материков, Океания и Бермудский треугольник',
     module3: '5 океанов мира (площади, границы и характеристики)'
   };
 
   const UIHub = {
-    _openSubdecks: new Set(),
+    _openSubdecks: new Set(['module1']),
     _confirmResetArm: false,
 
     init() {
@@ -221,7 +220,7 @@
           .map((deck) => {
             const ds = engine.getSubmoduleStats(mod.id, deck.id, scope);
             if (ds.total === 0) return '';
-            const deckTitle = deck.id === 'm1_continents_earth' ? 'Высшие и низшие точки материков' : deck.title;
+            const deckTitle = deck.title;
             return `
               <div class="subdeck-row">
                 <span class="subdeck-name" title="${deckTitle}">${deckTitle}</span>
@@ -234,10 +233,11 @@
           })
           .join('');
 
-        const displayTitle = mod.id === 'module1' ? 'Берега, острова и мысы' : mod.shortTitle || mod.title;
-        const displayDesc = mod.id === 'module1' ? 'Крайние точки, полуострова, острова и пустыни на карте' : mod.title;
+        const displayTitle = mod.id === 'module1' ? 'Материки, острова и пустыни' : mod.shortTitle || mod.title;
+        const displayDesc = mod.id === 'module1' ? 'Общие сведения о материках, острова и полуострова, пустыни мира' : mod.title;
         const theoryStats = engine.getModuleTheoryStats(mod.id, scope);
         const theoryDesc = MODULE_THEORY_DESCS[mod.id] || 'Ключевые вопросы раздела';
+        const progressLabel = mod.id === 'module1' ? 'Изучено' : 'На карте';
 
         card.innerHTML = `
           <div class="module-head">
@@ -249,7 +249,7 @@
           </div>
           <div>
             <div class="module-stats-row">
-              <span>На карте: <strong>${stats.mastered}</strong> из ${stats.total}</span>
+              <span>${progressLabel}: <strong>${stats.mastered}</strong> из ${stats.total}</span>
               ${stats.weakSpots > 0 ? `<span class="badge badge-amber">🩹 ${stats.weakSpots}</span>` : '<span></span>'}
             </div>
             <div class="progress-track" style="margin-top: 6px;">

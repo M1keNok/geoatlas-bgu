@@ -106,7 +106,7 @@
         if (GeoAtlas.GeoMath.isOralTheoryItem(it)) return false;
         if (this.filterMod !== 'all' && it.moduleId !== this.filterMod) return false;
         if (this.searchQuery) {
-          const hay = [it.name, it.region, it.continent, it.ocean, it.foldingAge, it.description]
+          const hay = [it.name, it.constituentIslands, it.region, it.continent, it.ocean, it.foldingAge, it.description]
             .filter(Boolean)
             .join(' ')
             .toLowerCase();
@@ -132,6 +132,7 @@
       const card = item.ankiCard || {};
       const rows = [];
       if (item.region || item.continent) rows.push(['Регион / Материк', item.region || item.continent]);
+      if (item.constituentIslands) rows.push(['Основные острова', item.constituentIslands]);
       if (Array.isArray(card.backMetrics)) {
         card.backMetrics.forEach((m) => {
           if (m && m.label && m.value) rows.push([m.label, m.value]);

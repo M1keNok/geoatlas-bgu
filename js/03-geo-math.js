@@ -262,10 +262,11 @@
   }
 
   function getBoardPriority(item) {
-    if (!item) return 2;
+    if (!item) return 3;
     if (item.category === 'extreme_point' || item.category === 'capes') return 0;
     if (item.category === 'continent_peak' || item.category === 'continent_depr') return 1;
-    return 2;
+    if (isOralTheoryItem(item)) return 2;
+    return 3;
   }
 
   function sortItemsBasicToNiche(items, getStateFn = null) {

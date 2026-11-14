@@ -54,9 +54,6 @@
 
   function isModuleOralCardCandidate(item) {
     if (!item) return false;
-    if (item.moduleId === 'module1') {
-      return item.submoduleId === 'm1_continents_earth' && item.category === 'continent_theory';
-    }
     if (item.moduleId === 'module3') {
       return Boolean(item.id && /^m3_sea_[a-z_]+_ocean$/.test(item.id));
     }
@@ -95,6 +92,8 @@
         enabled = !useCustom || modCfg.capes !== false;
       } else if (item.category === 'peninsula') {
         enabled = useCustom ? !!modCfg.peninsulas : false;
+      } else if (item.askConstituentIslands && item.constituentIslands) {
+        enabled = !useCustom || modCfg.islands !== false;
       } else if (
         item.category === 'continental_island' ||
         item.category === 'volcanic_island' ||
@@ -142,6 +141,20 @@
         card.backMainAnswer ||
         [item.region || item.continent, item.locationDesc].filter(Boolean).join(' · ') ||
         '';
+
+      if (item.askConstituentIslands && item.constituentIslands && !forceTheory) {
+        facts.push({ label: 'Категория', val: badge });
+        if (item.region) facts.push({ label: 'Регион', val: item.region });
+        if (item.locationDesc) facts.push({ label: 'Справка', val: item.locationDesc });
+        return {
+          requiresFlipCard: true,
+          badge: 'Архипелаг',
+          frontTitle: item.name,
+          prompt: 'Вспомните, какие основные острова входят в этот архипелаг:',
+          answer: item.constituentIslands,
+          facts
+        };
+      }
 
       if ((item.category === 'extreme_point' || item.category === 'capes') && !forceTheory) {
         const clue = extractCapePrompt(item);
@@ -287,11 +300,11 @@
     },
 
     getModuleStats(moduleId, scope) {
-      return this.getStatsForItems(this.filterItems({ moduleId, scope, mapOnly: true }));
+      return this.getStatsForItems(this.filterItems({ moduleId, scope, mapOnly: moduleId !== 'module1' }));
     },
 
     getSubmoduleStats(moduleId, submoduleId, scope) {
-      return this.getStatsForItems(this.filterItems({ moduleId, submoduleId, scope, mapOnly: true }));
+      return this.getStatsForItems(this.filterItems({ moduleId, submoduleId, scope, mapOnly: submoduleId !== 'm1_continents_earth' }));
     },
 
     getModuleTheoryItems(moduleId, scope) {
@@ -327,7 +340,11 @@
         return GeoAtlas.GeoMath.sortItemsBasicToNiche(weak, (id) => this.getState(id));
       }
 
-      const pool = this.filterItems({ moduleId, submoduleId, scope, mapOnly: true });
+      const includeM1Theory =
+        submoduleId === 'm1_continents_earth' ||
+        (moduleId === 'module1' && !submoduleId) ||
+        (!moduleId && !submoduleId);
+      const pool = this.filterItems({ moduleId, submoduleId, scope, mapOnly: !includeM1Theory });
       if (pool.length === 0) return [];
 
       if (mode === 'learn') {

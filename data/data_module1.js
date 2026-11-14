@@ -7647,17 +7647,51 @@ const M1_BOUNDS_DICT = {
 };
 const M1_CORE_PATTERNS = ["челюскин","пиай","рока","дежнёв","бен-секка","игольный","альмади","рас-хафун","мёрчисон","марьято","принца уэльского","сент-чарльз","гальинас","фроуард","париньяс","кабу-бранку","йорк","юго-восточный","стип-пойнт","байрон","сифре","скандинавск","пиренейск","апеннинск","балканск","кольск","крымск","малая азия","аравийск","индостан","индокитай","малакк","корея","камчатк","чукотск","таймыр","ямал","сомали","лабрадор","флорида","юкатан","калифорния","аляска","антарктическ","гренланд","мадагаскар","калимантан","новая гвинея","суматра","великобритан","новая зеландия","шри-ланка","куба","сахалин","тасмания","новая земля","огненная земля","исланд","гавайск","курильск","алеутск","японск","филиппинск","канарск","большой барьерный","мальдивск","багамск","сахара","гоби","атакама","намиб","калахари","виктория","каракум","кызылкум","руб-эль-хали","такл","тар","мохаве","большая песчаная"];
 
+const CORE_ARCHIPELAGO_UIDS = new Set([
+  "cont_isl_3",  // Балеарские
+  "cont_isl_4",  // Большие Антильские
+  "cont_isl_5",  // Большие Зондские
+  "cont_isl_7",  // Британские острова
+  "cont_isl_20", // Канадский Арктический архипелаг
+  "cont_isl_41", // Новая Зеландия
+  "cont_isl_42", // Новая Земля
+  "cont_isl_44", // Новосибирские
+  "cont_isl_57", // Северная Земля
+  "cont_isl_68", // Филиппинские
+  "cont_isl_81", // Японские
+  "volc_isl_21"  // Курильские
+]);
+
 const MODULE1_BASE_ITEMS = (MODULE1_LEGACY_DATA.all_map_items || []).map((item, idx) => {
-  const subId = item.category === "extreme_point" ? "m1_capes" :
-                item.category === "peninsula" ? "m1_peninsulas" :
-                (item.category.includes("island") || item.category === "archipelago") ? "m1_islands" :
+  const isIslandCat = item.category.includes("island") || item.category === "archipelago";
+  const subId = item.category === "extreme_point" ? "m1_continents_earth" :
+                (item.category === "peninsula" || isIslandCat) ? "m1_islands_peninsulas" :
                 item.category === "desert" ? "m1_deserts" : "m1_other";
+
+  const rawName = String(item.name || "");
+  const colonIdx = isIslandCat ? rawName.indexOf(":") : -1;
+  let displayName = rawName;
+  let constituentIslands = null;
+  if (colonIdx > 0) {
+    let basePart = rawName.slice(0, colonIdx).trim();
+    constituentIslands = rawName.slice(colonIdx + 1).trim();
+    if (basePart === "Малые Антильские") {
+      basePart = item.category === "volcanic_island"
+        ? "Малые Антильские (вулканические)"
+        : "Малые Антильские (материковые)";
+    }
+    displayName = basePart;
+  }
+  const askConstituentIslands = CORE_ARCHIPELAGO_UIDS.has(item.uid) && Boolean(constituentIslands);
 
   const metrics = [
     { label: "Категория", value: item.category_ru || item.category },
     { label: "Регион", value: item.region || "Мир" }
   ];
-  if (item.short_name && item.short_name !== item.name) {
+  if (constituentIslands) {
+    metrics.push({ label: "Входящие острова", value: constituentIslands });
+  }
+  if (item.short_name && item.short_name !== displayName && !String(item.short_name).includes(":")) {
     metrics.unshift({ label: "Краткое название", value: item.short_name });
   }
   if (item.origin) metrics.push({ label: "Происхождение", value: item.origin });
@@ -7665,9 +7699,12 @@ const MODULE1_BASE_ITEMS = (MODULE1_LEGACY_DATA.all_map_items || []).map((item, 
   if (item.thermal_desc) metrics.push({ label: "Термический пояс", value: item.thermal_desc });
   if (item.area) metrics.push({ label: "Площадь", value: `${item.area} тыс. км²` });
 
-  const itemBounds = item.bounds || M1_BOUNDS_DICT[item.uid] || M1_BOUNDS_DICT[item.name] || null;
-  const hay = `${item.name || ''} ${item.short_name || ''}`.toLowerCase();
-  const isCoreLandmark = item.category === "extreme_point" || M1_CORE_PATTERNS.some((p) => hay.includes(p));
+  const itemBounds = item.bounds || M1_BOUNDS_DICT[item.uid] || M1_BOUNDS_DICT[rawName] || null;
+  const hay = `${rawName} ${item.short_name || ''}`.toLowerCase();
+  const isCoreLandmark =
+    item.category === "extreme_point" ||
+    CORE_ARCHIPELAGO_UIDS.has(item.uid) ||
+    M1_CORE_PATTERNS.some((p) => hay.includes(p));
 
   return {
     id: item.uid ? `m1_${item.uid}` : `m1_item_${idx}`,
@@ -7678,12 +7715,14 @@ const MODULE1_BASE_ITEMS = (MODULE1_LEGACY_DATA.all_map_items || []).map((item, 
     categoryRu: item.category_ru || "Объект номенклатуры",
     difficulty: item.difficulty || "Стандартный",
     isCoreLandmark,
-    name: item.name,
-    shortName: item.short_name || item.name,
-    aliases: item.short_name && item.short_name !== item.name ? [item.short_name] : [],
+    askConstituentIslands,
+    constituentIslands,
+    name: displayName,
+    shortName: displayName,
+    aliases: item.short_name && item.short_name !== displayName && !String(item.short_name).includes(":") ? [item.short_name] : [],
     region: item.region || "Мир",
     locationDesc: item.desc || "",
-    mapPrompt: `Покажите на карте: ${item.name}`,
+    mapPrompt: `Покажите на карте: ${displayName}`,
     geometryType: "point",
     lat: item.lat,
     lng: item.lng,
@@ -7693,8 +7732,8 @@ const MODULE1_BASE_ITEMS = (MODULE1_LEGACY_DATA.all_map_items || []).map((item, 
     mainCategory: item.main_category || "",
     ankiCard: {
       hasTheoryStep: true,
-      frontQuestion: `К какому региону относится ${item.name} и каковы его ключевые характеристики?`,
-      backMainAnswer: `${item.name} (${item.region || "Мир"})`,
+      frontQuestion: `К какому региону относится ${displayName} и каковы его ключевые характеристики?`,
+      backMainAnswer: `${displayName} (${item.region || "Мир"})`,
       backMetrics: metrics,
       backNote: item.desc || ""
     }
@@ -7820,59 +7859,18 @@ const MODULE1_THEORY_ITEMS = [];
 
 const EXTRA_THEORY_ITEMS = [
   {
-    id: "m1_oceania_melanesia",
-    name: "Меланезия (Океания)",
-    shortName: "Меланезия",
+    id: "m1_oceania_division",
+    name: "Деление и состав Океании",
+    shortName: "Океания (3 области)",
     region: "Австралия и Океания",
     specialRender: "oceania",
-    lat: -10, lng: 155,
-    frontQuestion: "Что означает «Меланезия», где расположена и какие архипелаги включает?",
-    backMainAnswer: "«Черноостровье» (юго-запад Океании к югу от экватора)",
+    lat: -8, lng: 170,
+    frontQuestion: "На какие 3 части делится Океания и какие основные архипелаги/острова входят в каждую?",
+    backMainAnswer: "Меланезия («Черноостровье»), Микронезия («Мелкоостровье») и Полинезия («Многоостровье»)",
     metrics: [
-      { label: "Этимология", value: "«Черноостровье» (греч. mélas + nēsos)" },
-      { label: "Состав", value: "Новая Гвинея, арх. Бисмарка, Соломоновы, Новые Гебриды, Новая Каледония, Фиджи" }
-    ]
-  },
-  {
-    id: "m1_oceania_micronesia",
-    name: "Микронезия (Океания)",
-    shortName: "Микронезия",
-    region: "Австралия и Океания",
-    specialRender: "oceania",
-    lat: 10, lng: 152,
-    frontQuestion: "Что означает «Микронезия» и какие архипелаги в неё входят?",
-    backMainAnswer: "«Мелкоостровье» (~1500 мелких островов к северу от экватора)",
-    metrics: [
-      { label: "Этимология", value: "«Мелкоостровье» (греч. mikros + nēsos)" },
-      { label: "Состав", value: "Марианские, Каролинские, Маршалловы, о-ва Гилберта, Науру, Банаба" }
-    ]
-  },
-  {
-    id: "m1_oceania_polynesia",
-    name: "Полинезия (Полинезийский треугольник)",
-    shortName: "Полинезия",
-    region: "Австралия и Океания",
-    specialRender: "oceania",
-    lat: -15, lng: -150,
-    frontQuestion: "Назовите 3 вершины Полинезийского треугольника и ключевые архипелаги Полинезии:",
-    backMainAnswer: "Гавайские о-ва — Новая Зеландия — о. Пасхи (Рапануи)",
-    metrics: [
-      { label: "Вершины треугольника", value: "Гавайи — Новая Зеландия — о. Пасхи" },
-      { label: "Архипелаги", value: "Самоа, Тонга, Туамоту, Общества (Таити), Маркизские, Кука, Лайн" }
-    ]
-  },
-  {
-    id: "m1_bermuda_triangle",
-    name: "Бермудский треугольник",
-    shortName: "Бермудский треугольник",
-    region: "Северная Америка",
-    specialRender: "bermuda",
-    lat: 25.5, lng: -71.0,
-    frontQuestion: "Какие три географические точки образуют вершины Бермудского треугольника?",
-    backMainAnswer: "Бермудские о-ва — юг п-ова Флорида (Майами) — о. Пуэрто-Рико",
-    metrics: [
-      { label: "Море", value: "Запад Саргассова моря (Атлантика)" },
-      { label: "Вершины", value: "Бермуды — Флорида — Пуэрто-Рико" }
+      { label: "Меланезия (юго-запад)", value: "Новая Гвинея, арх. Бисмарка, Соломоновы о-ва, Новые Гебриды, Новая Каледония, Фиджи" },
+      { label: "Микронезия (~1500 малых о-вов, с.-з.)", value: "Марианские, Каролинские, Маршалловы, о-ва Гилберта, о. Ошен, Науру" },
+      { label: "Полинезия (центр Тихого ок.)", value: "Треугольник: Гавайи — Н. Зеландия — о. Пасхи; Тонга, Самоа, Туамоту, Общества (Таити), Кука, Лайн, Маркизские" }
     ]
   }
 ];
@@ -7883,7 +7881,7 @@ EXTRA_THEORY_ITEMS.forEach((et) => {
     moduleId: "module1",
     submoduleId: "m1_continents_earth",
     category: "continent_theory",
-    categoryRu: "Океания и регионы",
+    categoryRu: "Океания",
     isCoreLandmark: true,
     name: et.name,
     shortName: et.shortName,
@@ -7900,7 +7898,7 @@ EXTRA_THEORY_ITEMS.forEach((et) => {
       frontQuestion: et.frontQuestion,
       backMainAnswer: et.backMainAnswer,
       backMetrics: et.metrics,
-      backNote: ""
+      backNote: "Новую Зеландию также часто выделяют как отдельную область."
     }
   });
 });
@@ -7910,17 +7908,14 @@ const MODULE1_UNIFIED_ITEMS = [...MODULE1_THEORY_ITEMS, ...MODULE1_BASE_ITEMS];
 window.GEO_MODULES_REGISTRY.module1 = {
   id: "module1",
   title: "1. Материки, острова, полуострова, пустыни",
-  shortTitle: "Материки и острова",
+  shortTitle: "Материки, острова и пустыни",
   semesterOrder: 1,
   badge: "Раздел 1",
   color: "emerald",
   decks: [
-    { id: "m1_all", title: `Весь Раздел 1 (${MODULE1_UNIFIED_ITEMS.length} объектов)`, count: MODULE1_UNIFIED_ITEMS.length },
-    { id: "m1_continents_earth", title: "Материки и Океания", count: MODULE1_THEORY_ITEMS.length },
-    { id: "m1_capes", title: "Крайние мысы материков", count: MODULE1_BASE_ITEMS.filter(i => i.submoduleId === "m1_capes").length },
-    { id: "m1_peninsulas", title: "Полуострова", count: MODULE1_BASE_ITEMS.filter(i => i.submoduleId === "m1_peninsulas").length },
-    { id: "m1_islands", title: "Острова (материковые, вулкан., коралловые)", count: MODULE1_BASE_ITEMS.filter(i => i.submoduleId === "m1_islands").length },
-    { id: "m1_deserts", title: "Пустыни мира", count: MODULE1_BASE_ITEMS.filter(i => i.submoduleId === "m1_deserts").length }
+    { id: "m1_continents_earth", title: "Общие сведения о материках", count: MODULE1_UNIFIED_ITEMS.filter(i => i.submoduleId === "m1_continents_earth").length },
+    { id: "m1_islands_peninsulas", title: "Острова и полуострова", count: MODULE1_UNIFIED_ITEMS.filter(i => i.submoduleId === "m1_islands_peninsulas").length },
+    { id: "m1_deserts", title: "Пустыни мира", count: MODULE1_UNIFIED_ITEMS.filter(i => i.submoduleId === "m1_deserts").length }
   ],
   legacyData: MODULE1_LEGACY_DATA,
   items: MODULE1_UNIFIED_ITEMS
