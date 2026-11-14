@@ -49,29 +49,17 @@
     }
   ];
 
-  const MODULE_THEORY_DESCS = {
-    module3: '5 океанов мира (площади, границы и характеристики)'
-  };
-
-  const SECONDARY_DECK_IDS = new Set([
-    'm2_precambrian',
-    'm2_baikal',
-    'm2_caledonian',
-    'm2_hercynian',
-    'm2_cimmerian',
-    'm2_alpine',
-    'm4_rivers_eurasia',
-    'm4_rivers_africa',
-    'm4_rivers_north_america',
-    'm4_rivers_south_america',
-    'm4_rivers_australia'
-  ]);
-
   const SUBDECK_HINTS = {
     m1_continents_earth: 'Мысы, высшие/низшие точки, площади, ср. высоты и Океания',
     m1_peninsulas: 'Определение полуостровов на карте',
     m1_islands: 'На карте + карточки состава 12 ключевых архипелагов',
-    m1_deserts: 'Пустыни мира на карте'
+    m1_deserts: 'Пустыни мира на карте',
+    m2_all_relief: 'Горы (складчатость и высоты ключевых), вулканы, впадины, равнины',
+    m3_oceans_theory: 'Площади и глубины 5 океанов + границы между океанами',
+    m3_seas_straits_gulfs: 'Моря, проливы и заливы Мирового океана на карте',
+    m3_trenches: 'Глубоководные желоба и максимальные глубины ключевых',
+    m3_currents: 'На карте + температура (Т/Х/Н) и генезис (Д/К/С)',
+    m4_all_waters: 'Реки, озёра и водопады на карте (включая слепые вопросы по рекордам)'
   };
 
   const UIHub = {
@@ -232,56 +220,41 @@
 
       engine.modules.forEach((mod) => {
         const stats = engine.getModuleStats(mod.id, scope);
-        const isOpen = this._openSubdecks.has(mod.id);
         const card = document.createElement('article');
         card.className = 'module-card stagger-item';
         card.style.setProperty('--mod-color', mod.color || '#10b981');
 
         const visibleDecks = (mod.decks || []).filter((d) => !/^m[1234]_all$/.test(d.id));
-        const primaryDecks = visibleDecks.filter((d) => !SECONDARY_DECK_IDS.has(d.id));
-        const secondaryDecks = visibleDecks.filter((d) => SECONDARY_DECK_IDS.has(d.id));
 
         const renderBigDeckBtn = (deck) => {
           const ds = engine.getSubmoduleStats(mod.id, deck.id, scope);
           if (ds.total === 0) return '';
           const hint = SUBDECK_HINTS[deck.id];
+          const attr = deck.isTheoryDeck
+            ? `data-start-mode="theory:${mod.id}"`
+            : `data-sub-learn="${mod.id}:${deck.id}"`;
+          const badgePrefix = deck.isTheoryDeck ? '📖 ' : '';
           return `
-            <button class="subdeck-btn btn-shine" data-sub-learn="${mod.id}:${deck.id}" type="button">
+            <button class="subdeck-btn btn-shine" ${attr} type="button">
               <span class="subdeck-btn-main">
-                <span class="subdeck-btn-title">${deck.title}</span>
+                <span class="subdeck-btn-title">${badgePrefix}${deck.title}</span>
                 ${hint ? `<span class="subdeck-btn-sub">${hint}</span>` : ''}
               </span>
               <span class="subdeck-btn-right">
                 <span>${ds.mastered}/${ds.total}</span>
-                <span class="subdeck-btn-arrow">→</span>
+                <span class="subdeck-play-icon" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor"><path d="M4.5 3.2v9.6l8-4.8-8-4.8z"/></svg>
+                </span>
               </span>
             </button>
           `;
         };
 
-        const primaryHtml = primaryDecks.map(renderBigDeckBtn).join('');
-        const secondaryHtml = secondaryDecks
-          .map((deck) => {
-            const ds = engine.getSubmoduleStats(mod.id, deck.id, scope);
-            if (ds.total === 0) return '';
-            return `
-              <button class="subdeck-row" data-sub-learn="${mod.id}:${deck.id}" type="button">
-                <span class="subdeck-name" title="${deck.title}">${deck.title}</span>
-                <span class="subdeck-right">
-                  <span class="subdeck-count">${ds.mastered}/${ds.total}</span>
-                  <span>→</span>
-                </span>
-              </button>
-            `;
-          })
-          .join('');
+        const primaryHtml = visibleDecks.map(renderBigDeckBtn).join('');
 
         const displayTitle = mod.id === 'module1' ? 'Материки, острова и пустыни' : mod.shortTitle || mod.title;
-        const displayDesc = mod.id === 'module1' ? 'Выберите подраздел для изучения' : mod.title;
-        const theoryStats = engine.getModuleTheoryStats(mod.id, scope);
-        const theoryDesc = MODULE_THEORY_DESCS[mod.id] || 'Ключевые вопросы раздела';
-        const progressLabel = mod.id === 'module1' ? 'Изучено' : 'На карте';
-        const secToggleLabel = mod.id === 'module2' ? 'Горы по эпохам складчатости' : 'Реки по материкам';
+        const displayDesc = mod.id === 'module1' || mod.id === 'module3' ? 'Выберите подраздел для изучения' : mod.title;
+        const progressLabel = mod.id === 'module1' || mod.id === 'module3' ? 'Изучено' : 'На карте';
 
         card.innerHTML = `
           <div class="module-head">
@@ -301,30 +274,6 @@
             </div>
           </div>
           ${primaryHtml ? `<div class="subdeck-btn-list">${primaryHtml}</div>` : ''}
-          ${
-            theoryStats.total > 0
-              ? `
-            <div class="module-theory-row">
-              <div class="module-theory-meta">
-                <span class="module-theory-title">📖 Устная теория · ${theoryStats.mastered}/${theoryStats.total}</span>
-                <span class="module-theory-sub">${theoryDesc}</span>
-              </div>
-              <button class="btn btn-sm" data-start-mode="theory:${mod.id}" type="button">Карточки →</button>
-            </div>
-          `
-              : ''
-          }
-          ${
-            secondaryHtml
-              ? `
-            <button class="subdecks-toggle" data-toggle-decks="${mod.id}" type="button">
-              <span>${secToggleLabel}</span>
-              <span>${isOpen ? '▲' : '▼'}</span>
-            </button>
-            <div class="subdecks-list ${isOpen ? '' : 'hidden'}">${secondaryHtml}</div>
-          `
-              : ''
-          }
         `;
 
         grid.appendChild(card);

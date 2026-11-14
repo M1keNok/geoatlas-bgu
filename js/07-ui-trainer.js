@@ -332,13 +332,16 @@
       const isCape = item.category === 'extreme_point' || item.category === 'capes';
       const isContExtreme = item.category === 'continent_peak' || item.category === 'continent_depr';
       const isArchipelago = Boolean(item.askConstituentIslands && item.constituentIslands);
-      targetNameEl.textContent = isCape ? GeoAtlas.extractCapePrompt(item) : item.name;
+      const isRecord = Boolean(item.recordPrompt);
+      targetNameEl.textContent = isCape ? GeoAtlas.extractCapePrompt(item) : isRecord ? item.recordPrompt : item.name;
       subPromptEl.textContent = isCape
         ? 'Покажите эту крайнюю точку на карте, затем вспомните название мыса (3 попытки)'
         : isContExtreme
         ? 'Покажите на карте и вспомните абсолютную высоту / отметку (3 попытки)'
         : isArchipelago
         ? 'Архипелаг · покажите на карте, затем вспомните входящие острова (3 попытки)'
+        : isRecord
+        ? `${typeLabel} · покажите рекордсмена на карте, затем вспомните название (3 попытки)`
         : `${typeLabel} · найдите и нажмите на карте (3 попытки)`;
       if (this.currentIndex === 0) {
         GeoAtlas.MapEngine.fitBatch(this.pool.length ? this.pool : this.queue, 4);
@@ -364,9 +367,10 @@
         document.getElementById('compassBanner')?.classList.add('hidden');
 
         const isCape = item.category === 'extreme_point' || item.category === 'capes';
+        const isRecord = Boolean(item.recordPrompt);
         GeoAtlas.MapEngine.drawItemShape(GeoAtlas.MapEngine.trainerGroup, item, {
           highlight: true,
-          showLabel: !isCape
+          showLabel: !isCape && !isRecord
         });
         GeoAtlas.MotionFX?.pulseSuccess(document.querySelector('#trainerHud .hud-card'));
 
@@ -443,9 +447,10 @@
     _showTrueObjectAndFailCard(item) {
       if (!GeoAtlas.GeoMath.isOralTheoryItem(item)) {
         const isCape = item.category === 'extreme_point' || item.category === 'capes';
+        const isRecord = Boolean(item.recordPrompt);
         GeoAtlas.MapEngine.drawItemShape(GeoAtlas.MapEngine.trainerGroup, item, {
           highlight: true,
-          showLabel: !isCape
+          showLabel: !isCape && !isRecord
         });
         GeoAtlas.MapEngine.fitItem(item, 5);
       }

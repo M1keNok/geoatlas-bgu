@@ -12833,6 +12833,76 @@ const MODULE3_ITEMS = [
   }
 ];
 
+const M3_BOUNDARY_THEORY = [
+  {
+    id: "m3_bound_arctic_atlantic",
+    name: "Граница Северного Ледовитого и Атлантического океанов",
+    frontQuestion: "Как проходит граница между Северным Ледовитым и Атлантическим океанами?",
+    backMainAnswer: "Вост. вход Гудзонова прол. — о. Баффинова Земля — Девисов прол. (севернее полярного круга) — о. Гренландия — Датский прол. — о. Исландия — Фарерские и Шетландские о-ва — по 61° с.ш. до Скандинавского п-ова",
+    lat: 64, lng: -25
+  },
+  {
+    id: "m3_bound_arctic_pacific",
+    name: "Граница Северного Ледовитого и Тихого океанов",
+    frontQuestion: "Как проходит граница между Северным Ледовитым и Тихим океанами?",
+    backMainAnswer: "Поперёк Берингова пролива (наименьшая ширина 14 км по методичке / между м. Дежнёва и м. Принца Уэльского)",
+    lat: 65.8, lng: -169
+  },
+  {
+    id: "m3_bound_pacific_atlantic",
+    name: "Граница Тихого и Атлантического океанов",
+    frontQuestion: "Как проходит граница между Тихим и Атлантическим океанами?",
+    backMainAnswer: "От мыса Горн (о. Огненная Земля) по меридиану (~67° з.д.) на юг до Антарктического полуострова",
+    lat: -58, lng: -67
+  },
+  {
+    id: "m3_bound_atlantic_indian",
+    name: "Граница Атлантического и Индийского океанов",
+    frontQuestion: "Как проходит граница между Атлантическим и Индийским океанами?",
+    backMainAnswer: "От мыса Игольный (20° в.д.) по меридиану на юг до побережья Антарктиды",
+    lat: -45, lng: 20
+  },
+  {
+    id: "m3_bound_indian_pacific",
+    name: "Граница Индийского и Тихого океанов",
+    frontQuestion: "Как проходит граница между Индийским и Тихим океанами?",
+    backMainAnswer: "Сев. вход Малаккского прол. — зап. берег о. Суматра — Зондский прол. — юж. берег о. Ява — юж. берега Малых Зондских о-вов — о. Новая Гвинея — зап. вход Торресова прол. — Австралия — зап. вход Бассова прол. — о. Тасмания — от мыса Южный по меридиану до Антарктиды",
+    lat: -15, lng: 130
+  },
+  {
+    id: "m3_bound_southern_north",
+    name: "Северная граница Южного океана",
+    frontQuestion: "Где проходит северная граница Южного океана?",
+    backMainAnswer: "По линии антарктической конвергенции (полоса схождения тёплых и холодных вод ~40–60° ю.ш.), близкой к северной границе Антарктического циркумполярного течения (Западных ветров)",
+    lat: -52, lng: 0
+  }
+].map((b) => ({
+  id: b.id,
+  moduleId: "module3",
+  submoduleId: "m3_oceans_theory",
+  category: "oceans_theory",
+  categoryRu: "Границы океанов",
+  difficulty: "Базовый",
+  isCoreLandmark: true,
+  name: b.name,
+  shortName: b.name,
+  region: "Мировой океан",
+  locationDesc: b.backMainAnswer,
+  mapPrompt: b.frontQuestion,
+  geometryType: "region_focus",
+  lat: b.lat,
+  lng: b.lng,
+  ankiCard: {
+    hasTheoryStep: true,
+    frontQuestion: b.frontQuestion,
+    backMainAnswer: b.backMainAnswer,
+    backMetrics: [{ label: "Рубеж (по методичке)", value: b.backMainAnswer }],
+    backNote: ""
+  }
+}));
+
+const MODULE3_ALL_ITEMS = [...MODULE3_ITEMS, ...M3_BOUNDARY_THEORY];
+
 window.GEO_MODULES_REGISTRY.module3 = {
   id: "module3",
   title: "3. Океаны, моря, заливы, проливы; желоба; течения",
@@ -12841,12 +12911,10 @@ window.GEO_MODULES_REGISTRY.module3 = {
   badge: "Раздел 3",
   color: "sky",
   decks: [
-    { id: "m3_all", title: "Весь Раздел 3 (Все объекты)", count: MODULE3_ITEMS.length },
-    { id: "m3_seas", title: "Океаны и моря (5 океанов, 57 морей)", count: MODULE3_ITEMS.filter(i => i.category === "seas").length },
-    { id: "m3_straits", title: "Проливы мира (47 проливов)", count: MODULE3_ITEMS.filter(i => i.category === "straits").length },
-    { id: "m3_gulfs", title: "Заливы мира (65 заливов)", count: MODULE3_ITEMS.filter(i => i.category === "gulfs").length },
-    { id: "m3_trenches", title: "Глубоководные желоба (35 желобов)", count: MODULE3_ITEMS.filter(i => i.category === "trenches").length },
-    { id: "m3_currents", title: "Океанические течения (44 течения)", count: MODULE3_ITEMS.filter(i => i.category === "currents").length }
+    { id: "m3_oceans_theory", title: "Океаны и границы (теория)", count: 5 + M3_BOUNDARY_THEORY.length, isTheoryDeck: true },
+    { id: "m3_seas_straits_gulfs", title: "Моря, проливы и заливы", count: MODULE3_ITEMS.filter(i => (i.category === "seas" || i.category === "straits" || i.category === "gulfs") && !/^m3_sea_[a-z_]+_ocean$/.test(i.id)).length },
+    { id: "m3_trenches", title: "Глубоководные желоба", count: MODULE3_ITEMS.filter(i => i.category === "trenches").length },
+    { id: "m3_currents", title: "Океанические течения", count: MODULE3_ITEMS.filter(i => i.category === "currents").length }
   ],
-  items: MODULE3_ITEMS
+  items: MODULE3_ALL_ITEMS
 };

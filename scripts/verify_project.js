@@ -198,7 +198,7 @@ function run() {
   assert.strictEqual(LearningEngine.getSubmoduleStats('module3', 'm3_seas', 'full').total, 57, 'M3 seas deck matches all 57 map seas');
   assert.strictEqual(LearningEngine.getSubmoduleStats('module4', 'm4_lakes', 'full').total, 71, 'M4 lakes deck matches all 71 lakes');
   assert.strictEqual(LearningEngine.getSubmoduleStats('module2', 'm2_orogeny', 'full').total, 117, 'M2 orogeny deck matches all 117 mountains');
-  assert.strictEqual(LearningEngine.getModuleTheoryItems('module3', 'full').length, 5, 'M3 oral theory has 5 whole oceans');
+  assert.strictEqual(LearningEngine.getModuleTheoryItems('module3', 'full').length, 11, 'M3 oral theory has 11 ocean & boundary cards');
   assert.strictEqual(LearningEngine.getModuleTheoryItems('module2', 'full').length, 0, 'M2 has no standalone non-map card deck');
   assert.strictEqual(LearningEngine.getModuleTheoryItems('module4', 'full').length, 0, 'M4 has no standalone non-map card deck');
 
@@ -228,13 +228,52 @@ function run() {
     'Cape flip card front hides Альмади and back reveals it'
   );
 
-  // Verify all 16 m2_depressions produce flip cards in essentials mode
+  // Verify M2 unified relief deck & smart essentials cards
+  assert.strictEqual(reg.module2.decks.length, 1, 'M2 has single unified relief deck');
+  assert.strictEqual(reg.module2.decks[0].id, 'm2_all_relief', 'M2 deck id is m2_all_relief');
+  assert.strictEqual(reg.module2.decks[0].count, 263, 'M2 deck count is 263');
   const m2Deps = reg.module2.items.filter((i) => i.submoduleId === 'm2_depressions');
-  assert(m2Deps.length > 0, 'm2_depressions items present');
-  m2Deps.forEach((d) => {
+  const m2CoreDeps = m2Deps.filter((d) => d.isCoreLandmark);
+  assert(m2CoreDeps.some((d) => d.id === 'm2_depr_ghor'), 'm2_depr_ghor is marked isCoreLandmark');
+  m2CoreDeps.forEach((d) => {
     const spec = QuizConfig.buildCardSpec(d, 'essentials', LearningEngine.meta.customModules);
-    assert(spec.requiresFlipCard, `Depression ${d.id} must have theory flip card`);
+    assert(spec.requiresFlipCard, `Core depression ${d.id} must have theory flip card`);
   });
+  const m2NonCoreDep = m2Deps.find((d) => !d.isCoreLandmark);
+  assert(m2NonCoreDep && !QuizConfig.buildCardSpec(m2NonCoreDep, 'essentials', LearningEngine.meta.customModules).requiresFlipCard, 'Non-core depression skips flip card in essentials');
+  const m2NonCoreMt = reg.module2.items.find((i) => i.category === 'mountains' && !i.isCoreLandmark);
+  const m2MtSpec = QuizConfig.buildCardSpec(m2NonCoreMt, 'essentials', LearningEngine.meta.customModules);
+  assert(m2MtSpec.requiresFlipCard && /складчатост/i.test(m2MtSpec.prompt) && !/вершин/i.test(m2MtSpec.prompt), 'Non-core mountain asks epoch without peak');
+  const m2OrdinaryPlain = reg.module2.items.find((i) => i.category === 'plains' && !i.isCoreLandmark && i.submoduleId !== 'm2_depressions');
+  assert(m2OrdinaryPlain && !QuizConfig.buildCardSpec(m2OrdinaryPlain, 'essentials', LearningEngine.meta.customModules).requiresFlipCard, 'Ordinary plain is map-only in essentials');
+
+  // Verify M3 4-deck split
+  assert.strictEqual(reg.module3.decks.length, 4, 'M3 has 4 subsections');
+  assert.deepStrictEqual(
+    reg.module3.decks.map((d) => d.id),
+    ['m3_oceans_theory', 'm3_seas_straits_gulfs', 'm3_trenches', 'm3_currents'],
+    'M3 deck ids match expected order'
+  );
+  assert.strictEqual(LearningEngine.getSubmoduleStats('module3', 'm3_seas_straits_gulfs', 'full').total, 171, 'M3 seas/straits/gulfs matches 171 items');
+  assert.strictEqual(LearningEngine.getSubmoduleStats('module3', 'm3_trenches', 'full').total, 35, 'M3 trenches matches 35 items');
+  assert.strictEqual(LearningEngine.getSubmoduleStats('module3', 'm3_currents', 'full').total, 45, 'M3 currents matches 45 items');
+
+  // Verify M4 single deck & 20 blind record-holder cards
+  assert.strictEqual(reg.module4.decks.length, 1, 'M4 has single unified waters deck');
+  assert.strictEqual(reg.module4.decks[0].id, 'm4_all_waters', 'M4 deck id is m4_all_waters');
+  assert.strictEqual(reg.module4.decks[0].count, 253, 'M4 deck count is 253');
+  const m4Records = reg.module4.items.filter((i) => Boolean(i.recordPrompt));
+  assert.strictEqual(m4Records.length, 20, 'M4 has 20 recordPrompt items');
+  m4Records.forEach((rec) => {
+    const spec = QuizConfig.buildCardSpec(rec, 'essentials', LearningEngine.meta.customModules);
+    assert(spec.requiresFlipCard && !spec.frontTitle.toLowerCase().includes(rec.name.toLowerCase()) && spec.answer.includes(rec.name), `Record item ${rec.id} has blind card revealing name`);
+  });
+  const baikal = reg.module4.items.find((i) => i.id === 'm4_lk_baikal');
+  const baikalSpec = QuizConfig.buildCardSpec(baikal, 'essentials', LearningEngine.meta.customModules);
+  assert(baikalSpec.requiresFlipCard && baikalSpec.answer.includes('Байкал'), 'Baikal blind record card reveals Байкал');
+  const nile = reg.module4.items.find((i) => i.id === 'm4_riv_nile');
+  const nileSpec = QuizConfig.buildCardSpec(nile, 'essentials', LearningEngine.meta.customModules);
+  assert(nileSpec.requiresFlipCard && nileSpec.answer.includes('Нил'), 'Nile blind record card reveals Нил');
 
   // SRS transitions
   let r1 = LearningEngine.recordCompositeResult('m2_mtn_ural_mountains', { mapMistakes: 0, mapRevealed: false, theoryRecalled: true, hadFlipCard: true });

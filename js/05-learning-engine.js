@@ -55,13 +55,25 @@
   function isModuleOralCardCandidate(item) {
     if (!item) return false;
     if (item.moduleId === 'module3') {
-      return Boolean(item.id && /^m3_sea_[a-z_]+_ocean$/.test(item.id));
+      return Boolean(
+        (item.id && /^m3_sea_[a-z_]+_ocean$/.test(item.id)) ||
+          item.submoduleId === 'm3_oceans_theory'
+      );
     }
     return false;
   }
 
   function matchesDeck(it, deckId) {
     if (!deckId) return true;
+    if (deckId === 'm2_all_relief') return it.moduleId === 'module2';
+    if (deckId === 'm3_oceans_theory') return isModuleOralCardCandidate(it);
+    if (deckId === 'm3_seas_straits_gulfs') {
+      return (
+        ['seas', 'straits', 'gulfs'].includes(it.category) &&
+        !(it.id && /^m3_sea_[a-z_]+_ocean$/.test(it.id))
+      );
+    }
+    if (deckId === 'm4_all_waters') return it.moduleId === 'module4';
     if (it.submoduleId === deckId) return true;
     if (deckId === 'm2_orogeny') return it.category === 'mountains';
     if (deckId === 'm3_seas') return it.category === 'seas';
@@ -99,6 +111,8 @@
       let enabled = false;
       if (forceTheory || isOralOnly) {
         enabled = true;
+      } else if (item.recordPrompt) {
+        enabled = true;
       } else if (item.submoduleId === 'm1_continents_earth') {
         enabled = !useCustom || modCfg.continentsEarth !== false;
       } else if (item.category === 'extreme_point' || item.category === 'capes') {
@@ -118,11 +132,11 @@
       } else if (item.category === 'mountains') {
         enabled = !useCustom || modCfg.mountainAge !== false;
       } else if (item.category === 'volcanoes') {
-        enabled = !useCustom || modCfg.volcanoType !== false;
+        enabled = useCustom ? !!modCfg.volcanoType : !!item.isCoreLandmark;
       } else if (item.submoduleId === 'm2_depressions' || item.category === 'depressions') {
-        enabled = !useCustom || modCfg.depressionSign !== false || modCfg.plains !== false;
+        enabled = useCustom ? (modCfg.depressionSign !== false || modCfg.plains !== false) : !!item.isCoreLandmark;
       } else if (item.category === 'plains') {
-        enabled = !useCustom || modCfg.plains !== false;
+        enabled = useCustom ? !!modCfg.plains : false;
       } else if (item.category === 'seas') {
         enabled = !useCustom || modCfg.seaType !== false;
       } else if (item.category === 'straits') {
@@ -130,7 +144,7 @@
       } else if (item.category === 'gulfs') {
         enabled = !useCustom || modCfg.gulfOcean !== false;
       } else if (item.category === 'trenches') {
-        enabled = !useCustom || modCfg.trenchDepth !== false;
+        enabled = useCustom ? !!modCfg.trenchDepth : !!item.isCoreLandmark;
       } else if (item.category === 'currents') {
         enabled = !useCustom || modCfg.currentTemp !== false;
       } else if (item.category === 'rivers') {
@@ -154,6 +168,39 @@
         card.backMainAnswer ||
         [item.region || item.continent, item.locationDesc].filter(Boolean).join(' · ') ||
         '';
+
+      if (item.recordPrompt && !forceTheory) {
+        if (Array.isArray(card.backMetrics)) {
+          card.backMetrics.forEach((m) => {
+            if (m && m.label && m.value) facts.push({ label: m.label, val: m.value });
+          });
+        }
+        if (card.backNote) facts.push({ label: 'Справка', val: card.backNote });
+        return {
+          requiresFlipCard: true,
+          badge: `${badge} · Рекорд`,
+          frontTitle: item.recordPrompt,
+          prompt: 'Вспомните название этого объекта-рекордсмена:',
+          answer: item.shortName || item.name,
+          facts
+        };
+      }
+
+      if (item.category === 'mountains' && !item.isCoreLandmark && !forceTheory) {
+        const epochOnly = String(item.categoryRu || '').replace(/^Горы\s*\(|\)$/g, '').trim() ||
+          String(card.backMainAnswer || '').split('•')[0].trim();
+        if (item.region) facts.push({ label: 'Местоположение', val: item.region });
+        if (item.peakName) {
+          facts.push({ label: 'Высшая точка (доп.)', val: `${item.peakName}${item.heightM ? ` (${item.heightM} м)` : ''}` });
+        }
+        return {
+          requiresFlipCard: true,
+          badge,
+          prompt: 'Назовите эпоху складчатости этих гор:',
+          answer: epochOnly || answer,
+          facts
+        };
+      }
 
       if (item.askConstituentIslands && item.constituentIslands && !forceTheory) {
         facts.push({ label: 'Категория', val: badge });
@@ -313,11 +360,14 @@
     },
 
     getModuleStats(moduleId, scope) {
-      return this.getStatsForItems(this.filterItems({ moduleId, scope, mapOnly: moduleId !== 'module1' }));
+      return this.getStatsForItems(
+        this.filterItems({ moduleId, scope, mapOnly: moduleId !== 'module1' && moduleId !== 'module3' })
+      );
     },
 
     getSubmoduleStats(moduleId, submoduleId, scope) {
-      return this.getStatsForItems(this.filterItems({ moduleId, submoduleId, scope, mapOnly: submoduleId !== 'm1_continents_earth' }));
+      const includeOral = submoduleId === 'm1_continents_earth' || submoduleId === 'm3_oceans_theory';
+      return this.getStatsForItems(this.filterItems({ moduleId, submoduleId, scope, mapOnly: !includeOral }));
     },
 
     getModuleTheoryItems(moduleId, scope) {

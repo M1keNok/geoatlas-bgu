@@ -9224,7 +9224,7 @@ const MODULE2_ITEMS = [
       ],
       "backNote": "Депрессия Гхор (Эль-Гхор, Мёртвое море) (-430 м), Израиль, Иордания, Сирия (глубочайшая впадина суши на Земле)."
     },
-    "isCoreLandmark": false
+    "isCoreLandmark": true
   },
   {
     "id": "m2_depr_sea_of_galilee",
@@ -12957,19 +12957,7 @@ window.GEO_MODULES_REGISTRY.module2 = {
   badge: "Раздел 2",
   color: "amber",
   decks: [
-    { id: "m2_all", title: "Весь Раздел 2 (Все 228 объектов)", count: MODULE2_ITEMS.length },
-    { id: "m2_orogeny", title: "Горы по 6 эпохам складчатости", count: MODULE2_ITEMS.filter(i => i.category === "mountains").length },
-    { id: "m2_precambrian", title: "Докембрийские горы и нагорья", count: MODULE2_ITEMS.filter(i => i.submoduleId === "m2_precambrian").length },
-    { id: "m2_baikal", title: "Байкальская складчатость", count: MODULE2_ITEMS.filter(i => i.submoduleId === "m2_baikal").length },
-    { id: "m2_caledonian", title: "Каледонская складчатость", count: MODULE2_ITEMS.filter(i => i.submoduleId === "m2_caledonian").length },
-    { id: "m2_hercynian", title: "Герцинская складчатость (вкл. Центр. Европу)", count: MODULE2_ITEMS.filter(i => i.submoduleId === "m2_hercynian").length },
-    { id: "m2_cimmerian", title: "Киммерийская (мезозойская) складчатость", count: MODULE2_ITEMS.filter(i => i.submoduleId === "m2_cimmerian").length },
-    { id: "m2_alpine", title: "Альпийская складчатость", count: MODULE2_ITEMS.filter(i => i.submoduleId === "m2_alpine").length },
-    { id: "m2_volcanoes", title: "Вулканы (4 пояса Земли)", count: MODULE2_ITEMS.filter(i => i.category === "volcanoes").length },
-    { id: "m2_depressions", title: "16 депрессий суши (ниже ур. моря)", count: MODULE2_ITEMS.filter(i => i.submoduleId === "m2_depressions").length },
-    { id: "m2_lowlands", title: "Низменности мира", count: MODULE2_ITEMS.filter(i => i.submoduleId === "m2_lowlands").length },
-    { id: "m2_uplands", title: "Возвышенности мира", count: MODULE2_ITEMS.filter(i => i.submoduleId === "m2_uplands").length },
-    { id: "m2_plateaus", title: "Плоскогорья и плато", count: MODULE2_ITEMS.filter(i => i.submoduleId === "m2_plateaus").length }
+    { id: "m2_all_relief", title: "Весь рельеф суши (горы, вулканы, равнины)", count: MODULE2_ITEMS.length }
   ],
   items: MODULE2_ITEMS
 };

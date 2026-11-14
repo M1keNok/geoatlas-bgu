@@ -15917,6 +15917,36 @@ const MODULE4_ITEMS = [
   }
 ];
 
+const M4_RECORD_PROMPTS = {
+  m4_riv_amazon: "Самая длинная (7194 км), с самым большим бассейном и самая полноводная река мира",
+  m4_riv_nile: "Вторая по длине река мира (6671 км)",
+  m4_riv_mississippi: "Третья по длине (6420 км) и площади бассейна река мира",
+  m4_riv_congo: "Вторая река мира по площади водосборного бассейна (3691 тыс. км²) и объёму стока (42 тыс. м³/с)",
+  m4_riv_yangtze: "Третья река мира по объёму стока (32 тыс. м³/с)",
+  m4_wf_angel_falls: "Самый высокий водопад мира (1054 м)",
+  m4_wf_tugela_falls: "Второй по высоте водопад мира (933 м)",
+  m4_wf_tres_hermanas: "Третий по высоте водопад мира (914 м)",
+  m4_wf_khone_falls: "Самый широкий водопад мира (12–13 км)",
+  m4_wf_iguazu_falls: "Самый мощный водопад мира (расход до 45 700 м³/с)",
+  m4_lk_caspian_sea: "Самое большое по площади (371 тыс. км²) и самое длинное (~1200 км) озеро мира",
+  m4_lk_baikal: "Самое глубокое (1642 м), самое старое и самое чистое озеро мира",
+  m4_lk_lake_superior: "Самое большое по площади пресное озеро мира (82,4 тыс. км²)",
+  m4_lk_lake_titicaca: "Самое большое высокогорное судоходное озеро мира (8300 км²)",
+  m4_lk_sarez_lake: "Самое глубокое высокогорное озеро мира (Памир, до 500 м)",
+  m4_lk_issyk_kul: "Самое глубокое горное озеро мира (Тянь-Шань, до 702 м)",
+  m4_lk_tanganyika: "Самое длинное пресноводное озеро мира (650 км)",
+  m4_lk_taymyr_lake: "Самое крупное озеро мира за Полярным кругом",
+  m4_lk_balkhash: "Озеро с пресной западной и солёной восточной половинами",
+  m4_lk_dead_sea: "Озеро в самой глубокой впадине суши (-430 м), самое солёное из больших (270 ‰)"
+};
+
+MODULE4_ITEMS.forEach((it) => {
+  if (M4_RECORD_PROMPTS[it.id]) {
+    it.recordPrompt = M4_RECORD_PROMPTS[it.id];
+    it.isCoreLandmark = true;
+  }
+});
+
 window.GEO_MODULES_REGISTRY.module4 = {
   id: "module4",
   title: "4. Реки, озёра, водопады",
@@ -15925,15 +15955,7 @@ window.GEO_MODULES_REGISTRY.module4 = {
   badge: "Раздел 4",
   color: "cyan",
   decks: [
-    { id: "m4_all", title: "Весь Раздел 4 (Все объекты)", count: MODULE4_ITEMS.length },
-    { id: "m4_rivers", title: "Реки мира (134 реки и притока)", count: MODULE4_ITEMS.filter(i => i.category === "rivers").length },
-    { id: "m4_rivers_eurasia", title: "Реки Евразии", count: MODULE4_ITEMS.filter(i => i.submoduleId === "m4_rivers_eurasia").length },
-    { id: "m4_rivers_africa", title: "Реки Африки", count: MODULE4_ITEMS.filter(i => i.submoduleId === "m4_rivers_africa").length },
-    { id: "m4_rivers_north_america", title: "Реки Северной Америки", count: MODULE4_ITEMS.filter(i => i.submoduleId === "m4_rivers_north_america").length },
-    { id: "m4_rivers_south_america", title: "Реки Южной Америки", count: MODULE4_ITEMS.filter(i => i.submoduleId === "m4_rivers_south_america").length },
-    { id: "m4_rivers_australia", title: "Реки Австралии", count: MODULE4_ITEMS.filter(i => i.submoduleId === "m4_rivers_australia").length },
-    { id: "m4_waterfalls", title: "Водопады мира (20 водопадов)", count: MODULE4_ITEMS.filter(i => i.category === "waterfalls").length },
-    { id: "m4_lakes", title: "Озёра мира (71 озеро)", count: MODULE4_ITEMS.filter(i => i.category === "lakes").length }
+    { id: "m4_all_waters", title: "Все воды суши (реки, озёра, водопады и рекорды)", count: MODULE4_ITEMS.length }
   ],
   items: MODULE4_ITEMS
 };
