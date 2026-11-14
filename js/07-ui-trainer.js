@@ -333,9 +333,10 @@
         GeoAtlas.TelegramBridge?.hapticNotification('success');
         document.getElementById('compassBanner')?.classList.add('hidden');
 
+        const isCape = item.category === 'extreme_point' || item.category === 'capes';
         GeoAtlas.MapEngine.drawItemShape(GeoAtlas.MapEngine.trainerGroup, item, {
           highlight: true,
-          showLabel: true
+          showLabel: !isCape
         });
         GeoAtlas.MotionFX?.pulseSuccess(document.querySelector('#trainerHud .hud-card'));
 
@@ -411,9 +412,10 @@
 
     _showTrueObjectAndFailCard(item) {
       if (!GeoAtlas.GeoMath.isOralTheoryItem(item)) {
+        const isCape = item.category === 'extreme_point' || item.category === 'capes';
         GeoAtlas.MapEngine.drawItemShape(GeoAtlas.MapEngine.trainerGroup, item, {
           highlight: true,
-          showLabel: true
+          showLabel: !isCape
         });
         GeoAtlas.MapEngine.fitItem(item, 5);
       }
@@ -460,7 +462,7 @@
       document.getElementById('flipStepFront').textContent = isOral
         ? `${this.currentIndex + 1} / ${this.queue.length}`
         : 'Устная проверка';
-      document.getElementById('flipItemTitleFront').textContent = item.name;
+      document.getElementById('flipItemTitleFront').textContent = cardSpec.frontTitle || item.name;
       document.getElementById('flipPromptFront').textContent =
         cardSpec.prompt || 'Вспомните ключевой географический факт об объекте';
 

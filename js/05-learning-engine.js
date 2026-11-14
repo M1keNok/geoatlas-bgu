@@ -144,12 +144,13 @@
 
       if ((item.category === 'extreme_point' || item.category === 'capes') && !forceTheory) {
         const clue = extractCapePrompt(item);
-        prompt = `${clue} — как называется этот мыс?`;
+        prompt = 'Вспомните и назовите этот мыс:';
         answer = item.shortName || item.name;
         if (item.locationDesc) facts.push({ label: 'Справка', val: item.locationDesc });
         return {
           requiresFlipCard: true,
           badge,
+          frontTitle: clue,
           prompt,
           answer,
           facts

@@ -191,7 +191,13 @@ function run() {
   const capePrompt = global.GeoAtlas.extractCapePrompt(capeWest);
   assert(!capePrompt.toLowerCase().includes('альмади'), 'Blind cape map prompt must not spoil Альмади');
   const capeSpec = QuizConfig.buildCardSpec(capeWest, 'essentials', LearningEngine.meta.customModules);
-  assert(capeSpec.requiresFlipCard && capeSpec.answer.includes('Альмади'), 'Cape flip card reveals Альмади');
+  assert(
+    capeSpec.requiresFlipCard &&
+      capeSpec.frontTitle &&
+      !capeSpec.frontTitle.toLowerCase().includes('альмади') &&
+      capeSpec.answer.includes('Альмади'),
+    'Cape flip card front hides Альмади and back reveals it'
+  );
 
   // Verify all 16 m2_depressions produce flip cards in essentials mode
   const m2Deps = reg.module2.items.filter((i) => i.submoduleId === 'm2_depressions');
