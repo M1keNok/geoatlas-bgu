@@ -33,7 +33,10 @@
       const mapStage = document.getElementById('mapStage');
       if (hub) hub.classList.remove('hidden');
       if (mapStage) mapStage.classList.add('hidden');
-      if (GeoAtlas.TelegramBridge) GeoAtlas.TelegramBridge.hideBackButton();
+      if (GeoAtlas.TelegramBridge) {
+        GeoAtlas.TelegramBridge.hideBackButton();
+        GeoAtlas.TelegramBridge.setClosingConfirmation(false);
+      }
       this.render();
     },
 
@@ -55,13 +58,40 @@
           GeoAtlas.LearningEngine.meta.scope = scope;
           GeoAtlas.StorageAdapter.saveMeta(GeoAtlas.LearningEngine.meta);
           GeoAtlas.AudioEngine.playClick();
+          GeoAtlas.TelegramBridge?.hapticSelection();
           this.render();
         });
       }
 
+      const performReset = () => {
+        GeoAtlas.StorageAdapter.clearStates(GeoAtlas.LearningEngine.states);
+        if (GeoAtlas.LearningEngine.meta) {
+          GeoAtlas.LearningEngine.meta.exploredSections = {};
+          GeoAtlas.LearningEngine.meta.sessionStep = 0;
+          GeoAtlas.StorageAdapter.saveMeta(GeoAtlas.LearningEngine.meta);
+          GeoAtlas.StorageAdapter.flushCloud?.();
+        }
+        GeoAtlas.TelegramBridge?.hapticNotification('warning');
+        this.render();
+        if (GeoAtlas.App && GeoAtlas.App.showToast) {
+          GeoAtlas.App.showToast('Весь прогресс сброшен');
+        }
+      };
+
       const handleResetClick = (btn, defaultLabel) => {
+        const handledByTelegram = GeoAtlas.TelegramBridge?.confirm(
+          'Точно сбросить весь прогресс по всем разделам? Это действие нельзя отменить.',
+          (ok) => {
+            if (ok) performReset();
+          }
+        );
+        if (handledByTelegram) {
+          GeoAtlas.TelegramBridge?.hapticNotification('warning');
+          return;
+        }
         if (!this._confirmResetArm) {
           this._confirmResetArm = true;
+          GeoAtlas.TelegramBridge?.hapticNotification('warning');
           btn.textContent = '⚠️ Точно сбросить всё? Нажмите ещё раз';
           setTimeout(() => {
             this._confirmResetArm = false;
@@ -71,15 +101,7 @@
         }
         this._confirmResetArm = false;
         btn.textContent = defaultLabel;
-        GeoAtlas.StorageAdapter.clearStates(GeoAtlas.LearningEngine.states);
-        if (GeoAtlas.LearningEngine.meta) {
-          GeoAtlas.LearningEngine.meta.exploredSections = {};
-          GeoAtlas.StorageAdapter.saveMeta(GeoAtlas.LearningEngine.meta);
-        }
-        this.render();
-        if (GeoAtlas.App && GeoAtlas.App.showToast) {
-          GeoAtlas.App.showToast('Весь прогресс сброшен');
-        }
+        performReset();
       };
 
       const btnHubReset = document.getElementById('btnHubResetProgress');
@@ -92,15 +114,57 @@
         meta.muted = !meta.muted;
         GeoAtlas.AudioEngine.setMuted(meta.muted);
         GeoAtlas.StorageAdapter.saveMeta(meta);
+        GeoAtlas.TelegramBridge?.hapticSelection();
         this._renderControlStates();
       });
 
+      document.getElementById('btnHapticToggle')?.addEventListener('click', () => {
+        const meta = GeoAtlas.LearningEngine.meta;
+        meta.haptics = meta.haptics === false;
+        GeoAtlas.TelegramBridge?.setHapticsEnabled(meta.haptics);
+        GeoAtlas.StorageAdapter.saveMeta(meta);
+        GeoAtlas.AudioEngine.playClick();
+        if (meta.haptics) GeoAtlas.TelegramBridge?.hapticNotification('success');
+        this._renderControlStates();
+      });
+
+      GeoAtlas.StorageAdapter?.setSyncListener?.((status) => this._renderSyncStatus(status));
+
       document.getElementById('btnStartWeak')?.addEventListener('click', () => {
+        GeoAtlas.TelegramBridge?.hapticImpact('light');
         GeoAtlas.UITrainer.start({ mode: 'weak' });
       });
 
-      document.getElementById('btnOpenAtlasGlobal')?.addEventListener('click', () => GeoAtlas.UIAtlas.open());
-      document.getElementById('btnOpenCheatsheet')?.addEventListener('click', () => GeoAtlas.UICheatsheet.open());
+      document.getElementById('btnOpenAtlasGlobal')?.addEventListener('click', () => {
+        GeoAtlas.TelegramBridge?.hapticImpact('light');
+        GeoAtlas.UIAtlas.open();
+      });
+      document.getElementById('btnOpenCheatsheet')?.addEventListener('click', () => {
+        GeoAtlas.TelegramBridge?.hapticImpact('light');
+        GeoAtlas.UICheatsheet.open();
+      });
+    },
+
+    _renderSyncStatus(status) {
+      const el = document.getElementById('storageSyncStatus');
+      if (!el) return;
+      const isTMA = GeoAtlas.TelegramBridge?.isTMA() && GeoAtlas.TelegramBridge?.getCloudStorage();
+      const userLabel = GeoAtlas.TelegramBridge?.getUserLabel();
+      const who = userLabel ? ` (${userLabel})` : '';
+      el.classList.remove('is-cloud', 'is-offline');
+      if (!isTMA) {
+        el.textContent = '💾 Прогресс сохраняется локально на этом устройстве';
+        return;
+      }
+      if (status === 'syncing') {
+        el.textContent = `⏳ Синхронизация с Telegram${who}...`;
+      } else if (status === 'offline') {
+        el.classList.add('is-offline');
+        el.textContent = `⚠️ Локально на устройстве (нет связи с облаком Telegram)`;
+      } else {
+        el.classList.add('is-cloud');
+        el.textContent = `☁️ Синхронизировано с аккаунтом Telegram${who}`;
+      }
     },
 
     _renderControlStates() {
@@ -109,7 +173,18 @@
         b.classList.toggle('is-active-emerald', b.getAttribute('data-scope') === meta.scope);
       });
       const btnMute = document.getElementById('btnMuteToggle');
-      if (btnMute) btnMute.textContent = meta.muted ? '🔇' : '🔊';
+      if (btnMute) {
+        btnMute.textContent = meta.muted ? '🔇' : '🔊';
+        btnMute.classList.toggle('is-off', Boolean(meta.muted));
+      }
+      const btnHaptic = document.getElementById('btnHapticToggle');
+      if (btnHaptic) {
+        const hapticsOn = meta.haptics !== false;
+        btnHaptic.textContent = hapticsOn ? '📳' : '📴';
+        btnHaptic.classList.toggle('is-off', !hapticsOn);
+        btnHaptic.title = hapticsOn ? 'Вибрация: ВКЛ' : 'Вибрация: ВЫКЛ';
+      }
+      this._renderSyncStatus(GeoAtlas.StorageAdapter?.getSyncStatus?.() || 'local');
 
       const overall = GeoAtlas.LearningEngine.getOverallStats(meta.scope);
       const pctEl = document.getElementById('overallPct');
@@ -215,12 +290,14 @@
       grid.onclick = (e) => {
         const modeBtn = e.target.closest('[data-start-mode]');
         if (modeBtn) {
+          GeoAtlas.TelegramBridge?.hapticImpact('light');
           const [mode, moduleId] = modeBtn.getAttribute('data-start-mode').split(':');
           GeoAtlas.UITrainer.start({ mode, moduleId });
           return;
         }
         const subBtn = e.target.closest('[data-sub-learn]');
         if (subBtn) {
+          GeoAtlas.TelegramBridge?.hapticImpact('light');
           const [moduleId, submoduleId] = subBtn.getAttribute('data-sub-learn').split(':');
           GeoAtlas.UITrainer.start({ mode: 'learn', moduleId, submoduleId });
           return;

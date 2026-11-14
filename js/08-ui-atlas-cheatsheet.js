@@ -18,6 +18,7 @@
       byId('btnExitAtlas')?.addEventListener('click', () => this.exitToHub());
       byId('btnCloseInspector')?.addEventListener('click', () => {
         this.selectedId = null;
+        GeoAtlas.TelegramBridge?.hapticSelection();
         byId('atlasInspector')?.classList.add('hidden');
         this.renderMapMarkers();
       });
@@ -64,6 +65,7 @@
       GeoAtlas.MapEngine.drawSpecialOverlays(this.filterMod === 'all' || this.filterMod === 'module1');
 
       if (GeoAtlas.TelegramBridge) {
+        GeoAtlas.TelegramBridge.hapticImpact('light');
         GeoAtlas.TelegramBridge.showBackButton(() => this.exitToHub());
       }
 
@@ -117,6 +119,7 @@
 
       GeoAtlas.MapEngine.drawAtlasItems(items, engine.meta.showLabelsInAtlas, this.selectedId, (clicked) => {
         this.selectedId = clicked.id;
+        GeoAtlas.TelegramBridge?.hapticSelection();
         this.inspectItem(clicked);
         GeoAtlas.MapEngine.fitItem(clicked, 6);
         this.renderMapMarkers();
@@ -159,6 +162,7 @@
         const btn = e.target.closest('[data-tab]');
         if (!btn) return;
         this.activeTab = btn.getAttribute('data-tab');
+        GeoAtlas.TelegramBridge?.hapticSelection();
         this.render();
       });
       document.getElementById('cheatsheetSearch')?.addEventListener('input', (e) => {
@@ -170,11 +174,20 @@
     open(defaultTab = null) {
       if (defaultTab) this.activeTab = defaultTab;
       document.getElementById('cheatsheetModal')?.classList.remove('hidden');
+      GeoAtlas.TelegramBridge?.hapticImpact('light');
+      GeoAtlas.TelegramBridge?.showBackButton(() => this.close());
       this.render();
     },
 
     close() {
       document.getElementById('cheatsheetModal')?.classList.add('hidden');
+      if (GeoAtlas.TelegramBridge) {
+        if (UIAtlas.active) {
+          GeoAtlas.TelegramBridge.showBackButton(() => UIAtlas.exitToHub());
+        } else {
+          GeoAtlas.TelegramBridge.hideBackButton();
+        }
+      }
     },
 
     render() {
@@ -261,9 +274,18 @@
     },
 
     _bindMapControls() {
-      document.getElementById('btnZoomIn')?.addEventListener('click', () => GeoAtlas.MapEngine.zoomIn());
-      document.getElementById('btnZoomOut')?.addEventListener('click', () => GeoAtlas.MapEngine.zoomOut());
-      document.getElementById('btnZoomReset')?.addEventListener('click', () => GeoAtlas.MapEngine.resetWorldView());
+      document.getElementById('btnZoomIn')?.addEventListener('click', () => {
+        GeoAtlas.TelegramBridge?.hapticSelection();
+        GeoAtlas.MapEngine.zoomIn();
+      });
+      document.getElementById('btnZoomOut')?.addEventListener('click', () => {
+        GeoAtlas.TelegramBridge?.hapticSelection();
+        GeoAtlas.MapEngine.zoomOut();
+      });
+      document.getElementById('btnZoomReset')?.addEventListener('click', () => {
+        GeoAtlas.TelegramBridge?.hapticImpact('light');
+        GeoAtlas.MapEngine.resetWorldView();
+      });
 
       const syncLayerButtons = (activeId) => {
         document.querySelectorAll('#mapLayerPills [data-layer]').forEach((b) => {
@@ -279,14 +301,23 @@
         GeoAtlas.LearningEngine.meta.layerId = layerId;
         GeoAtlas.StorageAdapter.saveMeta(GeoAtlas.LearningEngine.meta);
         GeoAtlas.MapEngine.setLayer(layerId);
+        GeoAtlas.TelegramBridge?.hapticSelection();
         syncLayerButtons(layerId);
       });
     },
 
     init() {
       GeoAtlas.TelegramBridge.init();
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') {
+          GeoAtlas.StorageAdapter.flushCloud?.();
+        }
+      });
+      global.addEventListener('pagehide', () => GeoAtlas.StorageAdapter.flushCloud?.());
+
       GeoAtlas.StorageAdapter.load(({ states, meta }) => {
         GeoAtlas.AudioEngine.init(meta.muted);
+        GeoAtlas.TelegramBridge?.setHapticsEnabled(meta.haptics !== false);
         GeoAtlas.LearningEngine.init(states, meta);
 
         GeoAtlas.MapEngine.init('mapCanvas', {

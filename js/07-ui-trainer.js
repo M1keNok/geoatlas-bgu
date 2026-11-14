@@ -135,6 +135,7 @@
 
       if (GeoAtlas.TelegramBridge) {
         GeoAtlas.TelegramBridge.showBackButton(() => this.exitToHub());
+        GeoAtlas.TelegramBridge.setClosingConfirmation(true);
       }
 
       const exploreKey = this._getExploreKey();
@@ -166,6 +167,7 @@
       GeoAtlas.MapEngine.clearTrainer();
       GeoAtlas.MapEngine.clearPool();
       GeoAtlas.MapEngine.setMapClickHandler(null);
+      GeoAtlas.StorageAdapter?.flushCloud?.();
       GeoAtlas.UIHub.show();
     },
 
@@ -216,6 +218,7 @@
           hoverLabel: true,
           onClick: (clicked) => {
             selectedId = clicked.id;
+            GeoAtlas.TelegramBridge?.hapticSelection();
             GeoAtlas.MapEngine.fitItem(clicked, 5);
             showInspectInfo(clicked);
             renderExplore();
@@ -236,6 +239,7 @@
         const found = inspectList.find((x) => x.id === btn.getAttribute('data-chip-id'));
         if (found) {
           selectedId = found.id;
+          GeoAtlas.TelegramBridge?.hapticSelection();
           GeoAtlas.MapEngine.fitItem(found, 5);
           showInspectInfo(found);
           renderExplore();
@@ -252,6 +256,7 @@
 
     _startRecallFromExplore() {
       this.inExploreStage = false;
+      GeoAtlas.TelegramBridge?.hapticImpact('light');
       this.currentIndex = typeof this._exploreReturnIndex === 'number' ? this._exploreReturnIndex : 0;
       this._exploreReturnIndex = null;
       document.getElementById('exploreBar')?.classList.add('hidden');
@@ -384,7 +389,9 @@
       this.mistakes += 1;
       this._updateMissDots(this.mistakes);
       GeoAtlas.AudioEngine.playMiss();
-      GeoAtlas.TelegramBridge?.hapticImpact('medium');
+      GeoAtlas.TelegramBridge?.[this.mistakes >= 3 ? 'hapticNotification' : 'hapticImpact'](
+        this.mistakes >= 3 ? 'error' : 'medium'
+      );
       GeoAtlas.MapEngine.drawAttemptPin(lat, lng, this.mistakes);
       GeoAtlas.MotionFX?.shake(document.querySelector('#trainerHud .hud-card'));
 
@@ -406,6 +413,7 @@
     showHint() {
       const item = this._currentItem();
       if (!item || GeoAtlas.GeoMath.isOralTheoryItem(item)) return;
+      GeoAtlas.TelegramBridge?.hapticImpact('light');
       const c = GeoAtlas.GeoMath.getItemCenter(item);
       const macroLabel = GeoAtlas.GeoMath.MACROREGION_LABELS[GeoAtlas.GeoMath.getMacroregion(item)] || item.continent || 'Регион';
       GeoAtlas.MapEngine.map?.setView([c.lat, c.lng], 3.3, { animate: true });
@@ -422,12 +430,14 @@
       this.revealed = true;
       this.awaitingNext = true;
       GeoAtlas.AudioEngine.playMiss();
+      GeoAtlas.TelegramBridge?.hapticNotification('error');
       this._showTrueObjectAndFailCard(item);
     },
 
     skipCurrent() {
       const item = this._currentItem();
       if (!item || this.inExploreStage || this.awaitingNext) return;
+      GeoAtlas.TelegramBridge?.hapticSelection();
       const skippedId = item.id;
       const savedIdx = this.currentIndex;
 
@@ -544,6 +554,7 @@
       if (card) {
         card.classList.add('is-flipped');
         GeoAtlas.AudioEngine.playFlip();
+        GeoAtlas.TelegramBridge?.hapticImpact('light');
       }
     },
 
@@ -555,6 +566,7 @@
         return;
       }
 
+      GeoAtlas.TelegramBridge?.hapticNotification(theoryRecalled ? 'success' : 'warning');
       const res = GeoAtlas.LearningEngine.recordCompositeResult(ctx.item.id, {
         mapMistakes: ctx.mapMistakes || 0,
         mapRevealed: !!ctx.mapRevealed,
@@ -583,6 +595,7 @@
       }
 
       GeoAtlas.AudioEngine.playClick();
+      GeoAtlas.TelegramBridge?.hapticSelection();
       GeoAtlas.App?.showToast('Карточка пропущена (не добавлено в ошибки)');
       this._advanceCursor();
     },
@@ -643,6 +656,8 @@
         } catch (_) {}
       }
       GeoAtlas.AudioEngine.playCelebrate();
+      GeoAtlas.TelegramBridge?.hapticNotification(this.sessionClean >= this.sessionWeak ? 'success' : 'warning');
+      GeoAtlas.StorageAdapter?.flushCloud?.();
       modal.classList.remove('hidden');
     }
   };

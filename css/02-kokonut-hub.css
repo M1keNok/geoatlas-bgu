@@ -5,7 +5,9 @@
   inset: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: calc(18px + var(--safe-top)) 20px calc(36px + var(--safe-bottom));
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: calc(18px + var(--safe-top)) calc(20px + var(--safe-right)) calc(36px + var(--safe-bottom)) calc(20px + var(--safe-left));
   background:
     radial-gradient(900px 420px at 15% -5%, rgba(16, 185, 129, 0.12), transparent 65%),
     radial-gradient(700px 380px at 88% 0%, rgba(56, 189, 248, 0.09), transparent 65%),
@@ -525,7 +527,8 @@
     flex: 1 1 auto;
     min-height: 40px;
   }
-  #btnMuteToggle {
+  #btnMuteToggle,
+  #btnHapticToggle {
     flex: 0 0 42px;
   }
   .hub-controls-card {

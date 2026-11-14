@@ -16,7 +16,10 @@
   const LEGACY_META_V9_KEY = 'geoatlas_v9_meta';
 
   const CLOUD_PREFIX = 'geo_v9_m';
-  const CLOUD_META_KEY = 'geo_v9_meta';
+  const CLOUD_META_V9_KEY = 'geo_v9_meta';
+  const CLOUD_CHUNK_PREFIX = 'geo_v10_c';
+  const CLOUD_META_KEY = 'geo_v10_meta';
+  const CLOUD_CHUNK_LIMIT = 3400;
 
   const LEGACY_CONT_ID_MAP = {
     eurasia_area: 'm1_cont_eurasia_area',
@@ -85,8 +88,10 @@
       depthPreset: 'essentials',
       layerId: 'esri_phys',
       muted: false,
+      haptics: true,
       showLabelsInAtlas: true,
       sessionStep: 0,
+      updatedAt: 0,
       exploredSections: {},
       customModules: {
         module1: { capes: true, continentsEarth: true, islands: false, peninsulas: false },
@@ -206,8 +211,10 @@
           meta.layerId = srcMeta.layerId;
         }
         if (typeof srcMeta.muted === 'boolean') meta.muted = srcMeta.muted;
+        if (typeof srcMeta.haptics === 'boolean') meta.haptics = srcMeta.haptics;
         if (typeof srcMeta.showLabelsInAtlas === 'boolean') meta.showLabelsInAtlas = srcMeta.showLabelsInAtlas;
         if (typeof srcMeta.sessionStep === 'number') meta.sessionStep = srcMeta.sessionStep;
+        if (typeof srcMeta.updatedAt === 'number') meta.updatedAt = srcMeta.updatedAt;
         if (srcMeta.exploredSections && typeof srcMeta.exploredSections === 'object') {
           Object.keys(srcMeta.exploredSections).forEach((k) => {
             if (srcMeta.exploredSections[k]) meta.exploredSections[k] = true;
@@ -224,55 +231,275 @@
       return { states, meta };
     },
 
+    _syncStatus: 'local',
+    _syncListener: null,
+    _knownCloudChunks: 0,
+    _legacyV9Keys: [],
+    _pendingStatesCompact: null,
+    _pendingMeta: null,
+    _statesTimer: null,
+    _metaTimer: null,
+
+    setSyncListener(fn) {
+      this._syncListener = typeof fn === 'function' ? fn : null;
+      if (this._syncListener) this._syncListener(this._syncStatus);
+    },
+
+    getSyncStatus() {
+      return this._syncStatus;
+    },
+
+    _notifySync(status) {
+      this._syncStatus = status;
+      if (this._syncListener) {
+        try {
+          this._syncListener(status);
+        } catch (_) {}
+      }
+    },
+
+    _packChunks(compact, maxChars = CLOUD_CHUNK_LIMIT) {
+      const chunks = [];
+      let cur = {};
+      let curCount = 0;
+      const keys = Object.keys(compact);
+      for (let i = 0; i < keys.length; i++) {
+        const k = keys[i];
+        cur[k] = compact[k];
+        curCount += 1;
+        if (JSON.stringify(cur).length > maxChars && curCount > 1) {
+          delete cur[k];
+          chunks.push(JSON.stringify(cur));
+          cur = {};
+          cur[k] = compact[k];
+          curCount = 1;
+        }
+      }
+      if (curCount > 0) chunks.push(JSON.stringify(cur));
+      return chunks;
+    },
+
+    _removeCloudKeys(cs, keys) {
+      if (!cs || !keys || !keys.length) return;
+      try {
+        if (typeof cs.removeItems === 'function') {
+          cs.removeItems(keys);
+        } else if (typeof cs.removeItem === 'function') {
+          keys.forEach((k) => cs.removeItem(k));
+        }
+      } catch (_) {}
+    },
+
+    _mergeStatesAndMeta(local, values) {
+      const cloudStates = {};
+      let hasV10 = false;
+      Object.keys(values).forEach((k) => {
+        if (!k.startsWith(CLOUD_CHUNK_PREFIX)) return;
+        hasV10 = true;
+        const parsed = this._safeParse(values[k]);
+        if (!parsed || typeof parsed !== 'object') return;
+        Object.keys(parsed).forEach((id) => {
+          const decoded = decodeState(parsed[id]);
+          if (decoded) cloudStates[id] = decoded;
+        });
+      });
+
+      if (!hasV10) {
+        for (let i = 1; i <= 4; i++) {
+          const p1 = this._safeParse(values[`${CLOUD_PREFIX}${i}`]);
+          const p2 = this._safeParse(values[`${CLOUD_PREFIX}${i}_b`]);
+          [p1, p2].forEach((chunk) => {
+            if (!chunk || typeof chunk !== 'object') return;
+            Object.keys(chunk).forEach((id) => {
+              const decoded = decodeState(chunk[id]);
+              if (decoded) cloudStates[id] = decoded;
+            });
+          });
+        }
+      }
+
+      const cloudMeta = this._safeParse(values[CLOUD_META_KEY]) || this._safeParse(values[CLOUD_META_V9_KEY]);
+      const mergedStates = Object.assign({}, local.states);
+      Object.keys(cloudStates).forEach((id) => {
+        const c = cloudStates[id];
+        const l = mergedStates[id];
+        if (!l || (c.lastReviewedAt || 0) >= (l.lastReviewedAt || 0)) {
+          mergedStates[id] = c;
+        }
+      });
+
+      const localTs = Number(local.meta.updatedAt) || 0;
+      const cloudTs = Number(cloudMeta && cloudMeta.updatedAt) || 0;
+      const preferCloud = !!(cloudMeta && (cloudTs >= localTs || localTs === 0));
+      const mergedMeta = preferCloud
+        ? Object.assign({}, local.meta, cloudMeta)
+        : Object.assign({}, cloudMeta || {}, local.meta);
+      mergedMeta.depthPreset = 'essentials';
+      mergedMeta.sessionStep = Math.max(
+        Number(local.meta.sessionStep) || 0,
+        Number(cloudMeta && cloudMeta.sessionStep) || 0
+      );
+      mergedMeta.exploredSections = Object.assign(
+        {},
+        local.meta.exploredSections || {},
+        (cloudMeta && cloudMeta.exploredSections) || {}
+      );
+
+      const compactMerged = {};
+      Object.keys(mergedStates).forEach((id) => {
+        const s = mergedStates[id];
+        if (s && s.status !== 'new') compactMerged[id] = encodeState(s);
+      });
+      this._writeLS(LS_STATES_KEY, JSON.stringify(compactMerged));
+      this._writeLS(LS_META_KEY, JSON.stringify(mergedMeta));
+      return { states: mergedStates, meta: mergedMeta };
+    },
+
     load(callback) {
       const local = this._loadLocal();
       const cs = GeoAtlas.TelegramBridge ? GeoAtlas.TelegramBridge.getCloudStorage() : null;
       if (!cs) {
+        this._notifySync('local');
         callback(local);
         return;
       }
-      const keys = [CLOUD_META_KEY];
-      for (let i = 1; i <= 4; i++) {
-        keys.push(`${CLOUD_PREFIX}${i}`, `${CLOUD_PREFIX}${i}_b`);
-      }
-      try {
-        cs.getItems(keys, (err, values) => {
-          if (err || !values) {
-            callback(local);
-            return;
-          }
-          const cloudStates = {};
-          for (let i = 1; i <= 4; i++) {
-            const p1 = this._safeParse(values[`${CLOUD_PREFIX}${i}`]);
-            const p2 = this._safeParse(values[`${CLOUD_PREFIX}${i}_b`]);
-            [p1, p2].forEach((chunk) => {
-              if (!chunk || typeof chunk !== 'object') return;
-              Object.keys(chunk).forEach((id) => {
-                const decoded = decodeState(chunk[id]);
-                if (decoded) cloudStates[id] = decoded;
-              });
-            });
-          }
-          const cloudMeta = this._safeParse(values[CLOUD_META_KEY]);
-          const mergedStates = Object.assign({}, local.states);
-          Object.keys(cloudStates).forEach((id) => {
-            const c = cloudStates[id];
-            const l = mergedStates[id];
-            if (!l || (c.lastReviewedAt || 0) >= (l.lastReviewedAt || 0)) {
-              mergedStates[id] = c;
+
+      const fetchWithKeys = (keys) => {
+        if (!keys.length) {
+          this._notifySync('synced');
+          callback(local);
+          return;
+        }
+        try {
+          cs.getItems(keys, (err, values) => {
+            if (err || !values) {
+              this._notifySync('offline');
+              callback(local);
+              return;
             }
+            const merged = this._mergeStatesAndMeta(local, values);
+            this._notifySync('synced');
+            callback(merged);
           });
-          const mergedMeta = Object.assign({}, local.meta, cloudMeta || {});
-          mergedMeta.exploredSections = Object.assign(
-            {},
-            local.meta.exploredSections || {},
-            (cloudMeta && cloudMeta.exploredSections) || {}
-          );
-          callback({ states: mergedStates, meta: mergedMeta });
-        });
+        } catch (_) {
+          this._notifySync('offline');
+          callback(local);
+        }
+      };
+
+      try {
+        if (typeof cs.getKeys === 'function') {
+          cs.getKeys((err, allKeys) => {
+            if (err || !Array.isArray(allKeys)) {
+              const fallbackKeys = [CLOUD_META_KEY, CLOUD_META_V9_KEY];
+              for (let i = 0; i < 20; i++) fallbackKeys.push(`${CLOUD_CHUNK_PREFIX}${i}`);
+              for (let i = 1; i <= 4; i++) fallbackKeys.push(`${CLOUD_PREFIX}${i}`, `${CLOUD_PREFIX}${i}_b`);
+              fetchWithKeys(fallbackKeys);
+              return;
+            }
+            const relevant = allKeys.filter(
+              (k) =>
+                k === CLOUD_META_KEY ||
+                k === CLOUD_META_V9_KEY ||
+                k.startsWith(CLOUD_CHUNK_PREFIX) ||
+                k.startsWith(CLOUD_PREFIX)
+            );
+            const v10Indices = relevant
+              .filter((k) => k.startsWith(CLOUD_CHUNK_PREFIX))
+              .map((k) => Number(k.slice(CLOUD_CHUNK_PREFIX.length)))
+              .filter((n) => Number.isFinite(n));
+            this._knownCloudChunks = v10Indices.length ? Math.max(...v10Indices) + 1 : 0;
+            this._legacyV9Keys = relevant.filter((k) => k.startsWith(CLOUD_PREFIX) || k === CLOUD_META_V9_KEY);
+            fetchWithKeys(relevant);
+          });
+        } else {
+          const fallbackKeys = [CLOUD_META_KEY, CLOUD_META_V9_KEY];
+          for (let i = 0; i < 20; i++) fallbackKeys.push(`${CLOUD_CHUNK_PREFIX}${i}`);
+          for (let i = 1; i <= 4; i++) fallbackKeys.push(`${CLOUD_PREFIX}${i}`, `${CLOUD_PREFIX}${i}_b`);
+          fetchWithKeys(fallbackKeys);
+        }
       } catch (_) {
+        this._notifySync('offline');
         callback(local);
       }
+    },
+
+    _flushCloudStates() {
+      clearTimeout(this._statesTimer);
+      this._statesTimer = null;
+      const compact = this._pendingStatesCompact;
+      this._pendingStatesCompact = null;
+      if (!compact) return;
+      const cs = GeoAtlas.TelegramBridge ? GeoAtlas.TelegramBridge.getCloudStorage() : null;
+      if (!cs) return;
+
+      const chunks = this._packChunks(compact, CLOUD_CHUNK_LIMIT);
+      const stale = [];
+      for (let j = chunks.length; j < this._knownCloudChunks; j++) {
+        stale.push(`${CLOUD_CHUNK_PREFIX}${j}`);
+      }
+      if (this._legacyV9Keys.length) {
+        stale.push(...this._legacyV9Keys);
+        this._legacyV9Keys = [];
+      }
+
+      let pending = chunks.length + (stale.length ? 1 : 0);
+      let hadError = false;
+      if (pending === 0) {
+        this._notifySync('synced');
+        return;
+      }
+      const doneOne = (err) => {
+        if (err) hadError = true;
+        pending -= 1;
+        if (pending <= 0) {
+          this._knownCloudChunks = chunks.length;
+          this._notifySync(hadError ? 'offline' : 'synced');
+        }
+      };
+
+      chunks.forEach((str, idx) => {
+        try {
+          cs.setItem(`${CLOUD_CHUNK_PREFIX}${idx}`, str, (err) => doneOne(err));
+        } catch (_) {
+          doneOne(true);
+        }
+      });
+      if (stale.length) {
+        try {
+          if (typeof cs.removeItems === 'function') {
+            cs.removeItems(stale, (err) => doneOne(err));
+          } else {
+            this._removeCloudKeys(cs, stale);
+            doneOne(null);
+          }
+        } catch (_) {
+          doneOne(true);
+        }
+      }
+    },
+
+    _flushCloudMeta() {
+      clearTimeout(this._metaTimer);
+      this._metaTimer = null;
+      const meta = this._pendingMeta;
+      this._pendingMeta = null;
+      if (!meta) return;
+      const cs = GeoAtlas.TelegramBridge ? GeoAtlas.TelegramBridge.getCloudStorage() : null;
+      if (!cs) return;
+      try {
+        cs.setItem(CLOUD_META_KEY, JSON.stringify(meta), (err) => {
+          if (err) this._notifySync('offline');
+          else if (!this._statesTimer && !this._pendingStatesCompact) this._notifySync('synced');
+        });
+      } catch (_) {
+        this._notifySync('offline');
+      }
+    },
+
+    flushCloud() {
+      this._flushCloudStates();
+      this._flushCloudMeta();
     },
 
     saveStates(states) {
@@ -287,37 +514,22 @@
       const cs = GeoAtlas.TelegramBridge ? GeoAtlas.TelegramBridge.getCloudStorage() : null;
       if (!cs) return;
 
-      const byMod = { 1: {}, 2: {}, 3: {}, 4: {} };
-      Object.keys(compact).forEach((id) => {
-        const m = id.startsWith('m2_') ? 2 : id.startsWith('m3_') ? 3 : id.startsWith('m4_') ? 4 : 1;
-        byMod[m][id] = compact[id];
-      });
-      [1, 2, 3, 4].forEach((m) => {
-        const entries = Object.entries(byMod[m]);
-        const fullStr = JSON.stringify(byMod[m]);
-        const keyA = `${CLOUD_PREFIX}${m}`;
-        const keyB = `${CLOUD_PREFIX}${m}_b`;
-        try {
-          if (fullStr.length <= 3800) {
-            cs.setItem(keyA, fullStr);
-            cs.removeItem(keyB);
-          } else {
-            const half = Math.ceil(entries.length / 2);
-            cs.setItem(keyA, JSON.stringify(Object.fromEntries(entries.slice(0, half))));
-            cs.setItem(keyB, JSON.stringify(Object.fromEntries(entries.slice(half))));
-          }
-        } catch (_) {}
-      });
+      this._pendingStatesCompact = compact;
+      this._notifySync('syncing');
+      clearTimeout(this._statesTimer);
+      this._statesTimer = setTimeout(() => this._flushCloudStates(), 260);
     },
 
     saveMeta(meta) {
+      if (meta && typeof meta === 'object') {
+        meta.updatedAt = Date.now();
+      }
       this._writeLS(LS_META_KEY, JSON.stringify(meta));
       const cs = GeoAtlas.TelegramBridge ? GeoAtlas.TelegramBridge.getCloudStorage() : null;
-      if (cs) {
-        try {
-          cs.setItem(CLOUD_META_KEY, JSON.stringify(meta));
-        } catch (_) {}
-      }
+      if (!cs) return;
+      this._pendingMeta = meta;
+      clearTimeout(this._metaTimer);
+      this._metaTimer = setTimeout(() => this._flushCloudMeta(), 260);
     },
 
     clearStates(states, moduleId) {
@@ -332,6 +544,7 @@
         });
       }
       this.saveStates(states);
+      this.flushCloud();
     }
   };
 

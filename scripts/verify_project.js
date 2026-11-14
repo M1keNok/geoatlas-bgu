@@ -314,6 +314,74 @@ function run() {
   assert.strictEqual(rFail.state.weakSpot, 'both');
   assert(LearningEngine.getWeakSpotsItems().length >= 2, 'Weak spots queue populated');
 
+  // 6. Telegram Mini App CloudStorage Dynamic Chunking & Haptics Integration
+  const mockCloud = {};
+  const hapticCalls = [];
+  global.Telegram = {
+    WebApp: {
+      initData: 'query_id=test',
+      platform: 'ios',
+      version: '8.0',
+      isVersionAtLeast: () => true,
+      ready: () => {},
+      expand: () => {},
+      disableVerticalSwipes: () => {},
+      enableClosingConfirmation: () => {},
+      disableClosingConfirmation: () => {},
+      setHeaderColor: () => {},
+      setBackgroundColor: () => {},
+      setBottomBarColor: () => {},
+      onEvent: () => {},
+      BackButton: { onClick: () => {}, show: () => {}, hide: () => {} },
+      HapticFeedback: {
+        impactOccurred: (s) => hapticCalls.push(['impact', s]),
+        notificationOccurred: (t) => hapticCalls.push(['notification', t]),
+        selectionChanged: () => hapticCalls.push(['selection'])
+      },
+      CloudStorage: {
+        getKeys: (cb) => cb(null, Object.keys(mockCloud)),
+        getItems: (keys, cb) => {
+          const out = {};
+          keys.forEach((k) => { if (k in mockCloud) out[k] = mockCloud[k]; });
+          cb(null, out);
+        },
+        setItem: (k, v, cb) => {
+          assert(String(v).length <= 4096, `CloudStorage value for ${k} exceeds 4096 chars (${String(v).length})`);
+          mockCloud[k] = String(v);
+          if (cb) cb(null, true);
+        },
+        removeItem: (k, cb) => { delete mockCloud[k]; if (cb) cb(null, true); },
+        removeItems: (ks, cb) => { ks.forEach((k) => delete mockCloud[k]); if (cb) cb(null, true); }
+      }
+    }
+  };
+  eval(read('js/01-motion-audio.js'));
+  global.GeoAtlas.TelegramBridge.init();
+  global.GeoAtlas.TelegramBridge.hapticNotification('success');
+  global.GeoAtlas.TelegramBridge.hapticImpact('medium');
+  global.GeoAtlas.TelegramBridge.hapticSelection();
+  assert.strictEqual(hapticCalls.length, 3, 'All 3 Telegram HapticFeedback methods invoked');
+  global.GeoAtlas.TelegramBridge.setHapticsEnabled(false);
+  global.GeoAtlas.TelegramBridge.hapticImpact('light');
+  assert.strictEqual(hapticCalls.length, 3, 'Haptic mute flag disables vibrations');
+  global.GeoAtlas.TelegramBridge.setHapticsEnabled(true);
+
+  const bigStates = {};
+  allItems.slice(0, 420).forEach((it, idx) => {
+    bigStates[it.id] = { status: idx % 2 === 0 ? 'mastered' : 'learning', reps: idx % 2 === 0 ? 2 : 1, lapses: 0, dueStep: idx + 10, lastReviewedAt: 1794670000000 + idx * 60000, weakSpot: null };
+  });
+  StorageAdapter.saveStates(bigStates);
+  StorageAdapter.flushCloud();
+  const v10Keys = Object.keys(mockCloud).filter((k) => k.startsWith('geo_v10_c'));
+  assert(v10Keys.length >= 3, `Expected multi-chunk CloudStorage split for 420 items, got ${v10Keys.length}`);
+  Object.keys(mockStore).forEach((k) => delete mockStore[k]);
+  let cloudRestored = null;
+  StorageAdapter.load((d) => { cloudRestored = d; });
+  assert(cloudRestored && Object.keys(cloudRestored.states).length === 420, `CloudStorage restored all 420 states without localStorage (got ${cloudRestored && Object.keys(cloudRestored.states).length})`);
+  StorageAdapter.clearStates(bigStates);
+  assert.strictEqual(Object.keys(mockCloud).filter((k) => k.startsWith('geo_v10_c')).length, 0, 'clearStates wipes all CloudStorage chunks');
+  console.log(`[PASS] Telegram Mini App CloudStorage chunking (${v10Keys.length} chunks, 420 states) & Haptics`);
+
   // Check .app bundle sync if folder exists
   const appWww = path.join(ROOT, 'ГеоАтлас.app/Contents/Resources/www');
   if (fs.existsSync(appWww)) {

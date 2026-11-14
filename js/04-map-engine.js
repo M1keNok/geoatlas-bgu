@@ -80,7 +80,10 @@
         worldCopyJump: true,
         zoomControl: false,
         attributionControl: false,
-        preferCanvas: true
+        preferCanvas: true,
+        tap: true,
+        tapTolerance: 18,
+        bounceAtZoomLimits: false
       });
 
       this.canvasRenderer = L.canvas({ padding: 0.45 });

@@ -29,8 +29,11 @@
   --shadow-card: 0 12px 32px rgba(0, 0, 0, 0.45);
   --shadow-glow: 0 0 0 1px rgba(16, 185, 129, 0.28), 0 10px 28px rgba(16, 185, 129, 0.14);
 
-  --safe-top: env(safe-area-inset-top, 0px);
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top: max(env(safe-area-inset-top, 0px), calc(var(--tg-safe-area-inset-top, 0px) + var(--tg-content-safe-area-inset-top, 0px)));
+  --safe-bottom: max(env(safe-area-inset-bottom, 0px), calc(var(--tg-safe-area-inset-bottom, 0px) + var(--tg-content-safe-area-inset-bottom, 0px)));
+  --safe-left: max(env(safe-area-inset-left, 0px), calc(var(--tg-safe-area-inset-left, 0px) + var(--tg-content-safe-area-inset-left, 0px)));
+  --safe-right: max(env(safe-area-inset-right, 0px), calc(var(--tg-safe-area-inset-right, 0px) + var(--tg-content-safe-area-inset-right, 0px)));
+  --app-height: var(--tg-viewport-stable-height, 100dvh);
 }
 
 *, *::before, *::after {
@@ -42,7 +45,7 @@
 html, body {
   width: 100%;
   height: 100%;
-  height: 100dvh;
+  height: var(--app-height, 100dvh);
   background: var(--bg-app);
   color: var(--text-main);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -50,6 +53,8 @@ html, body {
   line-height: 1.45;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  overscroll-behavior: none;
   overflow: hidden;
   user-select: none;
 }
@@ -62,6 +67,11 @@ html, body {
 button, input, select {
   font: inherit;
   color: inherit;
+}
+
+input, select, textarea {
+  user-select: text;
+  -webkit-user-select: text;
 }
 
 button {
@@ -213,4 +223,24 @@ button:focus-visible, input:focus-visible {
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.26);
+}
+
+.btn-ghost.is-off {
+  opacity: 0.5;
+}
+
+.sync-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+.sync-status.is-cloud {
+  color: #34d399;
+}
+
+.sync-status.is-offline {
+  color: #fbbf24;
 }

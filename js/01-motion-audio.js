@@ -168,6 +168,7 @@
   const TelegramBridge = {
     _backCb: null,
     _initialized: false,
+    _hapticsEnabled: true,
 
     getWebApp() {
       return global.Telegram && global.Telegram.WebApp ? global.Telegram.WebApp : null;
@@ -176,6 +177,32 @@
     isTMA() {
       const wa = this.getWebApp();
       return !!(wa && (wa.initData || (wa.platform && wa.platform !== 'unknown')));
+    },
+
+    _hasVersion(ver) {
+      const wa = this.getWebApp();
+      if (!wa) return false;
+      return typeof wa.isVersionAtLeast === 'function' ? wa.isVersionAtLeast(ver) : true;
+    },
+
+    _syncViewportCSS() {
+      const wa = this.getWebApp();
+      const doc = global.document;
+      if (!wa || !doc || !doc.documentElement) return;
+      const root = doc.documentElement.style;
+      if (typeof wa.viewportStableHeight === 'number' && wa.viewportStableHeight > 0) {
+        root.setProperty('--tg-viewport-stable-height', `${wa.viewportStableHeight}px`);
+      }
+      const applyInset = (prefix, obj) => {
+        if (!obj || typeof obj !== 'object') return;
+        ['top', 'bottom', 'left', 'right'].forEach((side) => {
+          if (typeof obj[side] === 'number') {
+            root.setProperty(`--${prefix}-${side}`, `${obj[side]}px`);
+          }
+        });
+      };
+      applyInset('tg-safe-area-inset', wa.safeAreaInset);
+      applyInset('tg-content-safe-area-inset', wa.contentSafeAreaInset);
     },
 
     init() {
@@ -195,8 +222,27 @@
         if (typeof wa.setBackgroundColor === 'function') {
           wa.setBackgroundColor('#09090b');
         }
+        if (typeof wa.setBottomBarColor === 'function') {
+          wa.setBottomBarColor('#09090b');
+        }
+        this._syncViewportCSS();
+        if (typeof wa.onEvent === 'function') {
+          const onResize = () => {
+            this._syncViewportCSS();
+            GeoAtlas.MapEngine?.invalidateSize();
+          };
+          wa.onEvent('viewportChanged', onResize);
+          wa.onEvent('safeAreaChanged', onResize);
+          wa.onEvent('contentSafeAreaChanged', onResize);
+          wa.onEvent('deactivated', () => {
+            GeoAtlas.StorageAdapter?.flushCloud?.();
+          });
+        }
         if (this.isTMA() && global.document && global.document.body) {
           global.document.body.classList.add('is-tma');
+          if (wa.platform) {
+            global.document.body.classList.add(`tma-${wa.platform}`);
+          }
         }
         if (wa.BackButton && typeof wa.BackButton.onClick === 'function') {
           wa.BackButton.onClick(() => {
@@ -206,10 +252,26 @@
       } catch (_) {}
     },
 
+    setHapticsEnabled(enabled) {
+      this._hapticsEnabled = enabled !== false;
+    },
+
+    setClosingConfirmation(enabled) {
+      const wa = this.getWebApp();
+      if (!wa || !this.isTMA() || !this._hasVersion('6.2')) return;
+      try {
+        if (enabled && typeof wa.enableClosingConfirmation === 'function') {
+          wa.enableClosingConfirmation();
+        } else if (!enabled && typeof wa.disableClosingConfirmation === 'function') {
+          wa.disableClosingConfirmation();
+        }
+      } catch (_) {}
+    },
+
     showBackButton(cb) {
       this._backCb = cb;
       const wa = this.getWebApp();
-      if (wa && wa.BackButton) {
+      if (wa && wa.BackButton && this._hasVersion('6.1')) {
         try {
           wa.BackButton.show();
         } catch (_) {}
@@ -219,34 +281,79 @@
     hideBackButton() {
       this._backCb = null;
       const wa = this.getWebApp();
-      if (wa && wa.BackButton) {
+      if (wa && wa.BackButton && this._hasVersion('6.1')) {
         try {
           wa.BackButton.hide();
         } catch (_) {}
       }
     },
 
-    hapticImpact(style = 'light') {
+    confirm(message, cb) {
       const wa = this.getWebApp();
-      if (wa && wa.HapticFeedback) {
+      if (wa && this.isTMA() && typeof wa.showConfirm === 'function' && this._hasVersion('6.2')) {
         try {
-          wa.HapticFeedback.impactOccurred(style);
+          wa.showConfirm(message, (ok) => cb(!!ok));
+          return true;
         } catch (_) {}
       }
+      return false;
+    },
+
+    getUserLabel() {
+      const wa = this.getWebApp();
+      const user = wa && wa.initDataUnsafe && wa.initDataUnsafe.user;
+      if (!user) return null;
+      if (user.username) return `@${user.username}`;
+      return [user.first_name, user.last_name].filter(Boolean).join(' ') || null;
+    },
+
+    _vibrateFallback(pattern) {
+      try {
+        if (global.navigator && typeof global.navigator.vibrate === 'function') {
+          global.navigator.vibrate(pattern);
+        }
+      } catch (_) {}
+    },
+
+    hapticImpact(style = 'light') {
+      if (!this._hapticsEnabled) return;
+      const wa = this.getWebApp();
+      if (wa && wa.HapticFeedback && this._hasVersion('6.1')) {
+        try {
+          wa.HapticFeedback.impactOccurred(style);
+          return;
+        } catch (_) {}
+      }
+      this._vibrateFallback(style === 'heavy' ? 26 : style === 'medium' ? 15 : 8);
     },
 
     hapticNotification(type = 'success') {
+      if (!this._hapticsEnabled) return;
       const wa = this.getWebApp();
-      if (wa && wa.HapticFeedback) {
+      if (wa && wa.HapticFeedback && this._hasVersion('6.1')) {
         try {
           wa.HapticFeedback.notificationOccurred(type);
+          return;
         } catch (_) {}
       }
+      this._vibrateFallback(type === 'error' ? [24, 35, 24] : type === 'warning' ? [16, 25, 16] : [10, 22, 14]);
+    },
+
+    hapticSelection() {
+      if (!this._hapticsEnabled) return;
+      const wa = this.getWebApp();
+      if (wa && wa.HapticFeedback && this._hasVersion('6.1')) {
+        try {
+          wa.HapticFeedback.selectionChanged();
+          return;
+        } catch (_) {}
+      }
+      this._vibrateFallback(6);
     },
 
     getCloudStorage() {
       const wa = this.getWebApp();
-      if (wa && wa.CloudStorage && this.isTMA()) {
+      if (wa && wa.CloudStorage && this.isTMA() && this._hasVersion('6.9')) {
         return wa.CloudStorage;
       }
       return null;
