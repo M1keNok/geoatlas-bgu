@@ -258,7 +258,7 @@
     },
 
     filterItems({ moduleId = null, submoduleId = null, scope = null, mapOnly = false, theoryOnly = false } = {}) {
-      const activeScope = scope || (this.meta && this.meta.scope) || 'landmarks';
+      const activeScope = scope || (this.meta && this.meta.scope) || 'full';
       return this.allItems.filter((it) => {
         if (moduleId && it.moduleId !== moduleId) return false;
         if (submoduleId && it.submoduleId !== submoduleId) return false;
@@ -314,7 +314,7 @@
     },
 
     buildSessionQueue({ mode = 'learn', moduleId = null, submoduleId = null, limit = null } = {}) {
-      const scope = (this.meta && this.meta.scope) || 'landmarks';
+      const scope = (this.meta && this.meta.scope) || 'full';
 
       if (mode === 'theory') {
         const theory = this.getModuleTheoryItems(moduleId, scope);

@@ -81,7 +81,7 @@
 
   function defaultMeta() {
     return {
-      scope: 'landmarks',
+      scope: 'full',
       depthPreset: 'essentials',
       layerId: 'esri_phys',
       muted: false,

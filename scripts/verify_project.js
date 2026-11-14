@@ -72,6 +72,8 @@ function run() {
   assert(!html.includes('quizBar'), 'Quiz mode removed from index.html');
   assert(!html.includes('oralTheoryBanner'), 'Global oralTheoryBanner removed');
   assert(html.includes('<option value="module1" selected>'), 'Atlas defaults to module1');
+  assert(html.includes('Полная программа') && html.includes('Базовый минимум'), 'Two scope names present');
+  assert(html.includes('btnHubResetProgress'), 'Bottom reset progress button present');
 
   const htmlIds = new Set(Array.from(html.matchAll(/\bid="([^"]+)"/g)).map((m) => m[1]));
   const uiCode = ['js/06-ui-hub.js', 'js/07-ui-trainer.js', 'js/08-ui-atlas-cheatsheet.js'].map(read).join('\n');
@@ -165,6 +167,7 @@ function run() {
   assert(loadedData && loadedData.states.m1_cont_eurasia_area, 'Migrated eurasia_area -> m1_cont_eurasia_area');
   assert(loadedData.states.m1_bermuda_triangle, 'Migrated bermuda_triangle_quiz -> m1_bermuda_triangle');
 
+  assert.strictEqual(StorageAdapter.defaultMeta().scope, 'full', 'Default scope must be full');
   LearningEngine.init({}, StorageAdapter.defaultMeta());
 
   // Verify oral theory cards ONLY on non-map items (M1=22 theory cards, M3=5 whole oceans; 12 peaks/depressions are on M1 map!)

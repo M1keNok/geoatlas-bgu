@@ -39,8 +39,8 @@
           <div class="control-row">
             <span class="control-label">Объём</span>
             <div class="seg-group" id="scopeSelector">
-              <button class="seg-btn" data-scope="landmarks" type="button">⭐ Главные ориентиры</button>
               <button class="seg-btn" data-scope="full" type="button">🎓 Полная программа</button>
+              <button class="seg-btn" data-scope="landmarks" type="button">⭐ Базовый минимум</button>
             </div>
           </div>
           <div class="control-row">
@@ -80,6 +80,11 @@
 
       <!-- Map Nomenclature + Per-Module Oral Theory Bento Grid -->
       <section id="bentoModulesGrid" class="bento-grid"></section>
+
+      <footer class="hub-footer">
+        <span class="hub-subtitle">Прогресс сохраняется автоматически на этом устройстве</span>
+        <button id="btnHubResetProgress" class="btn btn-danger btn-sm" type="button">🗑 Сбросить прогресс</button>
+      </footer>
     </div>
   </main>
 
@@ -284,7 +289,7 @@
           <div class="weak-banner-info">
             <span style="font-size: 20px;">🎓</span>
             <div>
-              <div class="weak-banner-title">Главные ориентиры закрыты!</div>
+              <div class="weak-banner-title">Базовый минимум закрыт!</div>
               <div class="weak-banner-sub">Можно переключиться на «Полную программу», чтобы доучить мелкие объекты.</div>
             </div>
           </div>

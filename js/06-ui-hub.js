@@ -114,27 +114,34 @@
       document.getElementById('btnClosePresetModal')?.addEventListener('click', () => this.closePresetModal());
       document.getElementById('btnSavePresetModal')?.addEventListener('click', () => this.closePresetModal());
 
+      const handleResetClick = (btn, defaultLabel) => {
+        if (!this._confirmResetArm) {
+          this._confirmResetArm = true;
+          btn.textContent = '⚠️ Точно сбросить всё? Нажмите ещё раз';
+          setTimeout(() => {
+            this._confirmResetArm = false;
+            if (btn) btn.textContent = defaultLabel;
+          }, 4000);
+          return;
+        }
+        this._confirmResetArm = false;
+        btn.textContent = defaultLabel;
+        GeoAtlas.StorageAdapter.clearStates(GeoAtlas.LearningEngine.states);
+        this.closePresetModal();
+        this.render();
+        if (GeoAtlas.App && GeoAtlas.App.showToast) {
+          GeoAtlas.App.showToast('Весь прогресс сброшен');
+        }
+      };
+
       const btnReset = document.getElementById('btnResetProgressPrompt');
       if (btnReset) {
-        btnReset.addEventListener('click', () => {
-          if (!this._confirmResetArm) {
-            this._confirmResetArm = true;
-            btnReset.textContent = '⚠️ Точно сбросить всё? Нажмите ещё раз';
-            setTimeout(() => {
-              this._confirmResetArm = false;
-              if (btnReset) btnReset.textContent = '🗑 Сбросить весь прогресс';
-            }, 4000);
-            return;
-          }
-          this._confirmResetArm = false;
-          btnReset.textContent = '🗑 Сбросить весь прогресс';
-          GeoAtlas.StorageAdapter.clearStates(GeoAtlas.LearningEngine.states);
-          this.closePresetModal();
-          this.render();
-          if (GeoAtlas.App && GeoAtlas.App.showToast) {
-            GeoAtlas.App.showToast('Весь прогресс сброшен');
-          }
-        });
+        btnReset.addEventListener('click', () => handleResetClick(btnReset, '🗑 Сбросить весь прогресс'));
+      }
+
+      const btnHubReset = document.getElementById('btnHubResetProgress');
+      if (btnHubReset) {
+        btnHubReset.addEventListener('click', () => handleResetClick(btnHubReset, '🗑 Сбросить прогресс'));
       }
 
       document.getElementById('btnMuteToggle')?.addEventListener('click', () => {
@@ -178,7 +185,7 @@
       if (weakHintEl) {
         weakHintEl.textContent =
           meta.scope === 'landmarks'
-            ? 'Показывается прогресс по ключевым ориентирам'
+            ? 'Показывается прогресс по базовому минимуму'
             : 'Показывается прогресс по полной программе ОЗ';
       }
 
