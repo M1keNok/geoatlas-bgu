@@ -9,7 +9,7 @@
   const UIAtlas = {
     active: false,
     selectedId: null,
-    filterMod: 'all',
+    filterMod: 'module1',
     searchQuery: '',
 
     init() {
@@ -70,7 +70,7 @@
       if (focusItemId) {
         const item = GeoAtlas.LearningEngine.itemById.get(focusItemId);
         if (item) {
-          this.filterMod = item.moduleId || 'all';
+          this.filterMod = item.moduleId || 'module1';
           const sel = document.getElementById('atlasModuleFilter');
           if (sel) sel.value = this.filterMod;
           this.selectedId = item.id;
@@ -81,6 +81,8 @@
         }
       }
 
+      const sel = document.getElementById('atlasModuleFilter');
+      if (sel) sel.value = this.filterMod;
       this.renderMapMarkers();
       GeoAtlas.MapEngine.resetWorldView();
     },

@@ -54,31 +54,22 @@
 
   function isModuleOralCardCandidate(item) {
     if (!item) return false;
-    const mod = item.moduleId;
-    if (mod === 'module1') return item.submoduleId === 'm1_continents_earth';
-    if (mod === 'module2') {
-      return (
-        item.category === 'mountains' ||
-        item.category === 'volcanoes' ||
-        item.submoduleId === 'm2_depressions'
-      );
+    if (item.moduleId === 'module1') {
+      return item.submoduleId === 'm1_continents_earth';
     }
-    if (mod === 'module3') {
-      return (
-        item.category === 'seas' ||
-        item.category === 'straits' ||
-        item.category === 'currents' ||
-        item.category === 'trenches'
-      );
-    }
-    if (mod === 'module4') {
-      return (
-        item.category === 'rivers' ||
-        item.category === 'lakes' ||
-        item.category === 'waterfalls'
-      );
+    if (item.moduleId === 'module3') {
+      return Boolean(item.id && /^m3_sea_[a-z_]+_ocean$/.test(item.id));
     }
     return false;
+  }
+
+  function extractCapePrompt(item) {
+    const desc = String(item.locationDesc || '');
+    const idx = desc.indexOf(':');
+    if (idx > 0) {
+      return desc.slice(0, idx).trim();
+    }
+    return `Крайняя точка (${item.region || item.continent || ''})`;
   }
 
   const QuizConfig = {
@@ -145,11 +136,25 @@
       const card = item.ankiCard || {};
       const facts = [];
 
-      const prompt = card.frontQuestion || item.mapPrompt || 'Вспомните ключевые характеристики объекта';
-      const answer =
+      let prompt = card.frontQuestion || item.mapPrompt || 'Вспомните ключевые характеристики объекта';
+      let answer =
         card.backMainAnswer ||
         [item.region || item.continent, item.locationDesc].filter(Boolean).join(' · ') ||
         '';
+
+      if ((item.category === 'extreme_point' || item.category === 'capes') && !forceTheory) {
+        const clue = extractCapePrompt(item);
+        prompt = `${clue} — как называется этот мыс?`;
+        answer = item.shortName || item.name;
+        if (item.locationDesc) facts.push({ label: 'Справка', val: item.locationDesc });
+        return {
+          requiresFlipCard: true,
+          badge,
+          prompt,
+          answer,
+          facts
+        };
+      }
 
       if (Array.isArray(card.backMetrics)) {
         card.backMetrics.forEach((m) => {
@@ -422,4 +427,5 @@
 
   GeoAtlas.QuizConfig = QuizConfig;
   GeoAtlas.LearningEngine = LearningEngine;
+  GeoAtlas.extractCapePrompt = extractCapePrompt;
 })(window);

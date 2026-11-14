@@ -67,8 +67,11 @@ function run() {
   });
   const brandingCheck = [html, read('README.md'), read('ИНСТРУКЦИЯ.txt'), ...jsFiles.map(read)].join('\n');
   assert(!brandingCheck.includes('БГУ'), 'All mentions of БГУ must be removed');
-  assert(html.includes('Тренажёр ОЗ'), 'Site renamed to Тренажёр ОЗ');
-  assert(!html.includes('oralTheoryBanner'), 'Global oralTheoryBanner removed in favor of per-module theory cards');
+  assert(html.includes('Номенклатура ОЗ'), 'Site renamed to Номенклатура ОЗ');
+  assert(!html.includes('Тренажёр') && !html.includes('Тренажер'), 'Word тренажёр removed from index.html');
+  assert(!html.includes('quizBar'), 'Quiz mode removed from index.html');
+  assert(!html.includes('oralTheoryBanner'), 'Global oralTheoryBanner removed');
+  assert(html.includes('<option value="module1" selected>'), 'Atlas defaults to module1');
 
   const htmlIds = new Set(Array.from(html.matchAll(/\bid="([^"]+)"/g)).map((m) => m[1]));
   const uiCode = ['js/06-ui-hub.js', 'js/07-ui-trainer.js', 'js/08-ui-atlas-cheatsheet.js'].map(read).join('\n');
@@ -141,7 +144,16 @@ function run() {
   const ordered = GeoMath.sortItemsBasicToNiche(reg.module1.items.filter((i) => !GeoMath.isOralTheoryItem(i)));
   const firstNonCore = ordered.findIndex((x) => !x.isCoreLandmark);
   assert(firstNonCore > 0, 'Basic core landmarks ordered before niche objects');
-  console.log('[PASS] Spatial hitboxes (incl. Hindustan edge), bounds, antimeridian, compass & basic->niche ordering');
+
+  // Antimeridian wrapping verification (Chukotka bounds, Aleutian trench polyline)
+  const chukotka = reg.module1.items.find((i) => i.id === 'm1_pen_54');
+  const chukBounds = GeoMath.normalizeBounds(chukotka.bounds);
+  assert(chukBounds[1][1] - chukBounds[0][1] < 40, 'Chukotka antimeridian bounds must wrap eastward (<40 deg), not across globe');
+  const aleutTr = reg.module3.items.find((i) => i.id === 'm3_tr_aleutian_trench');
+  const unwrappedTr = GeoMath.unwrapAntimeridianCoords(aleutTr.coords);
+  const trLngs = unwrappedTr.map((c) => c[1]);
+  assert(Math.max(...trLngs) - Math.min(...trLngs) < 60, 'Aleutian trench antimeridian polyline unwrapped (<60 deg span)');
+  console.log('[PASS] Spatial hitboxes, antimeridian unwrapping, bounds, compass & basic->niche ordering');
 
   // 5. AutoCompositeSRS, m2_depressions Fix & Storage Legacy Migration
   mockStore['geoatlas_cont_anki_states'] = JSON.stringify({
@@ -155,15 +167,18 @@ function run() {
 
   LearningEngine.init({}, StorageAdapter.defaultMeta());
 
-  // Verify all 4 modules have per-module oral theory items and QuizConfig extracts rich ankiCard
-  ['module1', 'module2', 'module3', 'module4'].forEach((m) => {
-    const tItems = LearningEngine.getModuleTheoryItems(m, 'full');
-    assert(tItems.length > 0, `${m} must have oral theory items`);
-    const q = LearningEngine.buildSessionQueue({ mode: 'theory', moduleId: m });
-    assert(q.length > 0, `${m} theory queue populated`);
-    const spec = QuizConfig.buildCardSpec(q[0], 'map_only', LearningEngine.meta.customModules, { forceTheory: true });
-    assert(spec.requiresFlipCard && spec.answer.length > 0, `${m} forced theory card builds answer`);
-  });
+  // Verify oral theory cards ONLY on modules with non-map items (M1 continents/Earth, M3 whole oceans)
+  assert(LearningEngine.getModuleTheoryItems('module1', 'full').length === 34, 'M1 oral theory has 34 continent/Earth cards');
+  assert(LearningEngine.getModuleTheoryItems('module3', 'full').length === 5, 'M3 oral theory has 5 whole oceans');
+  assert(LearningEngine.getModuleTheoryItems('module2', 'full').length === 0, 'M2 has no standalone non-map card deck');
+  assert(LearningEngine.getModuleTheoryItems('module4', 'full').length === 0, 'M4 has no standalone non-map card deck');
+
+  // Verify blind cape prompt does not leak cape name and card reveals it
+  const capeWest = reg.module1.items.find((i) => i.id === 'm1_cape_africa_west');
+  const capePrompt = global.GeoAtlas.extractCapePrompt(capeWest);
+  assert(!capePrompt.toLowerCase().includes('альмади'), 'Blind cape map prompt must not spoil Альмади');
+  const capeSpec = QuizConfig.buildCardSpec(capeWest, 'essentials', LearningEngine.meta.customModules);
+  assert(capeSpec.requiresFlipCard && capeSpec.answer.includes('Альмади'), 'Cape flip card reveals Альмади');
 
   // Verify all 16 m2_depressions produce flip cards in essentials mode
   const m2Deps = reg.module2.items.filter((i) => i.submoduleId === 'm2_depressions');

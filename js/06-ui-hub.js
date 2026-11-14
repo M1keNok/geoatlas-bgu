@@ -50,10 +50,8 @@
   ];
 
   const MODULE_THEORY_DESCS = {
-    module1: 'Материки (площади, высоты, рекорды), Земля, Океания, пустыни',
-    module2: '6 эпох складчатости гор, пояса вулканов и отметки впадин',
-    module3: '5 океанов, типы морей, связи проливов, течения, глубины жёлобов',
-    module4: 'Бассейны и притоки рек, генезис котловин озёр, водопады'
+    module1: 'Площади и высоты материков, цифры Земли, Океания, типы пустынь',
+    module3: '5 океанов мира (площади, границы и характеристики)'
   };
 
   const UIHub = {
@@ -248,9 +246,7 @@
             </div>
           </div>
           <div class="module-actions">
-            <button class="btn btn-primary btn-shine" data-start-mode="learn:${mod.id}" type="button">🎓 Учить карту</button>
-            <button class="btn" data-start-mode="exam:${mod.id}" type="button">🎯 Экзамен</button>
-            <button class="btn" data-start-mode="quiz:${mod.id}" type="button">⚡ Квиз</button>
+            <button class="btn btn-primary btn-shine" data-start-mode="learn:${mod.id}" type="button">🗺️ Учить по карте</button>
           </div>
           ${
             theoryStats.total > 0

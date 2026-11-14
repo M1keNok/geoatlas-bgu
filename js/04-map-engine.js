@@ -214,12 +214,7 @@
     },
 
     _unwrapAntimeridian(coords) {
-      if (!Array.isArray(coords) || coords.length === 0) return [];
-      const lngs = coords.map((c) => Number(c[1]) || 0);
-      const minL = Math.min(...lngs);
-      const maxL = Math.max(...lngs);
-      if (maxL - minL <= 180) return coords;
-      return coords.map((c) => [c[0], c[1] < 0 ? c[1] + 360 : c[1]]);
+      return GeoAtlas.GeoMath.unwrapAntimeridianCoords(coords);
     },
 
     fitPolylineSmart(coords, maxZoom = 6) {
@@ -346,7 +341,8 @@
       }
 
       if (item.geometryType === 'polyline' && Array.isArray(item.coords) && item.coords.length >= 2) {
-        const lineLayer = L.polyline(item.coords, {
+        const lineCoords = GeoAtlas.GeoMath.unwrapAntimeridianCoords(item.coords);
+        const lineLayer = L.polyline(lineCoords, {
           color,
           weight,
           opacity: opts.highlight ? 0.98 : opts.subtle ? 0.72 : 0.88,
@@ -356,7 +352,7 @@
         }).addTo(group);
 
         if (item.category === 'currents' && (opts.highlight || opts.subtle)) {
-          this._addDirectionArrow(L, group, item.coords, color);
+          this._addDirectionArrow(L, group, lineCoords, color);
         }
         if (onClick) {
           lineLayer.on('click', (e) => {

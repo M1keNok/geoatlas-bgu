@@ -47,21 +47,37 @@
     if (bounds.length === 4 && typeof bounds[0] === 'number') {
       const [s, w, n, e] = bounds.map(Number);
       if ([s, w, n, e].some(Number.isNaN)) return null;
+      const unwrappedE = w > e ? e + 360 : e;
       return [
         [Math.min(s, n), w],
-        [Math.max(s, n), e]
+        [Math.max(s, n), unwrappedE]
       ];
     }
     if (bounds.length === 2 && Array.isArray(bounds[0]) && Array.isArray(bounds[1])) {
       const [s, w] = bounds[0].map(Number);
       const [n, e] = bounds[1].map(Number);
       if ([s, w, n, e].some(Number.isNaN)) return null;
+      const unwrappedE = w > e ? e + 360 : e;
       return [
         [Math.min(s, n), w],
-        [Math.max(s, n), e]
+        [Math.max(s, n), unwrappedE]
       ];
     }
     return null;
+  }
+
+  function unwrapAntimeridianCoords(coords) {
+    if (!Array.isArray(coords) || coords.length === 0) return [];
+    const out = [[Number(coords[0][0]) || 0, Number(coords[0][1]) || 0]];
+    for (let i = 1; i < coords.length; i++) {
+      const lat = Number(coords[i][0]) || 0;
+      let lng = Number(coords[i][1]) || 0;
+      const prevLng = out[i - 1][1];
+      while (lng - prevLng > 180) lng -= 360;
+      while (lng - prevLng < -180) lng += 360;
+      out.push([lat, lng]);
+    }
+    return out;
   }
 
   function isOralTheoryItem(item) {
@@ -195,15 +211,11 @@
       const [[minLat, minLng], [maxLat, maxLng]] = nb;
       const clampedLat = Math.max(minLat, Math.min(maxLat, clickLat));
       let clampedLng = clickLng;
-      if (minLng <= maxLng) {
+      if (minLng <= maxLng && maxLng <= 180) {
         clampedLng = Math.max(minLng, Math.min(maxLng, clickLng));
       } else {
-        const insideWrapped = clickLng >= minLng || clickLng <= maxLng;
-        if (!insideWrapped) {
-          const dMin = Math.abs(shortestLngDelta(clickLng, minLng));
-          const dMax = Math.abs(shortestLngDelta(clickLng, maxLng));
-          clampedLng = dMin <= dMax ? minLng : maxLng;
-        }
+        const adjClick = clickLng < minLng - 180 ? clickLng + 360 : clickLng;
+        clampedLng = Math.max(minLng, Math.min(maxLng, adjClick));
       }
       const distKm = calcDistanceKm(clickLat, clickLng, clampedLat, clampedLng);
       return {
@@ -283,6 +295,7 @@
     normalizeLng,
     shortestLngDelta,
     normalizeBounds,
+    unwrapAntimeridianCoords,
     isOralTheoryItem,
     calcDistanceKm,
     calcPolylineDistanceKm,

@@ -1,5 +1,5 @@
 /**
- * ГеоАтлас / Тренажер ОЗК — UITrainer (Explore->Recall Flow, Visible Silhouettes, Oral Theory, Binary Flip Card)
+ * Номенклатура ОЗ — UITrainer (Explore->Recall Flow, Visible Silhouettes, Oral Theory, Blind Capes, Binary Flip Card)
  */
 (function (global) {
   'use strict';
@@ -7,9 +7,7 @@
   const GeoAtlas = (global.GeoAtlas = global.GeoAtlas || {});
 
   const MODE_LABELS = {
-    learn: '🎓 Учить',
-    exam: '🎯 Экзамен',
-    quiz: '⚡ Квиз',
+    learn: '🗺️ Учить по карте',
     weak: '🩹 Слабые места',
     theory: '📖 Устная теория'
   };
@@ -28,7 +26,6 @@
     awaitingNext: false,
     sessionClean: 0,
     sessionWeak: 0,
-    quizLocked: false,
     _currentCardSpec: null,
 
     init() {
@@ -97,8 +94,7 @@
     start({ mode = 'learn', moduleId = null, submoduleId = null } = {}) {
       const engine = GeoAtlas.LearningEngine;
       const scope = engine.meta.scope;
-      const limit = mode === 'exam' || mode === 'quiz' ? (submoduleId ? null : 20) : null;
-      const queue = engine.buildSessionQueue({ mode, moduleId, submoduleId, limit });
+      const queue = engine.buildSessionQueue({ mode, moduleId, submoduleId });
 
       if (!queue.length) {
         GeoAtlas.App.showToast('В выбранном разделе пока нет объектов для тренировки');
@@ -156,7 +152,6 @@
 
     _hideAllSubBars() {
       document.getElementById('exploreBar')?.classList.add('hidden');
-      document.getElementById('quizBar')?.classList.add('hidden');
       document.getElementById('compassBanner')?.classList.add('hidden');
     },
 
@@ -278,7 +273,6 @@
       this.mistakes = 0;
       this.revealed = false;
       this.awaitingNext = false;
-      this.quizLocked = false;
 
       GeoAtlas.MapEngine.clearTrainer();
       this._hideAllSubBars();
@@ -287,7 +281,7 @@
       hud?.classList.remove('hidden');
 
       const typeLabel = item.categoryLabel || GeoAtlas.LearningEngine.getCategoryLabel(item);
-      document.getElementById('hudModeBadge').textContent = MODE_LABELS[this.mode] || 'Тренировка';
+      document.getElementById('hudModeBadge').textContent = MODE_LABELS[this.mode] || 'Обучение';
       document.getElementById('hudProgressBadge').textContent = `${this.currentIndex + 1} / ${this.queue.length}`;
       document.getElementById('hudCategoryBadge').textContent = typeLabel;
 
@@ -296,22 +290,6 @@
       const dotsEl = document.getElementById('hudMissDots');
 
       this._updateMissDots(0);
-
-      if (this.mode === 'quiz') {
-        targetNameEl.textContent = `Что это? (${typeLabel})`;
-        subPromptEl.textContent = 'Выберите верное название из 4 географических соседей';
-        if (dotsEl) dotsEl.classList.add('hidden');
-        document.getElementById('btnHint')?.classList.add('hidden');
-        document.getElementById('btnReveal')?.classList.add('hidden');
-
-        GeoAtlas.MapEngine.drawItemShape(GeoAtlas.MapEngine.trainerGroup, item, {
-          highlight: true,
-          showLabel: false
-        });
-        GeoAtlas.MapEngine.fitItem(item, 5);
-        this._renderQuizChoices(item);
-        return;
-      }
 
       if (dotsEl) dotsEl.classList.remove('hidden');
       document.getElementById('btnHint')?.classList.remove('hidden');
@@ -324,64 +302,18 @@
         return;
       }
 
-      targetNameEl.textContent = item.name;
-      subPromptEl.textContent = `${typeLabel} · найдите и нажмите на карте (3 попытки)`;
+      const isCape = item.category === 'extreme_point' || item.category === 'capes';
+      targetNameEl.textContent = isCape ? GeoAtlas.extractCapePrompt(item) : item.name;
+      subPromptEl.textContent = isCape
+        ? 'Покажите эту крайнюю точку на карте, затем вспомните название мыса (3 попытки)'
+        : `${typeLabel} · найдите и нажмите на карте (3 попытки)`;
       if (this.currentIndex === 0) {
         GeoAtlas.MapEngine.fitBatch(this.pool.length ? this.pool : this.queue, 4);
       }
     },
 
-    _renderQuizChoices(target) {
-      const bar = document.getElementById('quizBar');
-      if (!bar) return;
-      const distractors = GeoAtlas.LearningEngine.pickNeighborDistractors(target, 3);
-      const options = [target, ...distractors];
-      for (let i = options.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [options[i], options[j]] = [options[j], options[i]];
-      }
-
-      bar.innerHTML = options
-        .map(
-          (opt, idx) =>
-            `<button class="btn quiz-opt-btn" data-opt-id="${opt.id}" type="button"><span>${idx + 1}.</span> ${opt.name}</button>`
-        )
-        .join('');
-      bar.classList.remove('hidden');
-
-      bar.onclick = (e) => {
-        if (this.quizLocked) return;
-        const btn = e.target.closest('[data-opt-id]');
-        if (!btn) return;
-        this.quizLocked = true;
-        const pickedId = btn.getAttribute('data-opt-id');
-        const isHit = pickedId === target.id;
-
-        if (isHit) {
-          btn.classList.add('is-correct');
-          GeoAtlas.AudioEngine.playSuccess();
-          GeoAtlas.TelegramBridge?.hapticNotification('success');
-        } else {
-          btn.classList.add('is-wrong');
-          bar.querySelector(`[data-opt-id="${target.id}"]`)?.classList.add('is-correct');
-          GeoAtlas.AudioEngine.playMiss();
-          GeoAtlas.TelegramBridge?.hapticNotification('error');
-        }
-
-        GeoAtlas.MapEngine.drawItemShape(GeoAtlas.MapEngine.trainerGroup, target, {
-          highlight: true,
-          showLabel: true
-        });
-
-        setTimeout(() => {
-          bar.classList.add('hidden');
-          this._afterMapStage(target, { mapMistakes: isHit ? 0 : 2, mapRevealed: !isHit });
-        }, 850);
-      };
-    },
-
     _handleMapClick(lat, lng, zoom, clickedItem = null) {
-      if (!this.active || this.inExploreStage || this.awaitingNext || this.mode === 'quiz' || this.mode === 'theory') {
+      if (!this.active || this.inExploreStage || this.awaitingNext || this.mode === 'theory') {
         return;
       }
       const item = this._currentItem();
