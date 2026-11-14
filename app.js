@@ -1374,16 +1374,111 @@
   // 4.9. ГИБКАЯ НАСТРОЙКА ОПРОСА И СЛОЖНОСТИ (ДЛЯ КАЖДОГО СТУДЕНТА)
   // ==========================================================================
   const QuizConfigEngine = {
-    preset: 'balanced', // 'map_only' | 'balanced' | 'full' | 'custom'
-    scope: 'extended',  // 'core' (tier 1) | 'extended' (tier <= 2) | 'all' (tier <= 3)
-    cardMode: 'smart',  // 'never' | 'smart' | 'always'
-    topics: {
-      folding: true,
-      metrics: true,
-      origin: true,
-      ocean: true,
-      notes: true
+    STORAGE_KEY: 'geoatlas_quiz_config_v2',
+    editingModuleId: 'module1',
+    pendingLaunchDeckId: null,
+
+    BLOCKED_METRIC_LABELS: new Set([
+      'регион',
+      'местоположение',
+      'материк',
+      'краткое название',
+      'категория',
+      'координаты макс. глубины'
+    ]),
+
+    MODULE_SCHEMAS: {
+      module1: {
+        badge: 'Раздел 1',
+        icon: '🌍',
+        title: 'Материки, острова, пустыни',
+        topics: [
+          {
+            key: 'island_origin',
+            label: 'Происхождение островов',
+            desc: 'Материковый, вулканический или коралловый остров'
+          },
+          {
+            key: 'archipelago_comp',
+            label: 'Состав архипелагов',
+            desc: 'Карточки «какие острова входят в систему» (Большие Зондские и др.)'
+          },
+          {
+            key: 'desert_features',
+            label: 'Типы и климат пустынь',
+            desc: 'Тип грунта, термический пояс и площадь пустынь'
+          }
+        ]
+      },
+      module2: {
+        badge: 'Раздел 2',
+        icon: '⛰️',
+        title: 'Горы, вулканы и равнины',
+        topics: [
+          {
+            key: 'folding',
+            label: 'Складчатость гор',
+            desc: 'Альпийская, герцинская, мезозойская и др.'
+          },
+          {
+            key: 'relief_heights',
+            label: 'Высоты и высшие точки',
+            desc: 'Абсолютные высоты (м) и отметки впадин ниже ур. моря'
+          },
+          {
+            key: 'volcano_belts',
+            label: 'Вулканические пояса и формы рельефа',
+            desc: 'Пояса вулканизма и категория равнин/депрессий'
+          }
+        ]
+      },
+      module3: {
+        badge: 'Раздел 3',
+        icon: '🌊',
+        title: 'Мировой океан и течения',
+        topics: [
+          {
+            key: 'ocean_metrics',
+            label: 'Глубины, длины и площади',
+            desc: 'Макс. глубина желобов, ширина проливов и площадь морей'
+          },
+          {
+            key: 'currents_temp',
+            label: 'Течения (тип и температура)',
+            desc: 'Тёплое / холодное течение, генезис и скорость'
+          },
+          {
+            key: 'ocean_basins',
+            label: 'Океан и связи проливов',
+            desc: 'К какому океаническому бассейну относится объект'
+          }
+        ]
+      },
+      module4: {
+        badge: 'Раздел 4',
+        icon: '💧',
+        title: 'Реки, водопады и озёра',
+        topics: [
+          {
+            key: 'river_metrics',
+            label: 'Длина рек и главные притоки',
+            desc: 'Протяжённость речных систем и основные притоки'
+          },
+          {
+            key: 'river_basins',
+            label: 'Бассейн и устье рек',
+            desc: 'Куда впадает река и к какому бассейну относится'
+          },
+          {
+            key: 'lake_waterfall',
+            label: 'Озёра и водопады',
+            desc: 'Генезис и глубина озёр, высота падения водопадов'
+          }
+        ]
+      }
     },
+
+    modules: {},
 
     CORE_KEYS: [
       // Горы, вулканы, депрессии и равнины (Модуль 2)
@@ -1421,138 +1516,234 @@
       'анхель', 'виктория', 'ниагарск', 'игуасу', 'тугела'
     ],
 
+    createDefaultModuleConfig(modId) {
+      const schema = this.MODULE_SCHEMAS[modId] || this.MODULE_SCHEMAS.module1;
+      const topics = {};
+      schema.topics.forEach((t) => { topics[t.key] = true; });
+      return {
+        preset: 'balanced',
+        scope: 'extended',
+        cardMode: 'smart',
+        topics
+      };
+    },
+
     init() {
+      Object.keys(this.MODULE_SCHEMAS).forEach((m) => {
+        this.modules[m] = this.createDefaultModuleConfig(m);
+      });
+
       try {
-        const raw = localStorage.getItem('geoatlas_quiz_config_v1');
+        const raw = localStorage.getItem(this.STORAGE_KEY);
         if (raw) {
-          const d = JSON.parse(raw);
-          if (['core', 'extended', 'all'].includes(d.scope)) this.scope = d.scope;
-          if (['never', 'smart', 'always'].includes(d.cardMode)) this.cardMode = d.cardMode;
-          if (d.topics && typeof d.topics === 'object') {
-            Object.keys(this.topics).forEach((k) => {
-              if (typeof d.topics[k] === 'boolean') this.topics[k] = d.topics[k];
-            });
-          }
-          if (['map_only', 'balanced', 'full', 'custom'].includes(d.preset)) {
-            this.preset = d.preset;
-          } else {
-            this.detectPreset();
-          }
+          const parsed = JSON.parse(raw);
+          Object.keys(this.MODULE_SCHEMAS).forEach((m) => {
+            const src = parsed && parsed[m];
+            if (!src || typeof src !== 'object') return;
+            const cfg = this.modules[m];
+            if (['core', 'extended', 'all'].includes(src.scope)) cfg.scope = src.scope;
+            if (['never', 'smart', 'always'].includes(src.cardMode)) cfg.cardMode = src.cardMode;
+            if (src.topics && typeof src.topics === 'object') {
+              Object.keys(cfg.topics).forEach((k) => {
+                if (typeof src.topics[k] === 'boolean') cfg.topics[k] = src.topics[k];
+              });
+            }
+            if (['map_only', 'balanced', 'full', 'custom'].includes(src.preset)) {
+              cfg.preset = src.preset;
+            } else {
+              this.detectPreset(m);
+            }
+          });
         }
       } catch (e) {}
     },
 
     save() {
       try {
-        localStorage.setItem('geoatlas_quiz_config_v1', JSON.stringify({
-          preset: this.preset,
-          scope: this.scope,
-          cardMode: this.cardMode,
-          topics: this.topics
-        }));
+        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.modules));
       } catch (e) {}
     },
 
-    setPreset(presetKey) {
-      this.preset = presetKey;
+    getModuleId(source) {
+      if (!source) return this.editingModuleId || 'module1';
+      if (typeof source === 'object' && source.moduleId && this.MODULE_SCHEMAS[source.moduleId]) {
+        return source.moduleId;
+      }
+      const str = String(source);
+      if (this.MODULE_SCHEMAS[str]) return str;
+      if (typeof NomenclatureEngine !== 'undefined' && NomenclatureEngine.decksMap) {
+        const dk = NomenclatureEngine.decksMap.get(str);
+        if (dk && dk.moduleId && this.MODULE_SCHEMAS[dk.moduleId]) return dk.moduleId;
+      }
+      if (str.startsWith('m2_')) return 'module2';
+      if (str.startsWith('m3_')) return 'module3';
+      if (str.startsWith('m4_')) return 'module4';
+      return 'module1';
+    },
+
+    getConfig(modOrDeck) {
+      const modId = this.getModuleId(modOrDeck);
+      if (!this.modules[modId]) {
+        this.modules[modId] = this.createDefaultModuleConfig(modId);
+      }
+      return this.modules[modId];
+    },
+
+    setPreset(presetKey, modId = this.editingModuleId) {
+      const cfg = this.getConfig(modId);
+      cfg.preset = presetKey;
       if (presetKey === 'map_only') {
-        this.scope = 'extended';
-        this.cardMode = 'never';
+        cfg.scope = 'extended';
+        cfg.cardMode = 'never';
       } else if (presetKey === 'balanced') {
-        this.scope = 'extended';
-        this.cardMode = 'smart';
-        Object.keys(this.topics).forEach((k) => { this.topics[k] = true; });
+        cfg.scope = 'extended';
+        cfg.cardMode = 'smart';
+        Object.keys(cfg.topics).forEach((k) => { cfg.topics[k] = true; });
       } else if (presetKey === 'full') {
-        this.scope = 'all';
-        this.cardMode = 'always';
-        Object.keys(this.topics).forEach((k) => { this.topics[k] = true; });
+        cfg.scope = 'all';
+        cfg.cardMode = 'always';
+        Object.keys(cfg.topics).forEach((k) => { cfg.topics[k] = true; });
+      } else if (presetKey === 'custom') {
+        if (cfg.cardMode === 'never') cfg.cardMode = 'smart';
       }
       this.save();
       this.syncUI();
     },
 
-    setScope(scopeKey) {
+    setScope(scopeKey, modId = this.editingModuleId) {
       if (!['core', 'extended', 'all'].includes(scopeKey)) return;
-      this.scope = scopeKey;
-      this.detectPreset();
+      const cfg = this.getConfig(modId);
+      cfg.scope = scopeKey;
+      this.detectPreset(modId);
       this.save();
       this.syncUI();
     },
 
-    setCardMode(modeKey) {
+    setCardMode(modeKey, modId = this.editingModuleId) {
       if (!['never', 'smart', 'always'].includes(modeKey)) return;
-      this.cardMode = modeKey;
-      this.detectPreset();
+      const cfg = this.getConfig(modId);
+      cfg.cardMode = modeKey;
+      this.detectPreset(modId);
       this.save();
       this.syncUI();
     },
 
-    toggleTopic(topicKey) {
-      if (!(topicKey in this.topics)) return;
-      this.topics[topicKey] = !this.topics[topicKey];
-      this.detectPreset();
+    toggleTopic(topicKey, modId = this.editingModuleId) {
+      const cfg = this.getConfig(modId);
+      if (!(topicKey in cfg.topics)) return;
+      cfg.topics[topicKey] = !cfg.topics[topicKey];
+      if (cfg.cardMode === 'never' && cfg.topics[topicKey]) {
+        cfg.cardMode = 'smart';
+      }
+      this.detectPreset(modId);
       this.save();
       this.syncUI();
     },
 
-    detectPreset() {
-      const allTopicsOn = Object.values(this.topics).every(Boolean);
-      if (this.scope === 'extended' && this.cardMode === 'never') {
-        this.preset = 'map_only';
-      } else if (this.scope === 'extended' && this.cardMode === 'smart' && allTopicsOn) {
-        this.preset = 'balanced';
-      } else if (this.scope === 'all' && this.cardMode === 'always' && allTopicsOn) {
-        this.preset = 'full';
+    detectPreset(modId = this.editingModuleId) {
+      const cfg = this.getConfig(modId);
+      const allTopicsOn = Object.values(cfg.topics).every(Boolean);
+      if (cfg.scope === 'extended' && cfg.cardMode === 'never') {
+        cfg.preset = 'map_only';
+      } else if (cfg.scope === 'extended' && cfg.cardMode === 'smart' && allTopicsOn) {
+        cfg.preset = 'balanced';
+      } else if (cfg.scope === 'all' && cfg.cardMode === 'always' && allTopicsOn) {
+        cfg.preset = 'full';
       } else {
-        this.preset = 'custom';
+        cfg.preset = 'custom';
       }
     },
 
-    getMaxTierNum() {
-      if (this.scope === 'core') return 1;
-      if (this.scope === 'all') return 3;
+    getMaxTierNum(modOrDeck) {
+      const cfg = this.getConfig(modOrDeck);
+      if (cfg.scope === 'core') return 1;
+      if (cfg.scope === 'all') return 3;
       return 2;
     },
 
-    getSummaryLabel() {
-      const presetNames = {
+    isArchipelagoQuizEnabled(modId = 'module1') {
+      const cfg = this.getConfig(modId);
+      return cfg.cardMode !== 'never' && Boolean(cfg.topics.archipelago_comp);
+    },
+
+    getModuleBadgeText(modId) {
+      const cfg = this.getConfig(modId);
+      const presetMap = {
         map_only: 'Только карта',
         balanced: 'Основной',
         full: 'Максимум',
-        custom: 'Свой режим'
+        custom: 'Своя'
       };
-      const scopeNames = { core: 'ключевые', extended: 'расширенный', all: 'все 100%' };
-      const enabledCount = Object.values(this.topics).filter(Boolean).length;
-      if (this.cardMode === 'never') {
-        return `${presetNames[this.preset]} • Охват: ${scopeNames[this.scope]} • Без карточек`;
-      }
-      return `${presetNames[this.preset]} • Охват: ${scopeNames[this.scope]} • ${enabledCount}/5 параметров`;
+      const scopeMap = { core: 'ключевые', extended: 'расшир.', all: 'все' };
+      return `${presetMap[cfg.preset] || 'Основной'} • ${scopeMap[cfg.scope] || 'расшир.'}`;
+    },
+
+    openModal(modId = 'module1', launchDeckId = null) {
+      this.editingModuleId = this.getModuleId(modId);
+      this.pendingLaunchDeckId = launchDeckId || null;
+      this.syncUI();
+      document.getElementById('surveyConfigModal')?.classList.add('open');
     },
 
     syncUI() {
+      const modId = this.editingModuleId || 'module1';
+      const schema = this.MODULE_SCHEMAS[modId] || this.MODULE_SCHEMAS.module1;
+      const cfg = this.getConfig(modId);
+
+      const badgeEl = document.getElementById('cfgModuleBadge');
+      if (badgeEl) badgeEl.textContent = schema.badge;
+      const icoEl = document.getElementById('cfgModalIcon');
+      if (icoEl) icoEl.textContent = schema.icon;
+      const subEl = document.getElementById('cfgModalSub');
+      if (subEl) subEl.textContent = schema.title;
+
+      const saveBtn = document.getElementById('saveSurveyConfigBtn');
+      if (saveBtn) {
+        if (this.pendingLaunchDeckId && typeof NomenclatureEngine !== 'undefined') {
+          const filtered = NomenclatureEngine.getFilteredDeckItems(this.pendingLaunchDeckId, false);
+          saveBtn.textContent = `🎯 Начать опрос (${filtered.length} об.)`;
+        } else {
+          saveBtn.textContent = '✓ Применить и продолжить';
+        }
+      }
+
       document.querySelectorAll('#cfgPresetRow .pp-choice-btn').forEach((btn) => {
-        btn.classList.toggle('active', btn.getAttribute('data-preset') === this.preset);
+        btn.classList.toggle('active', btn.getAttribute('data-preset') === cfg.preset);
       });
       document.querySelectorAll('#cfgScopeRow .pp-choice-btn').forEach((btn) => {
-        btn.classList.toggle('active', btn.getAttribute('data-scope') === this.scope);
+        btn.classList.toggle('active', btn.getAttribute('data-scope') === cfg.scope);
       });
       document.querySelectorAll('#cfgCardModeRow .pp-choice-btn').forEach((btn) => {
-        btn.classList.toggle('active', btn.getAttribute('data-cardmode') === this.cardMode);
-      });
-      document.querySelectorAll('#cfgTopicsGrid .pp-choice-btn').forEach((btn) => {
-        const key = btn.getAttribute('data-topic');
-        const on = Boolean(this.topics[key]);
-        btn.classList.toggle('active', on);
-        const chk = btn.querySelector('.pp-chk');
-        if (chk) chk.style.opacity = on ? '1' : '0.2';
+        btn.classList.toggle('active', btn.getAttribute('data-cardmode') === cfg.cardMode);
       });
 
-      const cfgLbl = document.getElementById('hubConfigLabel');
-      if (cfgLbl) cfgLbl.textContent = this.getSummaryLabel();
+      const topicsGrid = document.getElementById('cfgTopicsGrid');
+      if (topicsGrid) {
+        topicsGrid.innerHTML = '';
+        schema.topics.forEach((t) => {
+          const on = Boolean(cfg.topics[t.key]);
+          const row = document.createElement('button');
+          row.type = 'button';
+          row.className = `pp-topic-row ${on ? 'active' : ''}`;
+          row.setAttribute('data-topic', t.key);
+          row.innerHTML = `
+            <div class="pp-topic-text">
+              <span class="pp-topic-title">${t.label}</span>
+              <span class="pp-topic-desc">${t.desc}</span>
+            </div>
+            <span class="pp-topic-check">${on ? '✓' : ''}</span>
+          `;
+          row.onclick = () => {
+            if (typeof TelegramBridge !== 'undefined') TelegramBridge.hapticSelect();
+            this.toggleTopic(t.key, modId);
+          };
+          topicsGrid.appendChild(row);
+        });
+      }
 
-      const topicsWrap = document.getElementById('cfgTopicsGrid')?.closest('.pp-setting-section');
+      const topicsWrap = document.getElementById('cfgTopicsSection');
       if (topicsWrap) {
-        topicsWrap.style.opacity = this.cardMode === 'never' ? '0.42' : '1';
+        topicsWrap.style.opacity = cfg.cardMode === 'never' ? '0.42' : '1';
       }
     },
 
@@ -1600,72 +1791,183 @@
       return obj;
     },
 
-    isMetricAllowed(label) {
-      const lbl = (label || '').toLowerCase();
-      if (lbl.includes('складчат') || lbl.includes('эпох')) return this.topics.folding;
-      if (
-        lbl.includes('высот') || lbl.includes('вершин') || lbl.includes('глубин') ||
-        lbl.includes('отметк') || lbl.includes('площад') || lbl.includes('длин') ||
-        lbl.includes('ширин') || lbl.includes('перепад') || lbl.includes('протяж')
-      ) {
-        return this.topics.metrics;
+    isMetricAllowed(item, label) {
+      const rawLbl = (label || '').trim().toLowerCase();
+      if (!rawLbl || this.BLOCKED_METRIC_LABELS.has(rawLbl)) return false;
+
+      const modId = this.getModuleId(item);
+      const cfg = this.getConfig(modId);
+      const t = cfg.topics;
+
+      if (modId === 'module1') {
+        if (rawLbl.includes('состав архипелаг')) return Boolean(t.archipelago_comp);
+        if (rawLbl.includes('происхож') || rawLbl.includes('генез')) return Boolean(t.island_origin);
+        if (rawLbl.includes('грунт') || rawLbl.includes('терм') || rawLbl.includes('площад')) {
+          return Boolean(t.desert_features);
+        }
+        return false;
       }
-      if (
-        lbl.includes('происхож') || lbl.includes('генез') || lbl.includes('тип') ||
-        lbl.includes('грунт') || lbl.includes('терм') || lbl.includes('котловин') ||
-        lbl.includes('солён') || lbl.includes('пояс') || lbl.includes('статус')
-      ) {
-        return this.topics.origin;
+
+      if (modId === 'module2') {
+        if (rawLbl.includes('складчат') || rawLbl.includes('эпох')) return Boolean(t.folding);
+        if (rawLbl.includes('высот') || rawLbl.includes('высш') || rawLbl.includes('отметк')) {
+          return Boolean(t.relief_heights);
+        }
+        if (rawLbl.includes('вулкан') || rawLbl.includes('пояс') || rawLbl.includes('категория рельеф')) {
+          return Boolean(t.volcano_belts);
+        }
+        return false;
       }
-      if (
-        lbl.includes('течен') || lbl.includes('океан') || lbl.includes('бассейн') ||
-        lbl.includes('скорост') || lbl.includes('соединя') || lbl.includes('акватор')
-      ) {
-        return this.topics.ocean;
+
+      if (modId === 'module3') {
+        if (
+          rawLbl.includes('глубин') || rawLbl.includes('длин') || rawLbl.includes('площад') ||
+          rawLbl.includes('ширин') || rawLbl.includes('протяж')
+        ) {
+          return Boolean(t.ocean_metrics);
+        }
+        if (rawLbl.includes('температур') || rawLbl.includes('генезис') || rawLbl.includes('скорост')) {
+          return Boolean(t.currents_temp);
+        }
+        if (rawLbl.includes('океан') || rawLbl.includes('бассейн') || rawLbl.includes('соединя')) {
+          return Boolean(t.ocean_basins);
+        }
+        return false;
       }
-      return this.topics.notes;
+
+      if (modId === 'module4') {
+        if (rawLbl.includes('длин') || rawLbl.includes('приток')) return Boolean(t.river_metrics);
+        if (rawLbl.includes('бассейн') || rawLbl.includes('устье')) return Boolean(t.river_basins);
+        if (
+          rawLbl.includes('генезис') || rawLbl.includes('котловин') || rawLbl.includes('глубин') ||
+          rawLbl.includes('паден') || rawLbl.includes('площад') || rawLbl.includes('река / локац')
+        ) {
+          return Boolean(t.lake_waterfall);
+        }
+        return false;
+      }
+
+      return false;
+    },
+
+    buildFrontQuestion(item) {
+      if (!item) return 'Вспомните характеристики объекта:';
+      const title = item.displayTitle || item.title;
+      if (item._isArchipelagoQuiz) {
+        return `Какие основные острова входят в архипелаг «${item.archBaseName || title}»?`;
+      }
+      const modId = this.getModuleId(item);
+      const t = this.getConfig(modId).topics;
+
+      if (modId === 'module1') {
+        if (item.category === 'desert') {
+          return `Укажите термический пояс, тип грунта или площадь пустыни «${title}»:`;
+        }
+        if (item.archMembers && item.archMembers.length > 0 && t.archipelago_comp && t.island_origin) {
+          return `Назовите происхождение и состав архипелага «${title}»:`;
+        }
+        if (item.archMembers && item.archMembers.length > 0 && t.archipelago_comp) {
+          return `Какие острова входят в состав «${title}»?`;
+        }
+        return `Какое происхождение имеет объект «${title}»?`;
+      }
+
+      if (modId === 'module2') {
+        if (item.category === 'mountains') {
+          if (t.folding && t.relief_heights) return `Укажите эпоху складчатости, высшую точку и высоту гор «${title}»:`;
+          if (t.folding) return `К какой эпохе складчатости относятся горы «${title}»?`;
+          return `Назовите высшую точку и высоту гор «${title}»:`;
+        }
+        if (item.category === 'volcanoes') {
+          if (t.volcano_belts && t.relief_heights) return `Укажите вулканический пояс и высоту вулкана «${title}»:`;
+          if (t.volcano_belts) return `К какому вулканическому поясу относится «${title}»?`;
+          return `Укажите высоту вулкана «${title}»:`;
+        }
+        return `Укажите тип рельефа или отметку высоты объекта «${title}»:`;
+      }
+
+      if (modId === 'module3') {
+        if (item.category === 'currents') return `Тёплое или холодное течение «${title}», к какому океану относится?`;
+        if (item.category === 'trenches') return `К какому океану относится жёлоб «${title}» и какова его глубина?`;
+        if (item.category === 'straits') return `К какому бассейну относится пролив «${title}» и каковы его размеры?`;
+        return `Укажите океанический бассейн и характеристики объекта «${title}»:`;
+      }
+
+      if (modId === 'module4') {
+        if (item.category === 'rivers') {
+          if (t.river_basins && t.river_metrics) return `Куда впадает река «${title}», какова её длина и главные притоки?`;
+          if (t.river_basins) return `К какому бассейну и устью относится река «${title}»?`;
+          return `Укажите длину и главные притоки реки «${title}»:`;
+        }
+        if (item.category === 'lakes') return `Укажите генезис котловины и максимальную глубину озера «${title}»:`;
+        if (item.category === 'waterfalls') return `Укажите высоту падения и реку водопада «${title}»:`;
+      }
+
+      return `Вспомните основные характеристики объекта «${title}»:`;
     },
 
     filterCardData(item) {
-      const cardData = (item && item.ankiCard) || {};
-      const rawMetrics = Array.isArray(cardData.backMetrics) && cardData.backMetrics.length > 0
-        ? cardData.backMetrics
-        : [
-            { label: 'Категория', value: item.categoryRu },
-            { label: 'Регион', value: item.continent || item.worldRegion || 'Мир' }
-          ];
+      if (!item) return { mainAnswer: '', metrics: [], note: '', archMembers: [] };
+      const cardData = item.ankiCard || {};
+      const rawMetrics = Array.isArray(cardData.backMetrics) ? cardData.backMetrics : [];
 
-      const filteredMetrics = rawMetrics.filter((m) => m && m.value && m.value !== '—' && this.isMetricAllowed(m.label));
-      const mainAnswer = cardData.backMainAnswer || item.desc || item.categoryRu;
-      const note = this.topics.notes
-        ? (cardData.backNote || (item.desc && item.desc !== mainAnswer ? item.desc : ''))
-        : '';
+      const seenLabels = new Set();
+      const filteredMetrics = [];
+      rawMetrics.forEach((m) => {
+        if (!m || !m.value || m.value === '—') return;
+        const lblKey = (m.label || '').toLowerCase();
+        if (seenLabels.has(lblKey)) return;
+        if (!this.isMetricAllowed(item, m.label)) return;
+        seenLabels.add(lblKey);
+        filteredMetrics.push(m);
+      });
 
-      return { mainAnswer, metrics: filteredMetrics.slice(0, 6), note };
+      const archMetric = filteredMetrics.find((m) => (m.label || '').toLowerCase().includes('состав архипелаг'));
+      const nonArchMetrics = filteredMetrics.filter((m) => m !== archMetric);
+      const archMembers = archMetric && Array.isArray(item.archMembers) ? item.archMembers : [];
+
+      let mainAnswer = '';
+      if (item._isArchipelagoQuiz && archMembers.length > 0) {
+        mainAnswer = archMembers.join(', ');
+      } else if (nonArchMetrics.length > 0) {
+        mainAnswer = nonArchMetrics.slice(0, 3).map((m) => m.value).join(' • ');
+      } else if (archMembers.length > 0) {
+        mainAnswer = archMembers.join(', ');
+      } else {
+        mainAnswer = item.categoryRu || item.displayTitle || '';
+      }
+
+      return {
+        mainAnswer,
+        metrics: nonArchMetrics.slice(0, 6),
+        note: '',
+        archMembers
+      };
     },
 
     shouldShowCardStep(item) {
       if (!item || !item.ankiCard) return false;
-      if (this.cardMode === 'never') return false;
+      const cfg = this.getConfig(item.moduleId);
+      if (cfg.cardMode === 'never') return false;
 
-      const hasAnyTopic = Object.values(this.topics).some(Boolean);
+      const hasAnyTopic = Object.values(cfg.topics).some(Boolean);
       if (!hasAnyTopic) return false;
 
       if (item.isOceanEntity) return true;
 
       const filtered = this.filterCardData(item);
-      if (filtered.metrics.length === 0 && !this.topics.notes) return false;
+      if (filtered.metrics.length === 0 && filtered.archMembers.length === 0) return false;
 
-      if (this.cardMode === 'always') return true;
+      if (cfg.cardMode === 'always') return true;
 
-      // cardMode === 'smart'
+      // cardMode === 'smart' (Важные)
       const specCats = new Set([
         'mountains', 'volcanoes', 'depressions',
         'continental_island', 'volcanic_island', 'coral_island',
         'trenches', 'currents', 'waterfalls', 'lakes'
       ]);
       if (specCats.has(item.category)) return true;
-      return Boolean(item.isCoreObject && ['lowlands', 'uplands', 'plateaus', 'rivers', 'seas'].includes(item.category));
+      return Boolean(item.isCoreObject && ['lowlands', 'uplands', 'plateaus', 'rivers', 'seas', 'desert'].includes(item.category));
     }
   };
 
@@ -1731,12 +2033,53 @@
       return 'Зарубежная Азия и Сибирь';
     },
 
+    parseArchipelagoEntry(name) {
+      if (!name || typeof name !== 'string') return null;
+      const splitTopLevel = (rawStr) => {
+        const parts = [];
+        let buf = '';
+        let depth = 0;
+        for (let i = 0; i < rawStr.length; i++) {
+          const ch = rawStr[i];
+          if (ch === '(') depth++;
+          else if (ch === ')' && depth > 0) depth--;
+          if (ch === ',' && depth === 0) {
+            const cleaned = buf.replace(/^о\.\s*/i, '').trim();
+            if (cleaned) parts.push(cleaned);
+            buf = '';
+          } else {
+            buf += ch;
+          }
+        }
+        const last = buf.replace(/^о\.\s*/i, '').trim();
+        if (last) parts.push(last);
+        return parts;
+      };
+
+      const colonMatch = name.match(/^([^:]+):\s*(.+)$/);
+      if (colonMatch) {
+        const baseName = colonMatch[1].trim();
+        const members = splitTopLevel(colonMatch[2].trim());
+        if (baseName && members.length > 0) return { baseName, members };
+      }
+
+      const parenMatch = name.match(/^([^\(]+)\(([^)]*,[^)]+)\)\s*$/);
+      if (parenMatch) {
+        const baseName = parenMatch[1].trim();
+        const members = splitTopLevel(parenMatch[2].trim());
+        if (baseName && members.length > 0) return { baseName, members };
+      }
+
+      return null;
+    },
+
     compileDecks(geoData) {
       this.objects = [];
       this.objectsMap.clear();
       this.legacyUidMap.clear();
       this.decks = [];
       this.decksMap.clear();
+      this.archipelagoQuizCards = [];
 
       const reg = window.GEO_MODULES_REGISTRY || {};
       const legacyItemsMap = new Map();
@@ -1754,6 +2097,8 @@
         'Крайняя точка (Восточная)': 'восточная'
       };
 
+      const archMergedMap = new Map();
+
       const moduleKeys = ['module1', 'module2', 'module3', 'module4'];
       moduleKeys.forEach((modKey) => {
         const mod = reg[modKey];
@@ -1764,6 +2109,7 @@
           const worldRegion = this.classifyWorldRegion(it);
           const bounds = it.bounds || GeoMath.getExtentForItem(it);
           const isCape = it.submoduleId === 'm1_capes' || it.category === 'extreme_point';
+          const isIsland = modKey === 'module1' && it.submoduleId === 'm1_islands';
 
           let dirWord = 'крайняя';
           if (isCape) {
@@ -1778,42 +2124,59 @@
           }
           const dirName = dirWord.charAt(0).toUpperCase() + dirWord.slice(1);
 
+          const archParsed = isIsland ? this.parseArchipelagoEntry(it.name) : null;
           const rawName = (it.shortName || it.name || '').trim();
           const cleanCapeName = isCape ? rawName.replace(/\s*\([^)]*\)/g, '').trim() : rawName;
-          const displayTitle = isCape ? cleanCapeName : (it.shortName || it.name);
+          const displayTitle = isCape
+            ? cleanCapeName
+            : (archParsed ? archParsed.baseName : (it.shortName || it.name));
 
           const prompt = isCape
             ? `Покажите на карте: крайняя ${dirWord} точка материка ${it.region}`
-            : (it.mapPrompt || `Покажите на карте: ${it.name}`);
+            : (archParsed
+                ? `Покажите на карте: ${archParsed.baseName}`
+                : (it.mapPrompt || `Покажите на карте: ${it.name}`));
 
-          // Обогащение карточки Anki для Модуля 1 из legacyItem (если есть доп. поля)
+          // Карточка характеристик для объекта (без лишнего «Регион / Местоположение»)
           let ankiCard = it.ankiCard ? JSON.parse(JSON.stringify(it.ankiCard)) : {
             hasTheoryStep: true,
-            frontQuestion: `Укажите географический регион и ключевые характеристики объекта: ${displayTitle}`,
-            backMainAnswer: `${displayTitle} (${it.region})`,
-            backMetrics: [{ label: 'Регион', value: it.region || worldRegion }],
-            backNote: it.locationDesc || ''
+            frontQuestion: '',
+            backMainAnswer: it.categoryRu || displayTitle,
+            backMetrics: [],
+            backNote: ''
           };
 
+          const extraMetrics = [...(ankiCard.backMetrics || [])].filter(
+            (m) => m && !QuizConfigEngine.BLOCKED_METRIC_LABELS.has((m.label || '').trim().toLowerCase())
+          );
+
           if (isCape) {
-            ankiCard.frontQuestion = `Назовите эту крайнюю (${dirWord}) точку материка ${it.region} и укажите её особенности:`;
-            ankiCard.backMainAnswer = `${cleanCapeName} • материк ${it.region}`;
-          } else if (legacyItem && modKey === 'module1') {
-            const extraMetrics = [...(ankiCard.backMetrics || [])];
-            if (legacyItem.origin && !extraMetrics.some((m) => m.label === 'Генезис / Происхождение')) {
-              extraMetrics.push({ label: 'Генезис / Происхождение', value: legacyItem.origin });
+            ankiCard.frontQuestion = `Назовите эту крайнюю (${dirWord}) точку материка ${it.region}:`;
+            ankiCard.backMainAnswer = `${cleanCapeName}`;
+          } else if (modKey === 'module1') {
+            if (isIsland && !extraMetrics.some((m) => (m.label || '').toLowerCase().includes('происхож') || (m.label || '').toLowerCase().includes('генез'))) {
+              const originVal = (legacyItem && legacyItem.origin) || it.categoryRu || 'Остров';
+              extraMetrics.push({ label: 'Происхождение', value: originVal });
             }
-            if (legacyItem.surface_type && !extraMetrics.some((m) => m.label === 'Тип грунта')) {
-              extraMetrics.push({ label: 'Тип грунта', value: legacyItem.surface_type });
+            if (archParsed) {
+              extraMetrics.push({ label: 'Состав архипелага', value: archParsed.members.join(', ') });
             }
-            if (legacyItem.thermal_desc && !extraMetrics.some((m) => m.label === 'Термический пояс')) {
-              extraMetrics.push({ label: 'Термический пояс', value: legacyItem.thermal_desc });
+            if (legacyItem) {
+              if (legacyItem.origin && !extraMetrics.some((m) => m.label === 'Генезис / Происхождение')) {
+                extraMetrics.push({ label: 'Генезис / Происхождение', value: legacyItem.origin });
+              }
+              if (legacyItem.surface_type && !extraMetrics.some((m) => m.label === 'Тип грунта')) {
+                extraMetrics.push({ label: 'Тип грунта', value: legacyItem.surface_type });
+              }
+              if (legacyItem.thermal_desc && !extraMetrics.some((m) => m.label === 'Термический пояс')) {
+                extraMetrics.push({ label: 'Термический пояс', value: legacyItem.thermal_desc });
+              }
+              if (legacyItem.area && !extraMetrics.some((m) => m.label === 'Площадь')) {
+                extraMetrics.push({ label: 'Площадь', value: `${legacyItem.area} тыс. км²` });
+              }
             }
-            if (legacyItem.area && !extraMetrics.some((m) => m.label === 'Площадь')) {
-              extraMetrics.push({ label: 'Площадь', value: `${legacyItem.area} тыс. км²` });
-            }
-            ankiCard.backMetrics = extraMetrics;
           }
+          ankiCard.backMetrics = extraMetrics;
 
           const obj = {
             id: it.id,
@@ -1825,6 +2188,8 @@
             displayTitle,
             name: it.name,
             capeName: cleanCapeName,
+            archBaseName: archParsed ? archParsed.baseName : '',
+            archMembers: archParsed ? archParsed.members : null,
             prompt,
             type: isCape ? 'cape' : 'map_item',
             isCape,
@@ -1845,7 +2210,7 @@
             hitRadiusKm: it.hitRadiusKm || 300,
             crossTrackBufferKm: it.crossTrackBufferKm || 135,
             desc: it.locationDesc || (legacyItem && legacyItem.desc) || '',
-            origin: (legacyItem && legacyItem.origin) || '',
+            origin: (legacyItem && legacyItem.origin) || it.categoryRu || '',
             surfaceType: (legacyItem && legacyItem.surface_type) || '',
             thermalDesc: (legacyItem && legacyItem.thermal_desc) || '',
             area: (legacyItem && legacyItem.area) || '',
@@ -1855,10 +2220,59 @@
 
           QuizConfigEngine.classifyObject(obj);
 
+          if (archParsed && archParsed.members.length > 0) {
+            const normKey = archParsed.baseName.toLowerCase();
+            if (!archMergedMap.has(normKey)) {
+              archMergedMap.set(normKey, {
+                id: `arch_quiz_${archMergedMap.size + 1}`,
+                moduleId: 'module1',
+                _isArchipelagoQuiz: true,
+                archBaseName: archParsed.baseName,
+                displayTitle: archParsed.baseName,
+                categoryRu: it.categoryRu,
+                tier: obj.tier,
+                sourceItemIds: [obj.id],
+                origins: new Set([it.categoryRu]),
+                membersSet: new Set(archParsed.members)
+              });
+            } else {
+              const entry = archMergedMap.get(normKey);
+              entry.tier = Math.min(entry.tier, obj.tier);
+              entry.sourceItemIds.push(obj.id);
+              entry.origins.add(it.categoryRu);
+              archParsed.members.forEach((m) => entry.membersSet.add(m));
+            }
+          }
+
           this.objects.push(obj);
           this.objectsMap.set(obj.id, obj);
           if (obj.legacyUid) {
             this.legacyUidMap.set(obj.legacyUid, obj.id);
+          }
+        });
+      });
+
+      archMergedMap.forEach((entry) => {
+        const archMembers = Array.from(entry.membersSet);
+        if (archMembers.length < 2) return;
+        const originText = Array.from(entry.origins).join(' / ');
+        this.archipelagoQuizCards.push({
+          id: entry.id,
+          moduleId: 'module1',
+          _isArchipelagoQuiz: true,
+          archBaseName: entry.archBaseName,
+          displayTitle: entry.archBaseName,
+          title: entry.archBaseName,
+          categoryRu: originText,
+          tier: entry.tier,
+          sourceItemIds: entry.sourceItemIds,
+          archMembers,
+          ankiCard: {
+            hasTheoryStep: true,
+            backMetrics: [
+              { label: 'Происхождение', value: originText },
+              { label: 'Состав архипелага', value: archMembers.join(', ') }
+            ]
           }
         });
       });
@@ -2043,7 +2457,7 @@
       const deck = this.decksMap.get(deckId) || this.decks[0];
       const allItems = deck ? deck.objectIds.map((id) => this.objectsMap.get(id)).filter(Boolean) : [];
       if (includeAllTiers || !allItems.length) return allItems;
-      const maxTier = QuizConfigEngine.getMaxTierNum();
+      const maxTier = QuizConfigEngine.getMaxTierNum(deck ? deck.moduleId || deck.id : deckId);
       if (maxTier >= 3) return allItems;
       const filtered = allItems.filter((it) => (it.tier || 3) <= maxTier);
       return filtered.length > 0 ? filtered : allItems;
@@ -3208,37 +3622,43 @@
         };
       });
 
-      // Модалка гибкой настройки опроса (в шапке Хаба, в шапке карты и в боковом меню)
+      // Модалка гибкой настройки опроса (для каждого раздела отдельно)
       const cfgModal = document.getElementById('surveyConfigModal');
-      const openSurveyConfig = () => {
+      const openActiveSectionConfig = () => {
         TelegramBridge.hapticSelect();
-        QuizConfigEngine.syncUI();
-        cfgModal?.classList.add('open');
+        const curDeck = NomenclatureEngine.getActiveDeck();
+        const modId = (curDeck && curDeck.moduleId) || this.activeDeckModalGroup || 'module1';
+        QuizConfigEngine.openModal(modId, null);
         this.syncTelegramBackButton();
       };
-      document.getElementById('hubConfigBtn')?.addEventListener('click', openSurveyConfig);
-      document.getElementById('hubOpenConfigBtn')?.addEventListener('click', openSurveyConfig);
-      document.getElementById('headerConfigBtn')?.addEventListener('click', openSurveyConfig);
+      document.getElementById('headerConfigBtn')?.addEventListener('click', openActiveSectionConfig);
       document.getElementById('drawerOpenConfigBtn')?.addEventListener('click', () => {
         document.getElementById('roadmapDrawer')?.classList.remove('open');
-        openSurveyConfig();
+        openActiveSectionConfig();
       });
 
-      const closeSurveyConfig = () => {
+      const cancelSurveyConfig = () => {
+        QuizConfigEngine.pendingLaunchDeckId = null;
         cfgModal?.classList.remove('open');
         this.syncTelegramBackButton();
-        if (this.appMode === 'objects') {
-          this.updateDeckStatsUI();
-          this.runNextObject();
-        } else if (this.appMode === 'hub') {
-          this.renderHub();
-        }
       };
-      document.getElementById('closeSurveyConfigModalBtn')?.addEventListener('click', closeSurveyConfig);
+      document.getElementById('closeSurveyConfigModalBtn')?.addEventListener('click', cancelSurveyConfig);
       document.getElementById('saveSurveyConfigBtn')?.addEventListener('click', () => {
         TelegramBridge.hapticHit();
-        closeSurveyConfig();
-        this.showToast(`✓ Настройки опроса применены`);
+        const launchDeckId = QuizConfigEngine.pendingLaunchDeckId;
+        QuizConfigEngine.pendingLaunchDeckId = null;
+        cfgModal?.classList.remove('open');
+        this.syncTelegramBackButton();
+        if (launchDeckId) {
+          this.startObjectsPractice(launchDeckId);
+        } else if (this.appMode === 'objects') {
+          this.updateDeckStatsUI();
+          this.runNextObject();
+          this.showToast('✓ Настройки раздела применены');
+        } else if (this.appMode === 'hub') {
+          this.renderHub();
+          this.showToast('✓ Настройки раздела сохранены');
+        }
       });
 
       document.querySelectorAll('#cfgPresetRow .pp-choice-btn').forEach((btn) => {
@@ -3257,12 +3677,6 @@
         btn.onclick = () => {
           TelegramBridge.hapticSelect();
           QuizConfigEngine.setCardMode(btn.getAttribute('data-cardmode') || 'smart');
-        };
-      });
-      document.querySelectorAll('#cfgTopicsGrid .pp-choice-btn').forEach((btn) => {
-        btn.onclick = () => {
-          TelegramBridge.hapticSelect();
-          QuizConfigEngine.toggleTopic(btn.getAttribute('data-topic') || '');
         };
       });
 
@@ -3444,6 +3858,7 @@
       document.querySelectorAll('.modal-overlay').forEach((ov) => {
         ov.addEventListener('click', (e) => {
           if (e.target === ov && ov.id !== 'resultsModal') {
+            if (ov.id === 'surveyConfigModal') QuizConfigEngine.pendingLaunchDeckId = null;
             ov.classList.remove('open');
             this.syncTelegramBackButton();
           }
@@ -3848,6 +4263,7 @@
             })
             .join('');
 
+          const modModeLabel = QuizConfigEngine.getModuleBadgeText(mod.id);
           card.innerHTML = `
             <div>
               <div class="bento-mod-top">
@@ -3862,13 +4278,13 @@
                 </div>
                 <div class="bento-mod-counters">
                   <span>Выучено: <strong>${st.masteredCount}</strong> из ${st.total}</span>
-                  <span>Повтор: ${st.learnCount + st.reviewCount}</span>
+                  <span class="bento-mod-mode-pill">${modModeLabel}</span>
                 </div>
               </div>
               <div class="bento-subdecks-wrap">${chipsHtml}</div>
             </div>
             <div class="bento-mod-footer-3">
-              <button type="button" class="bento-btn-start" data-start-deck="${mod.mainDeckId}">
+              <button type="button" class="bento-btn-start" data-start-deck="${mod.mainDeckId}" data-mod-id="${mod.id}">
                 🎯 ${st.masteredPct === 100 ? 'Повторить' : 'Учить'}
               </button>
               <button type="button" class="bento-btn-atlas" data-atlas-deck="${mod.mainDeckId}">
@@ -3894,7 +4310,8 @@
 
           card.querySelector('.bento-btn-start')?.addEventListener('click', () => {
             TelegramBridge.hapticSelect();
-            this.startObjectsPractice(mod.mainDeckId);
+            QuizConfigEngine.openModal(mod.id, mod.mainDeckId);
+            this.syncTelegramBackButton();
           });
 
           card.querySelector('.bento-btn-atlas')?.addEventListener('click', () => {
@@ -4177,9 +4594,9 @@
 
       document.getElementById('inspectorCategoryTag').textContent = item.categoryRu;
       document.getElementById('inspectorTitle').textContent = item.title;
-      document.getElementById('inspectorRegion').textContent = `🌍 ${item.continent || item.worldRegion || 'Мир'} • ${item.worldRegion || ''}`;
+      const atlasView = QuizConfigEngine.filterCardData(item);
       document.getElementById('inspectorDesc').textContent =
-        item.ankiCard?.backMainAnswer || item.desc || 'Входит в программу курса.';
+        atlasView.mainAnswer || item.desc || 'Входит в программу курса.';
 
       const s = NomenclatureEngine.getState(item.id);
       const badge = document.getElementById('inspectorAnkiBadge');
@@ -4195,23 +4612,18 @@
 
       const metaGrid = document.getElementById('inspectorMetaGrid');
       metaGrid.innerHTML = '';
-      const latStr = lat >= 0 ? `${lat.toFixed(1)}° с.ш.` : `${Math.abs(lat).toFixed(1)}° ю.ш.`;
-      const lngStr = lng >= 0 ? `${lng.toFixed(1)}° в.д.` : `${Math.abs(lng).toFixed(1)}° з.д.`;
-      const chips = [`📍 ${latStr}, ${lngStr}`, `⚡ ${item.difficulty}`];
+      const chips = [];
       if (item.ankiCard && Array.isArray(item.ankiCard.backMetrics)) {
-        item.ankiCard.backMetrics.slice(0, 4).forEach((m) => {
-          if (m && m.value && m.value !== '—') {
+        item.ankiCard.backMetrics.forEach((m) => {
+          if (
+            m && m.value && m.value !== '—' &&
+            !QuizConfigEngine.BLOCKED_METRIC_LABELS.has((m.label || '').trim().toLowerCase())
+          ) {
             chips.push(`${m.label}: ${m.value}`);
           }
         });
-      } else {
-        if (item.origin) chips.push(`🪨 Происхождение: ${item.origin}`);
-        if (item.area && item.area !== '—') chips.push(`📐 ${item.area}`);
-        if (item.thermalDesc) chips.push(`🌡️ ${item.thermalDesc}`);
-        if (item.surfaceType) chips.push(`🏜️ ${item.surfaceType}`);
       }
-
-      chips.forEach((c) => {
+      chips.slice(0, 5).forEach((c) => {
         const sp = document.createElement('span');
         sp.className = 'meta-chip';
         sp.textContent = c;
@@ -4251,7 +4663,6 @@
       document.getElementById('inspectorAnkiBadge').className = 'anki-status-badge status-new';
       document.getElementById('inspectorAnkiBadge').textContent = '📘 Обзор';
       document.getElementById('inspectorTitle').textContent = info.name;
-      document.getElementById('inspectorRegion').textContent = info.etymology || 'Тихий / Атлантический океан';
       document.getElementById('inspectorDesc').textContent = `${info.desc} Состав: ${info.main_islands || ''}`;
       document.getElementById('inspectorMetaGrid').innerHTML = '';
     },
@@ -4932,6 +5343,7 @@
 
       this.closeHub();
       this.appMode = 'objects';
+      this.sessionStepCount = 0;
 
       if (deckId && NomenclatureEngine.decksMap.has(deckId)) {
         NomenclatureEngine.activeDeckId = deckId;
@@ -4941,6 +5353,7 @@
       const curDeck = NomenclatureEngine.getActiveDeck();
       const st = NomenclatureEngine.getDeckStats(curDeck.id);
       this.maintenanceSession = Boolean(!forcedItem && st.total > 0 && st.masteredCount === st.total);
+      QuizConfigEngine.editingModuleId = QuizConfigEngine.getModuleId(curDeck);
 
       document.getElementById('atlasExploreBar').style.display = 'none';
       document.getElementById('atlasInspectorCard').style.display = 'none';
@@ -4967,6 +5380,37 @@
       this.syncTelegramBackButton();
     },
 
+    pickArchipelagoQuizCard(deckId) {
+      const deck = NomenclatureEngine.decksMap.get(deckId);
+      if (!deck || deck.moduleId !== 'module1') return null;
+      if (!QuizConfigEngine.isArchipelagoQuizEnabled('module1')) return null;
+
+      const deckItems = NomenclatureEngine.getFilteredDeckItems(deckId, false);
+      const activeIds = new Set(deckItems.map((x) => x.id));
+      const candidates = (NomenclatureEngine.archipelagoQuizCards || []).filter((c) =>
+        c.sourceItemIds.some((id) => activeIds.has(id))
+      );
+      if (candidates.length === 0) return null;
+
+      const nonLast = candidates.filter((c) => c.id !== this.lastArchQuizId);
+      const pool = nonLast.length > 0 ? nonLast : candidates;
+
+      // Приоритет: на повторе / новые / давно не повторялись
+      pool.sort((a, b) => {
+        const sa = NomenclatureEngine.getState(a.id);
+        const sb = NomenclatureEngine.getState(b.id);
+        const rank = { learning: 0, review: 1, new: 2, mastered: 3 };
+        const ra = rank[sa.status] ?? 2;
+        const rb = rank[sb.status] ?? 2;
+        if (ra !== rb) return ra - rb;
+        return (sa.lastReviewed || 0) - (sb.lastReviewed || 0);
+      });
+
+      const chosen = pool[0];
+      this.lastArchQuizId = chosen.id;
+      return chosen;
+    },
+
     runNextObject() {
       AutoAdvanceController.cancel();
       if (this.anki3dRevealTimer) {
@@ -4980,6 +5424,21 @@
       document.getElementById('subtaskOverlay').style.display = 'none';
       document.getElementById('briefingOverlay').style.display = 'none';
       document.getElementById('anki3dOverlay').style.display = 'none';
+
+      this.sessionStepCount = (this.sessionStepCount || 0) + 1;
+
+      if (this.sessionStepCount >= 4 && this.sessionStepCount % 4 === 0) {
+        const archCard = this.pickArchipelagoQuizCard(NomenclatureEngine.activeDeckId);
+        if (archCard) {
+          this.activeItem = archCard;
+          this.isItemAnswered = true;
+          this.activeTaskFormat = 'archipelago_quiz';
+          document.getElementById('taskHudCard').style.display = 'none';
+          this.openAnki3dModal(archCard, true, 0);
+          this.syncTelegramBackButton();
+          return;
+        }
+      }
 
       const nextObj = NomenclatureEngine.getNextObject(NomenclatureEngine.activeDeckId, this.maintenanceSession);
       if (!nextObj) {
@@ -5126,7 +5585,10 @@
 
       const hitPill = document.getElementById('anki3dHitStatusPill');
       if (hitPill) {
-        if (item.isOceanEntity) {
+        if (item._isArchipelagoQuiz) {
+          hitPill.classList.remove('miss');
+          hitPill.textContent = '🏝️ Состав архипелага';
+        } else if (item.isOceanEntity) {
           hitPill.classList.remove('miss');
           hitPill.textContent = '🌊 Мировой океан';
         } else if (isHit) {
@@ -5140,22 +5602,48 @@
 
       const peekBtn = document.getElementById('anki3dPeekMapBtn');
       if (peekBtn) {
+        peekBtn.style.display = item._isArchipelagoQuiz ? 'none' : 'inline-flex';
         peekBtn.innerHTML = '<span>🗺️</span><span>Карта</span>';
       }
 
-      const cardData = item.ankiCard || {};
+      const flipBtn = document.getElementById('anki3dFlipBtn');
+      if (flipBtn) {
+        flipBtn.textContent = item._isArchipelagoQuiz ? '↻ Проверить состав' : '↻ Показать ответ';
+      }
+
       const title = item.displayTitle || item.title;
       const filteredView = QuizConfigEngine.filterCardData(item);
 
       document.getElementById('anki3dFrontTitle').textContent = title;
-      document.getElementById('anki3dFrontQuestion').textContent =
-        cardData.frontQuestion || `Вспомните основные характеристики объекта «${title}»:`;
+      document.getElementById('anki3dFrontQuestion').textContent = QuizConfigEngine.buildFrontQuestion(item);
 
       document.getElementById('anki3dBackTitle').textContent = title;
-      document.getElementById('anki3dBackMainAnswer').textContent = filteredView.mainAnswer;
+      const mainAnswerEl = document.getElementById('anki3dBackMainAnswer');
+      if (item._isArchipelagoQuiz && filteredView.archMembers.length > 0) {
+        mainAnswerEl.innerHTML = '';
+        const pillsWrap = document.createElement('div');
+        pillsWrap.className = 'anki3d-arch-pills';
+        filteredView.archMembers.forEach((isl) => {
+          const sp = document.createElement('span');
+          sp.className = 'anki3d-arch-pill';
+          sp.textContent = isl;
+          pillsWrap.appendChild(sp);
+        });
+        mainAnswerEl.appendChild(pillsWrap);
+      } else {
+        mainAnswerEl.textContent = filteredView.mainAnswer;
+      }
 
       const metricsGrid = document.getElementById('anki3dBackMetricsGrid');
       metricsGrid.innerHTML = '';
+
+      if (!item._isArchipelagoQuiz && filteredView.archMembers.length > 0) {
+        const box = document.createElement('div');
+        box.className = 'anki3d-metric-box';
+        box.style.gridColumn = '1 / -1';
+        box.innerHTML = `<span class="anki3d-metric-lbl">Состав архипелага</span><span class="anki3d-metric-val">${filteredView.archMembers.join(', ')}</span>`;
+        metricsGrid.appendChild(box);
+      }
 
       filteredView.metrics.forEach((m) => {
         const box = document.createElement('div');
@@ -5164,7 +5652,11 @@
         metricsGrid.appendChild(box);
       });
 
-      document.getElementById('anki3dBackNote').textContent = filteredView.note;
+      const backNoteEl = document.getElementById('anki3dBackNote');
+      if (backNoteEl) {
+        backNoteEl.textContent = filteredView.note || '';
+        backNoteEl.style.display = filteredView.note ? 'block' : 'none';
+      }
 
       overlay.style.display = 'flex';
       MotionFX.pop(overlay.querySelector('.anki3d-modal-sheet'));
@@ -5209,7 +5701,9 @@
         CapeSyncBridge.syncToContinentExam(item.id, syncAct);
       }
 
-      const countedAsCorrect = st.isHit && safeGrade >= 3;
+      const countedAsCorrect = item._isArchipelagoQuiz
+        ? safeGrade >= 3
+        : (st.isHit && safeGrade >= 3);
       Gamification.onAnswer(countedAsCorrect);
 
       if (safeGrade >= 3) {

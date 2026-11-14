@@ -66,26 +66,12 @@
             </div>
             <div class="pp-nav-dock">
               <span class="pp-nav-circle active" title="Главный экран">🗺️</span>
-              <button class="pp-nav-circle" id="hubConfigBtn" title="Настройка опроса и параметров">⚙️</button>
               <button class="pp-nav-circle" id="hubSoundBtn" title="Включить / выключить звук">
                 <span id="hubSoundIcon">🔔</span>
               </button>
             </div>
           </div>
         </header>
-
-        <!-- Быстрая панель настройки опроса под шапкой -->
-        <div class="hub-config-strip" id="hubConfigBanner">
-          <div class="hub-config-info">
-            <span class="pp-green-dot"></span>
-            <span class="hub-config-caption">Опрос:</span>
-            <strong id="hubConfigLabel">Основной • Карта + характеристики</strong>
-          </div>
-          <button type="button" class="pp-inline-pill-btn" id="hubOpenConfigBtn">
-            <span>⚙️</span>
-            <span>Настроить опрос</span>
-          </button>
-        </div>
 
         <!-- 4 больших раздела курса -->
         <div class="hub-bento-modules-grid" id="hubModulesBentoGrid">
@@ -309,7 +295,6 @@
         <button class="drawer-close-btn small" id="closeInspectorBtn" title="Закрыть карточку">✕</button>
       </div>
       <h3 class="inspector-title" id="inspectorTitle">Название объекта</h3>
-      <div class="inspector-region" id="inspectorRegion">🌍 Регион</div>
       <p class="inspector-desc" id="inspectorDesc">Описание объекта</p>
       <div class="inspector-meta-grid" id="inspectorMetaGrid"></div>
       <div class="inspector-actions">
@@ -660,68 +645,78 @@
     </div>
 
     <!-- ========================================================
-         НАСТРОЙКА ОПРОСА (ГИБКАЯ НАСТРОЙКА В СТИЛЕ PARAPLAN)
+         НАСТРОЙКА ОПРОСА (ИНДИВИДУАЛЬНО ДЛЯ КАЖДОГО РАЗДЕЛА)
          ======================================================== -->
     <div class="modal-overlay" id="surveyConfigModal">
       <div class="modal-card pp-settings-card">
         <div class="pp-settings-header">
           <div class="pp-settings-title-wrap">
-            <div class="pp-logo-sq">🧭</div>
+            <div class="pp-logo-sq" id="cfgModalIcon">🧭</div>
             <div>
-              <h3>Настройка опроса</h3>
-              <p class="pp-settings-sub"><span class="pp-green-dot"></span> Параметры можно менять в любой момент</p>
+              <div class="pp-settings-heading-row">
+                <h3 id="cfgModalTitle">Настройка опроса</h3>
+                <span class="pp-section-badge" id="cfgModuleBadge">Раздел 1</span>
+              </div>
+              <p class="pp-settings-sub"><span class="pp-green-dot"></span> <span id="cfgModalSub">Материки, острова, пустыни</span></p>
             </div>
           </div>
           <button class="drawer-close-btn" id="closeSurveyConfigModalBtn" title="Закрыть">✕</button>
         </div>
 
         <div class="pp-settings-body">
-          <!-- Блок 1: Быстрый профиль -->
+          <!-- Блок 1: Сложность опроса -->
           <div class="pp-setting-section">
-            <div class="pp-section-label">БЫСТРЫЙ ПРОФИЛЬ</div>
-            <div class="pp-choice-grid cols-3" id="cfgPresetRow">
+            <div class="pp-label-row">
+              <span class="pp-section-label">СЛОЖНОСТЬ ОПРОСА</span>
+              <span class="pp-section-hint">Быстрый выбор или своя настройка</span>
+            </div>
+            <div class="pp-choice-grid cols-4" id="cfgPresetRow">
               <button type="button" class="pp-choice-btn" data-preset="map_only">Только карта</button>
               <button type="button" class="pp-choice-btn active" data-preset="balanced">Основной</button>
               <button type="button" class="pp-choice-btn" data-preset="full">Максимум</button>
+              <button type="button" class="pp-choice-btn" data-preset="custom">Своя</button>
             </div>
           </div>
 
-          <!-- Блок 2: Охват объектов -->
+          <!-- Блок 2: Охват объектов на карте -->
           <div class="pp-setting-section">
-            <div class="pp-section-label">ОХВАТ ОБЪЕКТОВ В ТЕМАХ</div>
+            <div class="pp-label-row">
+              <span class="pp-section-label">ОХВАТ ОБЪЕКТОВ</span>
+              <span class="pp-section-hint" id="cfgScopeHint">Сколько объектов спрашивать на карте</span>
+            </div>
             <div class="pp-choice-grid cols-3" id="cfgScopeRow">
               <button type="button" class="pp-choice-btn" data-scope="core">Ключевые</button>
               <button type="button" class="pp-choice-btn active" data-scope="extended">Расширенный</button>
-              <button type="button" class="pp-choice-btn" data-scope="all">Все (100%)</button>
+              <button type="button" class="pp-choice-btn" data-scope="all">Все объекты</button>
             </div>
           </div>
 
-          <!-- Блок 3: Карточка характеристик после карты -->
+          <!-- Блок 3: Характеристика объекта -->
           <div class="pp-setting-section">
-            <div class="pp-section-label">КАРТОЧКА ТЕОРИИ ПОСЛЕ КАРТЫ</div>
+            <div class="pp-label-row">
+              <span class="pp-section-label">ХАРАКТЕРИСТИКА ОБЪЕКТА</span>
+              <span class="pp-section-hint">Для каких объектов спрашивать теорию</span>
+            </div>
             <div class="pp-choice-grid cols-3" id="cfgCardModeRow">
-              <button type="button" class="pp-choice-btn" data-cardmode="never">Не открывать</button>
-              <button type="button" class="pp-choice-btn active" data-cardmode="smart">По темам</button>
+              <button type="button" class="pp-choice-btn" data-cardmode="never">Никогда</button>
+              <button type="button" class="pp-choice-btn active" data-cardmode="smart">Важные</button>
               <button type="button" class="pp-choice-btn" data-cardmode="always">Для всех</button>
             </div>
           </div>
 
-          <!-- Блок 4: Какие параметры показывать и опрашивать -->
-          <div class="pp-setting-section">
-            <div class="pp-section-label">ЧТО СПРАШИВАТЬ В ХАРАКТЕРИСТИКАХ</div>
-            <div class="pp-choice-grid cols-2" id="cfgTopicsGrid">
-              <button type="button" class="pp-choice-btn active" data-topic="folding">Складчатость гор <span class="pp-chk">✓</span></button>
-              <button type="button" class="pp-choice-btn active" data-topic="metrics">Высоты и глубины <span class="pp-chk">✓</span></button>
-              <button type="button" class="pp-choice-btn active" data-topic="origin">Типы островов, озёр, пустынь <span class="pp-chk">✓</span></button>
-              <button type="button" class="pp-choice-btn active" data-topic="ocean">Течения, желоба и моря <span class="pp-chk">✓</span></button>
-              <button type="button" class="pp-choice-btn active" data-topic="notes">Описание и регион <span class="pp-chk">✓</span></button>
+          <!-- Блок 4: Что спрашивать именно в этом разделе -->
+          <div class="pp-setting-section" id="cfgTopicsSection">
+            <div class="pp-label-row">
+              <span class="pp-section-label" id="cfgTopicsLabel">ЧТО СПРАШИВАТЬ В ЭТОМ РАЗДЕЛЕ</span>
             </div>
-            <p class="pp-helper-caption">Нажмите на параметр, чтобы включить или исключить его из опроса</p>
+            <div class="pp-choice-grid cols-1" id="cfgTopicsGrid">
+              <!-- Генерируется динамически для каждого раздела -->
+            </div>
           </div>
         </div>
 
         <button type="button" class="pp-apply-btn" id="saveSurveyConfigBtn">
-          ✓ Применить настройки
+          🎯 Начать опрос
         </button>
       </div>
     </div>
