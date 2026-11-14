@@ -54,6 +54,8 @@ function run() {
       assert(!content.includes('!important'), `${f} must contain 0 !important rules`);
     }
   });
+  const cssAll = ['css/01-tokens-daisy.css', 'css/02-kokonut-hub.css', 'css/03-map-hud.css', 'css/04-flipcard-modals.css'].map(read).join('\n');
+  assert(cssAll.includes('.hidden.hidden'), '.hidden must have >= (0,2,0) specificity to beat component display rules');
   console.log(`[PASS] Syntax, line budgets (<700), and 0 !important checks (${modularFiles.length} files)`);
 
   // 2. HTML ID & Script Reference Checks

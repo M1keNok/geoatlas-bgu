@@ -52,7 +52,8 @@ html, body {
   user-select: none;
 }
 
-.hidden {
+.hidden.hidden,
+[hidden] {
   display: none;
 }
 
