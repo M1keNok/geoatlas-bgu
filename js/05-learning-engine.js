@@ -459,6 +459,32 @@
       return limit ? shuffled.slice(0, limit) : shuffled;
     },
 
+    saveSectionResume(sectionKey, itemId) {
+      if (!sectionKey || !itemId) return;
+      this.meta.sectionResume = this.meta.sectionResume || {};
+      this.meta.sectionResume[sectionKey] = {
+        id: itemId,
+        scope: this.meta.scope || 'full',
+        updatedAt: Date.now()
+      };
+      GeoAtlas.StorageAdapter?.saveMeta(this.meta);
+    },
+
+    clearSectionResume(sectionKey) {
+      if (!sectionKey || !this.meta.sectionResume || !this.meta.sectionResume[sectionKey]) return;
+      delete this.meta.sectionResume[sectionKey];
+      GeoAtlas.StorageAdapter?.saveMeta(this.meta);
+    },
+
+    applySectionResume(sectionKey, freshQueue) {
+      if (!sectionKey || !Array.isArray(freshQueue) || freshQueue.length <= 1) return freshQueue;
+      const entry = this.meta.sectionResume && this.meta.sectionResume[sectionKey];
+      if (!entry || !entry.id || entry.scope !== (this.meta.scope || 'full')) return freshQueue;
+      const idx = freshQueue.findIndex((it) => it.id === entry.id);
+      if (idx <= 0) return freshQueue;
+      return freshQueue.slice(idx).concat(freshQueue.slice(0, idx));
+    },
+
     pickNeighborDistractors(targetItem, count = 3) {
       if (!targetItem) return [];
       const center = GeoAtlas.GeoMath.getItemCenter(targetItem);

@@ -88,7 +88,7 @@
     start({ mode = 'learn', moduleId = null, submoduleId = null } = {}) {
       const engine = GeoAtlas.LearningEngine;
       const scope = engine.meta.scope;
-      const queue = engine.buildSessionQueue({ mode, moduleId, submoduleId });
+      let queue = engine.buildSessionQueue({ mode, moduleId, submoduleId });
 
       if (!queue.length) {
         GeoAtlas.App.showToast('В выбранном разделе пока нет объектов для тренировки');
@@ -99,6 +99,9 @@
       this.mode = mode;
       this.moduleId = moduleId;
       this.submoduleId = submoduleId;
+      if (mode === 'learn' || mode === 'theory') {
+        queue = engine.applySectionResume(this._getExploreKey(), queue);
+      }
       this.queue = queue;
       this.pool =
         mode === 'theory'
@@ -300,6 +303,9 @@
       this.mistakes = 0;
       this.revealed = false;
       this.awaitingNext = false;
+      if (this.mode === 'learn' || this.mode === 'theory') {
+        GeoAtlas.LearningEngine.saveSectionResume(this._getExploreKey(), item.id);
+      }
 
       GeoAtlas.MapEngine.clearTrainer();
       this._hideAllSubBars();
@@ -658,6 +664,7 @@
 
     _showResults() {
       this._hideAllSubBars();
+      GeoAtlas.LearningEngine.clearSectionResume(this._getExploreKey());
       document.getElementById('trainerHud')?.classList.add('hidden');
       GeoAtlas.MapEngine.clearPool();
       const modal = document.getElementById('resultsModal');

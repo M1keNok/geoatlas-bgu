@@ -95,6 +95,7 @@
       updatedAt: 0,
       exploredSections: {},
       skippedCards: {},
+      sectionResume: {},
       customModules: {
         module1: { capes: true, continentsEarth: true, islands: false, peninsulas: false },
         module2: { mountainAge: true, volcanoType: true, depressionSign: true, plains: true },
@@ -226,6 +227,14 @@
         if (srcMeta.skippedCards && typeof srcMeta.skippedCards === 'object') {
           Object.keys(srcMeta.skippedCards).forEach((k) => {
             if (srcMeta.skippedCards[k]) meta.skippedCards[k] = true;
+          });
+        }
+        if (srcMeta.sectionResume && typeof srcMeta.sectionResume === 'object') {
+          Object.keys(srcMeta.sectionResume).forEach((k) => {
+            const entry = srcMeta.sectionResume[k];
+            if (entry && typeof entry.id === 'string') {
+              meta.sectionResume[k] = { id: entry.id, scope: entry.scope || 'full', updatedAt: Number(entry.updatedAt) || 0 };
+            }
           });
         }
         if (srcMeta.customModules && typeof srcMeta.customModules === 'object') {
@@ -362,6 +371,16 @@
         local.meta.skippedCards || {},
         (cloudMeta && cloudMeta.skippedCards) || {}
       );
+      const localRes = local.meta.sectionResume || {};
+      const cloudRes = (cloudMeta && cloudMeta.sectionResume) || {};
+      const mergedRes = {};
+      new Set([...Object.keys(localRes), ...Object.keys(cloudRes)]).forEach((k) => {
+        const a = localRes[k];
+        const b = cloudRes[k];
+        if (a && b) mergedRes[k] = (b.updatedAt || 0) > (a.updatedAt || 0) ? b : a;
+        else if (a || b) mergedRes[k] = a || b;
+      });
+      mergedMeta.sectionResume = mergedRes;
 
       const compactMerged = {};
       Object.keys(mergedStates).forEach((id) => {

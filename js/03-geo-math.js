@@ -302,14 +302,13 @@
 
   function getReviewTier(state, currentStep = 0) {
     if (!state) return 2;
-    if (state.weakSpot) return 0;
     const reps = state.reps || 0;
     const isMastered = state.status === 'mastered' && reps >= 2;
     if (state.status && state.status !== 'new' && (state.dueStep || 0) <= currentStep) {
-      return 1; // Anki due item whose interval has elapsed
+      return state.weakSpot ? 0 : 1; // Due item whose interval has elapsed
     }
-    if (!state.status || state.status === 'new' || reps === 0) return 2;
-    if (!isMastered && reps >= 1) return 3; // In-progress learning item not yet due
+    if (!state.status || state.status === 'new') return 2;
+    if (!isMastered) return 3; // In-progress learning item not yet due
     return 4; // Mastered item not yet due
   }
 
