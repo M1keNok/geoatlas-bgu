@@ -176,7 +176,6 @@
       const pctEl = document.getElementById('overallPct');
       const cntEl = document.getElementById('overallCount');
       const barEl = document.getElementById('overallBar');
-      const weakHintEl = document.getElementById('overallWeakHint');
 
       if (pctEl) pctEl.textContent = `${overall.pct}%`;
       if (cntEl) {
@@ -188,9 +187,6 @@
       if (barEl) barEl.style.width = `${overall.pct}%`;
 
       const weakCount = GeoAtlas.LearningEngine.getWeakSpotsItems().length;
-      if (weakHintEl) {
-        weakHintEl.textContent = 'Общий прогресс по всем разделам программы ОЗ';
-      }
 
       const weakBanner = document.getElementById('weakBanner');
       const weakBadge = document.getElementById('weakCountBadge');
