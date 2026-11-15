@@ -176,6 +176,13 @@
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border-strong);
   color: var(--text-secondary);
+  font-size: 13px;
+  min-height: 40px;
+  height: auto;
+  padding: 8px 14px;
+  white-space: normal;
+  line-height: 1.35;
+  text-align: center;
 }
 
 .flip-skip-btn:hover {
