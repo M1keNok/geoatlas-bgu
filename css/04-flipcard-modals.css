@@ -124,8 +124,14 @@
 }
 
 .flip-prompt {
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.3);
   font-size: 15px;
-  color: var(--text-secondary);
+  font-weight: 600;
+  line-height: 1.45;
+  color: #e0f2fe;
 }
 
 .flip-answer-box {

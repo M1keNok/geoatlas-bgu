@@ -96,6 +96,34 @@
     return `Крайняя точка (${item.region || item.continent || ''})`;
   }
 
+  function formatRecallPrompt(item, rawPrompt) {
+    const clean = String(rawPrompt || '').trim();
+    if (clean && !/^покажите на карте/i.test(clean)) {
+      const name = String(item.name || '').trim();
+      const short = String(item.shortName || '').trim();
+      let stripped = clean;
+      if (name && stripped.endsWith(`: ${name}`)) stripped = stripped.slice(0, -(`: ${name}`).length).trim();
+      else if (name && stripped.endsWith(`: ${name}?`)) stripped = stripped.slice(0, -(`: ${name}?`).length).trim() + '?';
+      else if (short && stripped.endsWith(`: ${short}`)) stripped = stripped.slice(0, -(`: ${short}`).length).trim();
+      stripped = stripped.replace(/:\s*$/, '').replace(/\s+для\s*$/i, '').trim();
+      if (stripped && stripped.toLowerCase() !== name.toLowerCase()) return stripped;
+    }
+    const cat = item.category;
+    if (cat === 'mountains') return 'Вспомните эпоху складчатости, высшую точку и высоту (м)';
+    if (cat === 'volcanoes') return 'Вспомните вулканический пояс, высоту (м) и местоположение';
+    if (cat === 'depressions' || item.submoduleId === 'm2_depressions') return 'Вспомните глубину ниже уровня моря (м) и местоположение';
+    if (cat === 'plains') return 'Вспомните местоположение и особенности равнины';
+    if (cat === 'seas') return 'Вспомните океанический бассейн и тип моря (окраинное / внутреннее / межостровное)';
+    if (cat === 'straits') return 'Вспомните, какие акватории соединяет пролив, и его параметры';
+    if (cat === 'gulfs') return 'Вспомните, к какому океану и региону относится залив';
+    if (cat === 'trenches') return 'Вспомните максимальную глубину (м) и океан';
+    if (cat === 'currents') return 'Вспомните температуру (Т/Х/Н) и генезис течения (Д/К/С)';
+    if (cat === 'rivers') return 'Вспомните материк, исток, устье и главные притоки реки';
+    if (cat === 'lakes') return 'Вспомните материк, происхождение котловины и макс. глубину озера';
+    if (cat === 'waterfalls') return 'Вспомните материк, реку и высоту водопада (м)';
+    return 'Вспомните ключевые географические характеристики этого объекта';
+  }
+
   const QuizConfig = {
     buildCardSpec(item, depthPreset = 'essentials', customModules = {}, opts = {}) {
       if (!item) return { requiresFlipCard: false };
@@ -165,7 +193,7 @@
       const card = item.ankiCard || {};
       const facts = [];
 
-      let prompt = card.frontQuestion || item.mapPrompt || 'Вспомните ключевые характеристики объекта';
+      let prompt = formatRecallPrompt(item, card.frontQuestion);
       let answer =
         card.backMainAnswer ||
         [item.region || item.continent, item.locationDesc].filter(Boolean).join(' · ') ||

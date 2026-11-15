@@ -127,7 +127,7 @@ function run() {
   assert.strictEqual(reg.module1.items.filter((i) => i.submoduleId === 'm1_peninsulas').length, 60, 'Expected 60 items in m1_peninsulas');
   assert.strictEqual(reg.module1.items.filter((i) => i.submoduleId === 'm1_islands').length, 148, 'Expected 148 items in m1_islands');
   assert.strictEqual(reg.module1.items.filter((i) => i.submoduleId === 'm1_deserts').length, 38, 'Expected 38 items in m1_deserts');
-  assert.strictEqual(reg.module1.items.filter((i) => i.askConstituentIslands).length, 12, 'Exactly 12 key archipelagos ask constituent islands');
+  assert.strictEqual(reg.module1.items.filter((i) => i.askConstituentIslands).length, 24, 'All 24 archipelagos with constituent islands ask theory card');
 
   const andes = reg.module2.items.find((i) => i.id === 'm2_mtn_andes');
   const ural = reg.module2.items.find((i) => i.id === 'm2_mtn_ural_mountains');
@@ -194,7 +194,7 @@ function run() {
   const britSpec = QuizConfig.buildCardSpec(brit, 'essentials', LearningEngine.meta.customModules);
   assert(britSpec.requiresFlipCard && britSpec.answer.includes('Великобритания'), 'British Isles opens constituent islands flip card');
   const frJ = reg.module1.items.find((i) => i.id === 'm1_cont_isl_17');
-  assert(frJ && !frJ.name.includes(':') && !frJ.askConstituentIslands && !QuizConfig.buildCardSpec(frJ, 'essentials', LearningEngine.meta.customModules).requiresFlipCard, 'Non-key archipelago does not open constituent card');
+  assert(frJ && !frJ.name.includes(':') && frJ.askConstituentIslands && QuizConfig.buildCardSpec(frJ, 'essentials', LearningEngine.meta.customModules).requiresFlipCard, 'All archipelagos with constituent list open theory card');
 
   const aDesert = reg.module1.items.find((i) => i.category === 'desert');
   assert(aDesert && !QuizConfig.buildCardSpec(aDesert, 'custom_full', { module1: { islands: true } }).requiresFlipCard, 'Desert items do not prompt characteristic cards');

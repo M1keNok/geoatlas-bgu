@@ -7683,7 +7683,7 @@ const MODULE1_BASE_ITEMS = (MODULE1_LEGACY_DATA.all_map_items || []).map((item, 
     }
     displayName = basePart;
   }
-  const askConstituentIslands = CORE_ARCHIPELAGO_UIDS.has(item.uid) && Boolean(constituentIslands);
+  const askConstituentIslands = Boolean(constituentIslands);
 
   const metrics = [
     { label: "Категория", value: item.category_ru || item.category },
