@@ -426,7 +426,12 @@
       if (pool.length === 0) return [];
 
       if (mode === 'learn') {
-        const ordered = GeoAtlas.GeoMath.sortItemsBasicToNiche(pool, (id) => this.getState(id), step);
+        const pending = pool.filter((it) => {
+          const s = this.getState(it.id);
+          return !(this.isMastered(s) && (s.dueStep || 0) > step);
+        });
+        const activePool = pending.length > 0 ? pending : pool;
+        const ordered = GeoAtlas.GeoMath.sortItemsBasicToNiche(activePool, (id) => this.getState(id), step);
         return limit ? ordered.slice(0, limit) : ordered;
       }
 
@@ -486,22 +491,37 @@
       let dueOffset = 4;
       let grade = 'STRONG';
 
+      const wasMastered = prev.status === 'mastered' || reps >= 2;
       const theoryMissed = hadFlipCard && !theoryRecalled;
 
       if (mapRevealed) {
         grade = 'FAIL';
-        reps = 0;
         lapses += 1;
-        status = 'learning';
-        weakSpot = theoryMissed ? 'both' : 'map';
-        dueOffset = 3;
+        if (wasMastered) {
+          reps = Math.max(1, reps - 1);
+          status = reps >= 2 ? 'mastered' : 'learning';
+          weakSpot = null;
+          dueOffset = 12;
+        } else {
+          reps = 0;
+          status = 'learning';
+          weakSpot = theoryMissed ? 'both' : 'map';
+          dueOffset = 3;
+        }
       } else if (mapMistakes >= 2 || (mapMistakes === 1 && theoryMissed)) {
         grade = 'WEAK';
-        reps = 0;
         lapses += 1;
-        status = 'learning';
-        weakSpot = theoryMissed ? 'both' : 'map';
-        dueOffset = 5;
+        if (wasMastered) {
+          reps = Math.max(1, reps - 1);
+          status = reps >= 2 ? 'mastered' : 'learning';
+          weakSpot = null;
+          dueOffset = 14;
+        } else {
+          reps = 0;
+          status = 'learning';
+          weakSpot = theoryMissed ? 'both' : 'map';
+          dueOffset = 5;
+        }
       } else if (mapMistakes === 0 && theoryMissed) {
         grade = 'MEDIUM_THEORY';
         lapses += 1;
@@ -537,6 +557,27 @@
       }
 
       return { grade, state: next, dueOffset };
+    },
+
+    markMastered(itemId) {
+      if (!itemId) return null;
+      this.meta.sessionStep = (this.meta.sessionStep || 0) + 1;
+      const step = this.meta.sessionStep;
+      const prev = this.getState(itemId);
+      const next = {
+        status: 'mastered',
+        reps: Math.max(3, (prev.reps || 0) + 1),
+        lapses: prev.lapses || 0,
+        dueStep: step + 9999,
+        lastReviewedAt: Date.now(),
+        weakSpot: null
+      };
+      this.states[itemId] = next;
+      if (GeoAtlas.StorageAdapter) {
+        GeoAtlas.StorageAdapter.saveStates(this.states);
+        GeoAtlas.StorageAdapter.saveMeta(this.meta);
+      }
+      return next;
     }
   };
 

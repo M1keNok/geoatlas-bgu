@@ -36,29 +36,31 @@
 
     _bindControls() {
       const byId = (id) => document.getElementById(id);
+      const clickMap = {
+        btnExitTrainer: () => this.exitToHub(),
+        btnExploreExit: () => this.exitToHub(),
+        btnFlipExitToMenu: () => this.exitToHub(),
+        btnExploreStartRecall: () => this._startRecallFromExplore(),
+        btnMarkMastered: () => this.markCurrentMastered(),
+        btnSkip: () => this.skipCurrent(),
+        btnReveal: () => this.revealCurrent(),
+        btnFlipShowAnswer: () => this._flipCardOpen(),
+        btnFlipForgot: () => this._finishFlip(false),
+        btnFlipRemembered: () => this._finishFlip(true),
+        btnFlipContinue: () => this._finishFlip(false),
+        btnFlipSkipFront: () => this._skipFlipCard(),
+        btnFlipSkipBack: () => this._skipFlipCard(),
+        btnCloseResults: () => this.exitToHub(),
+        btnResultsMenu: () => this.exitToHub()
+      };
+      Object.entries(clickMap).forEach(([id, fn]) => byId(id)?.addEventListener('click', fn));
 
-      byId('btnExitTrainer')?.addEventListener('click', () => this.exitToHub());
       byId('btnReopenExplore')?.addEventListener('click', () => {
         if (!this.active || this.mode === 'theory' || !this.pool.length) return;
         GeoAtlas.TelegramBridge?.hapticImpact('light');
         this._exploreReturnIndex = this.currentIndex;
         this._openExploreStage();
       });
-      byId('btnExploreExit')?.addEventListener('click', () => this.exitToHub());
-      byId('btnFlipExitToMenu')?.addEventListener('click', () => this.exitToHub());
-      byId('btnExploreStartRecall')?.addEventListener('click', () => this._startRecallFromExplore());
-      byId('btnSkip')?.addEventListener('click', () => this.skipCurrent());
-      byId('btnReveal')?.addEventListener('click', () => this.revealCurrent());
-
-      byId('btnFlipShowAnswer')?.addEventListener('click', () => this._flipCardOpen());
-      byId('btnFlipForgot')?.addEventListener('click', () => this._finishFlip(false));
-      byId('btnFlipRemembered')?.addEventListener('click', () => this._finishFlip(true));
-      byId('btnFlipContinue')?.addEventListener('click', () => this._finishFlip(false));
-      byId('btnFlipSkipFront')?.addEventListener('click', () => this._skipFlipCard());
-      byId('btnFlipSkipBack')?.addEventListener('click', () => this._skipFlipCard());
-
-      byId('btnCloseResults')?.addEventListener('click', () => this.exitToHub());
-      byId('btnResultsMenu')?.addEventListener('click', () => this.exitToHub());
       byId('btnResultsWeak')?.addEventListener('click', () => {
         byId('resultsModal')?.classList.add('hidden');
         this.start({ mode: 'weak', moduleId: this.moduleId });
@@ -76,23 +78,15 @@
           if (e.code === 'Space' || e.key === 'Enter') {
             e.preventDefault();
             const card = byId('flipCard');
-            if (card && !card.classList.contains('is-flipped')) {
-              this._flipCardOpen();
-            } else if (this.revealed) {
-              this._finishFlip(false);
-            }
-          } else if (e.key === 'Escape') {
-            this.exitToHub();
-          }
+            if (card && !card.classList.contains('is-flipped')) this._flipCardOpen();
+            else if (this.revealed) this._finishFlip(false);
+          } else if (e.key === 'Escape') this.exitToHub();
           return;
         }
-        if (e.key === 'Escape') {
-          this.exitToHub();
-        } else if (e.key.toLowerCase() === 'k' || e.key.toLowerCase() === 'л') {
-          this.skipCurrent();
-        } else if (e.key.toLowerCase() === 'r' || e.key.toLowerCase() === 'к') {
-          this.revealCurrent();
-        }
+        const key = e.key.toLowerCase();
+        if (e.key === 'Escape') this.exitToHub();
+        else if (key === 'k' || key === 'л') this.skipCurrent();
+        else if (key === 'r' || key === 'к') this.revealCurrent();
       });
     },
 
@@ -314,7 +308,11 @@
 
       const typeLabel = item.categoryLabel || GeoAtlas.LearningEngine.getCategoryLabel(item);
       document.getElementById('hudModeBadge').textContent = MODE_LABELS[this.mode] || 'Обучение';
-      document.getElementById('hudProgressBadge').textContent = `${this.currentIndex + 1} / ${this.queue.length}`;
+      const progressText =
+        this.mode === 'learn' && this.pool.length > 0
+          ? `Выучено ${this.pool.filter((it) => GeoAtlas.LearningEngine.isMastered(it.id)).length} / ${this.pool.length}`
+          : `${this.currentIndex + 1} / ${this.queue.length}`;
+      document.getElementById('hudProgressBadge').textContent = progressText;
       document.getElementById('hudCategoryBadge').textContent = typeLabel;
 
       const targetNameEl = document.getElementById('hudTargetName');
@@ -348,15 +346,11 @@
         : isRecord
         ? `${typeLabel} · покажите рекордсмена на карте, затем вспомните название (3 попытки)`
         : `${typeLabel} · найдите и нажмите на карте (3 попытки)`;
-      if (this.currentIndex === 0) {
-        GeoAtlas.MapEngine.fitBatch(this.pool.length ? this.pool : this.queue, 4);
-      }
+      if (this.currentIndex === 0) GeoAtlas.MapEngine.fitBatch(this.pool.length ? this.pool : this.queue, 4);
     },
 
     _handleMapClick(lat, lng, zoom, clickedItem = null) {
-      if (!this.active || this.inExploreStage || this.mode === 'theory') {
-        return;
-      }
+      if (!this.active || this.inExploreStage || this.mode === 'theory') return;
       if (this.awaitingNext) {
         if (this._revealTimer) {
           clearTimeout(this._revealTimer);
@@ -465,17 +459,29 @@
       }, 1700);
     },
 
+    markCurrentMastered() {
+      const item = this._currentItem();
+      if (!item || this.inExploreStage || this.awaitingNext) return;
+      GeoAtlas.AudioEngine.playSuccess();
+      GeoAtlas.TelegramBridge?.hapticNotification('success');
+      GeoAtlas.LearningEngine.markMastered(item.id);
+      this.sessionClean += 1;
+      for (let i = this.queue.length - 1; i > this.currentIndex; i--) {
+        if (this.queue[i]?.id === item.id) this.queue.splice(i, 1);
+      }
+      GeoAtlas.App?.showToast?.(`✓ ${item.name} — отмечено как выученное`);
+      this._advanceCursor();
+    },
+
     skipCurrent() {
       const item = this._currentItem();
       if (!item || this.inExploreStage || this.awaitingNext) return;
       GeoAtlas.TelegramBridge?.hapticSelection();
       const skippedId = item.id;
       const savedIdx = this.currentIndex;
-
       this.queue.splice(this.currentIndex, 1);
       this.queue.push(item);
       this._presentItem(this.queue[this.currentIndex]);
-
       GeoAtlas.App.showToast('Объект отложен в конец сессии', () => {
         if (!this.active) return;
         const pos = this.queue.findIndex((x) => x.id === skippedId);
