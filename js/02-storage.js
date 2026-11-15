@@ -93,6 +93,7 @@
       sessionStep: 0,
       updatedAt: 0,
       exploredSections: {},
+      skippedCards: {},
       customModules: {
         module1: { capes: true, continentsEarth: true, islands: false, peninsulas: false },
         module2: { mountainAge: true, volcanoType: true, depressionSign: true, plains: true },
@@ -207,7 +208,7 @@
       if (srcMeta && typeof srcMeta === 'object') {
         meta.scope = 'full';
         meta.depthPreset = 'essentials';
-        if (['esri_phys', 'esri_sat', 'vector_offline'].includes(srcMeta.layerId)) {
+        if (['esri_phys', 'esri_sat'].includes(srcMeta.layerId)) {
           meta.layerId = srcMeta.layerId;
         }
         if (typeof srcMeta.muted === 'boolean') meta.muted = srcMeta.muted;
@@ -218,6 +219,11 @@
         if (srcMeta.exploredSections && typeof srcMeta.exploredSections === 'object') {
           Object.keys(srcMeta.exploredSections).forEach((k) => {
             if (srcMeta.exploredSections[k]) meta.exploredSections[k] = true;
+          });
+        }
+        if (srcMeta.skippedCards && typeof srcMeta.skippedCards === 'object') {
+          Object.keys(srcMeta.skippedCards).forEach((k) => {
+            if (srcMeta.skippedCards[k]) meta.skippedCards[k] = true;
           });
         }
         if (srcMeta.customModules && typeof srcMeta.customModules === 'object') {
@@ -336,6 +342,9 @@
         : Object.assign({}, cloudMeta || {}, local.meta);
       mergedMeta.scope = 'full';
       mergedMeta.depthPreset = 'essentials';
+      if (!['esri_phys', 'esri_sat'].includes(mergedMeta.layerId)) {
+        mergedMeta.layerId = 'esri_phys';
+      }
       mergedMeta.sessionStep = Math.max(
         Number(local.meta.sessionStep) || 0,
         Number(cloudMeta && cloudMeta.sessionStep) || 0
@@ -344,6 +353,11 @@
         {},
         local.meta.exploredSections || {},
         (cloudMeta && cloudMeta.exploredSections) || {}
+      );
+      mergedMeta.skippedCards = Object.assign(
+        {},
+        local.meta.skippedCards || {},
+        (cloudMeta && cloudMeta.skippedCards) || {}
       );
 
       const compactMerged = {};

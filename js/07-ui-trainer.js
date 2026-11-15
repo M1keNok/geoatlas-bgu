@@ -28,6 +28,7 @@
     sessionWeak: 0,
     _currentCardSpec: null,
     _exploreReturnIndex: null,
+    _revealTimer: null,
 
     init() {
       this._bindControls();
@@ -45,7 +46,6 @@
       byId('btnExploreExit')?.addEventListener('click', () => this.exitToHub());
       byId('btnFlipExitToMenu')?.addEventListener('click', () => this.exitToHub());
       byId('btnExploreStartRecall')?.addEventListener('click', () => this._startRecallFromExplore());
-      byId('btnHint')?.addEventListener('click', () => this.showHint());
       byId('btnSkip')?.addEventListener('click', () => this.skipCurrent());
       byId('btnReveal')?.addEventListener('click', () => this.revealCurrent());
 
@@ -87,8 +87,6 @@
         }
         if (e.key === 'Escape') {
           this.exitToHub();
-        } else if (e.key.toLowerCase() === 'h' || e.key.toLowerCase() === 'р') {
-          this.showHint();
         } else if (e.key.toLowerCase() === 'k' || e.key.toLowerCase() === 'л') {
           this.skipCurrent();
         } else if (e.key.toLowerCase() === 'r' || e.key.toLowerCase() === 'к') {
@@ -157,6 +155,7 @@
     },
 
     exitToHub() {
+      clearTimeout(this._revealTimer);
       this.active = false;
       this.inExploreStage = false;
       this._exploreReturnIndex = null;
@@ -324,7 +323,6 @@
       this._updateMissDots(0);
 
       if (dotsEl) dotsEl.classList.remove('hidden');
-      document.getElementById('btnHint')?.classList.remove('hidden');
       document.getElementById('btnReveal')?.classList.remove('hidden');
       document.getElementById('btnReopenExplore')?.classList.toggle('hidden', this.mode === 'theory' || !this.pool.length);
 
@@ -410,28 +408,48 @@
       }
     },
 
-    showHint() {
-      const item = this._currentItem();
-      if (!item || GeoAtlas.GeoMath.isOralTheoryItem(item)) return;
-      GeoAtlas.TelegramBridge?.hapticImpact('light');
-      const c = GeoAtlas.GeoMath.getItemCenter(item);
-      const macroLabel = GeoAtlas.GeoMath.MACROREGION_LABELS[GeoAtlas.GeoMath.getMacroregion(item)] || item.continent || 'Регион';
-      GeoAtlas.MapEngine.map?.setView([c.lat, c.lng], 3.3, { animate: true });
-      const compass = document.getElementById('compassBanner');
-      if (compass) {
-        compass.textContent = `💡 Регион: ${item.continent || item.region || macroLabel}`;
-        compass.classList.remove('hidden');
-      }
-    },
-
     revealCurrent() {
       const item = this._currentItem();
-      if (!item || this.awaitingNext || this.inExploreStage) return;
+      if (!item || this.inExploreStage) return;
+      if (this.awaitingNext && this._revealTimer) {
+        clearTimeout(this._revealTimer);
+        this._revealTimer = null;
+        this._advanceCursor();
+        return;
+      }
+      if (this.awaitingNext) return;
       this.revealed = true;
       this.awaitingNext = true;
       GeoAtlas.AudioEngine.playMiss();
       GeoAtlas.TelegramBridge?.hapticNotification('error');
-      this._showTrueObjectAndFailCard(item);
+
+      if (!GeoAtlas.GeoMath.isOralTheoryItem(item)) {
+        GeoAtlas.MapEngine.drawItemShape(GeoAtlas.MapEngine.trainerGroup, item, {
+          highlight: true,
+          showLabel: true
+        });
+        GeoAtlas.MapEngine.fitItem(item, 5);
+      }
+
+      const res = GeoAtlas.LearningEngine.recordCompositeResult(item.id, {
+        mapMistakes: 3,
+        mapRevealed: true,
+        theoryRecalled: true,
+        hadFlipCard: false
+      });
+      this._tallyGrade(res.grade);
+      this._scheduleAnkiRepeat(item, res);
+
+      const compass = document.getElementById('compassBanner');
+      if (compass) {
+        compass.textContent = `📍 ${item.name} · добавлено в повторение`;
+        compass.classList.remove('hidden');
+      }
+      clearTimeout(this._revealTimer);
+      this._revealTimer = setTimeout(() => {
+        this._revealTimer = null;
+        if (this.active) this._advanceCursor();
+      }, 1700);
     },
 
     skipCurrent() {
@@ -473,8 +491,9 @@
     _afterMapStage(item, { mapMistakes, mapRevealed }) {
       const meta = GeoAtlas.LearningEngine.meta;
       const spec = GeoAtlas.QuizConfig.buildCardSpec(item, meta.depthPreset, meta.customModules);
+      const cardSkipped = !!(meta.skippedCards && meta.skippedCards[item.id]);
 
-      if (!spec.requiresFlipCard && !mapRevealed) {
+      if (cardSkipped || (!spec.requiresFlipCard && !mapRevealed)) {
         const res = GeoAtlas.LearningEngine.recordCompositeResult(item.id, {
           mapMistakes,
           mapRevealed,
@@ -584,19 +603,27 @@
       document.getElementById('flipOverlay')?.classList.add('hidden');
       this._currentCardSpec = null;
 
-      if (ctx && this.mode !== 'theory' && !ctx.mapRevealed) {
-        const res = GeoAtlas.LearningEngine.recordCompositeResult(ctx.item.id, {
-          mapMistakes: ctx.mapMistakes || 0,
-          mapRevealed: false,
-          theoryRecalled: true,
-          hadFlipCard: false
-        });
-        this._tallyGrade(res.grade);
+      if (ctx && ctx.item) {
+        const meta = GeoAtlas.LearningEngine.meta;
+        meta.skippedCards = meta.skippedCards || {};
+        meta.skippedCards[ctx.item.id] = true;
+        GeoAtlas.StorageAdapter.saveMeta(meta);
+
+        if (this.mode !== 'theory' && !ctx.mapRevealed) {
+          const res = GeoAtlas.LearningEngine.recordCompositeResult(ctx.item.id, {
+            mapMistakes: ctx.mapMistakes || 0,
+            mapRevealed: false,
+            theoryRecalled: true,
+            hadFlipCard: false
+          });
+          this._tallyGrade(res.grade);
+          this._scheduleAnkiRepeat(ctx.item, res);
+        }
       }
 
       GeoAtlas.AudioEngine.playClick();
       GeoAtlas.TelegramBridge?.hapticSelection();
-      GeoAtlas.App?.showToast('Карточка пропущена (не добавлено в ошибки)');
+      GeoAtlas.App?.showToast('Карточка отключена навсегда для этого объекта');
       this._advanceCursor();
     },
 

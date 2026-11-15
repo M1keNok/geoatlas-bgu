@@ -20,11 +20,6 @@
       url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
       maxNativeZoom: 14,
       maxZoom: 14
-    },
-    vector_offline: {
-      id: 'vector_offline',
-      label: 'Вектор (Офлайн)',
-      isVector: true
     }
   };
 
@@ -145,27 +140,13 @@
       }
 
       const mapEl = this.map.getContainer();
-      if (def.isVector) {
-        mapEl.classList.add('map-vector-bg');
-        this._renderVectorBase(L);
-      } else {
-        mapEl.classList.remove('map-vector-bg');
-        this.activeTileLayer = L.tileLayer(def.url, {
-          maxNativeZoom: def.maxNativeZoom,
-          maxZoom: def.maxZoom,
-          noWrap: false
-        });
-        this.activeTileLayer.on('tileerror', () => {
-          this._tileErrorCount += 1;
-          if (this._tileErrorCount >= 4 && this.currentLayerId !== 'vector_offline') {
-            this.setLayer('vector_offline');
-            if (typeof this._onOfflineFallback === 'function') {
-              this._onOfflineFallback('vector_offline');
-            }
-          }
-        });
-        this.activeTileLayer.addTo(this.map);
-      }
+      mapEl.classList.remove('map-vector-bg');
+      this.activeTileLayer = L.tileLayer(def.url, {
+        maxNativeZoom: def.maxNativeZoom,
+        maxZoom: def.maxZoom,
+        noWrap: false
+      });
+      this.activeTileLayer.addTo(this.map);
     },
 
     _renderVectorBase(L) {

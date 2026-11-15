@@ -94,7 +94,6 @@
             <span class="miss-dot"></span>
           </div>
           <div class="hud-actions">
-            <button id="btnHint" class="btn btn-sm" type="button" title="Подсказать регион (H)">💡 Подсказка</button>
             <button id="btnSkip" class="btn btn-sm" type="button" title="Пропустить пока (K)">⏭ Пропуск</button>
             <button id="btnReveal" class="btn btn-sm btn-danger" type="button" title="Показать ответ (R)">👁 Показать</button>
           </div>
@@ -156,7 +155,6 @@
       <div class="map-layer-pills" id="mapLayerPills">
         <button class="seg-btn" data-layer="esri_phys" type="button">🗺 Физ</button>
         <button class="seg-btn" data-layer="esri_sat" type="button">🛰 Спутник</button>
-        <button class="seg-btn" data-layer="vector_offline" type="button">📐 Вектор</button>
       </div>
     </div>
   </section>
@@ -176,7 +174,8 @@
           <p id="flipPromptFront" class="flip-prompt">Вспомните ключевой факт</p>
           <div class="flip-front-actions">
             <button id="btnFlipShowAnswer" class="btn btn-primary btn-lg btn-shine" type="button">Показать ответ (Пробел)</button>
-            <button id="btnFlipSkipFront" class="btn btn-lg flip-skip-btn" type="button">⏭ Пропустить (преподаватель не спрашивает)</button>
+            <button id="btnFlipSkipFront" class="btn btn-lg flip-skip-btn" type="button">⏭ Пропустить (не спрашивается на зачёте)</button>
+            <div class="flip-skip-hint">После нажатия эта карточка больше никогда не появится для данного объекта</div>
           </div>
         </div>
 
@@ -194,6 +193,7 @@
             <button id="btnFlipForgot" class="btn btn-danger btn-lg" type="button">❌ Не назвал</button>
             <button id="btnFlipRemembered" class="btn btn-primary btn-lg" type="button">✅ Вспомнил</button>
             <button id="btnFlipSkipBack" class="btn btn-lg flip-skip-btn flip-skip-wide" type="button">⏭ Пропустить (не нужно к зачёту)</button>
+            <div class="flip-skip-hint flip-skip-wide">После нажатия эта карточка больше никогда не появится для данного объекта</div>
           </div>
           <div id="flipContinueAction" class="hidden">
             <button id="btnFlipContinue" class="btn btn-primary btn-lg" style="width: 100%;" type="button">Понятно, дальше →</button>

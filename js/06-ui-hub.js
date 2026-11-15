@@ -64,6 +64,7 @@
         GeoAtlas.StorageAdapter.clearStates(GeoAtlas.LearningEngine.states);
         if (GeoAtlas.LearningEngine.meta) {
           GeoAtlas.LearningEngine.meta.exploredSections = {};
+          GeoAtlas.LearningEngine.meta.skippedCards = {};
           GeoAtlas.LearningEngine.meta.sessionStep = 0;
           GeoAtlas.StorageAdapter.saveMeta(GeoAtlas.LearningEngine.meta);
           GeoAtlas.StorageAdapter.flushCloud?.();

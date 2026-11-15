@@ -402,13 +402,17 @@
       const scope = (this.meta && this.meta.scope) || 'full';
       const step = (this.meta && this.meta.sessionStep) || 0;
 
+      const skipped = (this.meta && this.meta.skippedCards) || {};
+
       if (mode === 'theory') {
-        const theory = this.getModuleTheoryItems(moduleId, scope);
+        const theory = this.getModuleTheoryItems(moduleId, scope).filter((it) => !skipped[it.id]);
         return GeoAtlas.GeoMath.sortItemsBasicToNiche(theory, (id) => this.getState(id), step);
       }
 
       if (mode === 'weak') {
-        const weak = this.getWeakSpotsItems(moduleId);
+        const weak = this.getWeakSpotsItems(moduleId).filter(
+          (it) => !(skipped[it.id] && GeoAtlas.GeoMath.isOralTheoryItem(it))
+        );
         return GeoAtlas.GeoMath.sortItemsBasicToNiche(weak, (id) => this.getState(id), step);
       }
 
@@ -416,7 +420,9 @@
         submoduleId === 'm1_continents_earth' ||
         (moduleId === 'module1' && !submoduleId) ||
         (!moduleId && !submoduleId);
-      const pool = this.filterItems({ moduleId, submoduleId, scope, mapOnly: !includeM1Theory });
+      const pool = this.filterItems({ moduleId, submoduleId, scope, mapOnly: !includeM1Theory }).filter(
+        (it) => !(skipped[it.id] && GeoAtlas.GeoMath.isOralTheoryItem(it))
+      );
       if (pool.length === 0) return [];
 
       if (mode === 'learn') {

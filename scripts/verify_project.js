@@ -73,6 +73,7 @@ function run() {
   assert(!html.includes('oralTheoryBanner'), 'Global oralTheoryBanner removed');
   assert(html.includes('<option value="module1" selected>'), 'Atlas defaults to module1');
   assert(!html.includes('scopeSelector') && !html.includes('btnOpenAtlasGlobal') && !html.includes('btnOpenCheatsheet'), 'Scope selector, Atlas and Cheatsheet buttons removed from Hub');
+  assert(!html.includes('btnHint') && !html.includes('vector_offline'), 'Hint button and vector map mode removed');
   assert(html.includes('btnHubResetProgress'), 'Bottom reset progress button present');
 
   const htmlIds = new Set(Array.from(html.matchAll(/\bid="([^"]+)"/g)).map((m) => m[1]));

@@ -305,41 +305,48 @@
 /* Map Controls (Bottom Right) */
 .map-controls {
   position: fixed;
-  right: calc(14px + var(--safe-right));
-  bottom: calc(18px + var(--safe-bottom));
+  right: calc(10px + var(--safe-right));
+  bottom: calc(10px + var(--safe-bottom));
   z-index: 25;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 5px;
   align-items: flex-end;
 }
 
 .map-layer-pills {
   display: flex;
-  gap: 4px;
-  padding: 4px;
-  border-radius: var(--radius-md);
+  gap: 2px;
+  padding: 2px;
+  border-radius: 10px;
   background: var(--bg-glass);
   backdrop-filter: blur(12px);
   border: 1px solid var(--border-subtle);
+}
+
+.map-layer-pills .seg-btn {
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 11.5px;
+  min-height: 28px;
 }
 
 .map-zoom-stack {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 
 .map-ctrl-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
   background: var(--bg-glass);
   backdrop-filter: blur(12px);
   border: 1px solid var(--border-subtle);
   display: grid;
   place-items: center;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
 }
 
