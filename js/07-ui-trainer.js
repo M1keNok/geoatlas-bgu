@@ -42,7 +42,6 @@
         btnFlipExitToMenu: () => this.exitToHub(),
         btnExploreStartRecall: () => this._startRecallFromExplore(),
         btnMarkMastered: () => this.markCurrentMastered(),
-        btnSkip: () => this.skipCurrent(),
         btnReveal: () => this.revealCurrent(),
         btnFlipShowAnswer: () => this._flipCardOpen(),
         btnFlipForgot: () => this._finishFlip(false),
@@ -85,7 +84,7 @@
         }
         const key = e.key.toLowerCase();
         if (e.key === 'Escape') this.exitToHub();
-        else if (key === 'k' || key === 'л') this.skipCurrent();
+        else if (key === 'm' || key === 'ь') this.markCurrentMastered();
         else if (key === 'r' || key === 'к') this.revealCurrent();
       });
     },
@@ -471,25 +470,6 @@
       }
       GeoAtlas.App?.showToast?.(`✓ ${item.name} — отмечено как выученное`);
       this._advanceCursor();
-    },
-
-    skipCurrent() {
-      const item = this._currentItem();
-      if (!item || this.inExploreStage || this.awaitingNext) return;
-      GeoAtlas.TelegramBridge?.hapticSelection();
-      const skippedId = item.id;
-      const savedIdx = this.currentIndex;
-      this.queue.splice(this.currentIndex, 1);
-      this.queue.push(item);
-      this._presentItem(this.queue[this.currentIndex]);
-      GeoAtlas.App.showToast('Объект отложен в конец сессии', () => {
-        if (!this.active) return;
-        const pos = this.queue.findIndex((x) => x.id === skippedId);
-        if (pos !== -1) this.queue.splice(pos, 1);
-        this.currentIndex = savedIdx;
-        this.queue.splice(this.currentIndex, 0, item);
-        this._presentItem(item);
-      });
     },
 
     _afterMapStage(item, { mapMistakes, mapRevealed }) {
