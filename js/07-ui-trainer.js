@@ -354,7 +354,15 @@
     },
 
     _handleMapClick(lat, lng, zoom, clickedItem = null) {
-      if (!this.active || this.inExploreStage || this.awaitingNext || this.mode === 'theory') {
+      if (!this.active || this.inExploreStage || this.mode === 'theory') {
+        return;
+      }
+      if (this.awaitingNext) {
+        if (this._revealTimer) {
+          clearTimeout(this._revealTimer);
+          this._revealTimer = null;
+          this._advanceCursor();
+        }
         return;
       }
       const item = this._currentItem();
@@ -395,9 +403,7 @@
       GeoAtlas.MotionFX?.shake(document.querySelector('#trainerHud .hud-card'));
 
       if (this.mistakes >= 3) {
-        this.revealed = true;
-        this.awaitingNext = true;
-        this._showTrueObjectAndFailCard(item);
+        this._revealObject(item, { triggerFx: false });
         return;
       }
 
@@ -419,10 +425,16 @@
         return;
       }
       if (this.awaitingNext) return;
+      this._revealObject(item, { triggerFx: true });
+    },
+
+    _revealObject(item, { triggerFx = false } = {}) {
       this.revealed = true;
       this.awaitingNext = true;
-      GeoAtlas.AudioEngine.playMiss();
-      GeoAtlas.TelegramBridge?.hapticNotification('error');
+      if (triggerFx) {
+        GeoAtlas.AudioEngine.playMiss();
+        GeoAtlas.TelegramBridge?.hapticNotification('error');
+      }
 
       if (!GeoAtlas.GeoMath.isOralTheoryItem(item)) {
         GeoAtlas.MapEngine.drawItemShape(GeoAtlas.MapEngine.trainerGroup, item, {
@@ -474,27 +486,12 @@
       });
     },
 
-    _showTrueObjectAndFailCard(item) {
-      if (!GeoAtlas.GeoMath.isOralTheoryItem(item)) {
-        const isCape = item.category === 'extreme_point' || item.category === 'capes';
-        const isRecord = Boolean(item.recordPrompt);
-        GeoAtlas.MapEngine.drawItemShape(GeoAtlas.MapEngine.trainerGroup, item, {
-          highlight: true,
-          showLabel: !isCape && !isRecord
-        });
-        GeoAtlas.MapEngine.fitItem(item, 5);
-      }
-      setTimeout(() => {
-        this._openFlipCard(item, { mapMistakes: this.mistakes, mapRevealed: true });
-      }, 600);
-    },
-
     _afterMapStage(item, { mapMistakes, mapRevealed }) {
       const meta = GeoAtlas.LearningEngine.meta;
       const spec = GeoAtlas.QuizConfig.buildCardSpec(item, meta.depthPreset, meta.customModules);
       const cardSkipped = !!(meta.skippedCards && meta.skippedCards[item.id]);
 
-      if (cardSkipped || (!spec.requiresFlipCard && !mapRevealed)) {
+      if (mapRevealed || cardSkipped || !spec.requiresFlipCard) {
         const res = GeoAtlas.LearningEngine.recordCompositeResult(item.id, {
           mapMistakes,
           mapRevealed,
