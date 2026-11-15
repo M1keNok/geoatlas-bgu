@@ -40,6 +40,7 @@
       byId('btnExitTrainer')?.addEventListener('click', () => this.exitToHub());
       byId('btnReopenExplore')?.addEventListener('click', () => {
         if (!this.active || this.mode === 'theory' || !this.pool.length) return;
+        GeoAtlas.TelegramBridge?.hapticImpact('light');
         this._exploreReturnIndex = this.currentIndex;
         this._openExploreStage();
       });
