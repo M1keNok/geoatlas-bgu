@@ -60,10 +60,6 @@
         this._exploreReturnIndex = this.currentIndex;
         this._openExploreStage();
       });
-      byId('btnResultsWeak')?.addEventListener('click', () => {
-        byId('resultsModal')?.classList.add('hidden');
-        this.start({ mode: 'weak', moduleId: this.moduleId });
-      });
       byId('btnSwitchToFull')?.addEventListener('click', () => {
         GeoAtlas.LearningEngine.meta.scope = 'full';
         GeoAtlas.StorageAdapter.saveMeta(GeoAtlas.LearningEngine.meta);
@@ -671,9 +667,6 @@
       document.getElementById('resCleanCount').textContent = String(this.sessionClean);
       document.getElementById('resWeakCount').textContent = String(this.sessionWeak);
       document.getElementById('resTotalCount').textContent = String(total);
-
-      const weakCount = GeoAtlas.LearningEngine.getWeakSpotsItems(this.moduleId).length;
-      document.getElementById('btnResultsWeak')?.classList.toggle('hidden', weakCount === 0);
 
       const overallLandmarks = GeoAtlas.LearningEngine.getOverallStats('landmarks');
       const showUpsell = GeoAtlas.LearningEngine.meta.scope === 'landmarks' && overallLandmarks.pct >= 85;

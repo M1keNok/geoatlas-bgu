@@ -27,8 +27,6 @@
     '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="4" width="10" height="16" rx="2"></rect><path d="M3.5 8.5v7"></path><path d="M20.5 8.5v7"></path><path d="M1.5 10.5v3"></path><path d="M22.5 10.5v3"></path></svg>';
   const SVG_HAPTIC_OFF =
     '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="4" width="10" height="16" rx="2"></rect><line x1="3" y1="3" x2="21" y2="21"></line></svg>';
-  const SVG_TARGET_SM =
-    '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4"></circle></svg>';
 
   const UIHub = {
     _openSubdecks: new Set(),
@@ -128,11 +126,6 @@
       });
 
       GeoAtlas.StorageAdapter?.setSyncListener?.((status) => this._renderSyncStatus(status));
-
-      document.getElementById('btnStartWeak')?.addEventListener('click', () => {
-        GeoAtlas.TelegramBridge?.hapticImpact('light');
-        GeoAtlas.UITrainer.start({ mode: 'weak' });
-      });
     },
 
     _renderSyncStatus(status) {
@@ -187,15 +180,6 @@
             : `${overall.mastered} / ${overall.total} выучено`;
       }
       if (barEl) barEl.style.width = `${overall.pct}%`;
-
-      const weakCount = GeoAtlas.LearningEngine.getWeakSpotsItems().length;
-
-      const weakBanner = document.getElementById('weakBanner');
-      const weakBadge = document.getElementById('weakCountBadge');
-      if (weakBanner && weakBadge) {
-        weakBadge.textContent = String(weakCount);
-        weakBanner.classList.toggle('hidden', weakCount === 0);
-      }
     },
 
     render() {
@@ -256,7 +240,7 @@
           <div>
             <div class="module-stats-row">
               <span>${progressLabel}: <strong>${stats.mastered}</strong> из ${stats.total}${stats.learning > 0 ? ` (в работе: ${stats.learning})` : ''}</span>
-              ${stats.weakSpots > 0 ? `<span class="badge badge-amber">${SVG_TARGET_SM} ${stats.weakSpots}</span>` : '<span></span>'}
+              <span></span>
             </div>
             <div class="progress-track" style="margin-top: 6px;">
               <div class="progress-fill" style="width: ${stats.pct}%;"></div>
