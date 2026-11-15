@@ -133,7 +133,7 @@
       const exploreKey = this._getExploreKey();
       const exploredMap = (engine.meta.exploredSections = engine.meta.exploredSections || {});
       const shouldShowInitialExplore = mode === 'learn' && this.pool.length > 0 && !exploredMap[exploreKey];
-      this._pendingFirstRunTutorial = shouldShowInitialExplore;
+      this._pendingFirstRunTutorial = shouldShowInitialExplore && !engine.meta.tutorialSeen;
 
       if (shouldShowInitialExplore) {
         exploredMap[exploreKey] = true;

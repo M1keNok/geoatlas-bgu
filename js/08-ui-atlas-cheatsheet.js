@@ -360,6 +360,10 @@
     open(exampleLabel) {
       const modal = document.getElementById('tutorialModal');
       if (!modal) return;
+      if (GeoAtlas.LearningEngine?.meta) {
+        GeoAtlas.LearningEngine.meta.tutorialSeen = true;
+        GeoAtlas.StorageAdapter.saveMeta(GeoAtlas.LearningEngine.meta);
+      }
       const exEl = document.getElementById('tutorialExampleName');
       if (exEl) exEl.textContent = exampleLabel || 'Объект на карте';
       modal.classList.remove('hidden');

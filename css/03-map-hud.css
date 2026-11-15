@@ -113,15 +113,15 @@
 }
 
 .btn-hud-explore {
-  background: linear-gradient(180deg, rgba(56, 189, 248, 0.24), rgba(56, 189, 248, 0.1));
-  border: 1px solid rgba(56, 189, 248, 0.52);
-  color: #e0f2fe;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.32);
 }
 
 .btn-hud-explore:hover {
-  background: linear-gradient(180deg, rgba(56, 189, 248, 0.34), rgba(56, 189, 248, 0.16));
-  border-color: rgba(125, 211, 252, 0.72);
+  background: rgba(39, 39, 46, 0.96);
+  border-color: var(--border-strong);
 }
 
 .btn-hud-explore:active {

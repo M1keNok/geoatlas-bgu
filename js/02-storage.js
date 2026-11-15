@@ -90,6 +90,7 @@
       muted: false,
       haptics: true,
       showLabelsInAtlas: true,
+      tutorialSeen: false,
       sessionStep: 0,
       updatedAt: 0,
       exploredSections: {},
@@ -214,6 +215,7 @@
         if (typeof srcMeta.muted === 'boolean') meta.muted = srcMeta.muted;
         if (typeof srcMeta.haptics === 'boolean') meta.haptics = srcMeta.haptics;
         if (typeof srcMeta.showLabelsInAtlas === 'boolean') meta.showLabelsInAtlas = srcMeta.showLabelsInAtlas;
+        if (typeof srcMeta.tutorialSeen === 'boolean') meta.tutorialSeen = srcMeta.tutorialSeen;
         if (typeof srcMeta.sessionStep === 'number') meta.sessionStep = srcMeta.sessionStep;
         if (typeof srcMeta.updatedAt === 'number') meta.updatedAt = srcMeta.updatedAt;
         if (srcMeta.exploredSections && typeof srcMeta.exploredSections === 'object') {
@@ -349,6 +351,7 @@
         Number(local.meta.sessionStep) || 0,
         Number(cloudMeta && cloudMeta.sessionStep) || 0
       );
+      mergedMeta.tutorialSeen = Boolean(local.meta.tutorialSeen || (cloudMeta && cloudMeta.tutorialSeen));
       mergedMeta.exploredSections = Object.assign(
         {},
         local.meta.exploredSections || {},
