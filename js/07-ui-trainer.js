@@ -36,10 +36,9 @@
 
     _bindControls() {
       const byId = (id) => document.getElementById(id);
+      const toHub = () => this.exitToHub();
       const clickMap = {
-        btnExitTrainer: () => this.exitToHub(),
-        btnExploreExit: () => this.exitToHub(),
-        btnFlipExitToMenu: () => this.exitToHub(),
+        btnExitTrainer: toHub, btnExploreExit: toHub, btnFlipExitToMenu: toHub, btnCloseResults: toHub, btnResultsMenu: toHub,
         btnExploreStartRecall: () => this._startRecallFromExplore(),
         btnMarkMastered: () => this.markCurrentMastered(),
         btnReveal: () => this.revealCurrent(),
@@ -48,9 +47,7 @@
         btnFlipRemembered: () => this._finishFlip(true),
         btnFlipContinue: () => this._finishFlip(false),
         btnFlipSkipFront: () => this._skipFlipCard(),
-        btnFlipSkipBack: () => this._skipFlipCard(),
-        btnCloseResults: () => this.exitToHub(),
-        btnResultsMenu: () => this.exitToHub()
+        btnFlipSkipBack: () => this._skipFlipCard()
       };
       Object.entries(clickMap).forEach(([id, fn]) => byId(id)?.addEventListener('click', fn));
 
@@ -70,11 +67,15 @@
         if (!this.active) return;
         const flipOverlay = byId('flipOverlay');
         if (flipOverlay && !flipOverlay.classList.contains('hidden')) {
+          const card = byId('flipCard');
+          const isFlipped = card && card.classList.contains('is-flipped');
           if (e.code === 'Space' || e.key === 'Enter') {
             e.preventDefault();
-            const card = byId('flipCard');
-            if (card && !card.classList.contains('is-flipped')) this._flipCardOpen();
-            else if (this.revealed) this._finishFlip(false);
+            isFlipped ? this._finishFlip(false) : this._flipCardOpen();
+          } else if (isFlipped && (e.key === '1' || e.key === 'ArrowLeft')) {
+            e.preventDefault(); this._finishFlip(false);
+          } else if (isFlipped && (e.key === '2' || e.key === 'ArrowRight')) {
+            e.preventDefault(); this._finishFlip(true);
           } else if (e.key === 'Escape') this.exitToHub();
           return;
         }
@@ -582,6 +583,7 @@
     },
 
     _finishFlip(theoryRecalled) {
+      GeoAtlas.AudioEngine.playClick();
       const ctx = this._currentCardSpec;
       document.getElementById('flipOverlay')?.classList.add('hidden');
       if (!ctx) {
