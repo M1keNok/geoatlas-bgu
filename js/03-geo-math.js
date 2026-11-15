@@ -269,6 +269,37 @@
     return 3;
   }
 
+  function getContinentRank(it) {
+    if (!it) return 99;
+    const reg = (it.focusContinent || it.region || it.continent || '').toLowerCase();
+    const id = (it.id || '').toLowerCase();
+    if (reg.includes('северн') || id.includes('north_america')) return 1;
+    if (reg.includes('южн') || id.includes('south_america')) return 2;
+    if (reg.includes('африк') || id.includes('africa')) return 3;
+    if (reg.includes('евраз') || id.includes('eurasia')) return 4;
+    if (reg.includes('австрал') || reg.includes('океан') || id.includes('australia') || id.includes('oceania')) return 5;
+    if (reg.includes('антаркт') || id.includes('antarctica')) return 6;
+    return 7;
+  }
+
+  function getContinentItemRank(it) {
+    if (!it) return 99;
+    const id = (it.id || '').toLowerCase();
+    if (it.category === 'extreme_point' || it.category === 'capes') {
+      if (id.includes('_north')) return 0;
+      if (id.includes('_south')) return 1;
+      if (id.includes('_west')) return 2;
+      if (id.includes('_east')) return 3;
+      return 0;
+    }
+    if (id.includes('_shubaev')) return 10;
+    if (id.includes('_area')) return 11;
+    if (id === 'm1_oceania_division') return 12;
+    if (it.category === 'continent_peak') return 20;
+    if (it.category === 'continent_depr') return 21;
+    return 30;
+  }
+
   function getReviewTier(state, currentStep = 0) {
     if (!state) return 2;
     if (state.weakSpot) return 0;
@@ -282,8 +313,12 @@
     return 4; // Mastered item not yet due
   }
 
-  function sortItemsBasicToNiche(items, getStateFn = null, currentStep = 0) {
+  function sortItemsBasicToNiche(items, getStateFn = null, currentStep = 0, opts = {}) {
     if (!Array.isArray(items)) return [];
+    const isM1ContinentsDeck =
+      opts.submoduleId === 'm1_continents_earth' ||
+      (items.length > 0 && items.every((x) => x.submoduleId === 'm1_continents_earth'));
+
     return items.slice().sort((a, b) => {
       const sa = getStateFn ? getStateFn(a.id) : null;
       const sb = getStateFn ? getStateFn(b.id) : null;
@@ -297,17 +332,28 @@
         if (dueDiff !== 0) return dueDiff;
       }
 
-      // Priority 2: Board-exam opening order (Capes -> Continent Extremes -> Rest)
+      // Priority 2: For "m1_continents_earth" - group strictly by continent block
+      if (isM1ContinentsDeck) {
+        const ca = getContinentRank(a);
+        const cb = getContinentRank(b);
+        if (ca !== cb) return ca - cb;
+        const ia = getContinentItemRank(a);
+        const ib = getContinentItemRank(b);
+        if (ia !== ib) return ia - ib;
+        return 0;
+      }
+
+      // Priority 3: Board-exam opening order (Capes -> Continent Extremes -> Rest)
       const bpA = getBoardPriority(a);
       const bpB = getBoardPriority(b);
       if (bpA !== bpB) return bpA - bpB;
 
-      // Priority 3: Core landmarks (basic) first, niche objects progressively later
+      // Priority 4: Core landmarks (basic) first, niche objects progressively later
       const aCore = a.isCoreLandmark ? 0 : 1;
       const bCore = b.isCoreLandmark ? 0 : 1;
       if (aCore !== bCore) return aCore - bCore;
 
-      // Priority 4: Keep objects grouped neatly by macroregion
+      // Priority 5: Keep objects grouped neatly by macroregion
       const ma = getMacroregion(a);
       const mb = getMacroregion(b);
       if (ma !== mb) return ma.localeCompare(mb);

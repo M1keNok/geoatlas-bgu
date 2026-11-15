@@ -185,7 +185,8 @@ function run() {
   assert.strictEqual(LearningEngine.getModuleTheoryItems('module1', 'full').length, 0, 'M1 standalone theory bar hidden (integrated into m1_continents_earth)');
   const m1GeneralQueue = LearningEngine.buildSessionQueue({ mode: 'learn', moduleId: 'module1', submoduleId: 'm1_continents_earth' });
   assert.strictEqual(m1GeneralQueue.length, 46, `m1_continents_earth queue has 46 items (got ${m1GeneralQueue.length})`);
-  assert.strictEqual(m1GeneralQueue[m1GeneralQueue.length - 1].category, 'continent_theory', 'Continent area/height/Oceania cards follow map items');
+  assert(m1GeneralQueue[0].name.includes('Северная Америка') || m1GeneralQueue[0].region === 'Северная Америка', 'Continent block starts with North America');
+  assert(m1GeneralQueue.slice(0, 8).every((i) => i.region === 'Северная Америка' || i.focusContinent === 'Северная Америка'), 'North America items are grouped into a contiguous 8-item block');
 
   // Verify archipelago constituent islands card ONLY on 12 key archipelagos & no name spoiler
   const brit = reg.module1.items.find((i) => i.id === 'm1_cont_isl_7');
@@ -216,6 +217,8 @@ function run() {
   assert(!GeoMath.isOralTheoryItem(everest), 'Continent peaks are on the map, not oral-only');
   const everestSpec = QuizConfig.buildCardSpec(everest, 'essentials', LearningEngine.meta.customModules);
   assert(everestSpec.requiresFlipCard && /высоту/i.test(everestSpec.prompt) && everestSpec.answer.includes('8848'), 'Everest map card asks height (8848 м)');
+  assert(!everestSpec.frontTitle.toLowerCase().includes('эверест'), 'Everest front title must not spoil peak name');
+  assert(everestSpec.answer.includes('Эверест') || everestSpec.answer.includes('Джомолунгма'), 'Everest card answer reveals peak name');
 
   // Verify blind cape prompt does not leak cape name and card reveals it
   const capeWest = reg.module1.items.find((i) => i.id === 'm1_cape_africa_west');

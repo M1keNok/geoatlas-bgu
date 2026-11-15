@@ -144,6 +144,17 @@
   transform: translateY(1px) scale(0.96);
 }
 
+.trainer-bottom-nav {
+  position: fixed;
+  bottom: calc(14px + var(--safe-bottom));
+  left: calc(14px + var(--safe-left));
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: auto;
+}
+
 .compass-banner {
   pointer-events: auto;
   align-self: center;
@@ -488,6 +499,11 @@
   }
   .hud-bottom-row .hud-actions .btn-sm {
     flex: 1 1 auto;
+  }
+  .trainer-bottom-nav {
+    bottom: calc(8px + var(--safe-bottom));
+    left: calc(8px + var(--safe-left));
+    gap: 6px;
   }
   .compass-banner {
     font-size: 12px;

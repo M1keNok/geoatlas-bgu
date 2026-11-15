@@ -332,14 +332,25 @@
       }
 
       const isCape = item.category === 'extreme_point' || item.category === 'capes';
-      const isContExtreme = item.category === 'continent_peak' || item.category === 'continent_depr';
+      const isPeak = item.category === 'continent_peak';
+      const isDepr = item.category === 'continent_depr';
       const isArchipelago = Boolean(item.askConstituentIslands && item.constituentIslands);
       const isRecord = Boolean(item.recordPrompt);
-      targetNameEl.textContent = isCape ? GeoAtlas.extractCapePrompt(item) : isRecord ? item.recordPrompt : item.name;
+      targetNameEl.textContent = isCape
+        ? GeoAtlas.extractCapePrompt(item)
+        : isPeak
+        ? `Высшая точка: ${item.region || item.continent || 'Материк'}`
+        : isDepr
+        ? `Низшая точка: ${item.region || item.continent || 'Материк'}`
+        : isRecord
+        ? item.recordPrompt
+        : item.name;
       subPromptEl.textContent = isCape
         ? 'Покажите эту крайнюю точку на карте, затем вспомните название мыса (3 попытки)'
-        : isContExtreme
-        ? 'Покажите на карте и вспомните абсолютную высоту / отметку (3 попытки)'
+        : isPeak
+        ? 'Покажите вершину на карте, затем вспомните её название и высоту (3 попытки)'
+        : isDepr
+        ? 'Покажите впадину на карте, затем вспомните её название и отметку (3 попытки)'
         : isArchipelago
         ? 'Архипелаг · покажите на карте, затем вспомните входящие острова (3 попытки)'
         : isRecord
@@ -517,7 +528,8 @@
         cardSpec.prompt || 'Вспомните ключевой географический факт об объекте';
 
       document.getElementById('flipBadgeBack').textContent = badgeText;
-      document.getElementById('flipItemTitleBack').textContent = item.name;
+      document.getElementById('flipItemTitleBack').textContent =
+        item.peakName ? `${item.name}: ${item.peakName}` : item.deprName ? `${item.name}: ${item.deprName}` : item.name;
       const ansText =
         cardSpec.answer ||
         [item.continent || item.region, item.ocean, item.description].filter(Boolean).join(' · ') ||

@@ -7805,10 +7805,13 @@ const MODULE1_THEORY_ITEMS = [];
       category: "continent_peak",
       categoryRu: "Высшая точка материка",
       isCoreLandmark: true,
-      name: `Высшая точка (${cont.name}): ${cont.max_height.point}`,
+      name: `Высшая точка: ${cont.name}`,
+      peakName: cont.max_height.point,
+      peakHeight: cont.max_height.height,
       shortName: cont.max_height.point,
       region: cont.name,
-      locationDesc: `Высочайшая вершина материка ${cont.name}`,
+      focusContinent: cont.name,
+      locationDesc: `Высочайшая вершина материка ${cont.name}: ${cont.max_height.point} (${cont.max_height.height})`,
       mapPrompt: `Покажите на карте высочайшую вершину материка ${cont.name}`,
       geometryType: "point",
       lat: cont.max_height.lat,
@@ -7822,7 +7825,7 @@ const MODULE1_THEORY_ITEMS = [];
           { label: "Вершина", value: cont.max_height.point },
           { label: "Абсолютная высота", value: cont.max_height.height }
         ],
-        backNote: `Крайняя верхняя отметка рельефа ${cont.name}.`
+        backNote: `Крайняя верхняя отметка рельефа (${cont.name}).`
       }
     });
   }
@@ -7835,10 +7838,13 @@ const MODULE1_THEORY_ITEMS = [];
       category: "continent_depr",
       categoryRu: "Низшая точка материка",
       isCoreLandmark: true,
-      name: `Низшая точка (${cont.name}): ${cont.min_height.point}`,
+      name: `Низшая точка: ${cont.name}`,
+      deprName: cont.min_height.point,
+      deprHeight: cont.min_height.height,
       shortName: cont.min_height.point,
       region: cont.name,
-      locationDesc: `Глубочайшая впадина материка ${cont.name}`,
+      focusContinent: cont.name,
+      locationDesc: `Глубочайшая впадина материка ${cont.name}: ${cont.min_height.point} (${cont.min_height.height})`,
       mapPrompt: `Покажите на карте глубочайшую впадину материка ${cont.name}`,
       geometryType: "point",
       lat: cont.min_height.lat,
@@ -7852,7 +7858,7 @@ const MODULE1_THEORY_ITEMS = [];
           { label: "Впадина", value: cont.min_height.point },
           { label: "Абсолютная отметка", value: cont.min_height.height }
         ],
-        backNote: `Крайняя нижняя отметка рельефа ${cont.name}.`
+        backNote: `Крайняя нижняя отметка рельефа (${cont.name}).`
       }
     });
   }

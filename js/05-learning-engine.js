@@ -233,21 +233,37 @@
         };
       }
 
-      if ((item.category === 'continent_peak' || item.category === 'continent_depr') && !forceTheory) {
-        const metrics = Array.isArray(card.backMetrics) ? card.backMetrics : [];
-        const heightMetric = metrics.find((m) => /высот|отметк/i.test(m.label || ''));
-        prompt = 'Вспомните абсолютную высоту (отметку) этого объекта:';
-        answer = (heightMetric && heightMetric.value) || card.backMainAnswer || answer;
-        metrics.forEach((m) => {
-          if (m && m.label && m.value) facts.push({ label: m.label, val: m.value });
-        });
-        if (card.backNote) facts.push({ label: 'Справка', val: card.backNote });
+      if (item.category === 'continent_peak' && !forceTheory) {
+        const peakTitle = item.peakName || (item.ankiCard && item.ankiCard.backMetrics?.[0]?.value) || item.shortName;
+        const peakHeight = item.peakHeight || (item.ankiCard && item.ankiCard.backMetrics?.[1]?.value) || '';
         return {
           requiresFlipCard: true,
-          badge,
-          prompt,
-          answer,
-          facts
+          badge: 'Высшая точка',
+          frontTitle: `Высшая точка: ${item.region || item.continent || 'Материк'}`,
+          prompt: 'Вспомните название высочайшей вершины и её абсолютную высоту (м):',
+          answer: `${peakTitle}${peakHeight ? ` (${peakHeight})` : ''}`,
+          facts: [
+            { label: 'Вершина', val: peakTitle },
+            ...(peakHeight ? [{ label: 'Абсолютная высота', val: peakHeight }] : []),
+            { label: 'Материк', val: item.region || item.continent || '' }
+          ]
+        };
+      }
+
+      if (item.category === 'continent_depr' && !forceTheory) {
+        const deprTitle = item.deprName || (item.ankiCard && item.ankiCard.backMetrics?.[0]?.value) || item.shortName;
+        const deprHeight = item.deprHeight || (item.ankiCard && item.ankiCard.backMetrics?.[1]?.value) || '';
+        return {
+          requiresFlipCard: true,
+          badge: 'Низшая точка',
+          frontTitle: `Низшая точка: ${item.region || item.continent || 'Материк'}`,
+          prompt: 'Вспомните название глубочайшей впадины и её отметку (м):',
+          answer: `${deprTitle}${deprHeight ? ` (${deprHeight})` : ''}`,
+          facts: [
+            { label: 'Впадина', val: deprTitle },
+            ...(deprHeight ? [{ label: 'Абсолютная отметка', val: deprHeight }] : []),
+            { label: 'Материк', val: item.region || item.continent || '' }
+          ]
         };
       }
 
@@ -406,14 +422,14 @@
 
       if (mode === 'theory') {
         const theory = this.getModuleTheoryItems(moduleId, scope).filter((it) => !skipped[it.id]);
-        return GeoAtlas.GeoMath.sortItemsBasicToNiche(theory, (id) => this.getState(id), step);
+        return GeoAtlas.GeoMath.sortItemsBasicToNiche(theory, (id) => this.getState(id), step, { submoduleId });
       }
 
       if (mode === 'weak') {
         const weak = this.getWeakSpotsItems(moduleId).filter(
           (it) => !(skipped[it.id] && GeoAtlas.GeoMath.isOralTheoryItem(it))
         );
-        return GeoAtlas.GeoMath.sortItemsBasicToNiche(weak, (id) => this.getState(id), step);
+        return GeoAtlas.GeoMath.sortItemsBasicToNiche(weak, (id) => this.getState(id), step, { submoduleId });
       }
 
       const includeM1Theory =
@@ -431,7 +447,7 @@
           return !(this.isMastered(s) && (s.dueStep || 0) > step);
         });
         const activePool = pending.length > 0 ? pending : pool;
-        const ordered = GeoAtlas.GeoMath.sortItemsBasicToNiche(activePool, (id) => this.getState(id), step);
+        const ordered = GeoAtlas.GeoMath.sortItemsBasicToNiche(activePool, (id) => this.getState(id), step, { submoduleId });
         return limit ? ordered.slice(0, limit) : ordered;
       }
 
