@@ -19,6 +19,17 @@
     m4_all_waters: 'Реки, озёра и водопады на карте (включая слепые вопросы по рекордам)'
   };
 
+  const SVG_SOUND_ON =
+    '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>';
+  const SVG_SOUND_OFF =
+    '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>';
+  const SVG_HAPTIC_ON =
+    '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="4" width="10" height="16" rx="2"></rect><path d="M3.5 8.5v7"></path><path d="M20.5 8.5v7"></path><path d="M1.5 10.5v3"></path><path d="M22.5 10.5v3"></path></svg>';
+  const SVG_HAPTIC_OFF =
+    '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="4" width="10" height="16" rx="2"></rect><line x1="3" y1="3" x2="21" y2="21"></line></svg>';
+  const SVG_TARGET_SM =
+    '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4"></circle></svg>';
+
   const UIHub = {
     _openSubdecks: new Set(),
     _confirmResetArm: false,
@@ -49,20 +60,6 @@
     },
 
     _bindGlobalControls() {
-      const scopeSel = document.getElementById('scopeSelector');
-      if (scopeSel) {
-        scopeSel.addEventListener('click', (e) => {
-          const btn = e.target.closest('[data-scope]');
-          if (!btn) return;
-          const scope = btn.getAttribute('data-scope');
-          GeoAtlas.LearningEngine.meta.scope = scope;
-          GeoAtlas.StorageAdapter.saveMeta(GeoAtlas.LearningEngine.meta);
-          GeoAtlas.AudioEngine.playClick();
-          GeoAtlas.TelegramBridge?.hapticSelection();
-          this.render();
-        });
-      }
-
       const performReset = () => {
         GeoAtlas.StorageAdapter.clearStates(GeoAtlas.LearningEngine.states);
         if (GeoAtlas.LearningEngine.meta) {
@@ -134,15 +131,6 @@
         GeoAtlas.TelegramBridge?.hapticImpact('light');
         GeoAtlas.UITrainer.start({ mode: 'weak' });
       });
-
-      document.getElementById('btnOpenAtlasGlobal')?.addEventListener('click', () => {
-        GeoAtlas.TelegramBridge?.hapticImpact('light');
-        GeoAtlas.UIAtlas.open();
-      });
-      document.getElementById('btnOpenCheatsheet')?.addEventListener('click', () => {
-        GeoAtlas.TelegramBridge?.hapticImpact('light');
-        GeoAtlas.UICheatsheet.open();
-      });
     },
 
     _renderSyncStatus(status) {
@@ -169,24 +157,22 @@
 
     _renderControlStates() {
       const meta = GeoAtlas.LearningEngine.meta;
-      document.querySelectorAll('#scopeSelector [data-scope]').forEach((b) => {
-        b.classList.toggle('is-active-emerald', b.getAttribute('data-scope') === meta.scope);
-      });
       const btnMute = document.getElementById('btnMuteToggle');
       if (btnMute) {
-        btnMute.textContent = meta.muted ? '🔇' : '🔊';
+        btnMute.innerHTML = meta.muted ? SVG_SOUND_OFF : SVG_SOUND_ON;
         btnMute.classList.toggle('is-off', Boolean(meta.muted));
+        btnMute.title = meta.muted ? 'Звук: ВЫКЛ' : 'Звук: ВКЛ';
       }
       const btnHaptic = document.getElementById('btnHapticToggle');
       if (btnHaptic) {
         const hapticsOn = meta.haptics !== false;
-        btnHaptic.textContent = hapticsOn ? '📳' : '📴';
+        btnHaptic.innerHTML = hapticsOn ? SVG_HAPTIC_ON : SVG_HAPTIC_OFF;
         btnHaptic.classList.toggle('is-off', !hapticsOn);
         btnHaptic.title = hapticsOn ? 'Вибрация: ВКЛ' : 'Вибрация: ВЫКЛ';
       }
       this._renderSyncStatus(GeoAtlas.StorageAdapter?.getSyncStatus?.() || 'local');
 
-      const overall = GeoAtlas.LearningEngine.getOverallStats(meta.scope);
+      const overall = GeoAtlas.LearningEngine.getOverallStats('full');
       const pctEl = document.getElementById('overallPct');
       const cntEl = document.getElementById('overallCount');
       const barEl = document.getElementById('overallBar');
@@ -203,10 +189,7 @@
 
       const weakCount = GeoAtlas.LearningEngine.getWeakSpotsItems().length;
       if (weakHintEl) {
-        weakHintEl.textContent =
-          meta.scope === 'landmarks'
-            ? 'Показывается прогресс по базовому минимуму'
-            : 'Показывается прогресс по полной программе ОЗ';
+        weakHintEl.textContent = 'Общий прогресс по всем разделам программы ОЗ';
       }
 
       const weakBanner = document.getElementById('weakBanner');
@@ -275,7 +258,7 @@
           <div>
             <div class="module-stats-row">
               <span>${progressLabel}: <strong>${stats.mastered}</strong> из ${stats.total}${stats.learning > 0 ? ` (в работе: ${stats.learning})` : ''}</span>
-              ${stats.weakSpots > 0 ? `<span class="badge badge-amber">🩹 ${stats.weakSpots}</span>` : '<span></span>'}
+              ${stats.weakSpots > 0 ? `<span class="badge badge-amber">${SVG_TARGET_SM} ${stats.weakSpots}</span>` : '<span></span>'}
             </div>
             <div class="progress-track" style="margin-top: 6px;">
               <div class="progress-fill" style="width: ${stats.pct}%;"></div>

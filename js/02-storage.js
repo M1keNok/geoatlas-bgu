@@ -205,7 +205,7 @@
       const v9Meta = !v10Meta ? this._safeParse(this._readLS(LEGACY_META_V9_KEY)) : null;
       const srcMeta = v10Meta || v9Meta;
       if (srcMeta && typeof srcMeta === 'object') {
-        if (srcMeta.scope === 'landmarks' || srcMeta.scope === 'full') meta.scope = srcMeta.scope;
+        meta.scope = 'full';
         meta.depthPreset = 'essentials';
         if (['esri_phys', 'esri_sat', 'vector_offline'].includes(srcMeta.layerId)) {
           meta.layerId = srcMeta.layerId;
@@ -334,6 +334,7 @@
       const mergedMeta = preferCloud
         ? Object.assign({}, local.meta, cloudMeta)
         : Object.assign({}, cloudMeta || {}, local.meta);
+      mergedMeta.scope = 'full';
       mergedMeta.depthPreset = 'essentials';
       mergedMeta.sessionStep = Math.max(
         Number(local.meta.sessionStep) || 0,

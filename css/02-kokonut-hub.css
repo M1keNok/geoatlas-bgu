@@ -69,16 +69,57 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  flex-wrap: wrap;
+  flex-shrink: 0;
 }
 
-/* Controls Strip: Scope + Depth Presets + Overall Progress */
-.hub-controls-card {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 16px;
+.icon-toggle-group {
+  display: inline-flex;
   align-items: center;
-  padding: 16px 18px;
+  gap: 3px;
+  padding: 3px;
+  background: var(--bg-app);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+}
+
+.icon-toggle-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #34d399;
+  background: rgba(16, 185, 129, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(16, 185, 129, 0.28);
+  transition: background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease, transform 0.14s ease, opacity 0.18s ease;
+}
+
+.icon-toggle-btn:hover {
+  background: rgba(16, 185, 129, 0.18);
+}
+
+.icon-toggle-btn:active {
+  transform: scale(0.94);
+}
+
+.icon-toggle-btn.is-off {
+  color: var(--text-muted);
+  background: transparent;
+  box-shadow: none;
+  opacity: 0.72;
+}
+
+.icon-toggle-btn.is-off:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-main);
+  opacity: 1;
+}
+
+/* Controls Strip: Overall Progress */
+.hub-controls-card {
+  display: block;
+  padding: 15px 18px;
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
@@ -144,15 +185,17 @@
 .overall-stat-pill {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  gap: 6px;
-  min-width: 190px;
+  align-items: stretch;
+  gap: 7px;
+  width: 100%;
 }
 
 .overall-stat-numbers {
   display: flex;
   align-items: baseline;
+  justify-content: space-between;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .overall-pct {
@@ -198,6 +241,19 @@
   display: flex;
   align-items: center;
   gap: 12px;
+}
+
+.weak-banner-icon {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(245, 158, 11, 0.16);
+  border: 1px solid rgba(245, 158, 11, 0.34);
+  color: #fbbf24;
 }
 
 .weak-banner-title {
@@ -515,25 +571,13 @@
   .hub-navbar {
     padding: 12px 14px;
     gap: 10px;
+    flex-wrap: nowrap;
   }
   .hub-subtitle {
     font-size: 11.5px;
   }
-  .hub-nav-actions {
-    width: 100%;
-    justify-content: space-between;
-  }
-  .hub-nav-actions .btn-sm {
-    flex: 1 1 auto;
-    min-height: 40px;
-  }
-  #btnMuteToggle,
-  #btnHapticToggle {
-    flex: 0 0 42px;
-  }
   .hub-controls-card {
     padding: 13px 14px;
-    gap: 12px;
   }
   .control-row {
     flex-direction: column;

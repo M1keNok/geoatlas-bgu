@@ -28,24 +28,14 @@
           </div>
         </div>
         <div class="hub-nav-actions">
-          <button id="btnOpenAtlasGlobal" class="btn btn-sm" type="button">📖 Атлас</button>
-          <button id="btnOpenCheatsheet" class="btn btn-sm" type="button">📚 Конспект</button>
-          <button id="btnMuteToggle" class="btn btn-sm btn-ghost" type="button" title="Звук">🔊</button>
-          <button id="btnHapticToggle" class="btn btn-sm btn-ghost" type="button" title="Вибрация">📳</button>
+          <div class="icon-toggle-group" role="group" aria-label="Звук и вибрация">
+            <button id="btnMuteToggle" class="icon-toggle-btn" type="button" title="Звук" aria-label="Звук"></button>
+            <button id="btnHapticToggle" class="icon-toggle-btn" type="button" title="Вибрация" aria-label="Вибрация"></button>
+          </div>
         </div>
       </header>
 
       <section class="hub-controls-card">
-        <div class="control-groups">
-          <div class="control-row">
-            <span class="control-label">Объём</span>
-            <div class="seg-group" id="scopeSelector">
-              <button class="seg-btn" data-scope="full" type="button">🎓 Полная программа</button>
-              <button class="seg-btn" data-scope="landmarks" type="button">⭐ Базовый минимум</button>
-            </div>
-          </div>
-        </div>
-
         <div class="overall-stat-pill">
           <div class="overall-stat-numbers">
             <span id="overallPct" class="overall-pct">0%</span>
@@ -61,7 +51,13 @@
       <!-- Weak Spots Action Banner -->
       <section id="weakBanner" class="weak-banner hidden">
         <div class="weak-banner-info">
-          <span style="font-size: 22px;">🩹</span>
+          <span class="weak-banner-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"></circle>
+              <circle cx="12" cy="12" r="4.5"></circle>
+              <circle cx="12" cy="12" r="1.2" fill="currentColor"></circle>
+            </svg>
+          </span>
           <div>
             <div class="weak-banner-title">Мои слабые места: <span id="weakCountBadge">0</span> объектов</div>
             <div class="weak-banner-sub">Объекты, в которых вы промахнулись на карте или не вспомнили теорию</div>
@@ -277,7 +273,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button id="btnResultsWeak" class="btn btn-amber btn-sm hidden" type="button">🩹 Закрепить ошибки</button>
+        <button id="btnResultsWeak" class="btn btn-amber btn-sm hidden" type="button">🎯 Закрепить ошибки</button>
         <button id="btnResultsMenu" class="btn btn-primary btn-sm" type="button">В главное меню</button>
       </div>
     </div>
