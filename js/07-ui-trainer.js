@@ -133,6 +133,7 @@
       const exploreKey = this._getExploreKey();
       const exploredMap = (engine.meta.exploredSections = engine.meta.exploredSections || {});
       const shouldShowInitialExplore = mode === 'learn' && this.pool.length > 0 && !exploredMap[exploreKey];
+      this._pendingFirstRunTutorial = shouldShowInitialExplore;
 
       if (shouldShowInitialExplore) {
         exploredMap[exploreKey] = true;
@@ -153,6 +154,8 @@
       this.active = false;
       this.inExploreStage = false;
       this._exploreReturnIndex = null;
+      this._pendingFirstRunTutorial = false;
+      document.getElementById('tutorialModal')?.classList.add('hidden');
       this._hideAllSubBars();
       document.getElementById('trainerHud')?.classList.add('hidden');
       document.getElementById('flipOverlay')?.classList.add('hidden');
@@ -248,6 +251,8 @@
     },
 
     _startRecallFromExplore() {
+      const showTutorial = this._pendingFirstRunTutorial;
+      this._pendingFirstRunTutorial = false;
       this.inExploreStage = false;
       GeoAtlas.TelegramBridge?.hapticImpact('light');
       this.currentIndex = typeof this._exploreReturnIndex === 'number' ? this._exploreReturnIndex : 0;
@@ -255,6 +260,7 @@
       document.getElementById('exploreBar')?.classList.add('hidden');
       this._drawClickablePoolSilhouettes();
       this._presentItem(this.queue[this.currentIndex]);
+      if (showTutorial) GeoAtlas.UITutorial?.open(document.getElementById('hudTargetName')?.textContent);
     },
 
     _drawClickablePoolSilhouettes() {

@@ -309,6 +309,72 @@
   gap: 10px;
 }
 
+/* First-Run Trainer Tutorial Modal */
+.tutorial-panel {
+  max-width: 540px;
+}
+
+.tutorial-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tutorial-lead {
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.28);
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--text-main);
+}
+
+.tutorial-example-chip {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background: rgba(56, 189, 248, 0.2);
+  color: #7dd3fc;
+  font-weight: 700;
+}
+
+.tutorial-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tutorial-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  background: var(--bg-app);
+  border: 1px solid var(--border-subtle);
+}
+
+.tutorial-step-icon {
+  font-size: 20px;
+  line-height: 1.2;
+  flex-shrink: 0;
+}
+
+.tutorial-step-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 2px;
+}
+
+.tutorial-step-desc {
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+
 @media (max-width: 540px) {
   .modal-backdrop {
     padding: calc(10px + var(--safe-top)) 10px calc(10px + var(--safe-bottom));

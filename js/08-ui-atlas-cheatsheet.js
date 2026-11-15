@@ -337,12 +337,45 @@
         GeoAtlas.UITrainer.init();
         GeoAtlas.UIAtlas.init();
         GeoAtlas.UICheatsheet.init();
+        GeoAtlas.UITutorial.init();
       });
+    }
+  };
+
+  const UITutorial = {
+    init() {
+      const modal = document.getElementById('tutorialModal');
+      document.getElementById('btnCloseTutorial')?.addEventListener('click', () => this.close());
+      document.getElementById('btnStartFromTutorial')?.addEventListener('click', () => this.close());
+      modal?.addEventListener('click', (e) => {
+        if (e.target === modal) this.close();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+          this.close();
+        }
+      });
+    },
+
+    open(exampleLabel) {
+      const modal = document.getElementById('tutorialModal');
+      if (!modal) return;
+      const exEl = document.getElementById('tutorialExampleName');
+      if (exEl) exEl.textContent = exampleLabel || 'Объект на карте';
+      modal.classList.remove('hidden');
+      const panel = modal.querySelector('.modal-panel');
+      if (panel) GeoAtlas.MotionFX?.reveal(panel);
+    },
+
+    close() {
+      document.getElementById('tutorialModal')?.classList.add('hidden');
+      GeoAtlas.TelegramBridge?.hapticImpact('light');
     }
   };
 
   GeoAtlas.UIAtlas = UIAtlas;
   GeoAtlas.UICheatsheet = UICheatsheet;
+  GeoAtlas.UITutorial = UITutorial;
   GeoAtlas.App = App;
 
   global.addEventListener('DOMContentLoaded', () => App.init());

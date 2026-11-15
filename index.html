@@ -276,6 +276,55 @@
     <button id="toastUndoBtn" class="btn btn-sm btn-amber hidden" type="button">Вернуть</button>
   </div>
 
+  <!-- 7. FIRST-RUN TRAINER TUTORIAL MODAL -->
+  <div id="tutorialModal" class="modal-backdrop hidden">
+    <div class="modal-panel tutorial-panel">
+      <div class="modal-header">
+        <div class="modal-title">🎓 Как проходить тренировку</div>
+        <button id="btnCloseTutorial" class="btn btn-sm btn-ghost" type="button">✕</button>
+      </div>
+      <div class="modal-body tutorial-body">
+        <div class="tutorial-lead">
+          Раздел изучен — теперь проверка! Например, сейчас нужно найти на карте:
+          <strong id="tutorialExampleName" class="tutorial-example-chip">Объект</strong>
+        </div>
+        <div class="tutorial-steps">
+          <div class="tutorial-step">
+            <div class="tutorial-step-icon">📍</div>
+            <div class="tutorial-step-text">
+              <div class="tutorial-step-title">1. Покажите объект на карте</div>
+              <div class="tutorial-step-desc">Смотрите задание сверху и нажмите на нужную точку, линию или область на карте.</div>
+            </div>
+          </div>
+          <div class="tutorial-step">
+            <div class="tutorial-step-icon">🧭</div>
+            <div class="tutorial-step-text">
+              <div class="tutorial-step-title">2. 3 попытки и подсказка компаса</div>
+              <div class="tutorial-step-desc">При промахе компас подскажет направление. После 3 ошибок карта сама приблизит правильный объект.</div>
+            </div>
+          </div>
+          <div class="tutorial-step">
+            <div class="tutorial-step-icon">🃏</div>
+            <div class="tutorial-step-text">
+              <div class="tutorial-step-title">3. Карточки самопроверки</div>
+              <div class="tutorial-step-desc">Для некоторых объектов откроется карточка — вспомните факт, откройте ответ и честно оцените себя.</div>
+            </div>
+          </div>
+          <div class="tutorial-step">
+            <div class="tutorial-step-icon">🛠️</div>
+            <div class="tutorial-step-text">
+              <div class="tutorial-step-title">4. Полезные кнопки</div>
+              <div class="tutorial-step-desc"><strong>✓ Выучено</strong> — убрать известный объект · <strong>👁 Показать</strong> — приблизить ответ · <strong>🗺️ Показать все</strong> — вернуть карту с подписями.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="btnStartFromTutorial" class="btn btn-primary btn-shine" type="button">Понятно, к заданию →</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Scripts: Vendor + Data + Desktop Boost + Core & UI -->
   <script src="vendor/leaflet.js"></script>
   <script src="vendor/confetti.js"></script>
