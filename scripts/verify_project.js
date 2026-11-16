@@ -201,7 +201,7 @@ function run() {
   assert.strictEqual(LearningEngine.getSubmoduleStats('module3', 'm3_seas', 'full').total, 57, 'M3 seas deck matches all 57 map seas');
   assert.strictEqual(LearningEngine.getSubmoduleStats('module4', 'm4_lakes', 'full').total, 71, 'M4 lakes deck matches all 71 lakes');
   assert.strictEqual(LearningEngine.getSubmoduleStats('module2', 'm2_orogeny', 'full').total, 117, 'M2 orogeny deck matches all 117 mountains');
-  assert.strictEqual(LearningEngine.getModuleTheoryItems('module3', 'full').length, 11, 'M3 oral theory has 11 ocean & boundary cards');
+  assert.strictEqual(LearningEngine.getModuleTheoryItems('module3', 'full').length, 0, 'M3 has no standalone non-map card deck');
   assert.strictEqual(LearningEngine.getModuleTheoryItems('module2', 'full').length, 0, 'M2 has no standalone non-map card deck');
   assert.strictEqual(LearningEngine.getModuleTheoryItems('module4', 'full').length, 0, 'M4 has no standalone non-map card deck');
 
@@ -270,9 +270,16 @@ function run() {
     ['m3_oceans_theory', 'm3_seas_straits_gulfs', 'm3_trenches', 'm3_currents'],
     'M3 deck ids match expected order'
   );
+  assert.strictEqual(LearningEngine.getSubmoduleStats('module3', 'm3_oceans_theory', 'full').total, 11, 'M3 oceans & boundaries matches 11 map items');
   assert.strictEqual(LearningEngine.getSubmoduleStats('module3', 'm3_seas_straits_gulfs', 'full').total, 171, 'M3 seas/straits/gulfs matches 171 items');
   assert.strictEqual(LearningEngine.getSubmoduleStats('module3', 'm3_trenches', 'full').total, 35, 'M3 trenches matches 35 items');
   assert.strictEqual(LearningEngine.getSubmoduleStats('module3', 'm3_currents', 'full').total, 45, 'M3 currents matches 45 items');
+  const m3Bound = reg.module3.items.find((i) => i.id === 'm3_bound_pacific_atlantic');
+  assert(m3Bound && m3Bound.geometryType === 'polyline' && !GeoMath.isOralTheoryItem(m3Bound), 'Ocean boundaries are polyline map items, not oral theory');
+  assert(reg.module3.items.every((it) => {
+    const hasCard = QuizConfig.buildCardSpec(it, 'essentials', LearningEngine.meta.customModules).requiresFlipCard;
+    return /^m3_sea_[a-z_]+_ocean$/.test(it.id) ? hasCard : !hasCard;
+  }), 'Module 3 asks flip cards only for the 5 oceans');
 
   // Verify M4 single deck & Top-5/Top-3 river rules + no lake cards
   assert.strictEqual(reg.module4.decks.length, 1, 'M4 has single unified waters deck');

@@ -82,11 +82,7 @@
 
   function isOralTheoryItem(item) {
     if (!item) return false;
-    return (
-      item.geometryType === 'none' ||
-      item.geometryType === 'region_focus' ||
-      Boolean(item.id && /^m3_sea_[a-z_]+_ocean$/.test(item.id))
-    );
+    return item.geometryType === 'none' || item.geometryType === 'region_focus';
   }
 
   function calcDistanceKm(lat1, lng1, lat2, lng2) {

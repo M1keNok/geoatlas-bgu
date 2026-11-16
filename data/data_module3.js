@@ -12843,48 +12843,54 @@ const M3_BOUNDARY_THEORY = [
     name: "Граница Северного Ледовитого и Атлантического океанов",
     frontQuestion: "Как проходит граница между Северным Ледовитым и Атлантическим океанами?",
     backMainAnswer: "Вост. вход Гудзонова прол. — о. Баффинова Земля — Девисов прол. (севернее полярного круга) — о. Гренландия — Датский прол. — о. Исландия — Фарерские и Шетландские о-ва — по 61° с.ш. до Скандинавского п-ова",
-    lat: 64, lng: -25
+    lat: 64, lng: -25, hitRadiusKm: 320,
+    coords: [[60.5, -64.5], [63.5, -64.0], [66.6, -61.5], [66.6, -53.5], [65.5, -37.5], [66.0, -24.5], [65.0, -14.0], [62.0, -7.0], [60.8, -1.0], [61.0, 4.8]]
   },
   {
     id: "m3_bound_arctic_pacific",
     name: "Граница Северного Ледовитого и Тихого океанов",
     frontQuestion: "Как проходит граница между Северным Ледовитым и Тихим океанами?",
     backMainAnswer: "Поперёк Берингова пролива (наименьшая ширина 14 км по методичке / между м. Дежнёва и м. Принца Уэльского)",
-    lat: 65.8, lng: -169
+    lat: 65.8, lng: -169, hitRadiusKm: 320,
+    coords: [[66.08, -169.65], [65.60, -168.08]]
   },
   {
     id: "m3_bound_pacific_atlantic",
     name: "Граница Тихого и Атлантического океанов",
     frontQuestion: "Как проходит граница между Тихим и Атлантическим океанами?",
     backMainAnswer: "От мыса Горн (о. Огненная Земля) по меридиану (~67° з.д.) на юг до Антарктического полуострова",
-    lat: -58, lng: -67
+    lat: -59.5, lng: -67.27, hitRadiusKm: 320,
+    coords: [[-55.98, -67.27], [-63.50, -67.27]]
   },
   {
     id: "m3_bound_atlantic_indian",
     name: "Граница Атлантического и Индийского океанов",
     frontQuestion: "Как проходит граница между Атлантическим и Индийским океанами?",
     backMainAnswer: "От мыса Игольный (20° в.д.) по меридиану на юг до побережья Антарктиды",
-    lat: -45, lng: 20
+    lat: -52, lng: 20, hitRadiusKm: 320,
+    coords: [[-34.83, 20.0], [-70.00, 20.0]]
   },
   {
     id: "m3_bound_indian_pacific",
     name: "Граница Индийского и Тихого океанов",
     frontQuestion: "Как проходит граница между Индийским и Тихим океанами?",
     backMainAnswer: "Сев. вход Малаккского прол. — зап. берег о. Суматра — Зондский прол. — юж. берег о. Ява — юж. берега Малых Зондских о-вов — о. Новая Гвинея — зап. вход Торресова прол. — Австралия — зап. вход Бассова прол. — о. Тасмания — от мыса Южный по меридиану до Антарктиды",
-    lat: -15, lng: 130
+    lat: -20, lng: 135, hitRadiusKm: 320,
+    coords: [[5.5, 95.3], [0.0, 99.0], [-6.0, 105.8], [-7.8, 110.0], [-9.0, 118.0], [-10.2, 124.0], [-8.5, 138.0], [-10.7, 142.5], [-19.0, 147.0], [-28.0, 153.5], [-37.5, 150.0], [-39.0, 143.8], [-41.5, 144.8], [-43.6, 146.8], [-66.5, 146.8]]
   },
   {
     id: "m3_bound_southern_north",
     name: "Северная граница Южного океана",
     frontQuestion: "Где проходит северная граница Южного океана?",
     backMainAnswer: "По линии антарктической конвергенции (полоса схождения тёплых и холодных вод ~40–60° ю.ш.), близкой к северной границе Антарктического циркумполярного течения (Западных ветров)",
-    lat: -52, lng: 0
+    lat: -52, lng: 0, hitRadiusKm: 450,
+    coords: [[-52, -180], [-52, -120], [-52, -60], [-52, 0], [-52, 60], [-52, 120], [-52, 180]]
   }
 ].map((b) => ({
   id: b.id,
   moduleId: "module3",
   submoduleId: "m3_oceans_theory",
-  category: "oceans_theory",
+  category: "ocean_boundary",
   categoryRu: "Границы океанов",
   difficulty: "Базовый",
   isCoreLandmark: true,
@@ -12892,12 +12898,15 @@ const M3_BOUNDARY_THEORY = [
   shortName: b.name,
   region: "Мировой океан",
   locationDesc: b.backMainAnswer,
-  mapPrompt: b.frontQuestion,
-  geometryType: "region_focus",
+  mapPrompt: "Покажите на карте: " + b.name,
+  geometryType: "polyline",
   lat: b.lat,
   lng: b.lng,
+  hitRadiusKm: b.hitRadiusKm || 320,
+  coords: b.coords,
+  badgeColor: "sky",
   ankiCard: {
-    hasTheoryStep: true,
+    hasTheoryStep: false,
     frontQuestion: b.frontQuestion,
     backMainAnswer: b.backMainAnswer,
     backMetrics: [{ label: "Рубеж (по методичке)", value: b.backMainAnswer }],
@@ -12915,7 +12924,7 @@ window.GEO_MODULES_REGISTRY.module3 = {
   badge: "Раздел 3",
   color: "sky",
   decks: [
-    { id: "m3_oceans_theory", title: "Океаны и границы (теория)", count: 5 + M3_BOUNDARY_THEORY.length, isTheoryDeck: true },
+    { id: "m3_oceans_theory", title: "Океаны и границы", count: 5 + M3_BOUNDARY_THEORY.length },
     { id: "m3_seas_straits_gulfs", title: "Моря, проливы и заливы", count: MODULE3_ITEMS.filter(i => (i.category === "seas" || i.category === "straits" || i.category === "gulfs") && !/^m3_sea_[a-z_]+_ocean$/.test(i.id)).length },
     { id: "m3_trenches", title: "Глубоководные желоба", count: MODULE3_ITEMS.filter(i => i.category === "trenches").length },
     { id: "m3_currents", title: "Океанические течения", count: MODULE3_ITEMS.filter(i => i.category === "currents").length }

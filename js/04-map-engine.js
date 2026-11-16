@@ -342,7 +342,7 @@
           color,
           weight,
           opacity: opts.highlight ? 0.98 : opts.subtle ? 0.72 : 0.88,
-          dashArray: item.category === 'currents' ? '8 6' : null,
+          dashArray: item.category === 'currents' || item.category === 'ocean_boundary' ? '8 6' : null,
           interactive,
           renderer: this.canvasRenderer
         }).addTo(group);

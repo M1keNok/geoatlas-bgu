@@ -30,6 +30,7 @@
     gulfs: 'Залив',
     trenches: 'Глубоководный жёлоб',
     currents: 'Океаническое течение',
+    ocean_boundary: 'Границы океанов',
     rivers: 'Река',
     waterfalls: 'Водопад',
     lakes: 'Озеро'
@@ -56,12 +57,6 @@
 
   function isModuleOralCardCandidate(item) {
     if (!item) return false;
-    if (item.moduleId === 'module3') {
-      return Boolean(
-        (item.id && /^m3_sea_[a-z_]+_ocean$/.test(item.id)) ||
-          item.submoduleId === 'm3_oceans_theory'
-      );
-    }
     return false;
   }
 
@@ -71,7 +66,12 @@
     if (deckId === 'm2_mountains') return it.moduleId === 'module2' && it.category === 'mountains';
     if (deckId === 'm2_volcanoes') return it.moduleId === 'module2' && it.category === 'volcanoes';
     if (deckId === 'm2_plains') return it.moduleId === 'module2' && it.category === 'plains';
-    if (deckId === 'm3_oceans_theory') return isModuleOralCardCandidate(it);
+    if (deckId === 'm3_oceans_theory') {
+      return Boolean(
+        (it.id && /^m3_sea_[a-z_]+_ocean$/.test(it.id)) ||
+          it.submoduleId === 'm3_oceans_theory'
+      );
+    }
     if (deckId === 'm3_seas_straits_gulfs') {
       return (
         ['seas', 'straits', 'gulfs'].includes(it.category) &&
@@ -81,7 +81,7 @@
     if (deckId === 'm4_all_waters') return it.moduleId === 'module4';
     if (it.submoduleId === deckId) return true;
     if (deckId === 'm2_orogeny') return it.category === 'mountains';
-    if (deckId === 'm3_seas') return it.category === 'seas';
+    if (deckId === 'm3_seas') return it.category === 'seas' && !(it.id && /^m3_sea_[a-z_]+_ocean$/.test(it.id));
     if (deckId === 'm3_straits') return it.category === 'straits';
     if (deckId === 'm3_gulfs') return it.category === 'gulfs';
     if (deckId === 'm3_currents') return it.category === 'currents';
@@ -136,13 +136,17 @@
       if (!forceTheory && depthPreset === 'map_only' && !isOralOnly) {
         return { requiresFlipCard: false };
       }
+      const isM3Ocean = Boolean(item.id && /^m3_sea_[a-z_]+_ocean$/.test(item.id));
+      if (!forceTheory && item.moduleId === 'module3' && !isM3Ocean) {
+        return { requiresFlipCard: false };
+      }
 
       const modKey = item.moduleId || 'module1';
       const modCfg = (customModules && customModules[modKey]) || {};
       const useCustom = !forceTheory && depthPreset === 'custom_full';
 
       let enabled = false;
-      if (forceTheory || isOralOnly) {
+      if (forceTheory || isOralOnly || isM3Ocean) {
         enabled = true;
       } else if (item.category === 'rivers') {
         enabled = item._riverLengthRank >= 1 && item._riverLengthRank <= 5;
@@ -168,24 +172,6 @@
         enabled = !!(item.isCoreLandmark || (item._mtnHeightRank >= 1 && item._mtnHeightRank <= 10));
       } else if (item.category === 'volcanoes' || item.submoduleId === 'm2_depressions' || item.category === 'depressions' || item.category === 'plains') {
         enabled = false;
-      } else if (item.category === 'seas') {
-        enabled = !useCustom || modCfg.seaType !== false;
-      } else if (item.category === 'straits') {
-        enabled = !useCustom || modCfg.straitConnects !== false;
-      } else if (item.category === 'gulfs') {
-        enabled = !useCustom || modCfg.gulfOcean !== false;
-      } else if (item.category === 'trenches') {
-        enabled = useCustom ? !!modCfg.trenchDepth : !!item.isCoreLandmark;
-      } else if (item.category === 'currents') {
-        enabled = !useCustom || modCfg.currentTemp !== false;
-      } else if (item.category === 'rivers') {
-        enabled = !forceTheory && !item.recordPrompt
-          ? (item._riverLengthRank >= 1 && item._riverLengthRank <= 5)
-          : (!useCustom || modCfg.riverBasin !== false);
-      } else if (item.category === 'lakes') {
-        enabled = !forceTheory && !item.recordPrompt
-          ? false
-          : (!useCustom || modCfg.lakeOrigin !== false);
       } else if (item.category === 'waterfalls') {
         enabled = useCustom ? modCfg.waterfallHeight !== false : false;
       }
@@ -203,6 +189,21 @@
         card.backMainAnswer ||
         [item.region || item.continent, item.locationDesc].filter(Boolean).join(' · ') ||
         '';
+
+      if (isM3Ocean && !forceTheory) {
+        const areaStr = item.areaThousandKm2 ? `${item.areaThousandKm2} тыс. км²` : '';
+        const depthStr = item.maxDepthM ? `${item.maxDepthM} м` : '';
+        if (areaStr) facts.push({ label: 'Площадь', val: areaStr });
+        if (depthStr) facts.push({ label: 'Наибольшая глубина', val: depthStr });
+        return {
+          requiresFlipCard: true,
+          badge: 'Океан',
+          prompt: 'Назовите площадь и наибольшую глубину океана:',
+          answer: [areaStr, depthStr].filter(Boolean).join(' • ') || answer,
+          note: card.backNote || '',
+          facts
+        };
+      }
 
       if (item.category === 'rivers' && !forceTheory) {
         const rank = item._riverLengthRank || 0;
@@ -444,12 +445,12 @@
 
     getModuleStats(moduleId, scope) {
       return this.getStatsForItems(
-        this.filterItems({ moduleId, scope, mapOnly: moduleId !== 'module1' && moduleId !== 'module3' })
+        this.filterItems({ moduleId, scope, mapOnly: moduleId !== 'module1' })
       );
     },
 
     getSubmoduleStats(moduleId, submoduleId, scope) {
-      const includeOral = submoduleId === 'm1_continents_earth' || submoduleId === 'm3_oceans_theory';
+      const includeOral = submoduleId === 'm1_continents_earth';
       return this.getStatsForItems(this.filterItems({ moduleId, submoduleId, scope, mapOnly: !includeOral }));
     },
 
