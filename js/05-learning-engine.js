@@ -445,12 +445,12 @@
 
     getModuleStats(moduleId, scope) {
       return this.getStatsForItems(
-        this.filterItems({ moduleId, scope, mapOnly: moduleId !== 'module1' })
+        this.filterItems({ moduleId, scope, mapOnly: moduleId !== 'module1' && moduleId !== 'module3' })
       );
     },
 
     getSubmoduleStats(moduleId, submoduleId, scope) {
-      const includeOral = submoduleId === 'm1_continents_earth';
+      const includeOral = submoduleId === 'm1_continents_earth' || submoduleId === 'm3_oceans_theory';
       return this.getStatsForItems(this.filterItems({ moduleId, submoduleId, scope, mapOnly: !includeOral }));
     },
 
@@ -492,11 +492,13 @@
         return GeoAtlas.GeoMath.sortItemsBasicToNiche(weak, (id) => this.getState(id), step, { submoduleId });
       }
 
-      const includeM1Theory =
+      const includeInlineTheory =
         submoduleId === 'm1_continents_earth' ||
+        submoduleId === 'm3_oceans_theory' ||
         (moduleId === 'module1' && !submoduleId) ||
+        (moduleId === 'module3' && !submoduleId) ||
         (!moduleId && !submoduleId);
-      const pool = this.filterItems({ moduleId, submoduleId, scope, mapOnly: !includeM1Theory }).filter(
+      const pool = this.filterItems({ moduleId, submoduleId, scope, mapOnly: !includeInlineTheory }).filter(
         (it) => !(skipped[it.id] && GeoAtlas.GeoMath.isOralTheoryItem(it))
       );
       if (pool.length === 0) return [];

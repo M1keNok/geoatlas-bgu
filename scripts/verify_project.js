@@ -270,12 +270,14 @@ function run() {
     ['m3_oceans_theory', 'm3_seas_straits_gulfs', 'm3_trenches', 'm3_currents'],
     'M3 deck ids match expected order'
   );
-  assert.strictEqual(LearningEngine.getSubmoduleStats('module3', 'm3_oceans_theory', 'full').total, 11, 'M3 oceans & boundaries matches 11 map items');
+  assert.strictEqual(LearningEngine.getSubmoduleStats('module3', 'm3_oceans_theory', 'full').total, 10, 'M3 oceans & boundaries matches 10 items (5 map boundaries + 5 ocean cards)');
   assert.strictEqual(LearningEngine.getSubmoduleStats('module3', 'm3_seas_straits_gulfs', 'full').total, 171, 'M3 seas/straits/gulfs matches 171 items');
   assert.strictEqual(LearningEngine.getSubmoduleStats('module3', 'm3_trenches', 'full').total, 35, 'M3 trenches matches 35 items');
   assert.strictEqual(LearningEngine.getSubmoduleStats('module3', 'm3_currents', 'full').total, 45, 'M3 currents matches 45 items');
   const m3Bound = reg.module3.items.find((i) => i.id === 'm3_bound_pacific_atlantic');
   assert(m3Bound && m3Bound.geometryType === 'polyline' && !GeoMath.isOralTheoryItem(m3Bound), 'Ocean boundaries are polyline map items, not oral theory');
+  const m3Ocean = reg.module3.items.find((i) => i.id === 'm3_sea_pacific_ocean');
+  assert(m3Ocean && GeoMath.isOralTheoryItem(m3Ocean), 'Oceans are card-only oral items, not map click items');
   assert(reg.module3.items.every((it) => {
     const hasCard = QuizConfig.buildCardSpec(it, 'essentials', LearningEngine.meta.customModules).requiresFlipCard;
     return /^m3_sea_[a-z_]+_ocean$/.test(it.id) ? hasCard : !hasCard;
