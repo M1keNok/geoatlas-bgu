@@ -208,6 +208,7 @@
 }
 
 .progress-track {
+  position: relative;
   width: 100%;
   height: 5px;
   border-radius: 99px;
@@ -215,7 +216,17 @@
   overflow: hidden;
 }
 
+.progress-fill-learn {
+  position: absolute;
+  inset: 0 auto 0 0;
+  height: 100%;
+  border-radius: 99px;
+  background: rgba(251, 191, 36, 0.45);
+  transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 .progress-fill {
+  position: relative;
   height: 100%;
   border-radius: 99px;
   background: linear-gradient(90deg, #10b981, #34d399);

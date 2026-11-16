@@ -175,10 +175,11 @@
 
       if (pctEl) pctEl.textContent = `${overall.pct}%`;
       if (cntEl) {
+        const rem = typeof overall.remaining === 'number' ? overall.remaining : Math.max(0, overall.total - overall.mastered);
         cntEl.textContent =
           overall.learning > 0
-            ? `${overall.mastered} / ${overall.total} выучено · ${overall.learning} в работе`
-            : `${overall.mastered} / ${overall.total} выучено`;
+            ? `Выучено ${overall.mastered} из ${overall.total} · Осталось ${rem} (закрепить: ${overall.learning})`
+            : `Выучено ${overall.mastered} из ${overall.total} · Осталось ${rem}`;
       }
       if (barEl) barEl.style.width = `${overall.pct}%`;
     },
@@ -208,14 +209,32 @@
             ? `data-start-mode="theory:${mod.id}"`
             : `data-sub-learn="${mod.id}:${deck.id}"`;
           const badgePrefix = deck.isTheoryDeck ? '📖 ' : '';
+          const fresh = typeof ds.fresh === 'number' ? ds.fresh : Math.max(0, ds.total - ds.mastered - ds.learning);
+          const donePct = Math.round((ds.mastered / ds.total) * 100);
+          const activePct = Math.min(100, Math.round(((ds.mastered + ds.learning) / ds.total) * 100));
+          const chipsHtml =
+            ds.mastered >= ds.total
+              ? `<span class="sc-chip sc-done">✓ Все ${ds.total} выучены</span>`
+              : [
+                  `<span class="sc-chip sc-done">✓ Выучено: ${ds.mastered}</span>`,
+                  ds.learning > 0 ? `<span class="sc-chip sc-learn">🔁 Закрепить: ${ds.learning}</span>` : '',
+                  fresh > 0 ? `<span class="sc-chip sc-new">• Новых: ${fresh}</span>` : ''
+                ]
+                  .filter(Boolean)
+                  .join('');
           return `
             <button class="subdeck-btn btn-shine" ${attr} type="button">
               <span class="subdeck-btn-main">
                 <span class="subdeck-btn-title">${badgePrefix}${deck.title}</span>
                 ${hint ? `<span class="subdeck-btn-sub">${hint}</span>` : ''}
+                <span class="subdeck-counters">${chipsHtml}</span>
+                <span class="subdeck-mini-track" aria-hidden="true">
+                  <span class="subdeck-mini-learn" style="width:${activePct}%"></span>
+                  <span class="subdeck-mini-done" style="width:${donePct}%"></span>
+                </span>
               </span>
               <span class="subdeck-btn-right">
-                <span>${ds.mastered}/${ds.total}${ds.learning > 0 ? ` (+${ds.learning})` : ''}</span>
+                <span class="subdeck-ratio"><strong>${ds.mastered}</strong>/${ds.total}</span>
                 <span class="subdeck-play-icon" aria-hidden="true">
                   <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor"><path d="M4.5 3.2v9.6l8-4.8-8-4.8z"/></svg>
                 </span>
@@ -228,7 +247,9 @@
 
         const displayTitle = mod.id === 'module1' ? 'Материки, острова и пустыни' : mod.shortTitle || mod.title;
         const displayDesc = mod.id === 'module1' || mod.id === 'module3' ? 'Выберите подраздел для изучения' : mod.title;
-        const progressLabel = mod.id === 'module1' || mod.id === 'module3' ? 'Изучено' : 'На карте';
+        const modRem = typeof stats.remaining === 'number' ? stats.remaining : Math.max(0, stats.total - stats.mastered);
+        const modFresh = typeof stats.fresh === 'number' ? stats.fresh : Math.max(0, stats.total - stats.mastered - stats.learning);
+        const modActivePct = stats.total > 0 ? Math.min(100, Math.round(((stats.mastered + stats.learning) / stats.total) * 100)) : 0;
 
         card.innerHTML = `
           <div class="module-head">
@@ -240,10 +261,11 @@
           </div>
           <div>
             <div class="module-stats-row">
-              <span>${progressLabel}: <strong>${stats.mastered}</strong> из ${stats.total}${stats.learning > 0 ? ` (в работе: ${stats.learning})` : ''}</span>
-              <span></span>
+              <span>Выучено: <strong>${stats.mastered}</strong> из ${stats.total} · Осталось: <strong>${modRem}</strong></span>
+              <span class="module-stats-detail">${modRem === 0 ? '✓ Закрыто' : [stats.learning > 0 ? `закрепить: ${stats.learning}` : '', modFresh > 0 ? `новых: ${modFresh}` : ''].filter(Boolean).join(' · ')}</span>
             </div>
             <div class="progress-track" style="margin-top: 6px;">
+              <div class="progress-fill-learn" style="width: ${modActivePct}%;"></div>
               <div class="progress-fill" style="width: ${stats.pct}%;"></div>
             </div>
           </div>

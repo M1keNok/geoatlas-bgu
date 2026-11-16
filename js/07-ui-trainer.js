@@ -47,7 +47,8 @@
         btnFlipRemembered: () => this._finishFlip(true),
         btnFlipContinue: () => this._finishFlip(false),
         btnFlipSkipFront: () => this._skipFlipCard(),
-        btnFlipSkipBack: () => this._skipFlipCard()
+        btnFlipSkipBack: () => this._skipFlipCard(),
+        btnResultsContinue: () => this._continueConsolidating()
       };
       Object.entries(clickMap).forEach(([id, fn]) => byId(id)?.addEventListener('click', fn));
 
@@ -86,7 +87,7 @@
       });
     },
 
-    start({ mode = 'learn', moduleId = null, submoduleId = null } = {}) {
+    start({ mode = 'learn', moduleId = null, submoduleId = null, skipExplore = false } = {}) {
       const engine = GeoAtlas.LearningEngine;
       const scope = engine.meta.scope;
       let queue = engine.buildSessionQueue({ mode, moduleId, submoduleId });
@@ -132,7 +133,7 @@
 
       const exploreKey = this._getExploreKey();
       const exploredMap = (engine.meta.exploredSections = engine.meta.exploredSections || {});
-      const shouldShowInitialExplore = mode === 'learn' && this.pool.length > 0 && !exploredMap[exploreKey];
+      const shouldShowInitialExplore = !skipExplore && mode === 'learn' && this.pool.length > 0 && !exploredMap[exploreKey];
       this._pendingFirstRunTutorial = shouldShowInitialExplore && !engine.meta.tutorialSeen;
 
       if (shouldShowInitialExplore) {
@@ -155,11 +156,10 @@
       this.inExploreStage = false;
       this._exploreReturnIndex = null;
       this._pendingFirstRunTutorial = false;
-      document.getElementById('tutorialModal')?.classList.add('hidden');
       this._hideAllSubBars();
-      document.getElementById('trainerHud')?.classList.add('hidden');
-      document.getElementById('flipOverlay')?.classList.add('hidden');
-      document.getElementById('resultsModal')?.classList.add('hidden');
+      ['tutorialModal', 'trainerHud', 'flipOverlay', 'resultsModal'].forEach((id) =>
+        document.getElementById(id)?.classList.add('hidden')
+      );
       GeoAtlas.MapEngine.clearTrainer();
       GeoAtlas.MapEngine.clearPool();
       GeoAtlas.MapEngine.setMapClickHandler(null);
@@ -182,51 +182,30 @@
       const infoEl = document.getElementById('exploreInfoStrip');
       const titleEl = document.getElementById('exploreTitle');
       if (!bar || !chipsEl) return;
-
       const mod = GeoAtlas.LearningEngine.modules.find((m) => m.id === this.moduleId);
       const deck = mod && this.submoduleId ? mod.decks.find((d) => d.id === this.submoduleId) : null;
       const sectionTitle = (deck && deck.title) || (mod && mod.shortTitle) || 'Раздел карты';
       const inspectList = this.pool.length ? this.pool : this.queue;
       if (titleEl) titleEl.textContent = `${sectionTitle} · ${inspectList.length} объектов`;
-
       const startBtn = document.getElementById('btnExploreStartRecall');
-      if (startBtn) {
-        startBtn.textContent =
-          typeof this._exploreReturnIndex === 'number' ? 'Вернуться к проверке →' : 'Перейти к запоминанию →';
-      }
-
+      if (startBtn) startBtn.textContent = typeof this._exploreReturnIndex === 'number' ? 'Вернуться к проверке →' : 'Перейти к запоминанию →';
       let selectedId = inspectList[0]?.id || null;
-
       const showInspectInfo = (it) => {
         if (!infoEl || !it) return;
         const typeLbl = it.categoryLabel || GeoAtlas.LearningEngine.getCategoryLabel(it);
-        const detail = [it.region || it.continent, it.ocean || it.basin, it.foldingAge, it.seaType, it.currentType, it.origin, it.description]
-          .filter(Boolean)
-          .join(' · ');
+        const detail = [it.region || it.continent, it.ocean || it.basin, it.foldingAge, it.seaType, it.currentType, it.origin, it.description].filter(Boolean).join(' · ');
         infoEl.innerHTML = `<span class="badge badge-type-prominent">${typeLbl}</span> <strong>${it.name}</strong>${detail ? ` — ${detail}` : ''}`;
         infoEl.classList.remove('hidden');
       };
-
       const renderExplore = () => {
         GeoAtlas.MapEngine.drawPoolShapes(inspectList, {
-          selectedId,
-          showLabels: true,
-          hoverLabel: true,
+          selectedId, showLabels: true, hoverLabel: true,
           onClick: (clicked) => {
-            selectedId = clicked.id;
-            GeoAtlas.TelegramBridge?.hapticSelection();
-            GeoAtlas.MapEngine.fitItem(clicked, 5);
-            showInspectInfo(clicked);
-            renderExplore();
+            selectedId = clicked.id; GeoAtlas.TelegramBridge?.hapticSelection();
+            GeoAtlas.MapEngine.fitItem(clicked, 5); showInspectInfo(clicked); renderExplore();
           }
         });
-
-        chipsEl.innerHTML = inspectList
-          .map((it) => {
-            const star = it.isCoreLandmark ? '⭐ ' : '';
-            return `<button class="cluster-chip ${it.id === selectedId ? 'is-selected' : ''}" data-chip-id="${it.id}" type="button">${star}${it.name}</button>`;
-          })
-          .join('');
+        chipsEl.innerHTML = inspectList.map((it) => `<button class="cluster-chip ${it.id === selectedId ? 'is-selected' : ''}" data-chip-id="${it.id}" type="button">${it.isCoreLandmark ? '⭐ ' : ''}${it.name}</button>`).join('');
       };
 
       chipsEl.onclick = (e) => {
@@ -316,9 +295,10 @@
 
       const typeLabel = item.categoryLabel || GeoAtlas.LearningEngine.getCategoryLabel(item);
       document.getElementById('hudModeBadge').textContent = MODE_LABELS[this.mode] || 'Обучение';
+      const doneCount = this.pool.length > 0 ? this.pool.filter((it) => GeoAtlas.LearningEngine.isMastered(it.id)).length : 0;
       const progressText =
         this.mode === 'learn' && this.pool.length > 0
-          ? `Выучено ${this.pool.filter((it) => GeoAtlas.LearningEngine.isMastered(it.id)).length} / ${this.pool.length}`
+          ? `Выучено ${doneCount} / ${this.pool.length} · Осталось ${this.pool.length - doneCount}`
           : `${this.currentIndex + 1} / ${this.queue.length}`;
       document.getElementById('hudProgressBadge').textContent = progressText;
       document.getElementById('hudCategoryBadge').textContent = typeLabel;
@@ -344,15 +324,12 @@
       const isPeak = item.category === 'continent_peak';
       const isDepr = item.category === 'continent_depr';
       const isArchipelago = Boolean(item.askConstituentIslands && item.constituentIslands);
-      const isRecord = Boolean(item.recordPrompt);
       targetNameEl.textContent = isCape
         ? GeoAtlas.extractCapePrompt(item)
         : isPeak
         ? `Высшая точка: ${item.region || item.continent || 'Материк'}`
         : isDepr
         ? `Низшая точка: ${item.region || item.continent || 'Материк'}`
-        : isRecord
-        ? item.recordPrompt
         : item.name;
       subPromptEl.textContent = isCape
         ? 'Покажите эту крайнюю точку на карте, затем вспомните название мыса (3 попытки)'
@@ -362,8 +339,6 @@
         ? 'Покажите впадину на карте, затем вспомните её название и отметку (3 попытки)'
         : isArchipelago
         ? 'Архипелаг · покажите на карте, затем вспомните входящие острова (3 попытки)'
-        : isRecord
-        ? `${typeLabel} · покажите рекордсмена на карте, затем вспомните название (3 попытки)`
         : `${typeLabel} · найдите и нажмите на карте (3 попытки)`;
       if (this.currentIndex === 0) GeoAtlas.MapEngine.fitBatch(this.pool.length ? this.pool : this.queue, 4);
     },
@@ -393,10 +368,9 @@
         document.getElementById('compassBanner')?.classList.add('hidden');
 
         const isCape = item.category === 'extreme_point' || item.category === 'capes';
-        const isRecord = Boolean(item.recordPrompt);
         GeoAtlas.MapEngine.drawItemShape(GeoAtlas.MapEngine.trainerGroup, item, {
           highlight: true,
-          showLabel: !isCape && !isRecord
+          showLabel: !isCape
         });
         GeoAtlas.MotionFX?.pulseSuccess(document.querySelector('#trainerHud .hud-card'));
 
@@ -664,30 +638,54 @@
       }
     },
 
+    _continueConsolidating() {
+      document.getElementById('resultsModal')?.classList.add('hidden');
+      this.start({ mode: this.mode, moduleId: this.moduleId, submoduleId: this.submoduleId, skipExplore: true });
+    },
+
     _showResults() {
       this._hideAllSubBars();
-      GeoAtlas.LearningEngine.clearSectionResume(this._getExploreKey());
+      const engine = GeoAtlas.LearningEngine;
+      engine.clearSectionResume(this._getExploreKey());
       document.getElementById('trainerHud')?.classList.add('hidden');
       GeoAtlas.MapEngine.clearPool();
       const modal = document.getElementById('resultsModal');
       if (!modal) return;
 
       const total = this.sessionClean + this.sessionWeak;
-      document.getElementById('resCleanCount').textContent = String(this.sessionClean);
-      document.getElementById('resWeakCount').textContent = String(this.sessionWeak);
-      document.getElementById('resTotalCount').textContent = String(total);
+      const setTxt = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = String(v); };
+      setTxt('resCleanCount', this.sessionClean);
+      setTxt('resWeakCount', this.sessionWeak);
+      setTxt('resTotalCount', total);
 
-      const overallLandmarks = GeoAtlas.LearningEngine.getOverallStats('landmarks');
-      const showUpsell = GeoAtlas.LearningEngine.meta.scope === 'landmarks' && overallLandmarks.pct >= 85;
-      document.getElementById('resultsUpsellFull')?.classList.toggle('hidden', !showUpsell);
+      const sectionItems = this.mode === 'weak'
+        ? engine.getWeakItems(engine.meta.scope)
+        : engine.filterItems({ moduleId: this.moduleId, submoduleId: this.submoduleId, scope: engine.meta.scope, mapOnly: this.mode === 'learn', theoryOnly: this.mode === 'theory' });
+      const rem = sectionItems.filter((it) => !engine.isMastered(it.id)).length;
+      const allMastered = sectionItems.length > 0 ? rem === 0 : rem === 0 && this.sessionWeak === 0;
+      const contBtn = document.getElementById('btnResultsContinue');
+      const menuBtn = document.getElementById('btnResultsMenu');
 
-      if (this.sessionClean >= this.sessionWeak && typeof global.confetti === 'function') {
-        try {
-          global.confetti({ particleCount: 70, spread: 65, origin: { y: 0.65 } });
-        } catch (_) {}
+      if (allMastered) {
+        setTxt('resultsTitle', '🎉 Раздел полностью выучен!');
+        setTxt('resultsSubtitle', `Поздравляем! Все ${sectionItems.length || total} объектов переведены в статус «Выучено».`);
+        contBtn?.classList.add('hidden');
+        menuBtn?.classList.add('btn-primary');
+        if (typeof global.confetti === 'function') {
+          try { global.confetti({ particleCount: 70, spread: 65, origin: { y: 0.65 } }); } catch (_) {}
+        }
+        GeoAtlas.AudioEngine.playCelebrate();
+        GeoAtlas.TelegramBridge?.hapticNotification('success');
+      } else {
+        setTxt('resultsTitle', 'Круг пройден!');
+        setTxt('resultsSubtitle', `Осталось закрепить: ${rem} из ${sectionItems.length}. Продолжайте, чтобы перевести всё в «Выучено».`);
+        if (contBtn) { contBtn.textContent = `🔁 Продолжить закреплять (осталось ${rem})`; contBtn.classList.remove('hidden'); }
+        menuBtn?.classList.remove('btn-primary');
+        GeoAtlas.TelegramBridge?.hapticNotification('warning');
       }
-      GeoAtlas.AudioEngine.playCelebrate();
-      GeoAtlas.TelegramBridge?.hapticNotification(this.sessionClean >= this.sessionWeak ? 'success' : 'warning');
+
+      const showUpsell = engine.meta.scope === 'landmarks' && engine.getOverallStats('landmarks').pct >= 85;
+      document.getElementById('resultsUpsellFull')?.classList.toggle('hidden', !showUpsell);
       GeoAtlas.StorageAdapter?.flushCloud?.();
       modal.classList.remove('hidden');
     }

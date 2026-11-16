@@ -141,8 +141,6 @@
       let enabled = false;
       if (forceTheory || isOralOnly) {
         enabled = true;
-      } else if (item.recordPrompt) {
-        enabled = true;
       } else if (item.category === 'rivers') {
         enabled = item._riverLengthRank >= 1 && item._riverLengthRank <= 5;
       } else if (item.category === 'lakes') {
@@ -206,23 +204,6 @@
         card.backMainAnswer ||
         [item.region || item.continent, item.locationDesc].filter(Boolean).join(' · ') ||
         '';
-
-      if (item.recordPrompt && !forceTheory) {
-        if (Array.isArray(card.backMetrics)) {
-          card.backMetrics.forEach((m) => {
-            if (m && m.label && m.value) facts.push({ label: m.label, val: m.value });
-          });
-        }
-        if (card.backNote) facts.push({ label: 'Справка', val: card.backNote });
-        return {
-          requiresFlipCard: true,
-          badge: `${badge} · Рекорд`,
-          frontTitle: item.recordPrompt,
-          prompt: 'Вспомните название этого объекта-рекордсмена:',
-          answer: item.shortName || item.name,
-          facts
-        };
-      }
 
       if (item.category === 'rivers' && !forceTheory) {
         const rank = item._riverLengthRank || 0;
@@ -442,8 +423,10 @@
         if (s.weakSpot || (s.lapses > 0 && !this.isMastered(s))) weakSpots++;
       });
       const total = items.length;
+      const fresh = Math.max(0, total - mastered - learning);
+      const remaining = Math.max(0, total - mastered);
       const pct = total > 0 ? Math.round((mastered / total) * 100) : 0;
-      return { total, mastered, practiced, learning, weakSpots, pct };
+      return { total, mastered, practiced, learning, fresh, remaining, weakSpots, pct };
     },
 
     getModuleStats(moduleId, scope) {

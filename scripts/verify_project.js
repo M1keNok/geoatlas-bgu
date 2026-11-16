@@ -267,22 +267,22 @@ function run() {
   assert.strictEqual(LearningEngine.getSubmoduleStats('module3', 'm3_trenches', 'full').total, 35, 'M3 trenches matches 35 items');
   assert.strictEqual(LearningEngine.getSubmoduleStats('module3', 'm3_currents', 'full').total, 45, 'M3 currents matches 45 items');
 
-  // Verify M4 single deck & 20 blind record-holder cards
+  // Verify M4 single deck & Top-5/Top-3 river rules + no lake cards
   assert.strictEqual(reg.module4.decks.length, 1, 'M4 has single unified waters deck');
   assert.strictEqual(reg.module4.decks[0].id, 'm4_all_waters', 'M4 deck id is m4_all_waters');
   assert.strictEqual(reg.module4.decks[0].count, 253, 'M4 deck count is 253');
-  const m4Records = reg.module4.items.filter((i) => Boolean(i.recordPrompt));
-  assert.strictEqual(m4Records.length, 20, 'M4 has 20 recordPrompt items');
-  m4Records.forEach((rec) => {
-    const spec = QuizConfig.buildCardSpec(rec, 'essentials', LearningEngine.meta.customModules);
-    assert(spec.requiresFlipCard && !spec.frontTitle.toLowerCase().includes(rec.name.toLowerCase()) && spec.answer.includes(rec.name), `Record item ${rec.id} has blind card revealing name`);
-  });
   const baikal = reg.module4.items.find((i) => i.id === 'm4_lk_baikal');
   const baikalSpec = QuizConfig.buildCardSpec(baikal, 'essentials', LearningEngine.meta.customModules);
-  assert(baikalSpec.requiresFlipCard && baikalSpec.answer.includes('Байкал'), 'Baikal blind record card reveals Байкал');
+  assert.strictEqual(baikalSpec.requiresFlipCard, false, 'Lakes do not open flip cards');
   const nile = reg.module4.items.find((i) => i.id === 'm4_riv_nile');
   const nileSpec = QuizConfig.buildCardSpec(nile, 'essentials', LearningEngine.meta.customModules);
-  assert(nileSpec.requiresFlipCard && nileSpec.answer.includes('Нил'), 'Nile blind record card reveals Нил');
+  assert(nileSpec.requiresFlipCard && nileSpec.facts.length === 2, 'Top-3 river Nile asks length + basin');
+  const parana = reg.module4.items.find((i) => i.id === 'm4_riv_parana');
+  const paranaSpec = QuizConfig.buildCardSpec(parana, 'essentials', LearningEngine.meta.customModules);
+  assert(paranaSpec.requiresFlipCard && paranaSpec.facts.length === 1 && paranaSpec.facts[0].label === 'Длина', 'Top-5 river Parana asks length only');
+  const congo = reg.module4.items.find((i) => i.id === 'm4_riv_congo');
+  const congoSpec = QuizConfig.buildCardSpec(congo, 'essentials', LearningEngine.meta.customModules);
+  assert.strictEqual(congoSpec.requiresFlipCard, false, 'Non-Top-5 river Congo does not open flip card');
 
   // Verify Anki learning stage (reps=1 -> learning, dueOffset=6) & dueStep resurfacing
   const islandBefore = LearningEngine.buildSessionQueue({ mode: 'learn', moduleId: 'module1', submoduleId: 'm1_islands' });

@@ -100,7 +100,7 @@
     return 2 * EARTH_RADIUS_KM * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   }
 
-  function pointToSegmentDistanceKm(pLat, pLng, aLat, aLng, bLat, bLng) {
+  function pointToSegmentClosest(pLat, pLng, aLat, aLng, bLat, bLng) {
     const cosLat = Math.max(0.15, Math.cos(pLat * DEG_TO_RAD));
     const kmPerDegLat = 111.32;
     const kmPerDegLng = 111.32 * cosLat;
@@ -113,27 +113,42 @@
     const dx = bx - ax;
     const dy = by - ay;
     const lenSq = dx * dx + dy * dy;
-    if (lenSq < 1e-9) {
-      return Math.hypot(ax, ay);
-    }
-    const t = Math.max(0, Math.min(1, -(ax * dx + ay * dy) / lenSq));
-    return Math.hypot(ax + t * dx, ay + t * dy);
+    const t = lenSq < 1e-9 ? 0 : Math.max(0, Math.min(1, -(ax * dx + ay * dy) / lenSq));
+    const cx = ax + t * dx;
+    const cy = ay + t * dy;
+    return {
+      distKm: Math.hypot(cx, cy),
+      lat: pLat + cy / kmPerDegLat,
+      lng: normalizeLng(pLng + cx / kmPerDegLng)
+    };
   }
 
-  function calcPolylineDistanceKm(lat, lng, coords) {
-    if (!Array.isArray(coords) || coords.length === 0) return Infinity;
+  function pointToSegmentDistanceKm(pLat, pLng, aLat, aLng, bLat, bLng) {
+    return pointToSegmentClosest(pLat, pLng, aLat, aLng, bLat, bLng).distKm;
+  }
+
+  function calcPolylineClosest(lat, lng, coords) {
+    if (!Array.isArray(coords) || coords.length === 0) return { distKm: Infinity, lat: 0, lng: 0 };
     if (coords.length === 1) {
-      return calcDistanceKm(lat, lng, coords[0][0], coords[0][1]);
+      return {
+        distKm: calcDistanceKm(lat, lng, coords[0][0], coords[0][1]),
+        lat: Number(coords[0][0]) || 0,
+        lng: normalizeLng(coords[0][1])
+      };
     }
-    let minD = Infinity;
+    let best = { distKm: Infinity, lat: Number(coords[0][0]) || 0, lng: normalizeLng(coords[0][1]) };
     for (let i = 0; i < coords.length - 1; i++) {
       const a = coords[i];
       const b = coords[i + 1];
       if (!a || !b) continue;
-      const d = pointToSegmentDistanceKm(lat, lng, a[0], a[1], b[0], b[1]);
-      if (d < minD) minD = d;
+      const cur = pointToSegmentClosest(lat, lng, a[0], a[1], b[0], b[1]);
+      if (cur.distKm < best.distKm) best = cur;
     }
-    return minD;
+    return best;
+  }
+
+  function calcPolylineDistanceKm(lat, lng, coords) {
+    return calcPolylineClosest(lat, lng, coords).distKm;
   }
 
   function getItemCenter(item) {
@@ -157,15 +172,13 @@
   }
 
   function calcCompass8Rhumb(fromLat, fromLng, toLat, toLng) {
-    const lat1 = fromLat * DEG_TO_RAD;
-    const lat2 = toLat * DEG_TO_RAD;
-    const dLng = shortestLngDelta(fromLng, toLng) * DEG_TO_RAD;
+    // Use Web Mercator screen-space bearing so hints match directions on the Leaflet map
+    const clampMercLat = (lat) => Math.max(-85, Math.min(85, Number(lat) || 0));
+    const mercY = (lat) => Math.log(Math.tan(Math.PI / 4 + (clampMercLat(lat) * DEG_TO_RAD) / 2));
+    const dx = shortestLngDelta(fromLng, toLng) * DEG_TO_RAD;
+    const dy = mercY(toLat) - mercY(fromLat);
 
-    const y = Math.sin(dLng) * Math.cos(lat2);
-    const x =
-      Math.cos(lat1) * Math.sin(lat2) -
-      Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLng);
-    let bearing = Math.atan2(y, x) * RAD_TO_DEG;
+    let bearing = Math.atan2(dx, dy) * RAD_TO_DEG;
     bearing = (bearing + 360) % 360;
     const idx = Math.round(bearing / 45) % 8;
     const rhumb = COMPASS_8[idx];
@@ -220,18 +233,18 @@
       return {
         hit: distKm <= tolKm,
         distKm: Math.round(distKm),
-        targetLat: center.lat,
-        targetLng: center.lng
+        targetLat: clampedLat,
+        targetLng: normalizeLng(clampedLng)
       };
     }
 
     if (item.geometryType === 'polyline' && Array.isArray(item.coords) && item.coords.length >= 2) {
-      const distKm = calcPolylineDistanceKm(clickLat, clickLng, item.coords);
+      const closest = calcPolylineClosest(clickLat, clickLng, item.coords);
       return {
-        hit: distKm <= tolKm,
-        distKm: Math.round(distKm),
-        targetLat: center.lat,
-        targetLng: center.lng
+        hit: closest.distKm <= tolKm,
+        distKm: Math.round(closest.distKm),
+        targetLat: closest.lat,
+        targetLng: closest.lng
       };
     }
 
