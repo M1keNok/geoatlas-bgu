@@ -143,6 +143,10 @@
         enabled = true;
       } else if (item.recordPrompt) {
         enabled = true;
+      } else if (item.category === 'rivers') {
+        enabled = item._riverLengthRank >= 1 && item._riverLengthRank <= 5;
+      } else if (item.category === 'lakes') {
+        enabled = false;
       } else if (item.submoduleId === 'm1_continents_earth') {
         enabled = !useCustom || modCfg.continentsEarth !== false;
       } else if (item.category === 'extreme_point' || item.category === 'capes') {
@@ -178,9 +182,13 @@
       } else if (item.category === 'currents') {
         enabled = !useCustom || modCfg.currentTemp !== false;
       } else if (item.category === 'rivers') {
-        enabled = !useCustom || modCfg.riverBasin !== false;
+        enabled = !forceTheory && !item.recordPrompt
+          ? (item._riverLengthRank >= 1 && item._riverLengthRank <= 5)
+          : (!useCustom || modCfg.riverBasin !== false);
       } else if (item.category === 'lakes') {
-        enabled = !useCustom || modCfg.lakeOrigin !== false;
+        enabled = !forceTheory && !item.recordPrompt
+          ? false
+          : (!useCustom || modCfg.lakeOrigin !== false);
       } else if (item.category === 'waterfalls') {
         enabled = useCustom ? modCfg.waterfallHeight !== false : false;
       }
@@ -212,6 +220,24 @@
           frontTitle: item.recordPrompt,
           prompt: 'Вспомните название этого объекта-рекордсмена:',
           answer: item.shortName || item.name,
+          facts
+        };
+      }
+
+      if (item.category === 'rivers' && !forceTheory) {
+        const rank = item._riverLengthRank || 0;
+        if (rank < 1 || rank > 5) return { requiresFlipCard: false };
+        const metrics = Array.isArray(card.backMetrics) ? card.backMetrics : [];
+        const pick = (kw) => (metrics.find((m) => String(m.label || '').toLowerCase().includes(kw)) || {}).value || '';
+        const lenVal = pick('длин');
+        const basinVal = rank <= 3 ? pick('бассейн') : '';
+        if (lenVal) facts.push({ label: 'Длина', val: lenVal });
+        if (basinVal) facts.push({ label: 'Бассейн / Устье', val: basinVal });
+        return {
+          requiresFlipCard: true,
+          badge: `${badge} · ${rank <= 3 ? 'Топ-3' : 'Топ-5'}`,
+          prompt: rank <= 3 ? 'Назовите длину реки и её бассейн (куда впадает):' : 'Назовите длину этой реки:',
+          answer: [lenVal, basinVal].filter(Boolean).join(' · ') || answer,
           facts
         };
       }
@@ -355,6 +381,15 @@
         };
         this.modules.push(normalizedMod);
       });
+
+      this.allItems
+        .filter((it) => it.category === 'rivers')
+        .map((r) => {
+          const m = (r.ankiCard?.backMetrics || []).find((x) => String(x.label || '').toLowerCase().includes('длин'));
+          return { r, lenNum: m ? parseInt(String(m.value || '').replace(/\D/g, ''), 10) || 0 : 0 };
+        })
+        .sort((a, b) => b.lenNum - a.lenNum)
+        .forEach((entry, idx) => { entry.r._riverLengthRank = idx + 1; });
     },
 
     getCategoryLabel,

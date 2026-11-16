@@ -31,8 +31,8 @@
     seas: '#38bdf8',
     straits: '#22d3ee',
     gulfs: '#0ea5e9',
-    trenches: '#818cf8',
-    currents: '#fb7185',
+    trenches: '#e879f9',
+    currents: '#ef4444',
     rivers: '#38bdf8',
     waterfalls: '#2dd4bf',
     lakes: '#34d399',
@@ -264,9 +264,21 @@
     _getItemColor(item) {
       if (!item) return '#10b981';
       if (item.category === 'currents') {
-        const t = String(item.currentType || item.temperature || item.temp || '').toLowerCase();
-        if (t.includes('холод')) return '#38bdf8';
-        if (t.includes('тёпл') || t.includes('тепл')) return '#f97316';
+        const flowType = String((item.flowStyle && item.flowStyle.tempType) || '').toLowerCase();
+        if (flowType === 'warm') return '#ef4444';
+        if (flowType === 'cold') return '#38bdf8';
+        if (flowType === 'neutral') return '#fbbf24';
+
+        const tempMetric = (item.ankiCard && Array.isArray(item.ankiCard.backMetrics)
+          ? item.ankiCard.backMetrics.find((m) => String(m.label || '').toLowerCase().includes('температур'))
+          : null);
+        const t = String(
+          item.currentType || item.temperature || item.temp || (tempMetric && tempMetric.value) || ''
+        ).toLowerCase();
+        if (t.includes('холод') || t.startsWith('х ')) return '#38bdf8';
+        if (t.includes('тёпл') || t.includes('тепл') || t.startsWith('т ')) return '#ef4444';
+        if (t.includes('нейтр') || t.startsWith('н ')) return '#fbbf24';
+        return '#fbbf24';
       }
       if (item.submoduleId === 'm2_depressions') return CATEGORY_COLORS.depressions;
       return CATEGORY_COLORS[item.category] || '#10b981';
