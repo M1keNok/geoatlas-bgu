@@ -180,7 +180,7 @@
         const rem = typeof overall.remaining === 'number' ? overall.remaining : Math.max(0, overall.total - overall.mastered);
         cntEl.textContent =
           overall.learning > 0
-            ? `Выучено ${overall.mastered} из ${overall.total} · Осталось ${rem} (закрепить: ${overall.learning})`
+            ? `Выучено ${overall.mastered} из ${overall.total} · Осталось ${rem} (в процессе: ${overall.learning})`
             : `Выучено ${overall.mastered} из ${overall.total} · Осталось ${rem}`;
       }
       if (barEl) barEl.style.width = `${overall.pct}%`;
@@ -219,7 +219,7 @@
               ? `<span class="sc-chip sc-done">✓ Все ${ds.total} выучены</span>`
               : [
                   `<span class="sc-chip sc-done">✓ Выучено: ${ds.mastered}</span>`,
-                  ds.learning > 0 ? `<span class="sc-chip sc-learn">🔁 Закрепить: ${ds.learning}</span>` : '',
+                  ds.learning > 0 ? `<span class="sc-chip sc-learn">🔁 В процессе: ${ds.learning}</span>` : '',
                   fresh > 0 ? `<span class="sc-chip sc-new">• Новых: ${fresh}</span>` : ''
                 ]
                   .filter(Boolean)
@@ -264,7 +264,7 @@
           <div>
             <div class="module-stats-row">
               <span>Выучено: <strong>${stats.mastered}</strong> из ${stats.total} · Осталось: <strong>${modRem}</strong></span>
-              <span class="module-stats-detail">${modRem === 0 ? '✓ Закрыто' : [stats.learning > 0 ? `закрепить: ${stats.learning}` : '', modFresh > 0 ? `новых: ${modFresh}` : ''].filter(Boolean).join(' · ')}</span>
+              <span class="module-stats-detail">${modRem === 0 ? '✓ Закрыто' : [stats.learning > 0 ? `в процессе: ${stats.learning}` : '', modFresh > 0 ? `новых: ${modFresh}` : ''].filter(Boolean).join(' · ')}</span>
             </div>
             <div class="progress-track" style="margin-top: 6px;">
               <div class="progress-fill-learn" style="width: ${modActivePct}%;"></div>

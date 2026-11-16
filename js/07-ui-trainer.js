@@ -678,8 +678,8 @@
         GeoAtlas.TelegramBridge?.hapticNotification('success');
       } else {
         setTxt('resultsTitle', 'Круг пройден!');
-        setTxt('resultsSubtitle', `Осталось закрепить: ${rem} из ${sectionItems.length}. Продолжайте, чтобы перевести всё в «Выучено».`);
-        if (contBtn) { contBtn.textContent = `🔁 Продолжить закреплять (осталось ${rem})`; contBtn.classList.remove('hidden'); }
+        setTxt('resultsSubtitle', `В процессе: ${rem} из ${sectionItems.length}. Продолжайте, чтобы перевести всё в «Выучено».`);
+        if (contBtn) { contBtn.textContent = `🔁 Продолжить (в процессе: ${rem})`; contBtn.classList.remove('hidden'); }
         menuBtn?.classList.remove('btn-primary');
         GeoAtlas.TelegramBridge?.hapticNotification('warning');
       }
