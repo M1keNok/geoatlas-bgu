@@ -11,12 +11,14 @@
     m1_peninsulas: 'Определение полуостровов на карте',
     m1_islands: 'На карте + карточки состава 12 ключевых архипелагов',
     m1_deserts: 'Пустыни мира на карте',
-    m2_all_relief: 'Горы (складчатость и высоты ключевых), вулканы, впадины, равнины',
+    m2_mountains: 'Складчатость и высота для крупнейших систем и топ-10 вершин',
+    m2_volcanoes: 'Вулканы мира на карте',
+    m2_plains: 'Равнины, низменности, возвышенности, плато, плоскогорья и впадины',
     m3_oceans_theory: 'Площади и глубины 5 океанов + границы между океанами',
     m3_seas_straits_gulfs: 'Моря, проливы и заливы Мирового океана на карте',
     m3_trenches: 'Глубоководные желоба и максимальные глубины ключевых',
     m3_currents: 'На карте + температура (Т/Х/Н) и генезис (Д/К/С)',
-    m4_all_waters: 'Реки, озёра и водопады на карте (включая слепые вопросы по рекордам)'
+    m4_all_waters: 'Реки (характеристики для топ-5), озёра и водопады на карте'
   };
 
   const SVG_SOUND_ON =
@@ -246,7 +248,7 @@
         const primaryHtml = visibleDecks.map(renderBigDeckBtn).join('');
 
         const displayTitle = mod.id === 'module1' ? 'Материки, острова и пустыни' : mod.shortTitle || mod.title;
-        const displayDesc = mod.id === 'module1' || mod.id === 'module3' ? 'Выберите подраздел для изучения' : mod.title;
+        const displayDesc = mod.id === 'module1' || mod.id === 'module2' || mod.id === 'module3' ? 'Выберите подраздел для изучения' : mod.title;
         const modRem = typeof stats.remaining === 'number' ? stats.remaining : Math.max(0, stats.total - stats.mastered);
         const modFresh = typeof stats.fresh === 'number' ? stats.fresh : Math.max(0, stats.total - stats.mastered - stats.learning);
         const modActivePct = stats.total > 0 ? Math.min(100, Math.round(((stats.mastered + stats.learning) / stats.total) * 100)) : 0;

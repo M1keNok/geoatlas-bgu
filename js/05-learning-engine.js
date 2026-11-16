@@ -68,6 +68,9 @@
   function matchesDeck(it, deckId) {
     if (!deckId) return true;
     if (deckId === 'm2_all_relief') return it.moduleId === 'module2';
+    if (deckId === 'm2_mountains') return it.moduleId === 'module2' && it.category === 'mountains';
+    if (deckId === 'm2_volcanoes') return it.moduleId === 'module2' && it.category === 'volcanoes';
+    if (deckId === 'm2_plains') return it.moduleId === 'module2' && it.category === 'plains';
     if (deckId === 'm3_oceans_theory') return isModuleOralCardCandidate(it);
     if (deckId === 'm3_seas_straits_gulfs') {
       return (
@@ -162,13 +165,9 @@
       } else if (item.category === 'desert') {
         enabled = false;
       } else if (item.category === 'mountains') {
-        enabled = !useCustom || modCfg.mountainAge !== false;
-      } else if (item.category === 'volcanoes') {
-        enabled = useCustom ? !!modCfg.volcanoType : !!item.isCoreLandmark;
-      } else if (item.submoduleId === 'm2_depressions' || item.category === 'depressions') {
-        enabled = useCustom ? (modCfg.depressionSign !== false || modCfg.plains !== false) : !!item.isCoreLandmark;
-      } else if (item.category === 'plains') {
-        enabled = useCustom ? !!modCfg.plains : false;
+        enabled = !!(item.isCoreLandmark || (item._mtnHeightRank >= 1 && item._mtnHeightRank <= 10));
+      } else if (item.category === 'volcanoes' || item.submoduleId === 'm2_depressions' || item.category === 'depressions' || item.category === 'plains') {
+        enabled = false;
       } else if (item.category === 'seas') {
         enabled = !useCustom || modCfg.seaType !== false;
       } else if (item.category === 'straits') {
@@ -223,18 +222,18 @@
         };
       }
 
-      if (item.category === 'mountains' && !item.isCoreLandmark && !forceTheory) {
-        const epochOnly = String(item.categoryRu || '').replace(/^Горы\s*\(|\)$/g, '').trim() ||
-          String(card.backMainAnswer || '').split('•')[0].trim();
-        if (item.region) facts.push({ label: 'Местоположение', val: item.region });
-        if (item.peakName) {
-          facts.push({ label: 'Высшая точка (доп.)', val: `${item.peakName}${item.heightM ? ` (${item.heightM} м)` : ''}` });
-        }
+      if (item.category === 'mountains' && !forceTheory) {
+        const isTopMtn = !!(item.isCoreLandmark || (item._mtnHeightRank >= 1 && item._mtnHeightRank <= 10));
+        if (!isTopMtn) return { requiresFlipCard: false };
+        const epoch = String(item.categoryRu || '').replace(/^Горы\s*\(|\)$/g, '').trim() || String(card.backMainAnswer || '').split('•')[0].trim();
+        const hVal = item.heightM ? `${item.heightM} м${item.peakName && item.peakName !== '-' ? ` (${item.peakName})` : ''}` : '';
+        if (epoch) facts.push({ label: 'Складчатость', val: epoch });
+        if (hVal) facts.push({ label: 'Высота', val: hVal });
         return {
           requiresFlipCard: true,
           badge,
-          prompt: 'Назовите эпоху складчатости этих гор:',
-          answer: epochOnly || answer,
+          prompt: 'Назовите эпоху складчатости и высоту (м):',
+          answer: [epoch, hVal].filter(Boolean).join(' • ') || answer,
           facts
         };
       }
@@ -360,6 +359,14 @@
             return it;
           })
         };
+        if (normalizedMod.id === 'module2') {
+          const cnt = (cat) => normalizedMod.items.filter((i) => i.category === cat).length;
+          normalizedMod.decks = [
+            { id: 'm2_mountains', title: 'Горы и нагорья', count: cnt('mountains') },
+            { id: 'm2_volcanoes', title: 'Вулканы', count: cnt('volcanoes') },
+            { id: 'm2_plains', title: 'Равнины, плато и впадины', count: cnt('plains') }
+          ];
+        }
         this.modules.push(normalizedMod);
       });
 
@@ -371,6 +378,12 @@
         })
         .sort((a, b) => b.lenNum - a.lenNum)
         .forEach((entry, idx) => { entry.r._riverLengthRank = idx + 1; });
+
+      this.allItems
+        .filter((it) => it.category === 'mountains' && it.peakName && it.peakName !== '-')
+        .map((m) => ({ m, hNum: parseInt(String(m.heightM || '').replace(/\D/g, ''), 10) || 0 }))
+        .sort((a, b) => b.hNum - a.hNum)
+        .forEach((entry, idx) => { entry.m._mtnHeightRank = idx + 1; });
     },
 
     getCategoryLabel,

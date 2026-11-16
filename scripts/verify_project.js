@@ -233,28 +233,35 @@ function run() {
     'Cape flip card front hides Альмади and back reveals it'
   );
 
-  // Verify M2 unified relief deck & smart essentials cards
-  assert.strictEqual(reg.module2.decks.length, 1, 'M2 has single unified relief deck');
-  assert.strictEqual(reg.module2.decks[0].id, 'm2_all_relief', 'M2 deck id is m2_all_relief');
-  assert.strictEqual(reg.module2.decks[0].count, 263, 'M2 deck count is 263');
-  const m2Deps = reg.module2.items.filter((i) => i.submoduleId === 'm2_depressions');
-  const m2CoreDeps = m2Deps.filter((d) => d.isCoreLandmark);
-  assert(m2CoreDeps.some((d) => d.id === 'm2_depr_ghor'), 'm2_depr_ghor is marked isCoreLandmark');
-  m2CoreDeps.forEach((d) => {
-    const spec = QuizConfig.buildCardSpec(d, 'essentials', LearningEngine.meta.customModules);
-    assert(spec.requiresFlipCard, `Core depression ${d.id} must have theory flip card`);
-  });
-  const m2NonCoreDep = m2Deps.find((d) => !d.isCoreLandmark);
-  assert(m2NonCoreDep && !QuizConfig.buildCardSpec(m2NonCoreDep, 'essentials', LearningEngine.meta.customModules).requiresFlipCard, 'Non-core depression skips flip card in essentials');
-  const m2NonCoreMt = reg.module2.items.find((i) => i.category === 'mountains' && !i.isCoreLandmark);
-  assert.strictEqual(m2NonCoreMt.categoryLabel, 'Горы', 'Mountain categoryLabel must not spoil folding epoch');
-  const m2MtSpec = QuizConfig.buildCardSpec(m2NonCoreMt, 'essentials', LearningEngine.meta.customModules);
-  assert.strictEqual(m2MtSpec.badge, 'Горы', 'Mountain flip card badge must not spoil folding epoch');
-  assert(m2MtSpec.requiresFlipCard && /складчатост/i.test(m2MtSpec.prompt) && !/вершин/i.test(m2MtSpec.prompt), 'Non-core mountain asks epoch without peak');
+  // Verify M2 3-deck split & mountains-only (core + top-10) folding+height cards
+  const m2Mod = LearningEngine.modules.find((m) => m.id === 'module2');
+  assert.strictEqual(m2Mod.decks.length, 3, 'M2 has 3 subsections');
+  assert.deepStrictEqual(m2Mod.decks.map((d) => d.id), ['m2_mountains', 'm2_volcanoes', 'm2_plains'], 'M2 deck ids match 3-way split');
+  assert.strictEqual(LearningEngine.getSubmoduleStats('module2', 'm2_mountains', 'full').total, 117, 'M2 mountains count is 117');
+  assert.strictEqual(LearningEngine.getSubmoduleStats('module2', 'm2_volcanoes', 'full').total, 52, 'M2 volcanoes count is 52');
+  assert.strictEqual(LearningEngine.getSubmoduleStats('module2', 'm2_plains', 'full').total, 94, 'M2 plains count is 94');
+
+  const m2CoreDep = reg.module2.items.find((i) => i.submoduleId === 'm2_depressions' && i.isCoreLandmark);
+  assert(!QuizConfig.buildCardSpec(m2CoreDep, 'essentials', LearningEngine.meta.customModules).requiresFlipCard, 'Depressions skip flip card');
+  const m2Volc = reg.module2.items.find((i) => i.category === 'volcanoes' && i.isCoreLandmark);
+  assert(!QuizConfig.buildCardSpec(m2Volc, 'essentials', LearningEngine.meta.customModules).requiresFlipCard, 'Volcanoes skip flip card');
+  const m2OrdinaryPlain = reg.module2.items.find((i) => i.category === 'plains' && !i.isCoreLandmark && i.submoduleId !== 'm2_depressions');
+  assert(!QuizConfig.buildCardSpec(m2OrdinaryPlain, 'essentials', LearningEngine.meta.customModules).requiresFlipCard, 'Plains skip flip card');
+
+  const m2CoreMt = reg.module2.items.find((i) => i.category === 'mountains' && i.isCoreLandmark);
+  assert.strictEqual(m2CoreMt.categoryLabel, 'Горы', 'Mountain categoryLabel must not spoil folding epoch');
+  const m2CoreSpec = QuizConfig.buildCardSpec(m2CoreMt, 'essentials', LearningEngine.meta.customModules);
+  assert.strictEqual(m2CoreSpec.badge, 'Горы', 'Mountain flip card badge must not spoil folding epoch');
+  assert(m2CoreSpec.requiresFlipCard && m2CoreSpec.facts.every((f) => f.label === 'Складчатость' || f.label === 'Высота'), 'Core mountain asks only folding and height');
+
+  const m2NonCoreTop10 = reg.module2.items.find((i) => i.id === 'm2_mtn_kashgar_mountains');
+  assert(QuizConfig.buildCardSpec(m2NonCoreTop10, 'essentials', LearningEngine.meta.customModules).requiresFlipCard, 'Top-10 highest peak mountain gets flip card');
+
+  const m2OrdinaryMt = reg.module2.items.find((i) => i.category === 'mountains' && !i.isCoreLandmark && (i._mtnHeightRank || 99) > 10);
+  assert(m2OrdinaryMt && !QuizConfig.buildCardSpec(m2OrdinaryMt, 'essentials', LearningEngine.meta.customModules).requiresFlipCard, 'Ordinary non-core mountain outside top-10 skips flip card');
+
   const m3Current = reg.module3.items.find((i) => i.category === 'currents');
   assert.strictEqual(m3Current.categoryLabel, 'Океаническое течение', 'Current categoryLabel must not spoil thermal type');
-  const m2OrdinaryPlain = reg.module2.items.find((i) => i.category === 'plains' && !i.isCoreLandmark && i.submoduleId !== 'm2_depressions');
-  assert(m2OrdinaryPlain && !QuizConfig.buildCardSpec(m2OrdinaryPlain, 'essentials', LearningEngine.meta.customModules).requiresFlipCard, 'Ordinary plain is map-only in essentials');
 
   // Verify M3 4-deck split
   assert.strictEqual(reg.module3.decks.length, 4, 'M3 has 4 subsections');
